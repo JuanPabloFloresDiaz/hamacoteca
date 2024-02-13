@@ -1,0 +1,22 @@
+/* Estilo para la barra de navegación */
+.navbar {
+    display: flex; /* Utiliza flexbox para organizar los elementos */
+    justify-content: space-between; /* Distribuye los elementos horizontalmente */
+    align-items: center; /* Alinea verticalmente los elementos */
+    background-color: #FFF; /* Establece el color de fondo blanco */
+    border-bottom: 1px solid #DBDBDB; /* Agrega un borde gris en la parte inferior */
+}
+
+/* Estilo para la lista de navegación */
+.navbar-nav {
+    display: flex; /* Utiliza flexbox para organizar los elementos */
+    list-style: none; /* Elimina los estilos de lista predeterminados */
+    margin: 0; /* Elimina el margen predeterminado */
+    padding: 0; /* Elimina el relleno predeterminado */
+}
+
+/* Estilo para los elementos de la lista de navegación */
+.nav-item {
+    margin-left: 10px; /* Añade un margen izquierdo entre los elementos de la lista */
+    font-size: 20px; /* Añade un tamaño de letra */
+}

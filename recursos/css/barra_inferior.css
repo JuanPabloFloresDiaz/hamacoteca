@@ -1,0 +1,46 @@
+footer{
+    border-top: 1px solid #DBDBDB;
+}
+
+.description-icons{
+    font-size: 33px;
+}
+
+.description-icons .icon-facebook{
+    color: darkblue;
+}
+
+.description-icons .icon-facebook:hover{
+   color: blue;
+   justify-content: center;
+   opacity: 0.8;
+   transform: scale(1.25);
+   transition: 0.5s;
+   z-index: 1;
+}
+
+.description-icons .icon-instagram{
+   color: #e440c0;
+}
+
+.description-icons .icon-instagram:hover{
+   color: #E4405F;
+   justify-content: center;
+   opacity: 0.8;
+   transform: scale(1.25);
+   transition: 0.5s;
+   z-index: 1;
+}
+
+.description-icons .icon-x{
+    color: black;
+}
+
+.description-icons .icon-x:hover{
+   color: skyblue;
+   justify-content: center;
+   opacity: 0.8;
+   transform: scale(1.25);
+   transition: 0.5s;
+   z-index: 1;
+}

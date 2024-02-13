@@ -1,0 +1,332 @@
+async function loadComponent(path) {
+    const response = await fetch(path);
+    const text = await response.text();
+    return text;
+}
+
+async function cargar_productos() {
+    const listahamacas = [
+        {
+            nombre_producto: 'Hamaca ligera',
+            precio: 200,
+            urlfoto: '/recursos/img/hamaca 3.jpg'
+        },
+        {
+            nombre_producto: 'Hamaca ligera',
+            precio: 200,
+            urlfoto: '/recursos/img/hamaca 3.jpg'
+        },
+        {
+            nombre_producto: 'Hamaca ligera',
+            precio: 200,
+            urlfoto: '/recursos/img/hamaca 3.jpg'
+        },
+        {
+            nombre_producto: 'Hamaca estandar',
+            precio: 300,
+            urlfoto: '/recursos/img/hamaca1.png'
+        },
+        {
+            nombre_producto: 'Hamaca estandar',
+            precio: 300,
+            urlfoto: '/recursos/img/hamaca1.png'
+        },
+        {
+            nombre_producto: 'Hamaca estandar',
+            precio: 300,
+            urlfoto: '/recursos/img/hamaca1.png'
+        },
+        {
+            nombre_producto: 'Hamaca grande',
+            precio: 400,
+            urlfoto: '/recursos/img/hamacaKsK 1.png'
+        },
+        {
+            nombre_producto: 'Hamaca grande',
+            precio: 400,
+            urlfoto: '/recursos/img/hamacaKsK 1.png'
+        },
+        {
+            nombre_producto: 'Hamaca grande',
+            precio: 400,
+            urlfoto: '/recursos/img/hamacaKsK 1.png'
+        }
+    ];
+
+    const contenedorCartasProductos = document.getElementById('productos-cartas');
+
+    try {
+        const response = await fetch(PRODUCTOS_API);
+        if (!response.ok) {
+            throw new Error('Error al obtener los datos de la API');
+        }
+        const data = await response.json();
+
+        if (data && Array.isArray(data) && data.length > 0) {
+            // Mostrar cartas de productos obtenidos de la API
+            data.forEach(producto => {
+                const cartasHtml = `
+                <div class="col">
+                 <div class="card carta-personalizada" onclick="redireccionarDetalleID(${producto.id_hamaca})">
+                    <div class="position-relative">
+                    <img src="${producto.url}" class="card-img-top" alt="${producto.nombre_hamaca}">
+                    <a href="/vistas/publica/paginas/detalle.html?id=${producto.id_producto}" class="btn btn-outline-light position-absolute top-50 start-50 translate-middle">Ver detalle</a>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">${producto.nombre_hamaca}</h5>
+                        <p class="card-text">$${producto.precio}</p>
+                    </div>
+                 </div>
+                </div>
+                `;
+                contenedorCartasProductos.innerHTML += cartasHtml;
+            });
+        } else {
+            throw new Error('La respuesta de la API no contiene datos válidos');
+        }
+    } catch (error) {
+        console.error('Error al obtener datos de la API:', error);
+        // Mostrar cartas de productos de respaldo
+        listahamacas.forEach(producto => {
+            const cartasHtml = `
+                <div class="col">
+                    <div class="card carta-personalizada">
+                    <div class="position-relative">
+                    <img src="${producto.urlfoto}" class="card-img-top" alt="${producto.nombre_producto}">
+                    <a href="/vistas/publica/paginas/detalle.html" class="btn btn-outline-light position-absolute top-50 start-50 translate-middle">Ver detalle</a>
+                    </div>
+                        <div class="card-body">
+                            <h5 class="card-title">${producto.nombre_producto}</h5>
+                            <p class="card-text">$${producto.precio}</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+            contenedorCartasProductos.innerHTML += cartasHtml;
+        });
+    }
+
+
+
+}
+
+async function cargar_categorias() {
+    const lista_categorias = [
+        {
+            nombre: 'Hamaca colgante',
+            id: 1
+        },
+        {
+            nombre: 'Hamaca clasica',
+            id: 2
+        },
+        {
+            nombre: 'Hamaca silla',
+            id: 3
+        },
+        {
+            nombre: 'Hamaca con soporte',
+            id: 4
+        }
+    ];
+
+    const cargarListaCategorias = document.getElementById('categorias');
+
+    try {
+        const response = await fetch(CATEGORIAS_API);
+        if (!response.ok) {
+            throw new Error('Error al obtener los datos de la API');
+        }
+        const data = await response.json();
+
+        if (data && Array.isArray(data) && data.length > 0) {
+            // Mostrar elementos de la lista de categorias obtenidos de la API
+            data.forEach(categoria => {
+                const categoriasHtml = `
+                <option value="${categoria.id_categoria}">${categoria.nombre_categoria}</option>
+                `;
+                cargarListaCategorias.innerHTML += categoriasHtml;
+            });
+        } else {
+            throw new Error('La respuesta de la API no contiene datos válidos');
+        }
+    } catch (error) {
+        console.error('Error al obtener datos de la API:', error);
+        // Mostrar categorias de respaldo
+        lista_categorias.forEach(categoria => {
+            const categoriasHtml = `
+                <option value="${categoria.id}">${categoria.nombre}</option>
+            `;
+            cargarListaCategorias.innerHTML += categoriasHtml;
+        });
+    }
+}
+
+async function cargar_colores() {
+    const lista_colores = [
+        {
+            nombre: 'Rojos',
+            id: 1
+        },
+        {
+            nombre: 'Azules',
+            id: 2
+        },
+        {
+            nombre: 'Amarillos',
+            id: 3
+        },
+        {
+            nombre: 'Blancos',
+            id: 4
+        },
+        {
+            nombre: 'Grises',
+            id: 5
+        },
+        {
+            nombre: 'Negros',
+            id: 6
+        },
+        {
+            nombre: 'Verdes',
+            id: 7
+        }
+    ];
+
+    const cargarListaColores = document.getElementById('colores');
+
+    try {
+        const response = await fetch(COLORES_API);
+        if (!response.ok) {
+            throw new Error('Error al obtener los datos de la API');
+        }
+        const data = await response.json();
+
+        if (data && Array.isArray(data) && data.length > 0) {
+            // Mostrar elementos de la lista de colores obtenidos de la API
+            data.forEach(colores => {
+                const coloresHtml = `
+                <option value="${colores.id_color}">${colores.nombre_color}</option>
+                `;
+                cargarListaColores.innerHTML += coloresHtml;
+            });
+        } else {
+            throw new Error('La respuesta de la API no contiene datos válidos');
+        }
+    } catch (error) {
+        console.error('Error al obtener datos de la API:', error);
+        // Mostrar colores de respaldo
+        lista_colores.forEach(colores => {
+            const coloresHtml = `
+                <option value="${colores.id}">${colores.nombre}</option>
+            `;
+            cargarListaColores.innerHTML += coloresHtml;
+        });
+    }
+}
+
+async function cargar_materiales() {
+    const lista_materiales = [
+        {
+            nombre: 'Lana',
+            id: 1
+        },
+        {
+            nombre: 'Nylon',
+            id: 2
+        },
+        {
+            nombre: 'Poliester',
+            id: 3
+        },
+        {
+            nombre: 'Tela',
+            id: 4
+        }
+    ];
+
+    const cargarListaMateriales = document.getElementById('materiales');
+
+    try {
+        const response = await fetch(MATERIALES_API);
+        if (!response.ok) {
+            throw new Error('Error al obtener los datos de la API');
+        }
+        const data = await response.json();
+
+        if (data && Array.isArray(data) && data.length > 0) {
+            // Mostrar elementos de la lista de materiales obtenidos de la API
+            data.forEach(materiales => {
+                const materialesHtml = `
+                <option value="${materiales.id_material}">${materiales.nombre_material}</option>
+                `;
+                cargarListaMateriales.innerHTML += materialesHtml;
+            });
+        } else {
+            throw new Error('La respuesta de la API no contiene datos válidos');
+        }
+    } catch (error) {
+        console.error('Error al obtener datos de la API:', error);
+        // Mostrar materiales de respaldo
+        lista_materiales.forEach(materiales => {
+            const materialesHtml = `
+                <option value="${materiales.id}">${materiales.nombre}</option>
+            `;
+            cargarListaMateriales.innerHTML += materialesHtml;
+        });
+    }
+}
+
+async function ordenar_resultados() {
+    const lista_filtros = [
+        {
+            nombre: 'Orden alfabetico'
+        },
+        {
+            nombre: 'Mayor precio'
+        },
+        {
+            nombre: 'Menor precio'
+        },
+        {
+            nombre: 'Compra reciente'
+        }
+    ];
+
+    const ordenarFiltros = document.getElementById('Ordenar-resultados');
+    // Mostrar datos de la lista de respaldo
+    lista_filtros.forEach(filter => {
+        const elementHtml = `
+            <li><a class="dropdown-item" href="#" style="background-color: white; color: black;">${filter.nombre}</a></li>
+            `;
+        ordenarFiltros.innerHTML += elementHtml;
+    });
+}
+
+// Constantes para completar la ruta de la API.
+const CATEGORIAS_API = '';
+const COLORES_API = '';
+const MATERIALES_API = '';
+const PRODUCTOS_API = '';
+
+
+window.onload = async function () {
+    // Obtiene el contenedor principal
+    const appContainer = document.getElementById('tienda');
+
+    // Carga los componentes de manera síncrona
+    const headerHtml = await loadComponent('/vistas/publica/componentes/componentes_generales/barra_superior/barra_superior.html');
+    const productsHtml = await loadComponent('/vistas/publica/componentes/tienda/productos.html');
+    const footerHtml = await loadComponent('/vistas/publica/componentes/componentes_generales/barra_inferior/barra_inferior.html');
+    // Agrega el HTML del encabezado
+    appContainer.innerHTML += `${headerHtml}`;
+    appContainer.innerHTML += `${productsHtml}`;
+    appContainer.innerHTML += `${footerHtml}`;
+
+    cargar_productos();
+    cargar_categorias();
+    cargar_colores();
+    cargar_materiales();
+    ordenar_resultados();
+};

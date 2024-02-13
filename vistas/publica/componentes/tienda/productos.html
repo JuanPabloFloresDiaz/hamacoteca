@@ -1,0 +1,66 @@
+<div class="container">
+    <div class="row">
+        <!-- Contenedor de los productos -->
+        <div class="col-lg-8">
+            <!-- Aquí irían tus cartas de productos -->
+            <div class="d-flex justify-content-between mb-2 mt-2" style="font-size: 14px;">
+                <p class="text-start">Mostrando 1-9 de 57 resultados</p>
+                <div class="dropdown">
+                    <button class="btn btn-light btn-sm dropdown-toggle text-dark" type="button" id="dropdownMenuButton"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                        Ordenar resultados
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton" id="Ordenar-resultados">
+                        <!-- Aquí se insertarán los items del dropdown -->
+                    </ul>
+                </div>
+            </div>
+
+            <div class="row row-cols-1 row-cols-md-3 g-4 mb-4" id="productos-cartas">
+                <!-- Aquí se insertarán las cartas -->
+            </div>
+            <div class="card">
+                <!-- Contenido de las cartas de productos -->
+            </div>
+
+            <nav aria-label="Page navigation example ">
+                <ul class="pagination">
+                    <li class="page-item"><a class="page-link" href="#">Anterior</a></li>
+                    <li class="page-item"><a class="page-link" href="#">1</a></li>
+                    <li class="page-item"><a class="page-link" href="#">2</a></li>
+                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                    <li class="page-item"><a class="page-link" href="#">Siguiente</a></li>
+                </ul>
+            </nav>
+        </div>
+
+        <!-- Contenedor de los filtros -->
+        <div class="col-lg-4 order-xl-last order-lg-last order-md-first order-sm-first order-xs-first">
+            <!-- Aquí irían tus filtros -->
+            <form class="d-flex mb-2 mt-2">
+                <input class="form-control me-2" type="search" placeholder="Buscar" aria-label="Search">
+                <button class="btn btn-outline-primary" type="submit">Buscar</button>
+            </form>
+            <div>
+                <h5 class="mt-4">Categorias</h5>
+                <select class="form-select mb-2" aria-label="Seleccionar" id="categorias">
+                    <option selected>Selecciona una opción</option>
+                </select>
+            </div>
+            <div>
+                <h5>Materiales</h5>
+                <select class="form-select mb-2" aria-label="Seleccionar" id="materiales">
+                    <option selected>Selecciona una opción</option>
+                </select>
+            </div>
+            <div>
+                <input type="range" class="form-range" id="customRange1">
+                <div class="d-flex justify-content-between">
+                    <label for="customRange1" class="form-label">Precio $4 - $800</label>
+                    <button type="button" class="btn btn-dark">Filtrar</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
