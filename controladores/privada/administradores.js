@@ -35,8 +35,8 @@ async function cargarTabla(){
             imagen: '/recursos/img/foto.png',
             nombre: 'Joel',
             correo: 'joel@gmail.com',
-            telefono: '12345678-9',
-            dui: '1234-5678',
+            telefono: '1234-5678',
+            dui: '12345678-9',
             fecha: '1994-02-09'
         }  
     ];
