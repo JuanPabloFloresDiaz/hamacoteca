@@ -20,3 +20,18 @@
     margin-left: 10px; /* Añade un margen izquierdo entre los elementos de la lista */
     font-size: 20px; /* Añade un tamaño de letra */
 }
+.pastilla {
+    display: inline-flex;
+    align-items: center;
+    padding: 2px 6px;
+    font-size: 20px;
+    border-radius: 20px;
+    border: 1px solid #DBDBDB;
+}
+
+.pastilla img {
+    width: 30px; /* Ajusta el tamaño de la imagen según tu preferencia */
+    height: auto;
+    margin-right: 8px; /* Espacio entre la imagen y el texto */
+    border: 1px solid #DBDBDB;
+}

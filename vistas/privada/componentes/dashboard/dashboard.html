@@ -1,0 +1,29 @@
+<!-- Contenedor de gráficos -->
+<div class="container-fluid col-md-10">
+    <div class="row">
+        <div class="col-sm-12 col-md-6 col-lg-6">
+            <!-- Se muestra un gráfico con la cantidad de productos por categoría -->
+            <canvas id="chart1"></canvas>
+        </div>
+    </div>
+    
+    <!-- Tabla para mostrar los registros existentes -->
+    <table class="table table-hover">
+        <!-- Cabeza de la tabla para mostrar la cantidad de registros y los títulos de las columnas -->
+        <thead>
+            <tr>
+                <td colspan="6" id="rowsFound"></td>
+            </tr>
+            <tr>
+                <th>IMAGEN</th>
+                <th>NOMBRE</th>
+                <th>CORREO</th>
+                <th>TELÉFONO</th>
+                <th>DUI</th>
+                <th>FECHA DE REGISTRO</th>
+            </tr>
+        </thead>
+        <!-- Cuerpo de la tabla para mostrar un registro por fila -->
+        <tbody id="tabla"></tbody>
+    </table>
+</div>
