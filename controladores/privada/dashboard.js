@@ -4,7 +4,7 @@ async function loadComponent(path) {
     return text;
 }
 
-async function cargarTabla(){
+async function cargarTabla() {
     const lista_datos = [
         {
             imagen: '/recursos/img/foto.png',
@@ -37,7 +37,7 @@ async function cargarTabla(){
             telefono: '12345678-9',
             dui: '1234-5678',
             fecha: '2024-02-09'
-        }  
+        }
     ];
     const cargarTabla = document.getElementById('tabla');
 
@@ -60,12 +60,6 @@ async function cargarTabla(){
                     <td>${row.dui_cliente}</td>
                     <td>${row.fecha_registro}</td>
                     <td>
-                        <button type="button" class="btn btn-info" onclick="openUpdate(${row.id_categoria})">
-                            <i class="bi bi-pencil-fill"></i>
-                        </button>
-                        <button type="button" class="btn btn-danger" onclick="openDelete(${row.id_categoria})">
-                            <i class="bi bi-trash-fill"></i>
-                        </button>
                         <button type="button" class="btn btn-warning" onclick="openReport(${row.id_categoria})">
                             <i class="bi bi-filetype-pdf"></i>
                         </button>
@@ -90,11 +84,8 @@ async function cargarTabla(){
                 <td>${row.dui}</td>
                 <td>${row.fecha}</td>
                 <td>
-                    <button type="button" class="btn btn-outline-success" onclick="openUpdate(${row.id_categoria})">
-                        <i class="bi bi-pencil-fill"></i>
-                    </button>
-                    <button type="button" class="btn btn-outline-danger" onclick="openDelete(${row.id_categoria})">
-                        <i class="bi bi-trash-fill"></i>
+                    <button type="button" class="btn btn-warning" onclick="openReport(${row.id_categoria})">
+                        <i class="bi bi-filetype-pdf"></i>
                     </button>
                 </td>
             </tr>
@@ -162,6 +153,115 @@ const graficoBarrasCategorias = async () => {
 
     }
 }
+async function datosGrafica() {
+    const datos = [
+        { fecha: '2024-01-25', ganancias: 500 },
+        { fecha: '2024-01-26', ganancias: 1500 },
+        { fecha: '2024-01-27', ganancias: 1800 },
+        { fecha: '2024-01-28', ganancias: 700 },
+        { fecha: '2024-01-29', ganancias: 2000 },
+        { fecha: '2024-01-30', ganancias: 1000},
+        { fecha: '2024-02-01', ganancias: 800 },
+        { fecha: '2024-02-02', ganancias: 550 },
+        { fecha: '2024-02-03', ganancias: 800 },
+        { fecha: '2024-02-04', ganancias: 1200 },
+        { fecha: '2024-02-05', ganancias: 2000 },
+        { fecha: '2024-02-06', ganancias: 3500 }
+    ];
+
+    drawLineChart(datos, 'Ganancias por Fecha', 'Fecha', 'Ganancias');
+}
+
+function drawLineChart(data, title, xAxisLabel, yAxisLabel) {
+    const chartContainer = document.getElementById('chart');
+    const canvas = document.createElement('canvas');
+    chartContainer.appendChild(canvas);
+    const ctx = canvas.getContext('2d');
+    canvas.width = chartContainer.clientWidth;
+    canvas.height = 400;
+
+    const margin = { top: 40, right: 20, bottom: 60, left: 70 }; // Ajustado para dar espacio a las etiquetas
+    const width = canvas.width - margin.left - margin.right;
+    const height = canvas.height - margin.top - margin.bottom;
+
+    const xScale = d3.scaleBand()
+        .domain(data.map(d => d.fecha))
+        .range([0, width])
+        .padding(0.1);
+
+    const yScale = d3.scaleLinear()
+        .domain([0, d3.max(data, d => d.ganancias)])
+        .range([height, 0]);
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.beginPath();
+    data.forEach((d, i) => {
+        const x = xScale(d.fecha) + margin.left + xScale.bandwidth() / 2;
+        const y = yScale(d.ganancias) + margin.top;
+        if (i === 0) {
+            ctx.moveTo(x, y);
+        } else {
+            ctx.lineTo(x, y);
+        }
+        // Agregar etiquetas con los valores de las ganancias
+        ctx.fillStyle = 'black';
+        ctx.font = '10px Arial';
+        ctx.fillText(d.ganancias.toString(), x, y - 10); // Ajustado para evitar superposiciones
+    });
+    ctx.strokeStyle = 'green';
+    ctx.lineWidth = 2;
+    ctx.stroke();
+
+    ctx.beginPath();
+    ctx.moveTo(margin.left, margin.top);
+    ctx.lineTo(margin.left, canvas.height - margin.bottom);
+    ctx.lineTo(canvas.width - margin.right, canvas.height - margin.bottom);
+    ctx.strokeStyle = '#000';
+    ctx.lineWidth = 1;
+    ctx.stroke();
+
+    // Agregar etiquetas para el eje X (fechas)
+    ctx.textAlign = 'center';
+    ctx.fillStyle = 'black';
+    ctx.font = '10px Arial';
+    data.forEach((d, i) => {
+        const x = xScale(d.fecha) + margin.left + xScale.bandwidth() / 2;
+        const y = canvas.height - margin.bottom + 15;
+        ctx.fillText(d.fecha, x, y);
+    });
+
+    // Agregar título
+    ctx.textAlign = 'center';
+    ctx.fillStyle = 'black';
+    ctx.font = 'bold 16px Arial';
+    ctx.fillText(title, canvas.width / 2, margin.top / 2);
+
+    // Agregar etiquetas para el eje Y (valores de ganancias)
+    ctx.textAlign = 'right';
+    ctx.fillStyle = 'black';
+    ctx.font = '10px Arial';
+    const yValues = yScale.ticks(8); // Ajustado para determinar el número de etiquetas en el eje Y
+    yValues.forEach(value => {
+        const y = yScale(value) + margin.top;
+        ctx.fillText(value.toString(), margin.left - 10, y);
+    });
+
+    // Agregar etiqueta para el eje X
+    ctx.textAlign = 'center';
+    ctx.fillStyle = 'black';
+    ctx.font = '10px Arial';
+    ctx.fillText(xAxisLabel, canvas.width / 2, canvas.height - margin.bottom / 3);
+
+    // Agregar etiqueta para el eje Y
+    ctx.save();
+    ctx.translate(margin.left / 2, canvas.height / 2);
+    ctx.rotate(-Math.PI / 2);
+    ctx.textAlign = 'center';
+    ctx.fillStyle = 'black';
+    ctx.font = '10px Arial';
+    ctx.fillText(yAxisLabel, 0, 0);
+    ctx.restore();
+}
 
 // window.onload
 window.onload = async function () {
@@ -176,5 +276,5 @@ window.onload = async function () {
     cargarTabla();
     // Llama a la función para mostrar el gráfico de barras
     graficoBarrasCategorias();
-
+    datosGrafica();
 };

@@ -61,13 +61,13 @@ async function cargarTabla(){
                     <td>${row.dui_cliente}</td>
                     <td>${row.fecha_nacimiento}</td>
                     <td>
-                        <button type="button" class="btn btn-info" onclick="openUpdate(${row.id_categoria})">
+                        <button type="button" class="btn btn-info" onclick="openUpdate(${row.id_cliente})">
                             <i class="bi bi-pencil-fill"></i>
                         </button>
-                        <button type="button" class="btn btn-danger" onclick="openDelete(${row.id_categoria})">
+                        <button type="button" class="btn btn-danger" onclick="openDelete(${row.id_cliente})">
                             <i class="bi bi-trash-fill"></i>
                         </button>
-                        <button type="button" class="btn btn-warning" onclick="openReport(${row.id_categoria})">
+                        <button type="button" class="btn btn-warning" onclick="openReport(${row.id_cliente})">
                             <i class="bi bi-filetype-pdf"></i>
                         </button>
                     </td>
