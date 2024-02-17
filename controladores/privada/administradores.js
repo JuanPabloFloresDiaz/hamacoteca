@@ -1,3 +1,19 @@
+
+// // Constantes para completar las rutas de la API.
+// const ADMINISTRADOR_API = '';
+// // Constantes para establecer los elementos del componente Modal.
+// const SAVE_MODAL = new bootstrap.Modal('#saveModal'),
+//     MODAL_TITLE = document.getElementById('modalTitle');
+// // Constantes para establecer los elementos del formulario de guardar.
+// const SAVE_FORM = document.getElementById('saveForm'),
+//     ID_ADMINISTRADOR = document.getElementById('idAdministrador'),
+//     NOMBRE_ADMINISTRADOR = document.getElementById('nombreAdministrador'),
+//     CORREO_ADMINISTRADOR = document.getElementById('correoAdministrador'),
+//     CLAVE_ADMINISTRADOR = document.getElementById('contraseña'),
+//     REPETIR_CLAVE = document.getElementById('repetirContraseña'),
+//     ALIAS_ADMINISTRADOR = document.getElementById('aliasAdministrador'),
+//     ROL_ADMINISTRADOR = document.getElementById('rolAdministrador');
+
 async function loadComponent(path) {
     const response = await fetch(path);
     const text = await response.text();
@@ -5,7 +21,35 @@ async function loadComponent(path) {
 }
 
 
-async function cargarTabla(){
+/*
+*   Función asíncrona para eliminar un registro.
+*   Parámetros: id (identificador del registro seleccionado).
+*   Retorno: ninguno.
+*/
+const openDelete = async (id) => {
+    // Llamada a la función para mostrar un mensaje de confirmación, capturando la respuesta en una constante.
+    const RESPONSE = await confirmAction('¿Desea eliminar el producto de forma permanente?');
+    // Se verifica la respuesta del mensaje.
+    if (RESPONSE) {
+        // Se define una constante tipo objeto con los datos del registro seleccionado.
+        const FORM = new FormData();
+        FORM.append('idProducto', id);
+        // Petición para eliminar el registro seleccionado.
+        const DATA = await fetchData(PRODUCTO_API, 'deleteRow', FORM);
+        // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
+        if (DATA.status) {
+            // Se muestra un mensaje de éxito.
+            await sweetAlert(1, DATA.message, true);
+            // Se carga nuevamente la tabla para visualizar los cambios.
+            fillTable();
+        } else {
+            sweetAlert(2, DATA.error, false);
+        }
+    }
+}
+
+
+async function cargarTabla() {
     const lista_datos = [
         {
             imagen: '/recursos/img/foto.png',
@@ -13,7 +57,8 @@ async function cargarTabla(){
             correo: 'joel@gmail.com',
             telefono: '1234-5678',
             dui: '12345678-9',
-            fecha: '1994-02-09'
+            fecha: '1994-02-09',
+            id: 1,
         },
         {
             imagen: '/recursos/img/foto.png',
@@ -21,7 +66,8 @@ async function cargarTabla(){
             correo: 'joel@gmail.com',
             telefono: '1234-5678',
             dui: '12345678-9',
-            fecha: '1994-02-09'
+            fecha: '1994-02-09',
+            id: 2,
         },
         {
             imagen: '/recursos/img/foto.png',
@@ -29,7 +75,8 @@ async function cargarTabla(){
             correo: 'joel@gmail.com',
             telefono: '1234-5678',
             dui: '12345678-9',
-            fecha: '1994-02-09'
+            fecha: '1994-02-09',
+            id: 3,
         },
         {
             imagen: '/recursos/img/foto.png',
@@ -37,8 +84,9 @@ async function cargarTabla(){
             correo: 'joel@gmail.com',
             telefono: '1234-5678',
             dui: '12345678-9',
-            fecha: '1994-02-09'
-        }  
+            fecha: '1994-02-09',
+            id: 4,
+        }
     ];
     const cargarTabla = document.getElementById('tabla_administradores');
 
@@ -91,10 +139,10 @@ async function cargarTabla(){
                 <td>${row.dui}</td>
                 <td>${row.fecha}</td>
                 <td>
-                    <button type="button" class="btn btn-outline-success" onclick="openUpdate(${row.id_categoria})">
+                    <button type="button" class="btn btn-outline-success" onclick="openUpdate(${row.id})">
                         <i class="bi bi-pencil-fill"></i>
                     </button>
-                    <button type="button" class="btn btn-outline-danger" onclick="openDelete(${row.id_categoria})">
+                    <button type="button" class="btn btn-outline-danger" onclick="openDelete(${row.id})">
                         <i class="bi bi-trash-fill"></i>
                     </button>
                 </td>
@@ -105,8 +153,49 @@ async function cargarTabla(){
     }
 }
 
+
+
+// // Método del evento para cuando se envía el formulario de guardar.
+// SAVE_FORM.addEventListener('submit', async (event) => {
+//     // Se evita recargar la página web después de enviar el formulario.
+//     event.preventDefault();
+//     // Se verifica la acción a realizar.
+//     (ID_PRODUCTO.value) ? action = 'updateRow' : action = 'createRow';
+//     // Constante tipo objeto con los datos del formulario.
+//     const FORM = new FormData(SAVE_FORM);
+//     // Petición para guardar los datos del formulario.
+//     const DATA = await fetchData(PRODUCTO_API, action, FORM);
+//     // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
+//     if (DATA.status) {
+//         // Se cierra la caja de diálogo.
+//         SAVE_MODAL.hide();
+//         // Se muestra un mensaje de éxito.
+//         sweetAlert(1, DATA.message, true);
+//         // Se carga nuevamente la tabla para visualizar los cambios.
+//         fillTable();
+//     } else {
+//         sweetAlert(2, DATA.error, false);
+//     }
+// });
+
+// /*
+// *   Función para preparar el formulario al momento de insertar un registro.
+// *   Parámetros: ninguno.
+// *   Retorno: ninguno.
+// */
+// const openCreate = () => {
+//     // Se muestra la caja de diálogo con su título.
+//     SAVE_MODAL.show();
+//     MODAL_TITLE.textContent = 'Crear administrador';
+//     // Se prepara el formulario.
+//     SAVE_FORM.reset();
+//     fillSelect(ADMINISTRADOR_API, 'readAll', 'administradores');
+// }
+
+
 // window.onload
 window.onload = async function () {
+    
     // Obtiene el contenedor principal
     const appContainer = document.getElementById('admin');
 
