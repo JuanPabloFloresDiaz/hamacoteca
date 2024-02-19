@@ -10,7 +10,7 @@ window.onload = async function () {
     const appContainer = document.getElementById('main');
 
     // Carga los componentes de manera síncrona
-    const navbarHtml = await loadComponent('/vistas/privada/componentes/inicio_de_sesion/inicio_de_sesion.html');
+    const navbarHtml = await loadComponent('../componentes/inicio_de_sesion/inicio_de_sesion.html');
     // Agrega el HTML del encabezado
     appContainer.innerHTML = navbarHtml;
 
