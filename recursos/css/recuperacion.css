@@ -1,0 +1,29 @@
+.borde{
+  border: 2px solid #000;
+}
+
+.imagen-fondo {
+    z-index: -1;
+  
+  }
+
+  .imagen-fondo-derecha {
+    z-index: -1;
+  }
+
+.fs{
+  font-size: 14px;
+}
+
+.icono{
+  bottom: 0;
+  right: 0;
+  width:80;
+  height: 80;
+}
+
+.email{
+  width: 100px; 
+  height: 100px;
+}
+  
