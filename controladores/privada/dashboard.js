@@ -216,106 +216,44 @@ const graficoPastelCategorias = async () => {
 
 }
 
-async function datosGrafica() {
+async function cargarGraficaLineal() {
     const datos = [
         { fecha: '2024-01-26', ganancias: 2500 },
         { fecha: '2024-01-27', ganancias: 8800 },
         { fecha: '2024-01-29', ganancias: 5000 },
         { fecha: '2024-02-06', ganancias: 6500 }
     ];
-
-    drawLineChart(datos, 'Ganancias por Fecha', 'Fecha', 'Ganancias');
-}
-
-function drawLineChart(data, title, xAxisLabel, yAxisLabel) {
-    const chartContainer = document.getElementById('chart');
-    const canvas = document.createElement('canvas');
-    chartContainer.appendChild(canvas);
-    const ctx = canvas.getContext('2d');
-    canvas.width = chartContainer.clientWidth;
-    canvas.height = 400;
-
-    const margin = { top: 40, right: 20, bottom: 60, left: 70 }; // Ajustado para dar espacio a las etiquetas
-    const width = canvas.width - margin.left - margin.right;
-    const height = canvas.height - margin.top - margin.bottom;
-
-    const xScale = d3.scaleBand()
-        .domain(data.map(d => d.fecha))
-        .range([0, width])
-        .padding(0.1);
-
-    const yScale = d3.scaleLinear()
-        .domain([0, d3.max(data, d => d.ganancias)])
-        .range([height, 0]);
-
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.beginPath();
-    data.forEach((d, i) => {
-        const x = xScale(d.fecha) + margin.left + xScale.bandwidth() / 2;
-        const y = yScale(d.ganancias) + margin.top;
-        if (i === 0) {
-            ctx.moveTo(x, y);
+    try {
+        // Petición para obtener los datos del gráfico.
+        const DATA = await fetchData(PRODUCTO_API, 'gananciasPorFecha');
+        // Se comprueba si la respuesta es satisfactoria, de lo contrario se remueve la etiqueta canvas.
+        if (DATA.status) {
+            // Se declaran los arreglos para guardar los datos a gráficar.
+            let fecha = [];
+            let ganancias = [];
+            // Se recorre el conjunto de registros fila por fila a través del objeto row.
+            DATA.dataset.forEach(row => {
+                // Se agregan los datos a los arreglos.
+                fecha.push(row.fecha_registro);
+                ganancias.push(row.ganancias);
+            });
+            // Llamada a la función para generar y mostrar un gráfico de pastel. Se encuentra en el archivo components.js
+            lineGraph('chart3', fecha, ganancias, 'Ganancias por fecha $', 'Grafica de ganancias');
         } else {
-            ctx.lineTo(x, y);
+            document.getElementById('chart3').remove();
+            console.log(DATA.error);
         }
-        // Agregar etiquetas con los valores de las ganancias
-        ctx.fillStyle = 'black';
-        ctx.font = '10px Arial';
-        ctx.fillText(d.ganancias.toString(), x, y - 10); // Ajustado para evitar superposiciones
-    });
-    ctx.strokeStyle = 'green';
-    ctx.lineWidth = 2;
-    ctx.stroke();
+    } catch {
+        let fecha = [];
+        let ganancias = [];
+        datos.forEach(filter => {
+            fecha.push(filter.fecha);
+            ganancias.push(filter.ganancias);
+        });
+        // Si ocurre un error, se utilizan los datos de ejemplo definidos arriba.
+        lineGraph('chart3', fecha, ganancias, 'Ganancias por fecha', 'Grafica de ganancias');
 
-    ctx.beginPath();
-    ctx.moveTo(margin.left, margin.top);
-    ctx.lineTo(margin.left, canvas.height - margin.bottom);
-    ctx.lineTo(canvas.width - margin.right, canvas.height - margin.bottom);
-    ctx.strokeStyle = '#000';
-    ctx.lineWidth = 1;
-    ctx.stroke();
-
-    // Agregar etiquetas para el eje X (fechas)
-    ctx.textAlign = 'center';
-    ctx.fillStyle = 'black';
-    ctx.font = '10px Arial';
-    data.forEach((d, i) => {
-        const x = xScale(d.fecha) + margin.left + xScale.bandwidth() / 2;
-        const y = canvas.height - margin.bottom + 15;
-        ctx.fillText(d.fecha, x, y);
-    });
-
-    // Agregar título
-    ctx.textAlign = 'center';
-    ctx.fillStyle = 'black';
-    ctx.font = 'bold 16px Arial';
-    ctx.fillText(title, canvas.width / 2, margin.top / 2);
-
-    // Agregar etiquetas para el eje Y (valores de ganancias)
-    ctx.textAlign = 'right';
-    ctx.fillStyle = 'black';
-    ctx.font = '10px Arial';
-    const yValues = yScale.ticks(8); // Ajustado para determinar el número de etiquetas en el eje Y
-    yValues.forEach(value => {
-        const y = yScale(value) + margin.top;
-        ctx.fillText(value.toString(), margin.left - 10, y);
-    });
-
-    // Agregar etiqueta para el eje X
-    ctx.textAlign = 'center';
-    ctx.fillStyle = 'black';
-    ctx.font = '10px Arial';
-    ctx.fillText(xAxisLabel, canvas.width / 2, canvas.height - margin.bottom / 3);
-
-    // Agregar etiqueta para el eje Y
-    ctx.save();
-    ctx.translate(margin.left / 2, canvas.height / 2);
-    ctx.rotate(-Math.PI / 2);
-    ctx.textAlign = 'center';
-    ctx.fillStyle = 'black';
-    ctx.font = '10px Arial';
-    ctx.fillText(yAxisLabel, 0, 0);
-    ctx.restore();
+    }
 }
 
 // window.onload
@@ -330,6 +268,6 @@ window.onload = async function () {
     appContainer.innerHTML = navbarHtml + dashboardHtml;
     cargarTabla();
     // Llama a la función para mostrar el gráfico de barras
-    graficoBarrasCategorias();
+    cargarGraficaLineal();
     graficoPastelCategorias();
 };
