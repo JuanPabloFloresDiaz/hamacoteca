@@ -7,7 +7,7 @@ async function loadComponent(path) {
 async function cargarTabla() {
     const lista_datos = [
         {
-            imagen: '/recursos/img/foto.png',
+            imagen: '../../../recursos/img/foto.png',
             nombre: 'Joel',
             correo: 'joel@gmail.com',
             telefono: '1234-5678',
@@ -15,7 +15,7 @@ async function cargarTabla() {
             fecha: '2024-02-09'
         },
         {
-            imagen: '/recursos/img/foto.png',
+            imagen: '../../../recursos/img/foto.png',
             nombre: 'Joel',
             correo: 'joel@gmail.com',
             telefono: '1234-5678',
@@ -23,7 +23,7 @@ async function cargarTabla() {
             fecha: '2024-02-09'
         },
         {
-            imagen: '/recursos/img/foto.png',
+            imagen: '../../../recursos/img/foto.png',
             nombre: 'Joel',
             correo: 'joel@gmail.com',
             telefono: '1234-5678',
@@ -31,7 +31,7 @@ async function cargarTabla() {
             fecha: '2024-02-09'
         },
         {
-            imagen: '/recursos/img/foto.png',
+            imagen: '../../../recursos/img/foto.png',
             nombre: 'Joel',
             correo: 'joel@gmail.com',
             telefono: '12345678-9',

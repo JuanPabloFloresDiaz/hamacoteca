@@ -9,47 +9,47 @@ async function cargar_productos() {
         {
             nombre_producto: 'Hamaca ligera',
             precio: 200,
-            urlfoto: '/recursos/img/hamaca 3.jpg'
+            urlfoto: '../../../recursos/img/hamaca 3.jpg'
         },
         {
             nombre_producto: 'Hamaca ligera',
             precio: 200,
-            urlfoto: '/recursos/img/hamaca 3.jpg'
+            urlfoto: '../../../recursos/img/hamaca 3.jpg'
         },
         {
             nombre_producto: 'Hamaca ligera',
             precio: 200,
-            urlfoto: '/recursos/img/hamaca 3.jpg'
+            urlfoto: '../../../recursos/img/hamaca 3.jpg'
         },
         {
             nombre_producto: 'Hamaca estandar',
             precio: 300,
-            urlfoto: '/recursos/img/hamaca1.png'
+            urlfoto: '../../../recursos/img/hamaca1.png'
         },
         {
             nombre_producto: 'Hamaca estandar',
             precio: 300,
-            urlfoto: '/recursos/img/hamaca1.png'
+            urlfoto: '../../../recursos/img/hamaca1.png'
         },
         {
             nombre_producto: 'Hamaca estandar',
             precio: 300,
-            urlfoto: '/recursos/img/hamaca1.png'
+            urlfoto: '../../../recursos/img/hamaca1.png'
         },
         {
             nombre_producto: 'Hamaca grande',
             precio: 400,
-            urlfoto: '/recursos/img/hamacaKsK 1.png'
+            urlfoto: '../../../recursos/img/hamacaKsK 1.png'
         },
         {
             nombre_producto: 'Hamaca grande',
             precio: 400,
-            urlfoto: '/recursos/img/hamacaKsK 1.png'
+            urlfoto: '../../../recursos/img/hamacaKsK 1.png'
         },
         {
             nombre_producto: 'Hamaca grande',
             precio: 400,
-            urlfoto: '/recursos/img/hamacaKsK 1.png'
+            urlfoto: '../../../recursos/img/hamacaKsK 1.png'
         }
     ];
 
@@ -93,7 +93,7 @@ async function cargar_productos() {
                     <div class="card carta-personalizada">
                     <div class="position-relative">
                     <img src="${producto.urlfoto}" class="card-img-top" alt="${producto.nombre_producto}">
-                    <a href="/vistas/publica/paginas/detalle.html" class="btn btn-outline-light position-absolute top-50 start-50 translate-middle">Ver detalle</a>
+                    <a href="../../../vistas/publica/paginas/detalle.html" class="btn btn-outline-light position-absolute top-50 start-50 translate-middle">Ver detalle</a>
                     </div>
                         <div class="card-body">
                             <h5 class="card-title">${producto.nombre_producto}</h5>

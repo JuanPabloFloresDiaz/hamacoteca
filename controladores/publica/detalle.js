@@ -23,17 +23,17 @@ async function cargarComentarios() {
     {
       nombre_usuario: 'Hamaca lover 3000',
       valoracion: '¡Me encanta mi nueva hamaca! Es muy cómoda y resistente. La calidad del tejido es excelente y los colores son hermosos. Definitivamente recomendaría este producto a cualquiera que esté buscando una hamaca de calidad.',
-      urlfoto: '/recursos/img/foto.png'
+      urlfoto: '../../../recursos/img/foto.png'
     },
     {
       nombre_usuario: 'Hamaca hater 1000',
       valoracion: 'No estoy contento con mi compra. La hamaca que recibí no coincide con la descripción en el sitio web. La calidad del material es pobre y se ve muy frágil. Además, el proceso de entrega fue lento y la comunicación con el vendedor fue deficiente.',
-      urlfoto: '/recursos/img/foto.png'
+      urlfoto: '../../../recursos/img/foto.png'
     },
     {
       nombre_usuario: 'Jhon Turner',
       valoracion: 'I am neither happy nor dissatisfied, they gave me what I expected.',
-      urlfoto: '/recursos/img/foto.png'
+      urlfoto: '../../../recursos/img/foto.png'
     }
   ];
 

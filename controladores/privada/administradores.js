@@ -103,7 +103,7 @@ const openDelete = async (id) => {
 async function cargarTabla() {
     const lista_datos = [
         {
-            imagen: '/recursos/img/foto.png',
+            imagen: '../../../recursos/img/foto.png',
             nombre: 'Joel',
             correo: 'joel@gmail.com',
             telefono: '1234-5678',
@@ -112,7 +112,7 @@ async function cargarTabla() {
             id: 1,
         },
         {
-            imagen: '/recursos/img/foto.png',
+            imagen: '../../../recursos/img/foto.png',
             nombre: 'Joel',
             correo: 'joel@gmail.com',
             telefono: '1234-5678',
@@ -121,7 +121,7 @@ async function cargarTabla() {
             id: 2,
         },
         {
-            imagen: '/recursos/img/foto.png',
+            imagen: '../../../recursos/img/foto.png',
             nombre: 'Joel',
             correo: 'joel@gmail.com',
             telefono: '1234-5678',
@@ -130,7 +130,7 @@ async function cargarTabla() {
             id: 3,
         },
         {
-            imagen: '/recursos/img/foto.png',
+            imagen: '../../../recursos/img/foto.png',
             nombre: 'Joel',
             correo: 'joel@gmail.com',
             telefono: '1234-5678',
