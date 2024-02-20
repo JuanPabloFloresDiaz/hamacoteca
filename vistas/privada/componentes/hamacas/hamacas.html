@@ -1,7 +1,7 @@
 <div class="container col-md-10">
     <div class="container-fluid d-flex justify-content-between mt-3 align-items-center">
         <!-- Encabezado -->
-        <h3 class="me-auto">Administradores</h3>
+        <h3 class="me-auto">Hamacas</h3>
 
         <!-- Buscador -->
         <div class="mx-auto">
@@ -13,7 +13,7 @@
 
         <!-- Botón Agregar -->
         <button class="btn btn-dark ms-auto" type="submit" onclick="openCreate()">Agregar
-            administrador</button>
+            hamaca</button>
     </div>
     <!-- Tabla para mostrar los registros existentes -->
     <table class="table table-hover">
@@ -25,10 +25,10 @@
             <tr>
                 <th>IMAGEN</th>
                 <th>NOMBRE</th>
-                <th>CORREO</th>
-                <th>TELÉFONO</th>
-                <th>DUI</th>
-                <th>FECHA DE NACIMIENTO</th>
+                <th>DESCRIPCION</th>
+                <th>CANTIDAD</th>
+                <th>PRECIO</th>
+                <th>FECHA DE REGISTRO</th>
             </tr>
         </thead>
         <!-- Cuerpo de la tabla para mostrar un registro por fila -->
@@ -49,42 +49,31 @@
             <form id="saveForm">
                 <div class="modal-body row g-3">
                     <!-- Campo oculto para asignar el id del registro al momento de modificar -->
-                    <input type="hidden" id="idAdministrador" name="idAdministrador">
+                    <input type="hidden" id="idHamaca" name="idHamaca">
                     <div class="col-sm-12 col-md-6">
-                        <label for="imagenAdministrador" class="form-label">Imagen</label>
-                        <input id="imagenAdministrador" type="file" name="imagenAdministrador" class="form-control"
+                        <label for="imagenHamaca" class="form-label">Imagen</label>
+                        <input id="imagenHamaca" type="file" name="imagenHamaca" class="form-control"
                             accept=".png, .jpg">
                     </div>
                     <div class="col-sm-12 col-md-6">
-                        <label for="nombreAdministrador" class="form-label">Nombre</label>
-                        <input id="nombreAdministrador" type="text" name="nombreAdministrador" class="form-control"
-                            placeholder="Ingresa el nombre del administrador" required>
+                        <label for="nombreHamaca" class="form-label">Nombre</label>
+                        <input id="nombreHamaca" type="text" name="nombreHamaca" class="form-control"
+                            placeholder="Ingresa el nombre de la hamaca" required>
                     </div>
                     <div class="col-sm-12 col-md-6">
-                        <label for="correoAdministrador" class="form-label">Correo</label>
-                        <input id="correoAdministrador" type="email" name="correoAdministrador" class="form-control"
-                            placeholder="Ingresa el correo de administrador" required>
+                        <label for="cantidadHamaca" class="form-label">Cantidad</label>
+                        <input id="cantidadHamaca" type="number" name="cantidadHamaca" min="1" step="1"
+                            class="form-control" placeholder="Ingresa la cantidad de hamacas existentes" required>
                     </div>
                     <div class="col-sm-12 col-md-6">
-                        <label for="contraseña" class="form-label">Contraseña</label>
-                        <input id="contraseña" type="password" name="contraseña" min="0.01" step="0.01"
-                            class="form-control" placeholder="Ingresa la clave del administrador" required>
-                    </div>
-                    <div class="col-sm-12 col-md-6">
-                        <label for="repetirContraseña" class="form-label">Repetir contraseña</label>
-                        <input id="repetirContraseña" type="password" name="repetirContraseña" min="0.01" step="0.01"
+                        <label for="precioHamaca" class="form-label">Precio</label>
+                        <input id="precioHamaca" type="number"  name="precioHamaca" min="0.01" step="0.01"
                             class="form-control" placeholder="Repite la clave del administrador" required>
                     </div>
                     <div class="col-sm-12 col-md-6">
-                        <label for="aliasAdministrador" class="form-label">Alias</label>
-                        <input id="aliasAdministrador" name="aliasAdministrador" type="text" class="form-control"
-                            placeholder="Ingresa el alias del administrador" required>
-                        </input>
-                    </div>
-                    <div class="col-sm-12 col-md-6">
-                        <label for="rolAdministrador" class="form-label">Rol de administrador</label>
-                        <select id="rolAdministrador" name="rolAdministrador" class="form-select" required>
-                        </select>
+                        <label for="descripcionHamaca" class="form-label">Descripción</label>
+                        <input id="descripcionHamaca" type="text" name="descripcionHamaca" class="form-control"
+                            placeholder="Ingresa la descripción de la hamaca" required>
                     </div>
                 </div>
                 <div class="modal-footer col-sm-12 col-md-12 col-lg-12">
