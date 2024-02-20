@@ -53,7 +53,7 @@ async function cargarTabla() {
             data.forEach(row => {
                 const tablaHtml = `
                 <tr>
-                    <td><img src="${SERVER_URL}images/categorias/${row.imagen_cliente}" height="50"></td>
+                    <td><img src="${SERVER_URL}images/categorias/${row.imagen_cliente}" height="50" width="50" class="circulo"></td>
                     <td>${row.nombre_cliente}</td>
                     <td>${row.correo_cliente}</td>
                     <td>${row.telefono_cliente}</td>
@@ -77,7 +77,7 @@ async function cargarTabla() {
         lista_datos.forEach(row => {
             const tablaHtml = `
             <tr>
-                <td><img src="${row.imagen}" height="50"></td>
+                <td><img src="${row.imagen}" height="50" width="50" class="circulo"></td>
                 <td>${row.nombre}</td>
                 <td>${row.correo}</td>
                 <td>${row.telefono}</td>
@@ -106,20 +106,20 @@ const graficoBarrasCategorias = async () => {
 */
     const datosEjemplo = [
         {
-            categorias: 'Categoria 1',
-            cantidades: 10
-        },
-        {
-            categorias: 'Categoria 2',
-            cantidades: 15
-        },
-        {
-            categorias: 'Categoria 3',
-            cantidades: 20
-        },
-        {
-            categorias: 'Categoria 4',
+            categorias: 'Hamacas clasicas',
             cantidades: 26
+        },
+        {
+            categorias: 'Hamacas con soporte',
+            cantidades: 5
+        },
+        {
+            categorias: 'Hamaca silla',
+            cantidades: 7
+        },
+        {
+            categorias: 'Hamaca colgante',
+            cantidades: 24
         }
     ];
     try {
@@ -153,20 +153,75 @@ const graficoBarrasCategorias = async () => {
 
     }
 }
+
+
+/*
+*   Función asíncrona para mostrar un gráfico de pastel con el porcentaje de productos por categoría.
+*   Parámetros: ninguno.
+*   Retorno: ninguno.
+*/
+const graficoPastelCategorias = async () => {
+    /*
+*   Lista de datos de ejemplo en caso de error al obtener los datos reales.
+*/
+    const datosEjemplo = [
+        {
+            categorias: 'Hamacas clasicas',
+            cantidades: 26
+        },
+        {
+            categorias: 'Hamacas con soporte',
+            cantidades: 5
+        },
+        {
+            categorias: 'Hamaca silla',
+            cantidades: 7
+        },
+        {
+            categorias: 'Hamaca colgante',
+            cantidades: 24
+        }
+    ];
+    try {
+        // Petición para obtener los datos del gráfico.
+        const DATA = await fetchData(PRODUCTO_API, 'porcentajeProductosCategoria');
+        // Se comprueba si la respuesta es satisfactoria, de lo contrario se remueve la etiqueta canvas.
+        if (DATA.status) {
+            // Se declaran los arreglos para guardar los datos a gráficar.
+            let categorias = [];
+            let porcentajes = [];
+            // Se recorre el conjunto de registros fila por fila a través del objeto row.
+            DATA.dataset.forEach(row => {
+                // Se agregan los datos a los arreglos.
+                categorias.push(row.nombre_categoria);
+                porcentajes.push(row.porcentaje);
+            });
+            // Llamada a la función para generar y mostrar un gráfico de pastel. Se encuentra en el archivo components.js
+            pieGraph('chart2', categorias, porcentajes, 'Porcentaje de productos por categoría');
+        } else {
+            document.getElementById('chart2').remove();
+            console.log(DATA.error);
+        }
+    } catch {
+        let categorias = [];
+        let cantidades = [];
+        datosEjemplo.forEach(filter => {
+            categorias.push(filter.categorias);
+            cantidades.push(filter.cantidades);
+        });
+        // Si ocurre un error, se utilizan los datos de ejemplo definidos arriba.
+        pieGraph('chart2', categorias, cantidades, 'Porcentaje de productos por categoría');
+
+    }
+
+}
+
 async function datosGrafica() {
     const datos = [
-        { fecha: '2024-01-25', ganancias: 500 },
-        { fecha: '2024-01-26', ganancias: 1500 },
-        { fecha: '2024-01-27', ganancias: 1800 },
-        { fecha: '2024-01-28', ganancias: 700 },
-        { fecha: '2024-01-29', ganancias: 2000 },
-        { fecha: '2024-01-30', ganancias: 1000},
-        { fecha: '2024-02-01', ganancias: 800 },
-        { fecha: '2024-02-02', ganancias: 550 },
-        { fecha: '2024-02-03', ganancias: 800 },
-        { fecha: '2024-02-04', ganancias: 1200 },
-        { fecha: '2024-02-05', ganancias: 2000 },
-        { fecha: '2024-02-06', ganancias: 3500 }
+        { fecha: '2024-01-26', ganancias: 2500 },
+        { fecha: '2024-01-27', ganancias: 8800 },
+        { fecha: '2024-01-29', ganancias: 5000 },
+        { fecha: '2024-02-06', ganancias: 6500 }
     ];
 
     drawLineChart(datos, 'Ganancias por Fecha', 'Fecha', 'Ganancias');
@@ -276,5 +331,5 @@ window.onload = async function () {
     cargarTabla();
     // Llama a la función para mostrar el gráfico de barras
     graficoBarrasCategorias();
-    datosGrafica();
+    graficoPastelCategorias();
 };
