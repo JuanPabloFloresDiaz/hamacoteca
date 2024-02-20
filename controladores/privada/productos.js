@@ -200,8 +200,8 @@ window.onload = async function () {
     const appContainer = document.getElementById('productos');
 
     // Carga los componentes de manera síncrona
-    const navbarHtml = await loadComponent('/vistas/privada/componentes/componentes_generales/menu_desplegable/barra_superior.html');
-    const adminHtml = await loadComponent('/vistas/privada/componentes/hamacas/hamacas.html');
+    const navbarHtml = await loadComponent('../componentes/componentes_generales/menu_desplegable/barra_superior.html');
+    const adminHtml = await loadComponent('../componentes/hamacas/hamacas.html');
     // Agrega el HTML del encabezado
     appContainer.innerHTML = navbarHtml + adminHtml;
     cargarTabla();

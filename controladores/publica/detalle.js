@@ -113,10 +113,10 @@ window.onload = async function () {
   const appContainer = document.getElementById('detalle');
 
   // Carga los componentes de manera síncrona
-  const headerHtml = await loadComponent('/vistas/publica/componentes/componentes_generales/barra_superior/barra_superior.html');
-  const detalleHtml = await loadComponent('/vistas/publica/componentes/detalle_producto/producto/detalle_producto.html');
-  const valoracionesHtml = await loadComponent('/vistas/publica/componentes/detalle_producto/valoraciones/valoraciones.html');
-  const footerHtml = await loadComponent('/vistas/publica/componentes/componentes_generales/barra_inferior/barra_inferior.html');
+  const headerHtml = await loadComponent('../componentes/componentes_generales/barra_superior/barra_superior.html');
+  const detalleHtml = await loadComponent('../componentes/detalle_producto/producto/detalle_producto.html');
+  const valoracionesHtml = await loadComponent('../componentes/detalle_producto/valoraciones/valoraciones.html');
+  const footerHtml = await loadComponent('../componentes/componentes_generales/barra_inferior/barra_inferior.html');
   // Agrega el HTML del encabezado
   appContainer.innerHTML += `${headerHtml}`;
   appContainer.innerHTML += `${detalleHtml}`;

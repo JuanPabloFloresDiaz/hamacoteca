@@ -316,9 +316,9 @@ window.onload = async function () {
     const appContainer = document.getElementById('tienda');
 
     // Carga los componentes de manera síncrona
-    const headerHtml = await loadComponent('/vistas/publica/componentes/componentes_generales/barra_superior/barra_superior.html');
-    const productsHtml = await loadComponent('/vistas/publica/componentes/tienda/productos.html');
-    const footerHtml = await loadComponent('/vistas/publica/componentes/componentes_generales/barra_inferior/barra_inferior.html');
+    const headerHtml = await loadComponent('../componentes/componentes_generales/barra_superior/barra_superior.html');
+    const productsHtml = await loadComponent('../componentes/tienda/productos.html');
+    const footerHtml = await loadComponent('../componentes/componentes_generales/barra_inferior/barra_inferior.html');
     // Agrega el HTML del encabezado
     appContainer.innerHTML += `${headerHtml}`;
     appContainer.innerHTML += `${productsHtml}`;

@@ -211,8 +211,8 @@ window.onload = async function () {
     const appContainer = document.getElementById('admin');
 
     // Carga los componentes de manera síncrona
-    const navbarHtml = await loadComponent('/vistas/privada/componentes/componentes_generales/menu_desplegable/barra_superior.html');
-    const adminHtml = await loadComponent('/vistas/privada/componentes/administradores/admins.html');
+    const navbarHtml = await loadComponent('../componentes/componentes_generales/menu_desplegable/barra_superior.html');
+    const adminHtml = await loadComponent('../componentes/administradores/admins.html');
     // Agrega el HTML del encabezado
     appContainer.innerHTML = navbarHtml + adminHtml;
 

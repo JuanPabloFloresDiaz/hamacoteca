@@ -262,8 +262,8 @@ window.onload = async function () {
     const appContainer = document.getElementById('dashboard');
 
     // Carga los componentes de manera síncrona
-    const navbarHtml = await loadComponent('/vistas/privada/componentes/componentes_generales/menu_desplegable/barra_superior.html');
-    const dashboardHtml = await loadComponent('/vistas/privada/componentes/dashboard/dashboard.html');
+    const navbarHtml = await loadComponent('../componentes/componentes_generales/menu_desplegable/barra_superior.html');
+    const dashboardHtml = await loadComponent('../componentes/dashboard/dashboard.html');
     // Agrega el HTML del encabezado
     appContainer.innerHTML = navbarHtml + dashboardHtml;
     cargarTabla();

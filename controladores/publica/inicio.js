@@ -82,10 +82,10 @@ window.onload = async function () {
     const appContainer = document.getElementById('app');
 
     // Carga los componentes de manera síncrona
-    const headerHtml = await loadComponent('/vistas/publica/componentes/componentes_generales/barra_superior/barra_superior.html');
-    const carrouselHtml = await loadComponent('/vistas/publica/componentes/inicio/carrusel_de_imagenes/carrusel.html');
-    const cardsHtml = await loadComponent('/vistas/publica/componentes/inicio/cartas_de_productos_de_la_semana/cartas.html');
-    const footerHtml = await loadComponent('/vistas/publica/componentes/componentes_generales/barra_inferior/barra_inferior.html');
+    const headerHtml = await loadComponent('../componentes/componentes_generales/barra_superior/barra_superior.html');
+    const carrouselHtml = await loadComponent('../componentes/inicio/carrusel_de_imagenes/carrusel.html');
+    const cardsHtml = await loadComponent('../componentes/inicio/cartas_de_productos_de_la_semana/cartas.html');
+    const footerHtml = await loadComponent('../componentes/componentes_generales/barra_inferior/barra_inferior.html');
     // Agrega el HTML del encabezado
     appContainer.innerHTML += `${headerHtml}`;
     appContainer.innerHTML += carrouselHtml;

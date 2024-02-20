@@ -10,7 +10,7 @@ window.onload = async function () {
     const appContainer = document.getElementById('recu');
 
     // Carga los componentes de manera síncrona
-    const recuHtml = await loadComponent('/vistas/privada/componentes/recuperacion/recuperacion.html');
+    const recuHtml = await loadComponent('../componentes/recuperacion/recuperacion.html');
     // Agrega el HTML del encabezado
     appContainer.innerHTML = recuHtml;
 
