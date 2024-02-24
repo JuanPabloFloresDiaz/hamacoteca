@@ -7,6 +7,7 @@ async function loadComponent(path) {
 
 let SAVE_MODAL;
 let SAVE_FORM;
+
 // Constantes para completar las rutas de la API.
 const ADMINISTRADOR_API = '';
 const ROL_API = '';
@@ -50,13 +51,16 @@ const openUpdate = async (id) => {
             ID_ADMINISTRADOR.value = ROW.id_administrado;
             NOMBRE_ADMINISTRADOR.value = ROW.nombre_administrador;
             CORREO_ADMINISTRADOR.value = ROW.correo_administrador;
+            TELEFONO_ADMINISTRADOR.value = ROW.telefono_administrador;
+            DUI_ADMINISTRADOR.value = ROW.dui_administrador;
+            NACIMIENTO_ADMINISTRADOR.value = row.fecha_nacimiento_administrador;
             CLAVE_ADMINISTRADOR.value = ROW.clave_administrador;
             ALIAS_ADMINISTRADOR.value = ROW.alias_administrador;
             fillSelect(ROL_API, 'readAll', 'rolAdministrador', ROW.id_rol);
         } else {
             sweetAlert(2, DATA.error, false);
         }
-    } catch(Error){
+    } catch (Error) {
         console.log(Error);
         SAVE_MODAL.show();
         MODAL_TITLE.textContent = 'Actualizar administrador';
@@ -92,7 +96,7 @@ const openDelete = async (id) => {
             }
         }
     }
-    catch(Error) {
+    catch (Error) {
         console.log(Error + ' Error al cargar el mensaje');
         confirmAction('¿Desea eliminar el administrador de forma permanente?');
     }
@@ -222,18 +226,29 @@ window.onload = async function () {
     SAVE_MODAL = new bootstrap.Modal('#saveModal'),
         MODAL_TITLE = document.getElementById('modalTitle');
 
-
     // Constantes para establecer los elementos del formulario de guardar.
     SAVE_FORM = document.getElementById('saveForm'),
         ID_ADMINISTRADOR = document.getElementById('idAdministrador'),
         NOMBRE_ADMINISTRADOR = document.getElementById('nombreAdministrador'),
         CORREO_ADMINISTRADOR = document.getElementById('correoAdministrador'),
+        TELEFONO_ADMINISTRADOR = document.getElementById('telefonoAdministrador'),
+        DUI_ADMINISTRADOR = document.getElementById('duiAdministrador'),
+        NACIMIENTO_ADMINISTRADOR = document.getElementById('nacimientoAdministrador'),
         CLAVE_ADMINISTRADOR = document.getElementById('contraseña'),
         REPETIR_CLAVE = document.getElementById('repetirContraseña'),
         ALIAS_ADMINISTRADOR = document.getElementById('aliasAdministrador'),
         ROL_ADMINISTRADOR = document.getElementById('rolAdministrador');
 
-
+    // Llamada a la función para establecer la mascara del campo teléfono.
+    vanillaTextMask.maskInput({
+        inputElement: document.getElementById('telefonoAdministrador'),
+        mask: [/\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/]
+    });
+    // Llamada a la función para establecer la mascara del campo DUI.
+    vanillaTextMask.maskInput({
+        inputElement: document.getElementById('duiAdministrador'),
+        mask: [/\d/, /\d/, /\d/, /\d/, /\d/, /\d/, /\d/, /\d/, '-', /\d/]
+    });
 
 
     // Método del evento para cuando se envía el formulario de guardar.
@@ -241,7 +256,7 @@ window.onload = async function () {
         // Se evita recargar la página web después de enviar el formulario.
         event.preventDefault();
         // Se verifica la acción a realizar.
-        (ID_PRODUCTO.value) ? action = 'updateRow' : action = 'createRow';
+        (ID_ADMINISTRADOR.value) ? action = 'updateRow' : action = 'createRow';
         // Constante tipo objeto con los datos del formulario.
         const FORM = new FormData(SAVE_FORM);
         // Petición para guardar los datos del formulario.
@@ -253,7 +268,7 @@ window.onload = async function () {
             // Se muestra un mensaje de éxito.
             sweetAlert(1, DATA.message, true);
             // Se carga nuevamente la tabla para visualizar los cambios.
-            fillTable();
+            cargarTabla();
         } else {
             sweetAlert(2, DATA.error, false);
         }
