@@ -1,0 +1,25 @@
+.borde{
+  border: 2px solid #000;
+}
+
+.imagen-fondo {
+    z-index: -1;
+  
+  }
+
+  .imagen-fondo-derecha {
+    z-index: -1;
+  }
+
+.reestablecercontra{
+  max-width: 100%;
+  height: auto;
+}
+
+.btn {
+  width: 100%;
+}
+
+.container {
+  margin-top: 300px;
+}
