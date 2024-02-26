@@ -1,0 +1,73 @@
+<div class="container col-md-10">
+    <div class="container-fluid d-flex justify-content-between mt-3 align-items-center">
+        <!-- Encabezado -->
+        <h3 class="me-auto">Materiales</h3>
+
+        <!-- Buscador -->
+        <div class="mx-auto">
+            <form class="d-flex">
+                <input class="form-control me-2" type="search" placeholder="Buscar" aria-label="Buscar">
+                <button class="btn btn-outline-dark" type="submit">Buscar</button>
+            </form>
+        </div>
+
+        <!-- Botón Agregar -->
+        <button class="btn btn-dark ms-auto" type="submit" onclick="openCreate()">Agregar
+            material</button>
+    </div>
+    <!-- Tabla para mostrar los registros existentes -->
+    <table class="table table-hover">
+        <!-- Cabeza de la tabla para mostrar la cantidad de registros y los títulos de las columnas -->
+        <thead>
+            <tr>
+                <td colspan="6" id="rowsFound"></td>
+            </tr>
+            <tr>
+                <th>IMAGEN</th>
+                <th>NOMBRE</th>
+                <th>DESCRIPCION</th>
+            </tr>
+        </thead>
+        <!-- Cuerpo de la tabla para mostrar un registro por fila -->
+        <tbody id="tabla_materiales"></tbody>
+    </table>
+</div>
+
+<!-- Componente Modal para guardar un registro -->
+<div class="modal fade" id="saveModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="modalTitle" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="modalTitle"></h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <!-- Formulario para crear o actualizar un registro -->
+            <form id="saveForm">
+                <div class="modal-body row g-3">
+                    <!-- Campo oculto para asignar el id del registro al momento de modificar -->
+                    <input type="hidden" id="idMaterial" name="idMaterial">
+                    <div class="col-sm-12 col-md-6">
+                        <label for="imagenMaterial" class="form-label">Imagen</label>
+                        <input id="imagenMaterial" type="file" name="imagenMaterial" class="form-control"
+                            accept=".png, .jpg">
+                    </div>
+                    <div class="col-sm-12 col-md-6">
+                        <label for="nombreMaterial" class="form-label">Nombre</label>
+                        <input id="nombreMaterial" type="text" name="nombreMaterial" class="form-control"
+                            placeholder="Ingresa el nombre del material" required>
+                    </div>
+                    <div class="col-sm-12 col-md-6">
+                        <label for="descripcionMaterial" class="form-label">Descripción</label>
+                        <input id="descripcionMaterial" type="text" name="descripcionMaterial" class="form-control"
+                            placeholder="Ingresa la descripción del material" required>
+                    </div>
+                </div>
+                <div class="modal-footer col-sm-12 col-md-12 col-lg-12">
+                    <button type="reset" class="btn btn-outline-dark">Cancelar</button>
+                    <button type="submit" class="btn btn-outline-primary">Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
