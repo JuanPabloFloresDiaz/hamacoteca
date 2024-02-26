@@ -1,0 +1,32 @@
+<div class="container col-md-10">
+    <div class="container-fluid d-flex justify-content-between mt-3 align-items-center">
+        <!-- Encabezado -->
+        <h3 class="me-auto">Valoraciones</h3>
+
+        <!-- Buscador -->
+        <div class="mx-auto">
+            <form class="d-flex">
+                <input class="form-control me-2" type="search" placeholder="Buscar" aria-label="Buscar">
+                <button class="btn btn-outline-dark" type="submit">Buscar</button>
+            </form>
+        </div>
+    </div>
+    <!-- Tabla para mostrar los registros existentes -->
+    <table class="table table-hover">
+        <!-- Cabeza de la tabla para mostrar la cantidad de registros y los títulos de las columnas -->
+        <thead>
+            <tr>
+                <td colspan="6" id="rowsFound"></td>
+            </tr>
+            <tr>
+                <th>IMAGEN</th>
+                <th>NOMBRE</th>
+                <th>PRODUCTO</th>
+                <th>COMENTARIO</th>
+                <th>FECHA DE INGRESO</th>
+            </tr>
+        </thead>
+        <!-- Cuerpo de la tabla para mostrar un registro por fila -->
+        <tbody id="tabla_valoracion"></tbody>
+    </table>
+</div>
