@@ -12,7 +12,7 @@
           class="d-inline-block align-top">
         <strong style="font-size: 20px;">HAMACOTECA</strong>
       </a>
-  
+
       <div class="pastilla">
         <span class="navbar-text ms-3">
           Administrador
@@ -20,7 +20,7 @@
         <img src="../../../../../recursos/img/foto.png" alt="Logo de Hamacoteca" width="30" height="30"
           class="ms-3 me-3 d-inline-block align-top rounded-circle">
       </div>
-  
+
     </div>
   </nav>
 </header>
@@ -35,7 +35,8 @@
   <div class="offcanvas-body">
     <ul class="navbar-nav flex-column">
       <li class="nav-item">
-        <a class="nav-link active" aria-current="page" href="../../../../../vistas/privada/paginas/dashboard.html"><i class="bi bi-speedometer2 me-2"></i>Dashboard</a>
+        <a class="nav-link active" aria-current="page" href="../../../../../vistas/privada/paginas/dashboard.html"><i
+            class="bi bi-speedometer2 me-2"></i>Dashboard</a>
       </li>
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
@@ -46,7 +47,8 @@
           <li><a class="dropdown-item" href="../../../../../vistas/privada/paginas/productos.html">Hamacas</a></li>
           <li><a class="dropdown-item" href="../../../../../vistas/privada/paginas/materiales.html">Materiales</a></li>
           <li><a class="dropdown-item" href="../../../../../vistas/privada/paginas/categoria.html">Categorias</a></li>
-          <li><a class="dropdown-item" href="../../../../../vistas/privada/paginas/valoraciones.html">Valoraciones</a></li>
+          <li><a class="dropdown-item" href="../../../../../vistas/privada/paginas/valoraciones.html">Valoraciones</a>
+          </li>
         </ul>
       </li>
       <li class="nav-item dropdown">
@@ -55,8 +57,10 @@
           <i class="bi bi-cart me-2"></i>Pedidos
         </a>
         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <li><a class="dropdown-item" href="../../../../../vistas/privada/paginas/lista_pedido.html">Lista de pedidos</a></li>
-          <li><a class="dropdown-item" href="../../../../../vistas/privada/paginas/historial_pedidos.html">Historial de pedidos</a></li>
+          <li><a class="dropdown-item" href="../../../../../vistas/privada/paginas/lista_pedido.html">Lista de
+              pedidos</a></li>
+          <li><a class="dropdown-item" href="../../../../../vistas/privada/paginas/historial_pedidos.html">Historial de
+              pedidos</a></li>
         </ul>
       </li>
       <li class="nav-item dropdown">
@@ -65,28 +69,66 @@
           <i class="bi bi-person me-2"></i>Usuarios
         </a>
         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <li><a class="dropdown-item" href="../../../../../vistas/privada/paginas/administradores.html">Administradores</a></li>
+          <li><a class="dropdown-item"
+              href="../../../../../vistas/privada/paginas/administradores.html">Administradores</a></li>
           <li><a class="dropdown-item" href="../../../../../vistas/privada/paginas/clientes.html">Clientes</a></li>
-          <li><a class="dropdown-item" href="../../../../../vistas/privada/paginas/roles_administradores.html">Roles de administradores</a></li>
+          <li><a class="dropdown-item" href="../../../../../vistas/privada/paginas/roles_administradores.html">Roles de
+              administradores</a></li>
         </ul>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="#"><i class="bi bi-gear me-2"></i>Configuraciones</a>
       </li>
     </ul>
-    <ul class="navbar-nav flex-column fixed-bottom m-3">
+    <ul class="navbar-nav flex-column fixed-bottom m-3 w-25">
       <!-- Nuevas pantallas -->
       <li class="nav-item">
-        <a class="nav-link" href="#"><i class="bi bi-question-circle me-2"></i>Ayuda</a>
+        <a class="nav-link" href="" data-bs-toggle="modal" data-bs-target="#modalAyuda"><i
+            class="bi bi-question-circle me-2"></i>Ayuda</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#"><i class="bi bi-chat-dots me-2"></i>Contactanos</a>
+        <a class="nav-link" href="" data-bs-toggle="modal" data-bs-target="#modalContactanos"><i
+            class="bi bi-chat-dots me-2"></i>Contactanos</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link text-danger" href="../../../../../vistas/privada/paginas/index.html"><i class="bi bi-door-closed me-2 text-danger"></i>Cerrar sesión</a>
+        <a class="nav-link text-danger" href="../../../../../vistas/privada/paginas/index.html"><i
+            class="bi bi-door-closed me-2 text-danger"></i>Cerrar sesión</a>
       </li>
     </ul>
     <!-- Contenido del offcanvas aquí -->
     <!-- Puedes colocar enlaces de navegación u otros elementos aquí -->
+  </div>
+</div>
+<!-- Modal Ayuda -->
+<div class="modal fade" id="modalAyuda" tabindex="-1" aria-labelledby="modalAyudaLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <i class="bi bi-question-circle-fill text-primary fs-3"></i>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <h3 class="modal-title mb-2" id="modalAyudaLabel">Ayuda</h3>
+        Si necesitas ayuda con el funcionamiento del sistema, no dudes en contactar con nuestro equipo de soporte
+        técnico. Puedes enviar un correo electrónico a soportehamacoteca@gmail.com o llamar al número 5451-5896.
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Contactanos -->
+<div class="modal fade" id="modalContactanos" tabindex="-1" aria-labelledby="modalContactanosLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <i class="bi bi-chat-dots-fill text-primary fs-3"></i>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <h3 class="modal-title mb-2" id="modalContactanosLabel">Contáctanos</h3>
+        En caso de cualquier problema contacte con el siguinete número: 5451-5896
+        o escribe a este correo: hamacotecasv@gmail.com.
+      </div>
+    </div>
   </div>
 </div>
