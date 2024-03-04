@@ -11,15 +11,10 @@
     z-index: -1;
   }
 
-.reestablecercontra{
-  max-width: 100%;
-  height: auto;
-}
-
 .btn {
   width: 100%;
 }
 
 .container {
-  margin-top: 300px;
+  margin-top: 250px;
 }
