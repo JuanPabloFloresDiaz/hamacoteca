@@ -1,25 +1,21 @@
 .borde{
-    border: 1px solid #000000;
+    border: 1px solid #000000; /*Le da border a los campos*/
   }
   
   .imagen-fondo {
-      z-index: -1;
+      z-index: -1; /*Se posiciona atras de otros elementos*/
     
     }
   
     .imagen-fondo-derecha {
-      z-index: -1;
+      z-index: -1; /*Se posiciona atras de otros elementos*/
     }
   
-  .reestablecercontra{
-    max-width: 100%;
-    height: auto;
-  }
   
   .btn {
-    width: 100%;
+    width: 100%; /*El botón tiene un ancho del 100% de su tamaño*/
   }
 
-  .container {
-    margin-top: 100px;
+  .container { 
+    margin-top: 100px; /*El contenedor esta 100 pixeles abajo de su posición original*/
   }

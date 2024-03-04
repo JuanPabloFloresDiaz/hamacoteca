@@ -1,31 +1,40 @@
-.borde{
+.borde {
   border: 2px solid #000;
+  /*Le da border a los campos*/
 }
 
 .imagen-fondo {
-    z-index: -1;
-  
-  }
+  z-index: -1;
+  /*Se posiciona atras de otros elementos*/
 
-  .imagen-fondo-derecha {
-    z-index: -1;
-  }
+}
 
-.fs{
+.imagen-fondo-derecha {
+  z-index: -1; 
+  /*Se posiciona atras de otros elementos*/
+}
+
+.fs {
   font-size: 14px;
+  /*Aumenta el tamaño de la letra*/
 }
 
 
 
-.icono{
+.icono {
   bottom: 0;
+  /*Tiene una margen de abajo 0*/
   right: 0;
-  width:80;
+  /*Tiene una margen a la derecha 0*/
+  width: 80;
+  /*Tiene un ancho de 80% de su tamaño*/
   height: 80;
+  /*Tiene una altura de 80% de su tamaño*/
 }
 
-.email{
-  width: 100px; 
+.email {
+  width: 100px;
+  /*Tiene un ancho de 100 pixeles */
   height: 100px;
+  /*Tiene una altura de 100 pixeles*/
 }
-  
