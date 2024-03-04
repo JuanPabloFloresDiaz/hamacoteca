@@ -69,7 +69,7 @@ async function cargar_productos() {
                 <div class="col">
                  <div class="card carta-personalizada" onclick="redireccionarDetalleID(${producto.id_hamaca})">
                     <div class="position-relative">
-                    <img src="${producto.url}" class="card-img-top" alt="${producto.nombre_hamaca}">
+                    <img src="${producto.url}" height="200" class="card-img-top" alt="${producto.nombre_hamaca}">
                     <a href="/vistas/publica/paginas/detalle.html?id=${producto.id_producto}" class="btn btn-outline-light position-absolute top-50 start-50 translate-middle">Ver detalle</a>
                     </div>
                     <div class="card-body">
@@ -92,7 +92,7 @@ async function cargar_productos() {
                 <div class="col">
                     <div class="card carta-personalizada">
                     <div class="position-relative">
-                    <img src="${producto.urlfoto}" class="card-img-top" alt="${producto.nombre_producto}">
+                    <img src="${producto.urlfoto}" height="200" class="card-img-top" alt="${producto.nombre_producto}">
                     <a href="../../../vistas/publica/paginas/detalle.html" class="btn btn-outline-light position-absolute top-50 start-50 translate-middle">Ver detalle</a>
                     </div>
                         <div class="card-body">
