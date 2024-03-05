@@ -108,7 +108,7 @@ async function cargarTabla() {
         },
         {
             nombre_producto: 'Tela',
-            descripcion: 'Tiene una lámina flexible compuesta por muchos hilos que se entrecruzan de manera regular y alternativa en toda la longitud',
+            descripcion: 'Tiene una lámina flexible compuesta por muchos hilos que se entrecruzan de manera regular y alternativa en toda la longitud.',
             urlfoto: '../../../recursos/img/tela.png',
             id: 2
         },

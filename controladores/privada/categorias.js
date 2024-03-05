@@ -17,7 +17,7 @@ const CATEGORIA_API = '';
 const openCreate = () => {
     // Se muestra la caja de diálogo con su título.
     SAVE_MODAL.show();
-    MODAL_TITLE.textContent = 'Crear categorias';
+    MODAL_TITLE.textContent = 'Crear categorías';
     // Se prepara el formulario.
     SAVE_FORM.reset();
     fillSelect(CATEGORIA_API, 'readAll', 'categorias');
@@ -101,12 +101,12 @@ async function cargarTabla() {
     const listacategoria = [
         {
             nombre_producto: 'Colgante',
-            descripcion: 'Es una hamaca bonita, ligera y comoda',
+            descripcion: 'Es una hamaca bonita, ligera y cómoda',
             id: 1
         },
         {
             nombre_producto: 'Silla',
-            descripcion: 'Es una hamaca colorada, bonita y comoda',
+            descripcion: 'Es una hamaca colorada, bonita y cómoda',
             id: 2
         },
     ];

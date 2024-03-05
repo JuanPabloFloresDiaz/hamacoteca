@@ -106,7 +106,7 @@ async function cargarTabla() {
             nombre_producto: 'Hamaca ligera',
             precio: 200,
             cantidad: 3,
-            descripcion: 'Es una hamaca bonita, ligera y comoda',
+            descripcion: 'Es una hamaca bonita, ligera y cómoda',
             urlfoto: '../../../recursos/img/hamaca 3.jpg',
             fecha: '2023-02-16',
             id: 1
@@ -115,7 +115,7 @@ async function cargarTabla() {
             nombre_producto: 'Hamaca estandar',
             precio: 300,
             cantidad: 3,
-            descripcion: 'Es una hamaca colorada, bonita y comoda',
+            descripcion: 'Es una hamaca colorada, bonita y cómoda',
             urlfoto: '../../../recursos/img/hamaca1.png',
             fecha: '2023-02-15',
             id: 2
@@ -124,7 +124,7 @@ async function cargarTabla() {
             nombre_producto: 'Hamaca grande',
             precio: 400,
             cantidad: 3,
-            descripcion: 'Es una hamaca granda, preciosa y comoda',
+            descripcion: 'Es una hamaca granda, preciosa y cómoda',
             urlfoto: '../../../recursos/img/hamacaKsK 1.png',
             fecha: '2023-02-12',
             id: 3
