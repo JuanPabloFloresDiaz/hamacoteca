@@ -12,6 +12,10 @@
     /* Agrega un borde gris en la parte inferior */
 }
 
+.header {
+    margin-bottom: 6rem;
+}
+
 /* Estilo para la lista de navegación */
 .navbar-nav {
     display: flex;
