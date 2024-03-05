@@ -238,7 +238,7 @@ async function cargarGraficaLineal() {
                 ganancias.push(row.ganancias);
             });
             // Llamada a la función para generar y mostrar un gráfico de pastel. Se encuentra en el archivo components.js
-            lineGraph('chart3', fecha, ganancias, 'Ganancias por fecha $', 'Grafica de ganancias');
+            lineGraph('chart3', fecha, ganancias, 'Ganancias por fecha $', 'Gráfica de ganancias');
         } else {
             document.getElementById('chart3').remove();
             console.log(DATA.error);
@@ -251,7 +251,7 @@ async function cargarGraficaLineal() {
             ganancias.push(filter.ganancias);
         });
         // Si ocurre un error, se utilizan los datos de ejemplo definidos arriba.
-        lineGraph('chart3', fecha, ganancias, 'Ganancias por fecha', 'Grafica de ganancias');
+        lineGraph('chart3', fecha, ganancias, 'Ganancias por fecha', 'Gráfica de ganancias');
 
     }
 }
