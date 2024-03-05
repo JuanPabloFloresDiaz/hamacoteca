@@ -56,7 +56,7 @@ const openUpdate = async (id) => {
         } else {
             sweetAlert(2, DATA.error, false);
         }
-    } catch(Error){
+    } catch (Error) {
         console.log(Error);
         SAVE_MODAL.show();
         MODAL_TITLE.textContent = 'Actualizar hamaca';
@@ -92,7 +92,7 @@ const openDelete = async (id) => {
             }
         }
     }
-    catch(Error) {
+    catch (Error) {
         console.log(Error + ' Error al cargar el mensaje');
         confirmAction('¿Desea eliminar la hamaca de forma permanente?');
     }
@@ -221,26 +221,26 @@ window.onload = async function () {
         PRECIO_HAMACA = document.getElementById('precioHamaca'),
         DESCRIPCION_HAMACA = document.getElementById('descripcionHamaca'),
 
-    // Método del evento para cuando se envía el formulario de guardar.
-    SAVE_FORM.addEventListener('submit', async (event) => {
-        // Se evita recargar la página web después de enviar el formulario.
-        event.preventDefault();
-        // Se verifica la acción a realizar.
-        (ID_PRODUCTO.value) ? action = 'updateRow' : action = 'createRow';
-        // Constante tipo objeto con los datos del formulario.
-        const FORM = new FormData(SAVE_FORM);
-        // Petición para guardar los datos del formulario.
-        const DATA = await fetchData(PRODUCTO_API, action, FORM);
-        // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
-        if (DATA.status) {
-            // Se cierra la caja de diálogo.
-            SAVE_MODAL.hide();
-            // Se muestra un mensaje de éxito.
-            sweetAlert(1, DATA.message, true);
-            // Se carga nuevamente la tabla para visualizar los cambios.
-            fillTable();
-        } else {
-            sweetAlert(2, DATA.error, false);
-        }
-    });
+        // Método del evento para cuando se envía el formulario de guardar.
+        SAVE_FORM.addEventListener('submit', async (event) => {
+            // Se evita recargar la página web después de enviar el formulario.
+            event.preventDefault();
+            // Se verifica la acción a realizar.
+            (ID_PRODUCTO.value) ? action = 'updateRow' : action = 'createRow';
+            // Constante tipo objeto con los datos del formulario.
+            const FORM = new FormData(SAVE_FORM);
+            // Petición para guardar los datos del formulario.
+            const DATA = await fetchData(PRODUCTO_API, action, FORM);
+            // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
+            if (DATA.status) {
+                // Se cierra la caja de diálogo.
+                SAVE_MODAL.hide();
+                // Se muestra un mensaje de éxito.
+                sweetAlert(1, DATA.message, true);
+                // Se carga nuevamente la tabla para visualizar los cambios.
+                fillTable();
+            } else {
+                sweetAlert(2, DATA.error, false);
+            }
+        });
 };

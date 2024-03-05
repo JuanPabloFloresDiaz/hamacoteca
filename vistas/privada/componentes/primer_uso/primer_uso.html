@@ -1,73 +1,74 @@
 <div class="container">
-  <div class="row justify-content-center align-items-center">
-    <div class="col-9">
-      <!--texto de presentación-->
-      <h1 class=" text-center">Registrarte</h1>
-      <h5 class=" text-center">Es rápido y fácil.</h5>
-      <!--formulario para registrar usuaario -->
-      <form class="mt-5 row g-3" id="saveForm">
-        <div class="col-sm-6 col-md-6 col-lg-6 col-12 mb-3 ">
-          <div class=" form-floating borde ">
-            <input id="nombreRegistro" type="text" name="nombreRegistro" placeholder="Nombre" class="form-control"
-              required />
-            <label for="floatingInput">Nombre</label>
-          </div>
-        </div>
-        <div class="col-sm-6 col-md-6 col-lg-6 col-12 mb-3">
-          <div class="form-floating borde">
-            <input id="fechanacimientoRegistro" type="date" name="fechanacimientoRegistro" placeholder="fechanacimiento"
-              class="form-control" required />
-            <label for="floatingInput">Fecha nacimiento</label>
-          </div>
-        </div>
-        <div class="col-sm-6 col-md-6 col-lg-6 col-12 mb-3">
-          <div class="form-floating borde ">
-            <input id="apellidoRegistro" type="text" name="apellidoRegistro" placeholder="Apellido" class="form-control"
-              required />
-            <label for="floatingInput">Apellido</label>
-          </div>
-        </div>
-        <div class="col-sm-6 col-md-6 col-lg-6 col-12 mb-3">
-          <div class="form-floating borde">
-            <input id="telefonoRegistro" type="text" name="telefonoRegistro" class="form-control"
-              placeholder="0000-0000" required />
-            <label for="floatingInput">Teléfono</label>
-          </div>
-        </div>
-        <div class="col-sm-6 col-md-6 col-lg-6 col-12 mb-3">
-          <div class="form-floating borde ">
-            <input id="correoRegistro" type="email" name="correoRegistro" placeholder="Correo electrónico"
-              class="form-control" required />
-            <label for="floatingInput">Correo electrónico</label>
-          </div>
-        </div>
-        <div class="col-sm-6 col-md-6 col-lg-6 col-12 mb-3">
-          <div class="form-floating borde">
-            <input id="imagenRegistro" type="file" name="imagenRegistro" class="form-control" accept=".png, .jpg">
-          </div>
-        </div>
-        <div class="col-sm-6 col-md-6 col-lg-6 col-12 mb-3">
-          <div class="form-floating borde">
-            <input id="duiRegistro" type="text" name="duiRegistro" placeholder="00000000-0" class="form-control"
-              required />
-            <label for="floatingInput">DUI</label>
-          </div>
+    <div class="row justify-content-center align-items-center">
+        <div class="col-9">
+            <!--texto de presentación-->
+            <h1 class=" text-center">Registrarte</h1>
+            <h5 class=" text-center">Es rápido y fácil.</h5>
+            <!--formulario para registrar usuaario -->
+            <form class="mt-5 row g-3" id="saveForm">
+                <div class="col-sm-6 col-md-6 col-lg-6 col-12 mb-3 ">
+                    <div class=" form-floating borde ">
+                        <input id="nombreRegistro" type="text" name="nombreRegistro" placeholder="Nombre"
+                            class="form-control" required />
+                        <label for="floatingInput">Nombre</label>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-6 col-lg-6 col-12 mb-3">
+                    <div class="form-floating borde">
+                        <input id="fechanacimientoRegistro" type="date" name="fechanacimientoRegistro"
+                            placeholder="fechanacimiento" class="form-control" required />
+                        <label for="floatingInput">Fecha nacimiento</label>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-6 col-lg-6 col-12 mb-3">
+                    <div class="form-floating borde ">
+                        <input id="apellidoRegistro" type="text" name="apellidoRegistro" placeholder="Apellido"
+                            class="form-control" required />
+                        <label for="floatingInput">Apellido</label>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-6 col-lg-6 col-12 mb-3">
+                    <div class="form-floating borde">
+                        <input id="telefonoRegistro" type="text" name="telefonoRegistro" class="form-control"
+                            placeholder="0000-0000" required />
+                        <label for="floatingInput">Teléfono</label>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-6 col-lg-6 col-12 mb-3">
+                    <div class="form-floating borde ">
+                        <input id="correoRegistro" type="email" name="correoRegistro" placeholder="Correo electrónico"
+                            class="form-control" required />
+                        <label for="floatingInput">Correo electrónico</label>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-6 col-lg-6 col-12 mb-3">
+                    <div class="form-floating borde">
+                        <input id="imagenRegistro" type="file" name="imagenRegistro" class="form-control"
+                            accept=".png, .jpg">
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-6 col-lg-6 col-12 mb-3">
+                    <div class="form-floating borde">
+                        <input id="duiRegistro" type="text" name="duiRegistro" placeholder="00000000-0"
+                            class="form-control" required />
+                        <label for="floatingInput">DUI</label>
+                    </div>
 
+                </div>
+                <div class="col-sm-6 col-md-6 col-lg-6 col-12 mb-3">
+                    <div class="form-floating borde">
+                        <select class="form-select" name="generoRegistro">
+                            <option selected>Género</option>
+                            <option value="1">Masculino</option>
+                            <option value="2">Femenino</option>
+                        </select>
+                    </div>
+                </div>
+                <!--Botón que envia los datos ingresados y lo redirige a la pantalla correspodiente -->
+                <a href="../../../../vistas/privada/paginas/index.html" type="submit" class="btn btn-dark"><i
+                        class="bi bi-send"></i>
+                    REGISTRARTE</a>
+            </form>
         </div>
-        <div class="col-sm-6 col-md-6 col-lg-6 col-12 mb-3">
-          <div class="form-floating borde">
-            <select class="form-select" name="generoRegistro">
-              <option selected>Género</option>
-              <option value="1">Masculino</option>
-              <option value="2">Femenino</option>
-            </select>
-          </div>
-        </div>
-        <!--Botón que envia los datos ingresados y lo redirige a la pantalla correspodiente -->
-        <a href="../../../../vistas/privada/paginas/index.html" type="submit" class="btn btn-dark"><i
-            class="bi bi-send"></i>
-          REGISTRARTE</a>
-      </form>
     </div>
-  </div>
 </div>

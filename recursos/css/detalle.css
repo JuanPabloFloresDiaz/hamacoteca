@@ -1,34 +1,33 @@
 .rating {
     display: inline-block;
-  }
-  
-  .rating input {
+}
+
+.rating input {
     display: none;
-  }
-  
-  .rating label {
+}
+
+.rating label {
     cursor: pointer;
     width: 32px;
     height: 32px;
     margin: 0;
     padding: 0;
     float: right;
-  }
+}
 
-  .rating label:hover {
+.rating label:hover {
     opacity: 0.6;
     transform: scale(1.05);
     transition: 0.5s;
     z-index: 1;
     cursor: pointer;
-  }
-  
-  .rating label:before {
+}
+
+.rating label:before {
     content: '\2605';
     font-size: 32px;
-  }
-  
-  .rating input:checked ~ label:before {
+}
+
+.rating input:checked~label:before {
     color: orange;
-  }
-  
+}

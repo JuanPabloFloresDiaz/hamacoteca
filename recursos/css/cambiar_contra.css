@@ -1,23 +1,23 @@
 /* Estilos para el borde de los campos de entrada */
 .borde {
-  border: 2px solid #000;
+    border: 2px solid #000;
 }
 
 /* Estilos para la imagen de fondo */
 .imagen-fondo {
-  z-index: -1;
+    z-index: -1;
 }
 
 .imagen-fondo-derecha {
-  z-index: -1;
+    z-index: -1;
 }
 
 /* Estilos para el botón */
 .btn {
-  width: 100%;
+    width: 100%;
 }
 
 /* Estilos para el contenedor */
 .container {
-  margin-top: 250px;
+    margin-top: 250px;
 }

@@ -1,4 +1,4 @@
-.heading{
+.heading {
     text-align: center;
     font-size: 3rem;
     color: #222;
@@ -7,7 +7,7 @@
     background: rgba(171, 190, 209, 0.05);
 }
 
-.carta:hover{
+.carta:hover {
     background-color: #eee;
     opacity: 0.7;
     transform: scale(1.05);

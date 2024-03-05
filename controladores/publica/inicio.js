@@ -4,14 +4,14 @@ async function loadComponent(path) {
     return text;
 }
 
-async function cargar_productos_semanales(){
+async function cargar_productos_semanales() {
     const listahamacas = [
         {
             id_hamaca: 1,
             nombre_producto: 'Hamaca',
             descripcion: '¡Descubre la comodidad y estilo de nuestras hamacas exclusivas! Sumérgete en la suave brisa del verano mientras te relajas en una de nuestras hermosas hamacas tejidas a mano. Desde diseños clásicos hasta modernos, nuestras hamacas están hechas con los mejores materiales para garantizar durabilidad y confort. Ya sea que busques el complemento perfecto para tu jardín, terraza o sala de estar, encontrarás la hamaca perfecta para ti en nuestra colección. ¡Aprovecha nuestras promociones especiales y haz de cada día un día de descanso y relax en una de nuestras hamacas!',
             urlfoto: '../../../recursos/img/hamaca 3.jpg',
-            precio: 200 
+            precio: 200
         },
         {
             id_hamaca: 2,
@@ -36,7 +36,7 @@ async function cargar_productos_semanales(){
             throw new Error('Error al obtener los datos de la API');
         }
         const data = await response.json();
-        
+
         if (data && Array.isArray(data) && data.length > 0) {
             // Mostrar cartas de productos obtenidos de la API
             data.forEach(product => {
