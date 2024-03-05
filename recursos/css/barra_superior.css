@@ -16,6 +16,10 @@
     margin-bottom: 6rem;
 }
 
+.head {
+    margin-bottom: 6rem;
+}
+
 /* Estilo para la lista de navegación */
 .navbar-nav {
     display: flex;
