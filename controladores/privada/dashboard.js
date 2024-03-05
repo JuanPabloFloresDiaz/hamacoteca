@@ -166,7 +166,7 @@ const graficoPastelCategorias = async () => {
 */
     const datosEjemplo = [
         {
-            categorias: 'Hamacas clasicas',
+            categorias: 'Hamacas clásicas',
             cantidades: 26
         },
         {
