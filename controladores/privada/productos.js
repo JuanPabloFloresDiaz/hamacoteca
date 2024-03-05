@@ -124,7 +124,7 @@ async function cargarTabla() {
             nombre_producto: 'Hamaca grande',
             precio: 400,
             cantidad: 3,
-            descripcion: 'Es una hamaca granda, preciosa y cómoda',
+            descripcion: 'Es una hamaca grande, preciosa y cómoda',
             urlfoto: '../../../recursos/img/hamacaKsK 1.png',
             fecha: '2023-02-12',
             id: 3
