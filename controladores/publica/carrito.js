@@ -46,6 +46,42 @@ const openUpdate = async (id) => {
 
 }
 
+const openAlert = async (id) => {
+    try {
+        // Se define un objeto con los datos del registro seleccionado.
+        const FORM = new FormData();
+        FORM.append('id_pedido', id);
+        // Petición para obtener los datos del registro solicitado.
+        const DATA = await fetchData(PEDIDO_API, 'readOne', FORM);
+        // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
+        if (DATA.status) {
+            // Se muestra la caja de diálogo con su título.
+            SAVE_MODAL.show();
+            MODAL_TITLE.textContent = 'Estas seguro de realizar su compra';
+            // Se prepara el formulario.
+            SAVE_FORM.reset();
+            EXISTENCIAS_PRODUCTO.disabled = true;
+            // Se inicializan los campos con los datos.
+            const ROW = DATA.dataset;
+            ID_ADMINISTRADOR.value = ROW.id_administrado;
+            NOMBRE_ADMINISTRADOR.value = ROW.nombre_administrador;
+            CORREO_ADMINISTRADOR.value = ROW.correo_administrador;
+            TELEFONO_ADMINISTRADOR.value = ROW.telefono_administrador;
+            DUI_ADMINISTRADOR.value = ROW.dui_administrador;
+            NACIMIENTO_ADMINISTRADOR.value = row.fecha_nacimiento_administrador;
+            CLAVE_ADMINISTRADOR.value = ROW.clave_administrador;
+            ALIAS_ADMINISTRADOR.value = ROW.alias_administrador;
+            fillSelect(ROL_API, 'readAll', 'rolAdministrador', ROW.id_rol);
+        } else {
+            sweetAlert(2, DATA.error, false);
+        }
+    } catch (Error) {
+        console.log(Error);
+        confirmUpdateAction('Estas seguro de realizar su compra')
+    }
+
+};
+
 
 /*
 *   Función asíncrona para eliminar un registro.
