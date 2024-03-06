@@ -30,3 +30,31 @@
         <tbody id="tabla_pedido"></tbody>
     </table>
 </div>
+<!-- Componente Modal para guardar un registro -->
+<div class="modal fade" id="saveModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="modalTitle" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="modalTitle"></h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <!-- Formulario para crear o actualizar un registro -->
+            <form id="saveForm">
+                <div class="modal-body row g-3">
+                    <!-- Campo oculto para asignar el id del registro al momento de modificar -->
+                    <input type="hidden" id="idPedido" name="idPedido">
+                    <div class="col-sm-12 col-md-6">
+                        <label for="cantidadPedido" class="form-label">Cantidad</label>
+                        <input id="cantidadPedido" type="number" name="cantidadPedido" min="1" step="1"
+                            class="form-control" placeholder="Ingresa la cantidad del producto" required>
+                    </div>
+                </div>
+                <div class="modal-footer col-sm-12 col-md-12 col-lg-12">
+                    <button type="reset" class="btn btn-outline-dark">Cancelar</button>
+                    <button type="submit" class="btn btn-outline-primary">Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
