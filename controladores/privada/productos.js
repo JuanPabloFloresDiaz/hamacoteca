@@ -149,7 +149,6 @@ async function cargarTabla() {
                     <td>${row.descripcion_hamaca}</td>
                     <td>${row.cantidad_hamaca}</td>
                     <td>${row.precio_hamaca}</td>
-                    <td>${row.fecha_registro}</td>
                     <td>
                         <button type="button" class="btn btn-info" onclick="openUpdate(${row.id_hamaca})">
                             <i class="bi bi-pencil-fill"></i>
@@ -179,7 +178,6 @@ async function cargarTabla() {
                 <td>${row.descripcion}</td>
                 <td>${row.cantidad}</td>
                 <td>${row.precio}</td>
-                <td>${row.fecha}</td>
                 <td>
                     <button type="button" class="btn btn-outline-success" onclick="openUpdate(${row.id})">
                         <i class="bi bi-pencil-fill"></i>
