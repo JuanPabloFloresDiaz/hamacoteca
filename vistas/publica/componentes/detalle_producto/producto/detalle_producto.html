@@ -2,23 +2,10 @@
 <div class="container">
     <div class="row">
 
-        <div class="col-lg-6 imagen-principal">
+        <div class="col-lg-6 col-md-6 col-sm-12 imagen-principal imagenes">
             <!-- Imagen principal aquí -->
-            <img src="../../../../../recursos/img/hamaca1.png" class="img-fluid w-100 h-100 mt-3"
+            <img src="../../../../../recursos/img/hamaca_ejemplo.png" class="img-fluid w-100 h-100 mt-3"
                 style="max-height: 775px;" alt="Imagen principal">
-        </div>
-        <div class="col-lg-2 order-lg-first">
-            <div class="listado-imagenes">
-                <!-- Lista de imágenes aquí -->
-                <img src="../../../../../recursos/img/hamaca1.png" class="img-fluid m-3" style="max-height: 175px;"
-                    alt="Imagen 1">
-                <img src="../../../../../recursos/img/hamaca1.png" class="img-fluid m-3" style="max-height: 175px;"
-                    alt="Imagen 2">
-                <img src="../../../../../recursos/img/hamaca1.png" class="img-fluid m-3" style="max-height: 175px;"
-                    alt="Imagen 3">
-                <img src="../../../../../recursos/img/hamaca1.png" class="img-fluid m-3" style="max-height: 175px;"
-                    alt="Imagen 4">
-            </div>
         </div>
         <div class="col-lg-3 order-lg-last m-4 contenido">
             <!-- Contenido aquí -->
@@ -50,4 +37,62 @@
             </div>
         </div>
     </div>
+    <div id="carouselExampleControls" class="carousel slide mt-5 imagenes" data-bs-ride="carousel">
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <div class="row">
+                    <div class="col-4">
+                        <img src="../../../../../recursos/img/hamaca_ejemplo.png" class="d-block w-100" data-bs-toggle="modal" data-bs-target="#imageModal" alt="Imagen 1">
+                    </div>
+                    <div class="col-4">
+                        <img src="../../../../../recursos/img/hamaca_ejemplo.png" class="d-block w-100" data-bs-toggle="modal" data-bs-target="#imageModal" alt="Imagen 2">
+                    </div>
+                    <div class="col-4">
+                        <img src="../../../../../recursos/img/hamaca_ejemplo.png" class="d-block w-100" data-bs-toggle="modal" data-bs-target="#imageModal" alt="Imagen 3">
+                    </div>
+                </div>
+            </div>
+            <div class="carousel-inner">
+                <div class="carousel-item">
+                    <div class="row">
+                        <div class="col-4">
+                            <img src="../../../../../recursos/img/hamaca_ejemplo.png" class="d-block w-100" data-bs-toggle="modal" data-bs-target="#imageModal" alt="Imagen 4">
+                        </div>
+                        <div class="col-4">
+                            <img src="../../../../../recursos/img/hamaca_ejemplo.png" class="d-block w-100" data-bs-toggle="modal" data-bs-target="#imageModal" alt="Imagen 4">
+                        </div>
+                        <div class="col-4">
+                            <img src="../../../../../recursos/img/hamaca_ejemplo.png" class="d-block w-100" data-bs-toggle="modal" data-bs-target="#imageModal" alt="Imagen 4">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls"
+            data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Anterior</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls"
+            data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Siguiente</span>
+        </button>
+    </div>
 </div>
+
+<!-- Modal -->
+<div class="modal modal-fullscreen" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable modal-fullscreen">
+      <div class="modal-content bg-dark text-white">
+        <div class="modal-header">
+          <h5 class="modal-title" id="imageModalLabel">Imagen en modal</h5>
+          <button type="button" class="btn-close bg-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+        </div>
+        <div class="modal-body text-center">
+          <!-- Aquí se mostrará la imagen -->
+          <img src="../../../../../recursos/img/hamaca_ejemplo.png" class="img-fluid w-50 h-100 mx-auto d-block" alt="Imagen en modal">
+        </div>
+      </div>
+    </div>
+  </div>

@@ -62,6 +62,7 @@ async function cargar_productos_semanales() {
         // Mostrar cartas de productos de respaldo
         listahamacas.forEach(product => {
             const cardHtml = `
+            <div class="col-sm-12 col-md-6 col-lg-4">
                 <div class="col text-center">
                     <div class="card carta">
                         <img src="${product.urlfoto}" height="400" class="card-img-top" alt="${product.nombre_producto}">
@@ -72,6 +73,7 @@ async function cargar_productos_semanales() {
                         </div>
                     </div>
                 </div>
+            </div>
             `;
             productCardsContainer.innerHTML += cardHtml;
         });
@@ -92,10 +94,7 @@ window.onload = async function () {
     const cardsHtml = await loadComponent('../componentes/inicio/cartas_de_productos_de_la_semana/cartas.html');
     const footerHtml = await loadComponent('../componentes/componentes_generales/barra_inferior/barra_inferior.html');
     // Agrega el HTML del encabezado
-    appContainer.innerHTML += `${headerHtml}`;
-    appContainer.innerHTML += carrouselHtml;
-    appContainer.innerHTML += `${cardsHtml}`;
-    appContainer.innerHTML += `${footerHtml}`;
+    appContainer.innerHTML += headerHtml + carrouselHtml + cardsHtml + footerHtml;
     cargar_productos_semanales();
 
 };

@@ -4,6 +4,8 @@ async function loadComponent(path) {
     return text;
 }
 
+
+
 function bindQuantityButtons() {
     $("#btnDecrease").click(function () {
         var currentValue = parseInt($("#quantityInput").val());
@@ -111,7 +113,6 @@ const VALORACIONES_API = '';
 window.onload = async function () {
     // Obtiene el contenedor principal
     const appContainer = document.getElementById('detalle');
-
     // Carga los componentes de manera síncrona
     const headerHtml = await loadComponent('../componentes/componentes_generales/barra_superior/barra_superior.html');
     const detalleHtml = await loadComponent('../componentes/detalle_producto/producto/detalle_producto.html');
@@ -124,4 +125,5 @@ window.onload = async function () {
     appContainer.innerHTML += `${footerHtml}`;
     cargarComentarios();
     bindQuantityButtons();
+
 };
