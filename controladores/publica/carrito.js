@@ -165,10 +165,10 @@ async function cargarTabla() {
                     <td>${row.precio_pedido}</td>
                     <td>${row.total_pedido}</td>
                     <td>
-                        <button type="button" class="btn btn-info" onclick="openUpdate(${row.id_pedido})">
+                        <button type="button" class="btn btn-outline-success borde-transparente" onclick="openUpdate(${row.id_pedido})">
                             <i class="bi bi-pencil-fill"></i>
                         </button>
-                        <button type="button" class="btn btn-danger" onclick="openDelete(${row.id_pedido})">
+                        <button type="button" class="btn btn-outline-danger borde-transparente" onclick="openDelete(${row.id_pedido})">
                             <i class="bi bi-trash-fill"></i>
                         </button>
                     </td>
@@ -191,10 +191,10 @@ async function cargarTabla() {
                 <td>${row.precio}</td>
                 <td>${row.total}</td>
                 <td>
-                    <button type="button" class="btn btn-outline-success" onclick="openUpdate(${row.id})">
+                    <button type="button" class="btn btn-outline-success borde-transparente" onclick="openUpdate(${row.id})">
                         <i class="bi bi-pencil-fill"></i>
                     </button>
-                    <button type="button" class="btn btn-outline-danger" onclick="openDelete(${row.id})">
+                    <button type="button" class="btn btn-outline-danger borde-transparente" onclick="openDelete(${row.id})">
                         <i class="bi bi-trash-fill"></i>
                     </button>
                 </td>
