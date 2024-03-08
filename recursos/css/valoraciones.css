@@ -2,3 +2,7 @@
     border-bottom: 1px solid #DBDBDB;
     /* Agrega un borde gris en la parte inferior */
 }
+
+.carta-comentario{
+    border-bottom: 1px solid #ccc;
+}
