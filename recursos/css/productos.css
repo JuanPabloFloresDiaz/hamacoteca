@@ -15,3 +15,16 @@
 .tamaño{
     font-size: 14px;
 }
+
+/* CSS en archivo aparte */
+.rango::-webkit-slider-thumb {
+    background-color: black; /* Cambia este color según tu preferencia */
+    transition: transform 0.3s ease; /* Transición suave para la animación */
+}
+
+/* Cambia el tamaño del círculo al pasar el mouse por encima */
+.rango::-webkit-slider-thumb:hover {
+    transform: scale(1.25); /* Aumenta el tamaño del círculo en un 10% */
+}
+
+/* Agregar estilos adicionales según sea necesario para otros navegadores */

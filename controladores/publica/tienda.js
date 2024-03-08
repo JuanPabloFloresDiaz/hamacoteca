@@ -324,6 +324,14 @@ window.onload = async function () {
     appContainer.innerHTML += `${productsHtml}`;
     appContainer.innerHTML += `${footerHtml}`;
 
+    const rango = document.getElementById('customRange1');
+    const rangoValor = document.getElementById('rangoValor');
+
+    // Actualizar el valor mostrado al arrastrar el rango
+    rango.addEventListener('input', () => {
+        rangoValor.textContent = rango.value;
+    });
+
     cargar_productos();
     cargar_categorias();
     cargar_colores();
