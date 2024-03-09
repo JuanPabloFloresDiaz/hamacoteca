@@ -20,13 +20,13 @@
             <div class="d-flex">
                 <div class="input-group mt-3 me-3">
                     <button class="btn btn-outline-secondary" type="button" id="btnDecrease">-</button>
-                    <input type="text" class="form-control text-center" value="1" id="quantityInput">
+                    <input type="number" class="form-control text-center" value="1" min="1" step="1" id="quantityInput" oninput="validarCantidad(this)" onkeypress="return event.charCode >= 48 && event.charCode <= 57">
                     <button class="btn btn-outline-secondary" type="button" id="btnIncrease">+</button>
                 </div>
-                <button type="button" class="btn btn-dark mt-3 ms-3 borde">Agregar</button>
+                <button type="button" class="btn btn-dark mt-3 ms-3 borde" onclick="openAlert()">Agregar</button>
             </div>
             <p class="mt-3">Categoria: hamaca clasica</p>
-            <h3 class="mt-3">2,0</h3>
+            <h3 class="mt-3" id="ratingValue">2</h3>
             <div class="rating">
                 <input type="radio" id="star5" name="rating" value="5"><label for="star5"></label>
                 <input type="radio" id="star4" name="rating" value="4"><label for="star4"></label>

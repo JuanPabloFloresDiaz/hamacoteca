@@ -18,3 +18,7 @@
     background-color: rgba(186, 129, 85, 0.35);
     border-radius: 10px;
 }
+
+.imagen-carrusel{
+    height: 600px;
+}
