@@ -96,5 +96,8 @@ window.onload = async function () {
     // Agrega el HTML del encabezado
     appContainer.innerHTML += headerHtml + carrouselHtml + cardsHtml + footerHtml;
     cargar_productos_semanales();
-
+    document.getElementById('toggleFooterBtn').addEventListener('click', function() {
+        var footer = document.querySelector('footer');
+        footer.classList.toggle('d-none');
+    });
 };

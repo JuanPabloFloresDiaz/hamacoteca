@@ -108,25 +108,27 @@ async function cargarComentarios(listacomentarios) {
             const comentario = data[index]; // Obtener el comentario correspondiente
             if (comentario) {
                 const valoracionHtml = `
-                    <div class="row g-0 carta-comentario">
-                        <div class="col-md-8">
-                            <div class="card-body d-flex align-items-start">
-                                <img src="${valoracion.urlfoto}" class="img-fluid rounded-start mt-3 ms-5 me-3" alt="${valoracion.nombre_usuario}">
-                                <div class="ms-5">
-                                    <h5 class="card-title">${valoracion.nombre_usuario}</h5>
-                                    <p class="card-text">${valoracion.valoracion}</p>
-                                    <p class="text-white" id="ratingValue">${valoracion.nota}</p>
-                                    <div class="rating">
-                                        <input type="radio" id="star5_${index}" name="rating_${index}" value="5"><label for="star5_${index}"></label>
-                                        <input type="radio" id="star4_${index}" name="rating_${index}" value="4"><label for="star4_${index}"></label>
-                                        <input type="radio" id="star3_${index}" name="rating_${index}" value="3"><label for="star3_${index}"></label>
-                                        <input type="radio" id="star2_${index}" name="rating_${index}" value="2"><label for="star2_${index}"></label>
-                                        <input type="radio" id="star1_${index}" name="rating_${index}" value="1"><label for="star1_${index}"></label>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                <div class="row g-0 carta-comentario">
+                <div class="col-md-2 d-flex align-items-start">
+                 <img src="${valoracion.urlfoto}" class="img-fluid circulo mt-3 ms-5 me-3" width="50px" height="50px" alt="${valoracion.nombre_usuario}">
+                 <h5 class="card-title">${valoracion.nombre_usuario}</h5>
+                 </div>
+                 <div class="col-md-10">
+                  <div class="card-body d-flex align-items-start">
+                     <div class="ms-5">
+                        <p class="card-text">${valoracion.valoracion}</p>
+                         <p class="text-white" id="ratingValue">${valoracion.nota}</p>
+                         <div class="rating">
+                             <input type="radio" id="star5_${index}" name="rating_${index}" value="5"><label for="star5_${index}"></label>
+                             <input type="radio" id="star4_${index}" name="rating_${index}" value="4"><label for="star4_${index}"></label>
+                             <input type="radio" id="star3_${index}" name="rating_${index}" value="3"><label for="star3_${index}"></label>
+                             <input type="radio" id="star2_${index}" name="rating_${index}" value="2"><label for="star2_${index}"></label>
+                             <input type="radio" id="star1_${index}" name="rating_${index}" value="1"><label for="star1_${index}"></label>
+                         </div>
+                  </div>
+                 </div>
+                 </div>
+             </div>
                 `;
                 contenedorComentarios.innerHTML += valoracionHtml;
             }
@@ -138,25 +140,28 @@ async function cargarComentarios(listacomentarios) {
             const comentario = listacomentarios[index]; // Obtener el comentario correspondiente
             if (comentario) {
                 const valoracionHtml = `
-                    <div class="row g-0 carta-comentario">
-                        <div class="col-md-8">
-                            <div class="card-body d-flex align-items-start">
-                                <img src="${valoracion.urlfoto}" class="img-fluid rounded-start mt-3 ms-5 me-3" alt="${valoracion.nombre_usuario}">
-                                <div class="ms-5">
-                                    <h5 class="card-title">${valoracion.nombre_usuario}</h5>
-                                    <p class="card-text">${valoracion.valoracion}</p>
-                                    <p class="text-white" id="ratingValue">${valoracion.nota}</p>
-                                    <div class="rating">
-                                        <input type="radio" id="star5_${index}" name="rating_${index}" value="5"><label for="star5_${index}"></label>
-                                        <input type="radio" id="star4_${index}" name="rating_${index}" value="4"><label for="star4_${index}"></label>
-                                        <input type="radio" id="star3_${index}" name="rating_${index}" value="3"><label for="star3_${index}"></label>
-                                        <input type="radio" id="star2_${index}" name="rating_${index}" value="2"><label for="star2_${index}"></label>
-                                        <input type="radio" id="star1_${index}" name="rating_${index}" value="1"><label for="star1_${index}"></label>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                <div class="row g-0 carta-comentario">
+                   <div class="col-md-2 d-flex align-items-start">
+                    <img src="${valoracion.urlfoto}" class="img-fluid circulo mt-3 ms-5 me-3" width="50px" height="50px" alt="${valoracion.nombre_usuario}">
+                    <h5 class="card-title">${valoracion.nombre_usuario}</h5>
                     </div>
+                    <div class="col-md-10">
+                     <div class="card-body d-flex align-items-start">
+                        <div class="ms-5">
+                            
+                            <p class="card-text">${valoracion.valoracion}</p>
+                            <p class="text-white" id="ratingValue">${valoracion.nota}</p>
+                            <div class="rating">
+                                <input type="radio" id="star5_${index}" name="rating_${index}" value="5"><label for="star5_${index}"></label>
+                                <input type="radio" id="star4_${index}" name="rating_${index}" value="4"><label for="star4_${index}"></label>
+                                <input type="radio" id="star3_${index}" name="rating_${index}" value="3"><label for="star3_${index}"></label>
+                                <input type="radio" id="star2_${index}" name="rating_${index}" value="2"><label for="star2_${index}"></label>
+                                <input type="radio" id="star1_${index}" name="rating_${index}" value="1"><label for="star1_${index}"></label>
+                            </div>
+                     </div>
+                    </div>
+                    </div>
+                </div>
                 `;
                 contenedorComentarios.innerHTML += valoracionHtml;
             }
@@ -242,5 +247,8 @@ window.onload = async function () {
 
     cargarComentarios(listacomentarios);
     bindQuantityButtons();
-
+    document.getElementById('toggleFooterBtn').addEventListener('click', function () {
+        var footer = document.querySelector('footer');
+        footer.classList.toggle('d-none');
+    });
 };

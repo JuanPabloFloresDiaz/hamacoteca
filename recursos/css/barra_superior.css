@@ -113,3 +113,7 @@
 .tamaño-cabecera{
     font-size: 20px;
 }
+
+.circulo {
+    border-radius: 50%;
+}

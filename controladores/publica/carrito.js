@@ -218,12 +218,15 @@ window.onload = async function () {
     const adminHtml = await loadComponent('../componentes/carrito/carrito.html');
     const footerHtml = await loadComponent('../componentes/componentes_generales/barra_inferior/barra_inferior.html');
     // Agrega el HTML del encabezado
-    appContainer.innerHTML =  headerHtml + adminHtml + footerHtml;
+    appContainer.innerHTML = headerHtml + adminHtml + footerHtml;
     cargarTabla();
     // Constantes para establecer los elementos del componente Modal.
     SAVE_MODAL = new bootstrap.Modal('#saveModal'),
         MODAL_TITLE = document.getElementById('modalTitle');
-
+    document.getElementById('toggleFooterBtn').addEventListener('click', function () {
+        var footer = document.querySelector('footer');
+        footer.classList.toggle('d-none');
+    });
 
 };
 

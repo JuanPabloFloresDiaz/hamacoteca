@@ -162,70 +162,6 @@ async function cargar_categorias() {
     }
 }
 
-async function cargar_colores() {
-    const lista_colores = [
-        {
-            nombre: 'Rojos',
-            id: 1
-        },
-        {
-            nombre: 'Azules',
-            id: 2
-        },
-        {
-            nombre: 'Amarillos',
-            id: 3
-        },
-        {
-            nombre: 'Blancos',
-            id: 4
-        },
-        {
-            nombre: 'Grises',
-            id: 5
-        },
-        {
-            nombre: 'Negros',
-            id: 6
-        },
-        {
-            nombre: 'Verdes',
-            id: 7
-        }
-    ];
-
-    const cargarListaColores = document.getElementById('colores');
-
-    try {
-        const response = await fetch(COLORES_API);
-        if (!response.ok) {
-            throw new Error('Error al obtener los datos de la API');
-        }
-        const data = await response.json();
-
-        if (data && Array.isArray(data) && data.length > 0) {
-            // Mostrar elementos de la lista de colores obtenidos de la API
-            data.forEach(colores => {
-                const coloresHtml = `
-                <option value="${colores.id_color}">${colores.nombre_color}</option>
-                `;
-                cargarListaColores.innerHTML += coloresHtml;
-            });
-        } else {
-            throw new Error('La respuesta de la API no contiene datos válidos');
-        }
-    } catch (error) {
-        console.error('Error al obtener datos de la API:', error);
-        // Mostrar colores de respaldo
-        lista_colores.forEach(colores => {
-            const coloresHtml = `
-                <option value="${colores.id}">${colores.nombre}</option>
-            `;
-            cargarListaColores.innerHTML += coloresHtml;
-        });
-    }
-}
-
 async function cargar_materiales() {
     const lista_materiales = [
         {
@@ -334,7 +270,10 @@ window.onload = async function () {
 
     cargar_productos();
     cargar_categorias();
-    cargar_colores();
     cargar_materiales();
     ordenar_resultados();
+    document.getElementById('toggleFooterBtn').addEventListener('click', function() {
+        var footer = document.querySelector('footer');
+        footer.classList.toggle('d-none');
+    });
 };
