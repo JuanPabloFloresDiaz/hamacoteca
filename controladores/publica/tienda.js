@@ -7,46 +7,55 @@ async function loadComponent(path) {
 async function cargar_productos() {
     const listahamacas = [
         {
+            id_hamaca: 1,
             nombre_producto: 'Hamaca ligera',
             precio: 200,
             urlfoto: '../../../recursos/img/hamaca 3.jpg'
         },
         {
+            id_hamaca: 2,
             nombre_producto: 'Hamaca ligera',
             precio: 200,
             urlfoto: '../../../recursos/img/hamaca 3.jpg'
         },
         {
+            id_hamaca: 3,
             nombre_producto: 'Hamaca ligera',
             precio: 200,
             urlfoto: '../../../recursos/img/hamaca 3.jpg'
         },
         {
+            id_hamaca: 4,
             nombre_producto: 'Hamaca estandar',
             precio: 300,
             urlfoto: '../../../recursos/img/hamaca1.png'
         },
         {
+            id_hamaca: 5,
             nombre_producto: 'Hamaca estandar',
             precio: 300,
             urlfoto: '../../../recursos/img/hamaca1.png'
         },
         {
+            id_hamaca: 6,
             nombre_producto: 'Hamaca estandar',
             precio: 300,
             urlfoto: '../../../recursos/img/hamaca1.png'
         },
         {
+            id_hamaca: 7,
             nombre_producto: 'Hamaca grande',
             precio: 400,
             urlfoto: '../../../recursos/img/hamacaKsK 1.png'
         },
         {
+            id_hamaca: 8,
             nombre_producto: 'Hamaca grande',
             precio: 400,
             urlfoto: '../../../recursos/img/hamacaKsK 1.png'
         },
         {
+            id_hamaca: 9,
             nombre_producto: 'Hamaca grande',
             precio: 400,
             urlfoto: '../../../recursos/img/hamacaKsK 1.png'
@@ -93,7 +102,7 @@ async function cargar_productos() {
                     <div class="card carta-personalizada">
                     <div class="position-relative">
                     <img src="${producto.urlfoto}" height="200" class="card-img-top" alt="${producto.nombre_producto}">
-                    <a href="../../../vistas/publica/paginas/detalle.html" class="btn btn-outline-light position-absolute top-50 start-50 translate-middle">Ver detalle</a>
+                    <a href="/vistas/publica/paginas/detalle.html?id=${producto.id_hamaca}" class="btn btn-outline-light position-absolute top-50 start-50 translate-middle">Ver detalle</a>
                     </div>
                         <div class="card-body">
                             <h5 class="card-title">${producto.nombre_producto}</h5>

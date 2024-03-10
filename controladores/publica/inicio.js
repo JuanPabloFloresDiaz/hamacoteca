@@ -8,21 +8,21 @@ async function cargar_productos_semanales() {
     const listahamacas = [
         {
             id_hamaca: 1,
-            nombre_producto: 'Hamaca',
+            nombre_producto: 'Hamaca ligera',
             descripcion: '¡Descubre la comodidad y estilo de nuestras hamacas exclusivas! Sumérgete en la suave brisa del verano mientras te relajas en una de nuestras hermosas hamacas tejidas a mano. Desde diseños clásicos hasta modernos, nuestras hamacas están hechas con los mejores materiales para garantizar durabilidad y confort. Ya sea que busques el complemento perfecto para tu jardín, terraza o sala de estar, encontrarás la hamaca perfecta para ti en nuestra colección. ¡Aprovecha nuestras promociones especiales y haz de cada día un día de descanso y relax en una de nuestras hamacas!',
             urlfoto: '../../../recursos/img/hamaca 3.jpg',
             precio: 200
         },
         {
-            id_hamaca: 2,
-            nombre_producto: 'Hamaca',
+            id_hamaca: 4,
+            nombre_producto: 'Hamaca estandar',
             descripcion: '¡Descubre la comodidad y estilo de nuestras hamacas exclusivas! Sumérgete en la suave brisa del verano mientras te relajas en una de nuestras hermosas hamacas tejidas a mano. Desde diseños clásicos hasta modernos, nuestras hamacas están hechas con los mejores materiales para garantizar durabilidad y confort. Ya sea que busques el complemento perfecto para tu jardín, terraza o sala de estar, encontrarás la hamaca perfecta para ti en nuestra colección. ¡Aprovecha nuestras promociones especiales y haz de cada día un día de descanso y relax en una de nuestras hamacas!',
             urlfoto: '../../../recursos/img/hamaca1.png',
             precio: 300
         },
         {
-            id_hamaca: 3,
-            nombre_producto: 'Hamaca',
+            id_hamaca: 7,
+            nombre_producto: 'Hamaca grande',
             descripcion: '¡Descubre la comodidad y estilo de nuestras hamacas exclusivas! Sumérgete en la suave brisa del verano mientras te relajas en una de nuestras hermosas hamacas tejidas a mano. Desde diseños clásicos hasta modernos, nuestras hamacas están hechas con los mejores materiales para garantizar durabilidad y confort. Ya sea que busques el complemento perfecto para tu jardín, terraza o sala de estar, encontrarás la hamaca perfecta para ti en nuestra colección. ¡Aprovecha nuestras promociones especiales y haz de cada día un día de descanso y relax en una de nuestras hamacas!',
             urlfoto: '../../../recursos/img/hamacaKsK 1.png',
             precio: 400
@@ -62,7 +62,6 @@ async function cargar_productos_semanales() {
         // Mostrar cartas de productos de respaldo
         listahamacas.forEach(product => {
             const cardHtml = `
-            <div class="col-sm-12 col-md-6 col-lg-4">
                 <div class="col text-center">
                     <div class="card carta">
                         <img src="${product.urlfoto}" height="400" class="card-img-top" alt="${product.nombre_producto}">
@@ -73,7 +72,6 @@ async function cargar_productos_semanales() {
                         </div>
                     </div>
                 </div>
-            </div>
             `;
             productCardsContainer.innerHTML += cardHtml;
         });
