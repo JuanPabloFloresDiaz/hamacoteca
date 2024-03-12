@@ -7,6 +7,7 @@ async function loadComponent(path) {
 
 
 let SAVE_MODAL;
+let IMAGE_MODAL;
 let SAVE_FORM;
 // Constantes para completar las rutas de la API.
 const HAMACA_API = '';
@@ -21,6 +22,15 @@ const openCreate = () => {
     MODAL_TITLE.textContent = 'Crear hamaca';
     // Se prepara el formulario.
     SAVE_FORM.reset();
+    fillSelect(HAMACA_API, 'readAll', 'hamacas');
+}
+
+const openImage = () => {
+    // Se muestra la caja de diálogo con su título.
+    IMAGE_MODAL.show();
+    MODAL_TITLE_IMAGE.textContent = 'Agregar foto';
+    // Se prepara el formulario.
+    IMAGE_MODAL.reset();
     fillSelect(HAMACA_API, 'readAll', 'hamacas');
 }
 
@@ -185,6 +195,9 @@ async function cargarTabla() {
                     <button type="button" class="btn btn-outline-danger" onclick="openDelete(${row.id})">
                         <i class="bi bi-trash-fill"></i>
                     </button>
+                    <button type="button" class="btn btn-outline-primary" onclick="openImage(${row.id_hamaca})">
+                        <i class="bi bi-card-image"></i>
+                    </button>
                 </td>
             </tr>
             `;
@@ -209,6 +222,9 @@ window.onload = async function () {
     // Constantes para establecer los elementos del componente Modal.
     SAVE_MODAL = new bootstrap.Modal('#saveModal'),
         MODAL_TITLE = document.getElementById('modalTitle');
+
+        IMAGE_MODAL = new bootstrap.Modal('#modalAgregarFoto'),
+        MODAL_TITLE_IMAGE = document.getElementById('exampleModalLabel');
 
 
     // Constantes para establecer los elementos del formulario de guardar.

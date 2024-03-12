@@ -12,6 +12,10 @@
     border-radius: 50%;
 }
 
+.alto{
+    height: 125px;
+}
+
 .tamaño{
     font-size: 14px;
 }

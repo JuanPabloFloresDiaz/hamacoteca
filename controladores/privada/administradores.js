@@ -50,6 +50,7 @@ const openUpdate = async (id) => {
             const ROW = DATA.dataset;
             ID_ADMINISTRADOR.value = ROW.id_administrado;
             NOMBRE_ADMINISTRADOR.value = ROW.nombre_administrador;
+            APELLIDO_ADMINISTRADOR.value = ROW.apellido_administrador;
             CORREO_ADMINISTRADOR.value = ROW.correo_administrador;
             TELEFONO_ADMINISTRADOR.value = ROW.telefono_administrador;
             DUI_ADMINISTRADOR.value = ROW.dui_administrador;
@@ -230,6 +231,7 @@ window.onload = async function () {
     SAVE_FORM = document.getElementById('saveForm'),
         ID_ADMINISTRADOR = document.getElementById('idAdministrador'),
         NOMBRE_ADMINISTRADOR = document.getElementById('nombreAdministrador'),
+        APELLIDO_ADMINISTRADOR = document.getElementById('apellidoAdministrador'),
         CORREO_ADMINISTRADOR = document.getElementById('correoAdministrador'),
         TELEFONO_ADMINISTRADOR = document.getElementById('telefonoAdministrador'),
         DUI_ADMINISTRADOR = document.getElementById('duiAdministrador'),
