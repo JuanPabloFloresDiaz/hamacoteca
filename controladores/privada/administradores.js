@@ -56,7 +56,6 @@ const openUpdate = async (id) => {
             DUI_ADMINISTRADOR.value = ROW.dui_administrador;
             NACIMIENTO_ADMINISTRADOR.value = row.fecha_nacimiento_administrador;
             CLAVE_ADMINISTRADOR.value = ROW.clave_administrador;
-            ALIAS_ADMINISTRADOR.value = ROW.alias_administrador;
             fillSelect(ROL_API, 'readAll', 'rolAdministrador', ROW.id_rol);
         } else {
             sweetAlert(2, DATA.error, false);
@@ -238,7 +237,6 @@ window.onload = async function () {
         NACIMIENTO_ADMINISTRADOR = document.getElementById('nacimientoAdministrador'),
         CLAVE_ADMINISTRADOR = document.getElementById('contraseña'),
         REPETIR_CLAVE = document.getElementById('repetirContraseña'),
-        ALIAS_ADMINISTRADOR = document.getElementById('aliasAdministrador'),
         ROL_ADMINISTRADOR = document.getElementById('rolAdministrador');
 
     // Llamada a la función para establecer la mascara del campo teléfono.
