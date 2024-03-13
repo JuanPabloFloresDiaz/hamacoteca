@@ -17,8 +17,15 @@
     padding: 80px;
     background-color: rgba(186, 129, 85, 0.35);
     border-radius: 10px;
+    font-size: 16px;
 }
 
 .imagen-carrusel{
     height: 600px;
+}
+
+@media (max-width: 770px){
+    .content {
+        font-size: 12px;
+    }
 }

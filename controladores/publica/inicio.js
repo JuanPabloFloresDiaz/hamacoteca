@@ -62,7 +62,7 @@ async function cargar_productos_semanales() {
         // Mostrar cartas de productos de respaldo
         listahamacas.forEach(product => {
             const cardHtml = `
-                <div class="col text-center">
+                <div class="col-lg-4 col-md-4 col-sm-12 text-center">
                     <div class="card carta">
                         <img src="${product.urlfoto}" height="400" class="card-img-top" alt="${product.nombre_producto}">
                         <a href="/vistas/publica/paginas/detalle.html?id=${product.id_hamaca}" class="btn btn-outline-light position-absolute top-50 start-50 translate-middle">Ver detalle</a>
