@@ -4,6 +4,24 @@ async function loadComponent(path) {
     return text;
 }
 
+// Constantes para completar la ruta de la API.
+const PRODUCTOS_API = '';
+const PRUEBA_CONEXION_API = '/api/auxiliares/database.php?action=check_connection';
+
+async function chequearConexion() {
+    try {
+        const response = await fetch(PRUEBA_CONEXION_API);
+        if (!response.ok) {
+            throw new Error('Error al verificar la conexión');
+        }
+        const data = await response.json();
+        return data.connected;
+    } catch (error) {
+        console.error('Error al verificar la conexión:', error);
+        return false;
+    }
+}
+
 async function cargar_productos_semanales() {
     const listahamacas = [
         {
@@ -78,8 +96,7 @@ async function cargar_productos_semanales() {
     }
 }
 
-// Constantes para completar la ruta de la API.
-const PRODUCTOS_API = '';
+
 
 // window.onload
 window.onload = async function () {
@@ -98,4 +115,5 @@ window.onload = async function () {
         var footer = document.querySelector('footer');
         footer.classList.toggle('d-none');
     });
+    chequearConexion();
 };
