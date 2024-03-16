@@ -243,7 +243,7 @@ async function ordenar_resultados() {
     // Mostrar datos de la lista de respaldo
     lista_filtros.forEach(filter => {
         const elementHtml = `
-            <li><a class="dropdown-item" href="#" style="background-color: white; color: black;">${filter.nombre}</a></li>
+            <li><a class="dropdown-item objetos" href="#">${filter.nombre}</a></li>
             `;
         ordenarFiltros.innerHTML += elementHtml;
     });

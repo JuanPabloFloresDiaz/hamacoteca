@@ -117,3 +117,8 @@
 .circulo {
     border-radius: 50%;
 }
+
+.objetos{
+    background-color: white; 
+    color: black;
+}
