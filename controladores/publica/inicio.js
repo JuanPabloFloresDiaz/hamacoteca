@@ -62,7 +62,7 @@ async function cargar_productos_semanales() {
                     <div class="col text-center ">
                         <div class="card carta">
                             <img src="${product.url}" height="400" class="card-img-top" alt="${product.nombre_hamaca} ">
-                            <a href="/vistas/publica/paginas/detalle.html?id=${producto.id_producto}" class="btn btn-outline-light position-absolute top-50 start-50 translate-middle">Ver detalle</a>
+                            <a href="detalle.html?id=${producto.id_producto}" class="btn btn-outline-light position-absolute top-50 start-50 translate-middle">Ver detalle</a>
                             <div class="card-body">
                                 <h5 class="card-title">${product.nombre_hamaca}</h5>
                                 <p class="card-text">${product.precio}</p>
@@ -83,7 +83,7 @@ async function cargar_productos_semanales() {
                 <div class="col-lg-4 col-md-4 col-sm-12 text-center">
                     <div class="card carta">
                         <img src="${product.urlfoto}" height="400" class="card-img-top" alt="${product.nombre_producto}">
-                        <a href="/vistas/publica/paginas/detalle.html?id=${product.id_hamaca}" class="btn btn-outline-light position-absolute top-50 start-50 translate-middle">Ver detalle</a>
+                        <a href="detalle.html?id=${product.id_hamaca}" class="btn btn-outline-light position-absolute top-50 start-50 translate-middle">Ver detalle</a>
                         <div class="card-body">
                             <h5 class="card-title">${product.nombre_producto}</h5>
                             <p class="card-text">${product.precio}</p>
