@@ -33,7 +33,7 @@ async function cargar_productos_semanales() {
         },
         {
             id_hamaca: 4,
-            nombre_producto: 'Hamaca estandar',
+            nombre_producto: 'Hamaca estándar',
             descripcion: '¡Descubre la comodidad y estilo de nuestras hamacas exclusivas! Sumérgete en la suave brisa del verano mientras te relajas en una de nuestras hermosas hamacas tejidas a mano. Desde diseños clásicos hasta modernos, nuestras hamacas están hechas con los mejores materiales para garantizar durabilidad y confort. Ya sea que busques el complemento perfecto para tu jardín, terraza o sala de estar, encontrarás la hamaca perfecta para ti en nuestra colección. ¡Aprovecha nuestras promociones especiales y haz de cada día un día de descanso y relax en una de nuestras hamacas!',
             urlfoto: '../../../recursos/img/hamaca1.png',
             precio: 300

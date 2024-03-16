@@ -26,19 +26,19 @@ async function cargar_productos() {
         },
         {
             id_hamaca: 4,
-            nombre_producto: 'Hamaca estandar',
+            nombre_producto: 'Hamaca estándar',
             precio: 300,
             urlfoto: '../../../recursos/img/hamaca1.png'
         },
         {
             id_hamaca: 5,
-            nombre_producto: 'Hamaca estandar',
+            nombre_producto: 'Hamaca estándar',
             precio: 300,
             urlfoto: '../../../recursos/img/hamaca1.png'
         },
         {
             id_hamaca: 6,
-            nombre_producto: 'Hamaca estandar',
+            nombre_producto: 'Hamaca estándar',
             precio: 300,
             urlfoto: '../../../recursos/img/hamaca1.png'
         },
@@ -126,7 +126,7 @@ async function cargar_categorias() {
             id: 1
         },
         {
-            nombre: 'Hamaca clasica',
+            nombre: 'Hamaca clásica',
             id: 2
         },
         {
@@ -182,7 +182,7 @@ async function cargar_materiales() {
             id: 2
         },
         {
-            nombre: 'Poliester',
+            nombre: 'Poliéster',
             id: 3
         },
         {

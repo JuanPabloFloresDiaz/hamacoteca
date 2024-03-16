@@ -129,7 +129,7 @@ async function cargarTabla() {
             id: 1
         },
         {
-            nombre_producto: 'Hamaca estandar',
+            nombre_producto: 'Hamaca estándar',
             precio: 300,
             cantidad: 3,
             urlfoto: '../../../recursos/img/hamaca1.png',
