@@ -213,7 +213,7 @@ async function cargarDetalle(id_hamaca) {
                 </div>
                 <button type="button" class="btn btn-dark mt-3 ms-3 borde" onclick="openAlert()">Agregar</button>
             </div>
-            <p class="mt-3">Categoria: ${producto.Categoria}</p>
+            <p class="mt-3">Categoría: ${producto.Categoria}</p>
             <h3 class="mt-3" id="ratingValue">${producto.calificacion_promedio}</h3>
             <div class="rating">
                 <input type="radio" id="star5" name="rating" value="5"><label for="star5"></label>

@@ -226,7 +226,7 @@ async function cargar_materiales() {
 async function ordenar_resultados() {
     const lista_filtros = [
         {
-            nombre: 'Orden alfabetico'
+            nombre: 'Orden alfabético'
         },
         {
             nombre: 'Mayor precio'
