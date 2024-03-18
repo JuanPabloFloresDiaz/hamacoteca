@@ -463,6 +463,7 @@ window.onload = async function () {
             // Desactiva la interactividad de las estrellas
             star.disabled = true;
         }
+        star.disabled = true;
     });
 
     // Colorea las estrellas marcadas de naranja
@@ -470,6 +471,7 @@ window.onload = async function () {
     checkedStars.forEach(function (star) {
         star.nextElementSibling.style.color = 'orange';
         console.log("Estrella coloreada de naranja:", star.id);
+        star.disabled = true;
     });
 
     cargarComentarios(listacomentarios);
