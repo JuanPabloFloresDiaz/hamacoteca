@@ -212,16 +212,34 @@ class Validator
     *   Parámetros: $value (dato a validar).
     *   Retorno: booleano (true si el valor es correcto o false en caso contrario).
     */
-    public static function validatePassword($value)
+    public static function validatePassword($value, $user)
     {
         // Se verifica la longitud mínima.
         if (strlen($value) < 8) {
-            self::$password_error = 'La contraseña es menor a 8 caracteres';
+            self::$password_error = 'Clave menor a 8 caracteres';
             return false;
-        } elseif (strlen($value) <= 72) {
+        } elseif (strlen($value) > 72) {
+            self::$password_error = 'Clave mayor a 72 caracteres';
+            return false;
+        } elseif (preg_match('/\s/', $value)) {
+            self::$password_error = 'Clave contiene espacios en blancos ';
+            return false;
+        } elseif (!preg_match('/\W/', $value)) {
+            self::$password_error = 'Clave debe contener al menos un caracter especial';
+            return false;
+        } elseif (!preg_match('/\d/', $value)) {
+            self::$password_error = 'Clave debe contener al menos un dígito';
+            return false;
+        } elseif (!preg_match('/[a-z]/', $value)) {
+            self::$password_error = 'Clave debe contener al menos una letra en minúsculas';
+            return false;
+        } elseif (strlen(strripos($value, $user)) > 0) {
+            self::$password_error = 'Clave contiene datos del usuario ';
+            return false;
+        } elseif (preg_match('/[A-Z]/', $value)) {
             return true;
         } else {
-            self::$password_error = 'La contraseña es mayor a 72 caracteres';
+            self::$password_error = 'Clave debe contener al menos una letra en mayusculas';
             return false;
         }
     }
