@@ -7,10 +7,9 @@ async function loadComponent(path) {
 
 let SAVE_MODAL;
 let SAVE_FORM;
-let TABLE_BODY;
 
 // Constantes para completar las rutas de la API.
-let ROL_API = 'servicios/privada/roles.php';
+const ROL_API = 'servicios/privada/roles.php';
 /*
 *   Función para preparar el formulario al momento de insertar un registro.
 *   Parámetros: ninguno.
