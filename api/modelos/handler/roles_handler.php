@@ -1,6 +1,6 @@
 <?php
 // Se incluye la clase para trabajar con la base de datos.
-require_once('../../helpers/database.php');
+require_once('../../auxiliares/database.php');
 /*
  *  Clase para manejar el comportamiento de los datos de la tabla administrador.
  */
@@ -18,54 +18,46 @@ class RolesHandler
     public function searchRows()
     {
         $value = '%' . Validator::getSearchValue() . '%';
-        $sql = 'SELECT id_administrador, nombre_administrador, apellido_administrador, correo_administrador, alias_administrador
-                FROM administrador
-                WHERE apellido_administrador LIKE ? OR nombre_administrador LIKE ?
-                ORDER BY apellido_administrador';
+        $sql = 'SELECT * FROM vista_roles_administradores
+                WHERE NOMBRE LIKE ?
+                ORDER BY NOMBRE';
         $params = array($value, $value);
         return Database::getRows($sql, $params);
     }
 
     public function createRow()
     {
-        $sql = 'INSERT INTO administrador(nombre_administrador, apellido_administrador, correo_administrador, alias_administrador, clave_administrador)
-                VALUES(?, ?, ?, ?, ?)';
+        $sql = 'CALL insertar_rol_administrador(?);';
         $params = array($this->nombre);
         return Database::executeRow($sql, $params);
     }
 
     public function readAll()
     {
-        $sql = 'SELECT id_administrador, nombre_administrador, apellido_administrador, correo_administrador, alias_administrador
-                FROM administrador
-                ORDER BY apellido_administrador';
+        $sql = 'SELECT ID, NOMBRE FROM vista_roles_administradores
+                ORDER BY NOMBRE;';
         return Database::getRows($sql);
     }
 
     public function readOne()
     {
-        $sql = 'SELECT id_administrador, nombre_administrador, apellido_administrador, correo_administrador, alias_administrador
-                FROM administrador
-                WHERE id_administrador = ?';
+        $sql = 'SELECT ID, NOMBRE FROM vista_roles_administradores
+                WHERE ID = ?';
         $params = array($this->id);
         return Database::getRow($sql, $params);
     }
 
     public function updateRow()
     {
-        $sql = 'UPDATE administrador
-                SET nombre_administrador = ?, apellido_administrador = ?, correo_administrador = ?
-                WHERE id_administrador = ?';
-        $params = array($this->nombre, $this->id);
+        $sql = 'CALL actualizar_rol_administrador(?, ?);';
+        $params = array($this->id, $this->nombre);
         return Database::executeRow($sql, $params);
     }
 
     public function deleteRow()
     {
-        $sql = 'DELETE FROM administrador
-                WHERE id_administrador = ?';
+        $sql = 'CALL eliminar_rol_administrador(?);';
         $params = array($this->id);
         return Database::executeRow($sql, $params);
     }
-
 }

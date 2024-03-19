@@ -7,8 +7,10 @@ async function loadComponent(path) {
 
 let SAVE_MODAL;
 let SAVE_FORM;
+let TABLE_BODY;
+
 // Constantes para completar las rutas de la API.
-const ROL_API = '';
+let ROL_API = 'servicios/privada/roles.php';
 /*
 *   Función para preparar el formulario al momento de insertar un registro.
 *   Parámetros: ninguno.
@@ -20,7 +22,7 @@ const openCreate = () => {
     MODAL_TITLE.textContent = 'Crear rol de administrador';
     // Se prepara el formulario.
     SAVE_FORM.reset();
-    fillSelect(ROL_API, 'readAll', 'roles');
+    cargarTabla(ROL_API, 'readAll', 'roles');
 }
 
 
@@ -95,7 +97,7 @@ const openDelete = async (id) => {
 }
 
 
-async function cargarTabla() {
+async function cargarTabla(form = null) {
     const listacategoria = [
         {
             nombre: 'Root',
@@ -107,32 +109,26 @@ async function cargarTabla() {
         },
     ];
     const cargarTabla = document.getElementById('tabla_rol');
-
     try {
-        const response = await fetch(DATOS_TABLA_API);
-        if (!response.ok) {
-            throw new Error('Error al obtener los datos de la API');
-        }
-        const data = await response.json();
+        // Se verifica la acción a realizar.
+        (form) ? action = 'searchRows' : action = 'readAll';
+        // Petición para obtener los registros disponibles.
+        const DATA = await fetchData(ROL_API, action, form);
 
-        if (data && Array.isArray(data) && data.length > 0) {
+        if (DATA.status) {
             // Mostrar elementos de la lista de materiales obtenidos de la API
-            data.forEach(row => {
+            DATA.dataset.forEach(row => {
                 const tablaHtml = `
                 <tr>
-                    <td>${row.nombre_categoria}</td>
-                    <td>${row.descripcion_categoria}</td>
-                    <td>
-                        <button type="button" class="btn btn-info" onclick="openUpdate(${row.id_hamaca})">
-                            <i class="bi bi-pencil-fill"></i>
-                        </button>
-                        <button type="button" class="btn btn-danger" onclick="openDelete(${row.id_hamaca})">
-                            <i class="bi bi-trash-fill"></i>
-                        </button>
-                        <button type="button" class="btn btn-warning" onclick="openReport(${row.id_hamaca})">
-                            <i class="bi bi-filetype-pdf"></i>
-                        </button>
-                    </td>
+                <td>${row.nombre_rol}</td>
+                <td>
+                    <button type="button" class="btn btn-outline-success" onclick="openUpdate(${row.id_rol})">
+                        <i class="bi bi-pencil-fill"></i>
+                    </button>
+                    <button type="button" class="btn btn-outline-danger" onclick="openDelete(${row.id_rol})">
+                        <i class="bi bi-trash-fill"></i>
+                    </button>
+                </td>
                 </tr>
                 `;
                 cargarTabla.innerHTML += tablaHtml;
@@ -165,7 +161,6 @@ async function cargarTabla() {
 
 // window.onload
 window.onload = async function () {
-
     // Obtiene el contenedor principal
     const appContainer = document.getElementById('roles');
 
@@ -178,7 +173,6 @@ window.onload = async function () {
     // Constantes para establecer los elementos del componente Modal.
     SAVE_MODAL = new bootstrap.Modal('#saveModal'),
         MODAL_TITLE = document.getElementById('modalTitle');
-
 
     // Constantes para establecer los elementos del formulario de guardar.
     SAVE_FORM = document.getElementById('saveForm'),
@@ -202,9 +196,10 @@ window.onload = async function () {
                 // Se muestra un mensaje de éxito.
                 sweetAlert(1, DATA.message, true);
                 // Se carga nuevamente la tabla para visualizar los cambios.
-                fillTable();
+                cargarTabla();
             } else {
                 sweetAlert(2, DATA.error, false);
             }
         });
+
 };
