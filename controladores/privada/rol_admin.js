@@ -1,16 +1,20 @@
+//Variables
+let SAVE_MODAL;
+let SAVE_FORM,
+    ID_ROL,
+    NOMBRE_ROL;
+let SEARCH_FORM;
+
+// Constantes para completar las rutas de la API.
+const ROL_API = 'servicios/privada/roles.php';
+
+//Función que carga los componentes
 async function loadComponent(path) {
     const response = await fetch(path);
     const text = await response.text();
     return text;
 }
 
-
-let SAVE_MODAL;
-let SAVE_FORM;
-let SEARCH_FORM;
-
-// Constantes para completar las rutas de la API.
-const ROL_API = 'servicios/privada/roles.php';
 /*
 *   Función para preparar el formulario al momento de insertar un registro.
 *   Parámetros: ninguno.
@@ -23,9 +27,6 @@ const openCreate = () => {
     // Se prepara el formulario.
     SAVE_FORM.reset();
 }
-
-
-
 /*
 *   Función asíncrona para preparar el formulario al momento de actualizar un registro.
 *   Parámetros: id (identificador del registro seleccionado).
@@ -65,8 +66,6 @@ const openUpdate = async (id) => {
     }
 
 }
-
-
 /*
 *   Función asíncrona para eliminar un registro.
 *   Parámetros: id (identificador del registro seleccionado).
@@ -101,7 +100,11 @@ const openDelete = async (id) => {
 
 }
 
-
+/*
+*   Función asíncrona para llenar la tabla con los registros disponibles.
+*   Parámetros: form (objeto opcional con los datos de búsqueda).
+*   Retorno: ninguno.
+*/
 async function cargarTabla(form = null) {
     const listacategoria = [
         {
@@ -176,15 +179,40 @@ window.onload = async function () {
     // Agrega el HTML del encabezado
     appContainer.innerHTML = navbarHtml + adminHtml;
     cargarTabla();
+
     // Constantes para establecer los elementos del componente Modal.
     SAVE_MODAL = new bootstrap.Modal('#saveModal'),
         MODAL_TITLE = document.getElementById('modalTitle');
-
-
+    // Constantes para establecer los elementos del formulario de guardar.
+    SAVE_FORM = document.getElementById('saveForm'),
+        ID_ROL = document.getElementById('idRol'),
+        NOMBRE_ROL = document.getElementById('nombreRol');
+    // Método del evento para cuando se envía el formulario de guardar.
+    SAVE_FORM.addEventListener('submit', async (event) => {
+        // Se evita recargar la página web después de enviar el formulario.
+        event.preventDefault();
+        // Se verifica la acción a realizar.
+        (ID_ROL.value) ? action = 'updateRow' : action = 'createRow';
+        // Constante tipo objeto con los datos del formulario.
+        const FORM = new FormData(SAVE_FORM);
+        // Petición para guardar los datos del formulario.
+        const DATA = await fetchData(ROL_API, action, FORM);
+        // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
+        if (DATA.status) {
+            // Se cierra la caja de diálogo.
+            SAVE_MODAL.hide();
+            // Se muestra un mensaje de éxito.
+            sweetAlert(1, DATA.message, true);
+            // Se carga nuevamente la tabla para visualizar los cambios.
+            cargarTabla();
+        } else {
+            sweetAlert(2, DATA.error, false);
+        }
+    });
     // Constante para establecer el formulario de buscar.
-    SEARCH_FORM = document.getElementById('searchForm');
-    // Verificar si SEARCH_FORM está seleccionado correctamente
-    console.log(SEARCH_FORM);
+    SEARCH_FORM = document.getElementById('searchForm'),
+        // Verificar si SEARCH_FORM está seleccionado correctamente
+        console.log(SEARCH_FORM)
     // Método del evento para cuando se envía el formulario de buscar.
     SEARCH_FORM.addEventListener('submit', async (event) => {
         // Se evita recargar la página web después de enviar el formulario.
@@ -194,40 +222,4 @@ window.onload = async function () {
         // Llamada a la función para llenar la tabla con los resultados de la búsqueda.
         cargarTabla(FORM);
     });
-
-    // Constantes para establecer los elementos del formulario de guardar.
-    SAVE_FORM = document.getElementById('saveForm'),
-        ID_ROL = document.getElementById('idRol'),
-        NOMBRE_ROL = document.getElementById('nombreRol'),
-
-        // Método del evento para cuando se envía el formulario de guardar.
-        SAVE_FORM.addEventListener('submit', async (event) => {
-            // Se evita recargar la página web después de enviar el formulario.
-            event.preventDefault();
-            // Se verifica la acción a realizar.
-            (ID_ROL.value) ? action = 'updateRow' : action = 'createRow';
-            console.log(action);
-            console.log(ID_ROL.value);
-
-            // Constante tipo objeto con los datos del formulario.
-            const FORM = new FormData(SAVE_FORM);
-            console.log(FORM)
-            console.log(SAVE_FORM)
-            // Petición para guardar los datos del formulario.
-            const DATA = await fetchData(ROL_API, action, FORM);
-            console.log(DATA);
-            // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
-            if (DATA.status) {
-                // Se cierra la caja de diálogo.
-                SAVE_MODAL.hide();
-                // Se muestra un mensaje de éxito.
-                sweetAlert(1, DATA.message, true);
-                // Se carga nuevamente la tabla para visualizar los cambios.
-                cargarTabla();
-            } else {
-                sweetAlert(2, DATA.error, false);
-            }
-        });
-
-
 };

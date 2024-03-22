@@ -57,7 +57,7 @@ if (isset($_GET['action'])) {
                 $_POST = Validator::validateForm($_POST);
                 if (
                     !$rol->setId($_POST['idRol']) or
-                    !$rpl->setNombre($_POST['nombreRol'])
+                    !$rol->setNombre($_POST['nombreRol'])
                 ) {
                     $result['error'] = $rol->getDataError();
                 } elseif ($rol->updateRow()) {
