@@ -20,8 +20,8 @@ class RolesHandler
         $value = '%' . Validator::getSearchValue() . '%';
         $sql = 'SELECT * FROM vista_roles_administradores
                 WHERE NOMBRE LIKE ?
-                ORDER BY NOMBRE';
-        $params = array($value, $value);
+                ORDER BY NOMBRE;';
+        $params = array($value);
         return Database::getRows($sql, $params);
     }
 
