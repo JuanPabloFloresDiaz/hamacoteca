@@ -64,7 +64,7 @@ class AdministradoresHandler
         $sql = 'SELECT * FROM vista_tabla_administradores
         WHERE NOMBRE LIKE ?
         ORDER BY NOMBRE;';
-        $params = array($value, $value);
+        $params = array($value);
         return Database::getRows($sql, $params);
     }
 
