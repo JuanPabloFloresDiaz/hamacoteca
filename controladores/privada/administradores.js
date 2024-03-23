@@ -219,6 +219,13 @@ window.onload = async function () {
     const adminHtml = await loadComponent('../componentes/administradores/admins.html');
     // Agrega el HTML del encabezado
     appContainer.innerHTML = navbarHtml + adminHtml;
+    const theme = localStorage.getItem('theme'); // Obtener el tema desde localStorage
+
+    if (theme === 'dark') {
+        document.documentElement.setAttribute('data-bs-theme', 'dark');
+    } else {
+        document.documentElement.setAttribute('data-bs-theme', 'light');
+    }
 
     cargarTabla();
 

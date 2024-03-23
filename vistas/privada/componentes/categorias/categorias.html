@@ -5,9 +5,12 @@
 
         <!-- Buscador -->
         <div class="mx-auto">
-            <form class="d-flex">
-                <input class="form-control me-2" type="search" placeholder="Buscar" aria-label="Buscar">
-                <button class="btn btn-outline-dark" type="submit">Buscar</button>
+            <form id="searchForm" class="d-flex">
+                <input type="search" class="form-control me-2" name="search" placeholder="Buscar" required>
+                <button type="submit" class="btn btn-outline-dark me-5">Buscar</button>
+                <button type="reset" class="btn btn-white" onclick="cargarTabla()">
+                    <i class="bi bi-arrow-clockwise"></i>
+                </button>
             </form>
         </div>
 

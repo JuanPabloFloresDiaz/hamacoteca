@@ -165,4 +165,11 @@ window.onload = async function () {
     // Agrega el HTML del encabezado
     appContainer.innerHTML = navbarHtml + listapedidosHtml;
     cargarTabla();
+    const theme = localStorage.getItem('theme'); // Obtener el tema desde localStorage
+
+    if (theme === 'dark') {
+        document.documentElement.setAttribute('data-bs-theme', 'dark');
+    } else {
+        document.documentElement.setAttribute('data-bs-theme', 'light');
+    }
 };

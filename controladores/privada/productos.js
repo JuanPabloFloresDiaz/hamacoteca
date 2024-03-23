@@ -219,6 +219,13 @@ window.onload = async function () {
     // Agrega el HTML del encabezado
     appContainer.innerHTML = navbarHtml + adminHtml;
     cargarTabla();
+    const theme = localStorage.getItem('theme'); // Obtener el tema desde localStorage
+
+    if (theme === 'dark') {
+        document.documentElement.setAttribute('data-bs-theme', 'dark');
+    } else {
+        document.documentElement.setAttribute('data-bs-theme', 'light');
+    }
     // Constantes para establecer los elementos del componente Modal.
     SAVE_MODAL = new bootstrap.Modal('#saveModal'),
         MODAL_TITLE = document.getElementById('modalTitle');

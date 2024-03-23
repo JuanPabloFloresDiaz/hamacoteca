@@ -266,6 +266,13 @@ window.onload = async function () {
     const dashboardHtml = await loadComponent('../componentes/dashboard/dashboard.html');
     // Agrega el HTML del encabezado
     appContainer.innerHTML = navbarHtml + dashboardHtml;
+    const theme = localStorage.getItem('theme'); // Obtener el tema desde localStorage
+
+    if (theme === 'dark') {
+        document.documentElement.setAttribute('data-bs-theme', 'dark');
+    } else {
+        document.documentElement.setAttribute('data-bs-theme', 'light');
+    }
     cargarTabla();
     // Llama a la función para mostrar el gráfico de barras
     cargarGraficaLineal();

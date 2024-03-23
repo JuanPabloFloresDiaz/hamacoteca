@@ -151,5 +151,11 @@ window.onload = async function () {
     appContainer.innerHTML = navbarHtml + valoracionHtml;
 
     cargarTabla();
+    const theme = localStorage.getItem('theme'); // Obtener el tema desde localStorage
 
+    if (theme === 'dark') {
+        document.documentElement.setAttribute('data-bs-theme', 'dark');
+    } else {
+        document.documentElement.setAttribute('data-bs-theme', 'light');
+    }
 };
