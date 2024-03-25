@@ -1,3 +1,6 @@
+let SEARCH_FORM;
+// Constantes para completar las rutas de la API.
+const PEDIDOS_API = '';
 
 async function loadComponent(path) {
     const response = await fetch(path);
@@ -5,10 +8,8 @@ async function loadComponent(path) {
     return text;
 }
 
-// Constantes para completar las rutas de la API.
-const PEDIDOS_API = '';
 
-async function cargarTabla() {
+async function cargarTabla(form = null) {
     const listapedidos = [
         {
             producto: 'Hamaca ligera',
@@ -50,15 +51,17 @@ async function cargarTabla() {
     const cargarTabla = document.getElementById('tabla_pedidos');
 
     try {
-        const response = await fetch(DATOS_TABLA_API);
-        if (!response.ok) {
-            throw new Error('Error al obtener los datos de la API');
-        }
-        const data = await response.json();
+        cargarTabla.innerHTML = '';
+        // Se verifica la acción a realizar.
+        (form) ? action = 'searchRows' : action = 'readAll';
+        console.log(form);
+        // Petición para obtener los registros disponibles.
+        const DATA = await fetchData(PEDIDOS_API, action, form);
+        console.log(DATA);
 
-        if (data && Array.isArray(data) && data.length > 0) {
-            // Mostrar elementos de la lista de materiales obtenidos de la API
-            data.forEach(row => {
+        if (DATA.status) {
+            // Mostrar elementos obtenidos de la API
+            DATA.dataset.forEach(row => {
                 const tablaHtml = `
                 <tr>
                     <td><img src="${SERVER_URL}images/categorias/${row.imagen_hamaca}" height="50" width="50" class="circulo"></td>
@@ -80,7 +83,7 @@ async function cargarTabla() {
                 cargarTabla.innerHTML += tablaHtml;
             });
         } else {
-            throw new Error('La respuesta de la API no contiene datos válidos');
+            sweetAlert(4, DATA.error, true);
         }
     } catch (error) {
         console.error('Error al obtener datos de la API:', error);
@@ -121,7 +124,6 @@ window.onload = async function () {
     const pedidosHtml = await loadComponent('../componentes/pedidos/historial_pedidos.html');
     // Agrega el HTML del encabezado
     appContainer.innerHTML = navbarHtml + pedidosHtml;
-    cargarTabla();
     const theme = localStorage.getItem('theme'); // Obtener el tema desde localStorage
 
     if (theme === 'dark') {
@@ -129,4 +131,20 @@ window.onload = async function () {
     } else {
         document.documentElement.setAttribute('data-bs-theme', 'light');
     }
+    cargarTabla();
+    // Constante para establecer el formulario de buscar.
+    SEARCH_FORM = document.getElementById('searchForm');
+    // Verificar si SEARCH_FORM está seleccionado correctamente
+    console.log(SEARCH_FORM)
+    // Método del evento para cuando se envía el formulario de buscar.
+    SEARCH_FORM.addEventListener('submit', (event) => {
+        // Se evita recargar la página web después de enviar el formulario.
+        event.preventDefault();
+        // Constante tipo objeto con los datos del formulario.
+        const FORM = new FormData(SEARCH_FORM);
+        console.log(SEARCH_FORM);
+        console.log(FORM);
+        // Llamada a la función para llenar la tabla con los resultados de la búsqueda.
+        cargarTabla(FORM);
+    });
 };

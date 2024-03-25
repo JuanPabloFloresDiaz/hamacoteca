@@ -11,24 +11,6 @@ class Database
     private static $connection = null;
     private static $statement = null;
     private static $error = null;
-
-    /*
-     *   Método para comprobar si la conexión a la base de datos se ha realizado correctamente.
-     *   Retorno: booleano (true si la conexión se ha realizado correctamente, false en caso contrario).
-     */
-    public static function checkConnection()
-    {
-        try {
-            // Se crea una conexión de prueba.
-            self::$connection = new PDO('mysql:host=' . SERVER . ';dbname=' . DATABASE, USERNAME, PASSWORD);
-            // Se retorna true si la conexión se realiza sin errores.
-            return true;
-        } catch (PDOException $error) {
-            // Se obtiene el código y el mensaje de la excepción para establecer un error personalizado.
-            self::setException($error->getCode(), $error->getMessage());
-            return false;
-        }
-    }
     /*
      *   Método para ejecutar las sentencias SQL.
      *   Parámetros: $query (sentencia SQL) y $values (arreglo con los valores para la sentencia SQL).
@@ -136,11 +118,4 @@ class Database
     {
         return self::$error;
     }
-}
-// Punto final para verificar la conexión
-if (isset($_GET['action']) && $_GET['action'] === 'check_connection') {
-    // Verifica la conexión y devuelve la respuesta JSON
-    $response = Database::checkConnection() ? ['connected' => true] : ['connected' => false];
-    echo json_encode($response);
-    exit;
 }

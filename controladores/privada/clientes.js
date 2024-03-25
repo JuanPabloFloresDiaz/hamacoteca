@@ -1,14 +1,12 @@
+let SEARCH_FORM;
+// Constantes para completar las rutas de la API.
+const CLIENTES_API = '';
 
 async function loadComponent(path) {
     const response = await fetch(path);
     const text = await response.text();
     return text;
 }
-
-
-// Constantes para completar las rutas de la API.
-const CLIENTES_API = '';
-
 
 /*
 *   Función asíncrona para preparar el formulario al momento de actualizar un registro.
@@ -19,7 +17,7 @@ const openUpdate = async (id) => {
     try {
         // Se define un objeto con los datos del registro seleccionado.
         const FORM = new FormData();
-        FORM.append('id_cliente', id);
+        FORM.append('idCliente', id);
         // Petición para obtener los datos del registro solicitado.
         const DATA = await fetchData(CLIENTES_API, 'readOne', FORM);
         // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
@@ -29,7 +27,6 @@ const openUpdate = async (id) => {
             MODAL_TITLE.textContent = 'Actualizar cliente';
             // Se prepara el formulario.
             SAVE_FORM.reset();
-            EXISTENCIAS_PRODUCTO.disabled = true;
             // Se inicializan los campos con los datos.
             const ROW = DATA.dataset;
             ID_ADMINISTRADOR.value = ROW.id_administrado;
@@ -52,7 +49,7 @@ const openUpdate = async (id) => {
 }
 
 
-async function cargarTabla() {
+async function cargarTabla(form = null) {
     const lista_datos = [
         {
             imagen: '../../../recursos/img/mujer.jpg',
@@ -94,15 +91,17 @@ async function cargarTabla() {
     const cargarTabla = document.getElementById('tabla_clientes');
 
     try {
-        const response = await fetch(DATOS_TABLA_API);
-        if (!response.ok) {
-            throw new Error('Error al obtener los datos de la API');
-        }
-        const data = await response.json();
+        cargarTabla.innerHTML = '';
+        // Se verifica la acción a realizar.
+        (form) ? action = 'searchRows' : action = 'readAll';
+        console.log(form);
+        // Petición para obtener los registros disponibles.
+        const DATA = await fetchData(CLIENTES_API, action, form);
+        console.log(DATA);
 
-        if (data && Array.isArray(data) && data.length > 0) {
-            // Mostrar elementos de la lista de materiales obtenidos de la API
-            data.forEach(row => {
+        if (DATA.status) {
+            // Mostrar elementos obtenidos de la API
+            DATA.dataset.forEach(row => {
                 const tablaHtml = `
                 <tr>
                     <td><img src="${SERVER_URL}images/categorias/${row.imagen_cliente}" height="50" width="50" class="circulo"></td>
@@ -124,7 +123,7 @@ async function cargarTabla() {
                 cargarTabla.innerHTML += tablaHtml;
             });
         } else {
-            throw new Error('La respuesta de la API no contiene datos válidos');
+            sweetAlert(4, DATA.error, true);
         }
     } catch (error) {
         console.error('Error al obtener datos de la API:', error);
@@ -171,5 +170,19 @@ window.onload = async function () {
         document.documentElement.setAttribute('data-bs-theme', 'light');
     }
     cargarTabla();
-
+    // Constante para establecer el formulario de buscar.
+    SEARCH_FORM = document.getElementById('searchForm');
+    // Verificar si SEARCH_FORM está seleccionado correctamente
+    console.log(SEARCH_FORM)
+    // Método del evento para cuando se envía el formulario de buscar.
+    SEARCH_FORM.addEventListener('submit', (event) => {
+        // Se evita recargar la página web después de enviar el formulario.
+        event.preventDefault();
+        // Constante tipo objeto con los datos del formulario.
+        const FORM = new FormData(SEARCH_FORM);
+        console.log(SEARCH_FORM);
+        console.log(FORM);
+        // Llamada a la función para llenar la tabla con los resultados de la búsqueda.
+        cargarTabla(FORM);
+    });
 };

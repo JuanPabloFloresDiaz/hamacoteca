@@ -1,16 +1,26 @@
+let SAVE_MODAL;
+let SAVE_FORM,
+    ID_ADMINISTRADOR,
+    NOMBRE_ADMINISTRADOR,
+    APELLIDO_ADMINISTRADOR,
+    CORREO_ADMINISTRADOR,
+    TELEFONO_ADMINISTRADOR,
+    DUI_ADMINISTRADOR,
+    NACIMIENTO_ADMINISTRADOR,
+    CLAVE_ADMINISTRADOR,
+    REPETIR_CLAVE,
+    ROL_ADMINISTRADOR;
+let SEARCH_FORM;
+
+// Constantes para completar las rutas de la API.
+const ADMINISTRADOR_API = '';
+const ROL_API = 'servicios/privada/roles.php';
 
 async function loadComponent(path) {
     const response = await fetch(path);
     const text = await response.text();
     return text;
 }
-
-let SAVE_MODAL;
-let SAVE_FORM;
-
-// Constantes para completar las rutas de la API.
-const ADMINISTRADOR_API = '';
-const ROL_API = '';
 /*
 *   Función para preparar el formulario al momento de insertar un registro.
 *   Parámetros: ninguno.
@@ -22,10 +32,8 @@ const openCreate = () => {
     MODAL_TITLE.textContent = 'Crear administrador';
     // Se prepara el formulario.
     SAVE_FORM.reset();
-    fillSelect(ADMINISTRADOR_API, 'readAll', 'administradores');
+    fillSelect(ROL_API, 'readAll', 'rolAdministrador');
 }
-
-
 /*
 *   Función asíncrona para preparar el formulario al momento de actualizar un registro.
 *   Parámetros: id (identificador del registro seleccionado).
@@ -35,9 +43,9 @@ const openUpdate = async (id) => {
     try {
         // Se define un objeto con los datos del registro seleccionado.
         const FORM = new FormData();
-        FORM.append('id_administrador', id);
+        FORM.append('idAdministrador', id);
         // Petición para obtener los datos del registro solicitado.
-        const DATA = await fetchData(PRODUCTO_API, 'readOne', FORM);
+        const DATA = await fetchData(ADMINISTRADOR_API, 'readOne', FORM);
         // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
         if (DATA.status) {
             // Se muestra la caja de diálogo con su título.
@@ -45,16 +53,15 @@ const openUpdate = async (id) => {
             MODAL_TITLE.textContent = 'Actualizar administrador';
             // Se prepara el formulario.
             SAVE_FORM.reset();
-            EXISTENCIAS_PRODUCTO.disabled = true;
             // Se inicializan los campos con los datos.
             const ROW = DATA.dataset;
-            ID_ADMINISTRADOR.value = ROW.id_administrado;
+            ID_ADMINISTRADOR.value = ROW.id_administrador;
             NOMBRE_ADMINISTRADOR.value = ROW.nombre_administrador;
             APELLIDO_ADMINISTRADOR.value = ROW.apellido_administrador;
             CORREO_ADMINISTRADOR.value = ROW.correo_administrador;
             TELEFONO_ADMINISTRADOR.value = ROW.telefono_administrador;
             DUI_ADMINISTRADOR.value = ROW.dui_administrador;
-            NACIMIENTO_ADMINISTRADOR.value = row.fecha_nacimiento_administrador;
+            NACIMIENTO_ADMINISTRADOR.value = ROW.fecha_nacimiento_administrador;
             CLAVE_ADMINISTRADOR.value = ROW.clave_administrador;
             fillSelect(ROL_API, 'readAll', 'rolAdministrador', ROW.id_rol);
         } else {
@@ -67,8 +74,6 @@ const openUpdate = async (id) => {
     }
 
 }
-
-
 /*
 *   Función asíncrona para eliminar un registro.
 *   Parámetros: id (identificador del registro seleccionado).
@@ -82,15 +87,15 @@ const openDelete = async (id) => {
         if (RESPONSE) {
             // Se define una constante tipo objeto con los datos del registro seleccionado.
             const FORM = new FormData();
-            FORM.append('id_administrador', id);
+            FORM.append('idAdministrador', id);
             // Petición para eliminar el registro seleccionado.
-            const DATA = await fetchData(PRODUCTO_API, 'deleteRow', FORM);
+            const DATA = await fetchData(ADMINISTRADOR_API, 'deleteRow', FORM);
             // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
             if (DATA.status) {
                 // Se muestra un mensaje de éxito.
                 await sweetAlert(1, DATA.message, true);
                 // Se carga nuevamente la tabla para visualizar los cambios.
-                fillTable();
+                cargarTabla();
             } else {
                 sweetAlert(2, DATA.error, false);
             }
@@ -104,7 +109,7 @@ const openDelete = async (id) => {
 }
 
 
-async function cargarTabla() {
+async function cargarTabla(form = null) {
     const lista_datos = [
         {
             imagen: '../../../recursos/img/foto.png',
@@ -146,15 +151,17 @@ async function cargarTabla() {
     const cargarTabla = document.getElementById('tabla_administradores');
 
     try {
-        const response = await fetch(DATOS_TABLA_API);
-        if (!response.ok) {
-            throw new Error('Error al obtener los datos de la API');
-        }
-        const data = await response.json();
+        cargarTabla.innerHTML = '';
+        // Se verifica la acción a realizar.
+        (form) ? action = 'searchRows' : action = 'readAll';
+        console.log(form);
+        // Petición para obtener los registros disponibles.
+        const DATA = await fetchData(ADMINISTRADOR_API, action, form);
+        console.log(DATA);
 
-        if (data && Array.isArray(data) && data.length > 0) {
-            // Mostrar elementos de la lista de materiales obtenidos de la API
-            data.forEach(row => {
+        if (DATA.status) {
+            // Mostrar elementos obtenidos de la API
+            DATA.dataset.forEach(row => {
                 const tablaHtml = `
                 <tr>
                     <td><img src="${SERVER_URL}images/categorias/${row.imagen_cliente}" height="50" width="50" class="circulo"></td>
@@ -179,7 +186,7 @@ async function cargarTabla() {
                 cargarTabla.innerHTML += tablaHtml;
             });
         } else {
-            throw new Error('La respuesta de la API no contiene datos válidos');
+            sweetAlert(4, DATA.error, true);
         }
     } catch (error) {
         console.error('Error al obtener datos de la API:', error);
@@ -219,16 +226,13 @@ window.onload = async function () {
     const adminHtml = await loadComponent('../componentes/administradores/admins.html');
     // Agrega el HTML del encabezado
     appContainer.innerHTML = navbarHtml + adminHtml;
+    cargarTabla();
     const theme = localStorage.getItem('theme'); // Obtener el tema desde localStorage
-
     if (theme === 'dark') {
         document.documentElement.setAttribute('data-bs-theme', 'dark');
     } else {
         document.documentElement.setAttribute('data-bs-theme', 'light');
     }
-
-    cargarTabla();
-
     // Constantes para establecer los elementos del componente Modal.
     SAVE_MODAL = new bootstrap.Modal('#saveModal'),
         MODAL_TITLE = document.getElementById('modalTitle');
@@ -245,19 +249,6 @@ window.onload = async function () {
         CLAVE_ADMINISTRADOR = document.getElementById('contraseña'),
         REPETIR_CLAVE = document.getElementById('repetirContraseña'),
         ROL_ADMINISTRADOR = document.getElementById('rolAdministrador');
-
-    // Llamada a la función para establecer la mascara del campo teléfono.
-    vanillaTextMask.maskInput({
-        inputElement: document.getElementById('telefonoAdministrador'),
-        mask: [/\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/]
-    });
-    // Llamada a la función para establecer la mascara del campo DUI.
-    vanillaTextMask.maskInput({
-        inputElement: document.getElementById('duiAdministrador'),
-        mask: [/\d/, /\d/, /\d/, /\d/, /\d/, /\d/, /\d/, /\d/, '-', /\d/]
-    });
-
-
     // Método del evento para cuando se envía el formulario de guardar.
     SAVE_FORM.addEventListener('submit', async (event) => {
         // Se evita recargar la página web después de enviar el formulario.
@@ -267,7 +258,7 @@ window.onload = async function () {
         // Constante tipo objeto con los datos del formulario.
         const FORM = new FormData(SAVE_FORM);
         // Petición para guardar los datos del formulario.
-        const DATA = await fetchData(PRODUCTO_API, action, FORM);
+        const DATA = await fetchData(ADMINISTRADOR_API, action, FORM);
         // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
         if (DATA.status) {
             // Se cierra la caja de diálogo.
@@ -279,5 +270,30 @@ window.onload = async function () {
         } else {
             sweetAlert(2, DATA.error, false);
         }
+    });
+    // Constante para establecer el formulario de buscar.
+    SEARCH_FORM = document.getElementById('searchForm');
+    // Verificar si SEARCH_FORM está seleccionado correctamente
+    console.log(SEARCH_FORM)
+    // Método del evento para cuando se envía el formulario de buscar.
+    SEARCH_FORM.addEventListener('submit', (event) => {
+        // Se evita recargar la página web después de enviar el formulario.
+        event.preventDefault();
+        // Constante tipo objeto con los datos del formulario.
+        const FORM = new FormData(SEARCH_FORM);
+        console.log(SEARCH_FORM);
+        console.log(FORM);
+        // Llamada a la función para llenar la tabla con los resultados de la búsqueda.
+        cargarTabla(FORM);
+    });
+    // Llamada a la función para establecer la mascara del campo teléfono.
+    vanillaTextMask.maskInput({
+        inputElement: document.getElementById('telefonoAdministrador'),
+        mask: [/\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/]
+    });
+    // Llamada a la función para establecer la mascara del campo DUI.
+    vanillaTextMask.maskInput({
+        inputElement: document.getElementById('duiAdministrador'),
+        mask: [/\d/, /\d/, /\d/, /\d/, /\d/, /\d/, /\d/, /\d/, '-', /\d/]
     });
 };
