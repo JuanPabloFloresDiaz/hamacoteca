@@ -2,7 +2,8 @@ let SAVE_MODAL;
 let SAVE_FORM,
     ID_MATERIAL,
     NOMBRE_MATERIAL,
-    DESCRIPCION_MATERIAL;
+    DESCRIPCION_MATERIAL,
+    IMAGEN_MATERIAL;
 let SEARCH_FORM;
 // Constantes para completar las rutas de la API.
 const MATERIAL_API = '';
@@ -204,14 +205,15 @@ window.onload = async function () {
     SAVE_FORM = document.getElementById('saveForm'),
         ID_MATERIAL = document.getElementById('idMaterial'),
         NOMBRE_MATERIAL = document.getElementById('nombreMaterial'),
-        DESCRIPCION_MATERIAL = document.getElementById('descripcionMaterial');
+        DESCRIPCION_MATERIAL = document.getElementById('descripcionMaterial'),
+        IMAGEN_MATERIAL = document.getElementById('imagenMaterial');
 
     // Método del evento para cuando se envía el formulario de guardar.
     SAVE_FORM.addEventListener('submit', async (event) => {
         // Se evita recargar la página web después de enviar el formulario.
         event.preventDefault();
         // Se verifica la acción a realizar.
-        (ID_PRODUCTO.value) ? action = 'updateRow' : action = 'createRow';
+        (ID_MATERIAL.value) ? action = 'updateRow' : action = 'createRow';
         // Constante tipo objeto con los datos del formulario.
         const FORM = new FormData(SAVE_FORM);
         // Petición para guardar los datos del formulario.

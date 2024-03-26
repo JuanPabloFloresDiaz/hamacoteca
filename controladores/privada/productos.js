@@ -8,7 +8,14 @@ async function loadComponent(path) {
 
 let SAVE_MODAL;
 let IMAGE_MODAL;
-let SAVE_FORM;
+let SAVE_FORM,
+    ID_HAMACA,
+    IMAGEN_HAMACA,
+    NOMBRE_HAMACA,
+    CANTIDAD_HAMACA,
+    PRECIO_HAMACA,
+    DESCRIPCION_HAMACA;
+let SEARCH_FORM;
 // Constantes para completar las rutas de la API.
 const HAMACA_API = '';
 /*
@@ -22,20 +29,14 @@ const openCreate = () => {
     MODAL_TITLE.textContent = 'Crear hamaca';
     // Se prepara el formulario.
     SAVE_FORM.reset();
-    fillSelect(HAMACA_API, 'readAll', 'hamacas');
 }
-
 const openImage = () => {
     // Se muestra la caja de diálogo con su título.
     IMAGE_MODAL.show();
     MODAL_TITLE_IMAGE.textContent = 'Agregar foto';
     // Se prepara el formulario.
     IMAGE_MODAL.reset();
-    fillSelect(HAMACA_API, 'readAll', 'hamacas');
 }
-
-
-
 /*
 *   Función asíncrona para preparar el formulario al momento de actualizar un registro.
 *   Parámetros: id (identificador del registro seleccionado).
@@ -45,7 +46,7 @@ const openUpdate = async (id) => {
     try {
         // Se define un objeto con los datos del registro seleccionado.
         const FORM = new FormData();
-        FORM.append('id_hamaca', id);
+        FORM.append('idHamaca', id);
         // Petición para obtener los datos del registro solicitado.
         const DATA = await fetchData(PRODUCTO_API, 'readOne', FORM);
         // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
@@ -55,7 +56,6 @@ const openUpdate = async (id) => {
             MODAL_TITLE.textContent = 'Actualizar hamaca';
             // Se prepara el formulario.
             SAVE_FORM.reset();
-            EXISTENCIAS_PRODUCTO.disabled = true;
             // Se inicializan los campos con los datos.
             const ROW = DATA.dataset;
             ID_ADMINISTRADOR.value = ROW.id_administrado;
@@ -88,7 +88,7 @@ const openDelete = async (id) => {
         if (RESPONSE) {
             // Se define una constante tipo objeto con los datos del registro seleccionado.
             const FORM = new FormData();
-            FORM.append('id_hamaca', id);
+            FORM.append('idHamaca', id);
             // Petición para eliminar el registro seleccionado.
             const DATA = await fetchData(PRODUCTO_API, 'deleteRow', FORM);
             // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
@@ -96,7 +96,7 @@ const openDelete = async (id) => {
                 // Se muestra un mensaje de éxito.
                 await sweetAlert(1, DATA.message, true);
                 // Se carga nuevamente la tabla para visualizar los cambios.
-                fillTable();
+                cargarTabla();
             } else {
                 sweetAlert(2, DATA.error, false);
             }
@@ -110,7 +110,7 @@ const openDelete = async (id) => {
 }
 
 
-async function cargarTabla() {
+async function cargarTabla(form = null) {
     const listahamacas = [
         {
             nombre_producto: 'Hamaca ligera',
@@ -143,15 +143,17 @@ async function cargarTabla() {
     const cargarTabla = document.getElementById('tabla_administradores');
 
     try {
-        const response = await fetch(DATOS_TABLA_API);
-        if (!response.ok) {
-            throw new Error('Error al obtener los datos de la API');
-        }
-        const data = await response.json();
+        cargarTabla.innerHTML = '';
+        // Se verifica la acción a realizar.
+        (form) ? action = 'searchRows' : action = 'readAll';
+        console.log(form);
+        // Petición para obtener los registros disponibles.
+        const DATA = await fetchData(ROL_API, action, form);
+        console.log(DATA);
 
-        if (data && Array.isArray(data) && data.length > 0) {
-            // Mostrar elementos de la lista de materiales obtenidos de la API
-            data.forEach(row => {
+        if (DATA.status) {
+            // Mostrar elementos de la lista obtenidos de la API
+            DATA.dataset.forEach(row => {
                 const tablaHtml = `
                 <tr>
                     <td><img src="${SERVER_URL}images/categorias/${row.imagen_hamaca}" height="50" width="50" class="circulo"></td>
@@ -230,7 +232,7 @@ window.onload = async function () {
     SAVE_MODAL = new bootstrap.Modal('#saveModal'),
         MODAL_TITLE = document.getElementById('modalTitle');
 
-        IMAGE_MODAL = new bootstrap.Modal('#modalAgregarFoto'),
+    IMAGE_MODAL = new bootstrap.Modal('#modalAgregarFoto'),
         MODAL_TITLE_IMAGE = document.getElementById('exampleModalLabel');
 
 
@@ -241,27 +243,43 @@ window.onload = async function () {
         CANTIDAD_HAMACA = document.getElementById('cantidadHamaca'),
         PRECIO_HAMACA = document.getElementById('precioHamaca'),
         DESCRIPCION_HAMACA = document.getElementById('descripcionHamaca'),
+        IMAGEN_HAMACA = document.getElementById('imagenHamaca');
 
-        // Método del evento para cuando se envía el formulario de guardar.
-        SAVE_FORM.addEventListener('submit', async (event) => {
-            // Se evita recargar la página web después de enviar el formulario.
-            event.preventDefault();
-            // Se verifica la acción a realizar.
-            (ID_PRODUCTO.value) ? action = 'updateRow' : action = 'createRow';
-            // Constante tipo objeto con los datos del formulario.
-            const FORM = new FormData(SAVE_FORM);
-            // Petición para guardar los datos del formulario.
-            const DATA = await fetchData(PRODUCTO_API, action, FORM);
-            // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
-            if (DATA.status) {
-                // Se cierra la caja de diálogo.
-                SAVE_MODAL.hide();
-                // Se muestra un mensaje de éxito.
-                sweetAlert(1, DATA.message, true);
-                // Se carga nuevamente la tabla para visualizar los cambios.
-                fillTable();
-            } else {
-                sweetAlert(2, DATA.error, false);
-            }
-        });
+    // Método del evento para cuando se envía el formulario de guardar.
+    SAVE_FORM.addEventListener('submit', async (event) => {
+        // Se evita recargar la página web después de enviar el formulario.
+        event.preventDefault();
+        // Se verifica la acción a realizar.
+        (ID_HAMACA.value) ? action = 'updateRow' : action = 'createRow';
+        // Constante tipo objeto con los datos del formulario.
+        const FORM = new FormData(SAVE_FORM);
+        // Petición para guardar los datos del formulario.
+        const DATA = await fetchData(PRODUCTO_API, action, FORM);
+        // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
+        if (DATA.status) {
+            // Se cierra la caja de diálogo.
+            SAVE_MODAL.hide();
+            // Se muestra un mensaje de éxito.
+            sweetAlert(1, DATA.message, true);
+            // Se carga nuevamente la tabla para visualizar los cambios.
+            cargarTabla();
+        } else {
+            sweetAlert(2, DATA.error, false);
+        }
+    });
+    // Constante para establecer el formulario de buscar.
+    SEARCH_FORM = document.getElementById('searchForm');
+    // Verificar si SEARCH_FORM está seleccionado correctamente
+    console.log(SEARCH_FORM)
+    // Método del evento para cuando se envía el formulario de buscar.
+    SEARCH_FORM.addEventListener('submit', (event) => {
+        // Se evita recargar la página web después de enviar el formulario.
+        event.preventDefault();
+        // Constante tipo objeto con los datos del formulario.
+        const FORM = new FormData(SEARCH_FORM);
+        console.log(SEARCH_FORM);
+        console.log(FORM);
+        // Llamada a la función para llenar la tabla con los resultados de la búsqueda.
+        cargarTabla(FORM);
+    });
 };

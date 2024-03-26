@@ -127,7 +127,7 @@ async function cargarTabla(form = null) {
         console.log(DATA);
 
         if (DATA.status) {
-            // Mostrar elementos de la lista de materiales obtenidos de la API
+            // Mostrar elementos de la lista obtenidos de la API
             DATA.dataset.forEach(row => {
                 const tablaHtml = `
                 <tr>

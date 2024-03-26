@@ -9,7 +9,8 @@ let SAVE_FORM,
     NACIMIENTO_ADMINISTRADOR,
     CLAVE_ADMINISTRADOR,
     REPETIR_CLAVE,
-    ROL_ADMINISTRADOR;
+    ROL_ADMINISTRADOR,
+    IMAGEN_ADMINISTRADOR;
 let SEARCH_FORM;
 
 // Constantes para completar las rutas de la API.
@@ -248,7 +249,8 @@ window.onload = async function () {
         NACIMIENTO_ADMINISTRADOR = document.getElementById('nacimientoAdministrador'),
         CLAVE_ADMINISTRADOR = document.getElementById('contraseña'),
         REPETIR_CLAVE = document.getElementById('repetirContraseña'),
-        ROL_ADMINISTRADOR = document.getElementById('rolAdministrador');
+        ROL_ADMINISTRADOR = document.getElementById('rolAdministrador'),
+        IMAGEN_ADMINISTRADOR = document.getElementById('imagenAdministrador');
     // Método del evento para cuando se envía el formulario de guardar.
     SAVE_FORM.addEventListener('submit', async (event) => {
         // Se evita recargar la página web después de enviar el formulario.
