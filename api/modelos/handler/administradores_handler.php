@@ -19,7 +19,10 @@ class AdministradoresHandler
     protected $dui = null;
     protected $nacimiento = null;
     protected $rol = null;
-    protected $foto = null;
+    protected $imagen = null;
+
+    // Constante para establecer la ruta de las imágenes.
+    const RUTA_IMAGEN = '../../imagenes/administradores/';
 
     /*
      *  Métodos para gestionar la cuenta del administrador.
@@ -52,7 +55,7 @@ class AdministradoresHandler
     public function checkUser($username, $password)
     {
         $sql = 'SELECT id_administrador, alias_administrador, clave_administrador
-                FROM administrador
+                FROM administradores
                 WHERE  alias_administrador = ?';
         $params = array($username);
         $data = Database::getRow($sql, $params);
@@ -105,7 +108,7 @@ class AdministradoresHandler
 
     public function createRow()
     {
-        $sql = 'CALL actualizar_administrador_validado(?,?,?,?,?,?,?,?,?);';
+        $sql = 'CALL insertar_administrador(?,?,?,?,?,?,?,?,?);';
         $params = array(
             $this->nombre,
             $this->apellido,
@@ -115,7 +118,7 @@ class AdministradoresHandler
             $this->dui,
             $this->nacimiento,
             $this->rol,
-            $this->foto
+            $this->imagen
         );
         return Database::executeRow($sql, $params);
     }
@@ -129,8 +132,26 @@ class AdministradoresHandler
 
     public function readOne()
     {
-        $sql = 'SELECT * FROM vista_tabla_administradores
-        WHERE ID LIKE ?';
+        $sql = 'SELECT id_administrador AS ID,
+        nombre_administrador AS NOMBRE,
+        apellido_administrador AS APELLIDO,
+        correo_administrador AS CORREO,
+        telefono_administrador AS TELÉFONO,
+        dui_administrador AS DUI,
+        fecha_nacimiento_administrador AS NACIMIENTO,
+        clave_administrador AS CLAVE,
+        id_rol AS ROL
+        FROM administradores
+        WHERE id_administrador LIKE ?';
+        $params = array($this->id);
+        return Database::getRow($sql, $params);
+    }
+    
+    public function readFilename()
+    {
+        $sql = 'SELECT IMAGEN
+                FROM vista_tabla_administradores
+                WHERE ID = ?';
         $params = array($this->id);
         return Database::getRow($sql, $params);
     }
@@ -148,7 +169,7 @@ class AdministradoresHandler
             $this->dui,
             $this->nacimiento,
             $this->rol,
-            $this->foto
+            $this->imagen
         );
         return Database::executeRow($sql, $params);
     }
@@ -158,5 +179,14 @@ class AdministradoresHandler
         $sql = 'CALL eliminar_administrador_validado(?);';
         $params = array($this->id);
         return Database::executeRow($sql, $params);
+    }
+
+    public function checkDuplicate($value)
+    {
+        $sql = 'SELECT ID
+                FROM vista_tabla_administradores
+                WHERE DUI = ? OR CORREO = ?';
+        $params = array($value, $value);
+        return Database::getRow($sql, $params);
     }
 }

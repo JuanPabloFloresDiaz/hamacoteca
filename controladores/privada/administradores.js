@@ -3,18 +3,18 @@ let SAVE_FORM,
     ID_ADMINISTRADOR,
     NOMBRE_ADMINISTRADOR,
     APELLIDO_ADMINISTRADOR,
+    CLAVE_ADMINISTRADOR,
     CORREO_ADMINISTRADOR,
     TELEFONO_ADMINISTRADOR,
     DUI_ADMINISTRADOR,
     NACIMIENTO_ADMINISTRADOR,
-    CLAVE_ADMINISTRADOR,
-    REPETIR_CLAVE,
     ROL_ADMINISTRADOR,
-    IMAGEN_ADMINISTRADOR;
+    IMAGEN_ADMINISTRADOR,
+    REPETIR_CLAVE;
 let SEARCH_FORM;
 
 // Constantes para completar las rutas de la API.
-const ADMINISTRADOR_API = '';
+const ADMINISTRADOR_API = 'servicios/privada/administradores.php';
 const ROL_API = 'servicios/privada/roles.php';
 
 async function loadComponent(path) {
@@ -56,15 +56,15 @@ const openUpdate = async (id) => {
             SAVE_FORM.reset();
             // Se inicializan los campos con los datos.
             const ROW = DATA.dataset;
-            ID_ADMINISTRADOR.value = ROW.id_administrador;
-            NOMBRE_ADMINISTRADOR.value = ROW.nombre_administrador;
-            APELLIDO_ADMINISTRADOR.value = ROW.apellido_administrador;
-            CORREO_ADMINISTRADOR.value = ROW.correo_administrador;
-            TELEFONO_ADMINISTRADOR.value = ROW.telefono_administrador;
-            DUI_ADMINISTRADOR.value = ROW.dui_administrador;
-            NACIMIENTO_ADMINISTRADOR.value = ROW.fecha_nacimiento_administrador;
-            CLAVE_ADMINISTRADOR.value = ROW.clave_administrador;
-            fillSelect(ROL_API, 'readAll', 'rolAdministrador', ROW.id_rol);
+            ID_ADMINISTRADOR.value = ROW.ID;
+            NOMBRE_ADMINISTRADOR.value = ROW.NOMBRE;
+            APELLIDO_ADMINISTRADOR.value = ROW.APELLIDO;
+            CORREO_ADMINISTRADOR.value = ROW.CORREO;
+            TELEFONO_ADMINISTRADOR.value = ROW.TELÉFONO;
+            DUI_ADMINISTRADOR.value = ROW.DUI;
+            NACIMIENTO_ADMINISTRADOR.value = ROW.NACIMIENTO;
+            CLAVE_ADMINISTRADOR.value = ROW.CLAVE;
+            fillSelect(ROL_API, 'readAll', 'rolAdministrador', ROW.ROL);
         } else {
             sweetAlert(2, DATA.error, false);
         }
@@ -89,8 +89,10 @@ const openDelete = async (id) => {
             // Se define una constante tipo objeto con los datos del registro seleccionado.
             const FORM = new FormData();
             FORM.append('idAdministrador', id);
+            console.log(id);
             // Petición para eliminar el registro seleccionado.
             const DATA = await fetchData(ADMINISTRADOR_API, 'deleteRow', FORM);
+            console.log(DATA.status);
             // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
             if (DATA.status) {
                 // Se muestra un mensaje de éxito.
@@ -165,21 +167,18 @@ async function cargarTabla(form = null) {
             DATA.dataset.forEach(row => {
                 const tablaHtml = `
                 <tr>
-                    <td><img src="${SERVER_URL}images/categorias/${row.imagen_cliente}" height="50" width="50" class="circulo"></td>
-                    <td>${row.nombre_administrador}</td>
-                    <td>${row.correo_administrador}</td>
-                    <td>${row.telefono_administrador}</td>
-                    <td>${row.dui_administrador}</td>
-                    <td>${row.fecha_nacimiento}</td>
+                    <td><img src="${SERVER_URL}imagenes/administradores/${row.IMAGEN}" height="50" width="50" class="circulo"></td>
+                    <td>${row.NOMBRE}</td>
+                    <td>${row.CORREO}</td>
+                    <td>${row.TELÉFONO}</td>
+                    <td>${row.DUI}</td>
+                    <td>${row.NACIMIENTO}</td>
                     <td>
-                        <button type="button" class="btn btn-info" onclick="openUpdate(${row.id_administrador})">
+                        <button type="button" class="btn btn-outline-success" onclick="openUpdate(${row.ID})">
                             <i class="bi bi-pencil-fill"></i>
                         </button>
-                        <button type="button" class="btn btn-danger" onclick="openDelete(${row.id_administrador})">
+                        <button type="button" class="btn btn-outline-danger" onclick="openDelete(${row.ID})">
                             <i class="bi bi-trash-fill"></i>
-                        </button>
-                        <button type="button" class="btn btn-warning" onclick="openReport(${row.id_administrador})">
-                            <i class="bi bi-filetype-pdf"></i>
                         </button>
                     </td>
                 </tr>
@@ -247,8 +246,8 @@ window.onload = async function () {
         TELEFONO_ADMINISTRADOR = document.getElementById('telefonoAdministrador'),
         DUI_ADMINISTRADOR = document.getElementById('duiAdministrador'),
         NACIMIENTO_ADMINISTRADOR = document.getElementById('nacimientoAdministrador'),
-        CLAVE_ADMINISTRADOR = document.getElementById('contraseña'),
-        REPETIR_CLAVE = document.getElementById('repetirContraseña'),
+        CLAVE_ADMINISTRADOR = document.getElementById('claveAdministrador'),
+        REPETIR_CLAVE = document.getElementById('repetirclaveAdministrador'),
         ROL_ADMINISTRADOR = document.getElementById('rolAdministrador'),
         IMAGEN_ADMINISTRADOR = document.getElementById('imagenAdministrador');
     // Método del evento para cuando se envía el formulario de guardar.
@@ -271,6 +270,7 @@ window.onload = async function () {
             cargarTabla();
         } else {
             sweetAlert(2, DATA.error, false);
+            console.error(DATA.error);
         }
     });
     // Constante para establecer el formulario de buscar.

@@ -17,7 +17,7 @@ let SAVE_FORM,
     DESCRIPCION_HAMACA;
 let SEARCH_FORM;
 // Constantes para completar las rutas de la API.
-const HAMACA_API = '';
+const HAMACA_API = 'servicios/privada/hamacas.php';
 /*
 *   Función para preparar el formulario al momento de insertar un registro.
 *   Parámetros: ninguno.
@@ -48,7 +48,7 @@ const openUpdate = async (id) => {
         const FORM = new FormData();
         FORM.append('idHamaca', id);
         // Petición para obtener los datos del registro solicitado.
-        const DATA = await fetchData(PRODUCTO_API, 'readOne', FORM);
+        const DATA = await fetchData(HAMACA_API, 'readOne', FORM);
         // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
         if (DATA.status) {
             // Se muestra la caja de diálogo con su título.
@@ -58,11 +58,11 @@ const openUpdate = async (id) => {
             SAVE_FORM.reset();
             // Se inicializan los campos con los datos.
             const ROW = DATA.dataset;
-            ID_ADMINISTRADOR.value = ROW.id_administrado;
-            NOMBRE_HAMACA.value = ROW.nombre_hamaca;
-            CANTIDAD_HAMACA.value = ROW.cantidad_hamaca;
-            PRECIO_HAMACA.value = ROW.precio_hamaca;
-            DESCRIPCION_HAMACA.value = ROW.descripcion_hamaca;
+            ID_HAMACA.value = ROW.ID;
+            NOMBRE_HAMACA.value = ROW.NOMBRE;
+            CANTIDAD_HAMACA.value = ROW.CANTIDAD;
+            PRECIO_HAMACA.value = ROW.PRECIO;
+            DESCRIPCION_HAMACA.value = ROW.DESCRIPCION;
         } else {
             sweetAlert(2, DATA.error, false);
         }
@@ -90,7 +90,7 @@ const openDelete = async (id) => {
             const FORM = new FormData();
             FORM.append('idHamaca', id);
             // Petición para eliminar el registro seleccionado.
-            const DATA = await fetchData(PRODUCTO_API, 'deleteRow', FORM);
+            const DATA = await fetchData(HAMACA_API, 'deleteRow', FORM);
             // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
             if (DATA.status) {
                 // Se muestra un mensaje de éxito.
@@ -148,7 +148,7 @@ async function cargarTabla(form = null) {
         (form) ? action = 'searchRows' : action = 'readAll';
         console.log(form);
         // Petición para obtener los registros disponibles.
-        const DATA = await fetchData(ROL_API, action, form);
+        const DATA = await fetchData(HAMACA_API, action, form);
         console.log(DATA);
 
         if (DATA.status) {
@@ -156,20 +156,20 @@ async function cargarTabla(form = null) {
             DATA.dataset.forEach(row => {
                 const tablaHtml = `
                 <tr>
-                    <td><img src="${SERVER_URL}images/categorias/${row.imagen_hamaca}" height="50" width="50" class="circulo"></td>
-                    <td>${row.nombre_hamaca}</td>
-                    <td>${row.descripcion_hamaca}</td>
-                    <td>${row.cantidad_hamaca}</td>
-                    <td>${row.precio_hamaca}</td>
+                    <td><img src="${SERVER_URL}imagenes/hamacas/${row.IMAGEN}" height="50" width="50" class="circulo"></td>
+                    <td>${row.NOMBRE}</td>
+                    <td>${row.DESCRIPCIÓN}</td>
+                    <td>${row.CANTIDAD}</td>
+                    <td>${row.PRECIO}</td>
                     <td>
-                        <button type="button" class="btn btn-info" onclick="openUpdate(${row.id_hamaca})">
+                        <button type="button" class="btn btn-outline-success" onclick="openUpdate(${row.ID})">
                             <i class="bi bi-pencil-fill"></i>
                         </button>
-                        <button type="button" class="btn btn-danger" onclick="openDelete(${row.id_hamaca})">
+                        <button type="button" class="btn btn-outline-danger" onclick="openDelete(${row.ID})">
                             <i class="bi bi-trash-fill"></i>
                         </button>
-                        <button type="button" class="btn btn-warning" onclick="openReport(${row.id_hamaca})">
-                            <i class="bi bi-filetype-pdf"></i>
+                        <button type="button" class="btn btn-outline-primary" onclick="openImage(${row.id_hamaca})">
+                        <i class="bi bi-card-image"></i>
                         </button>
                     </td>
                 </tr>
