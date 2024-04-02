@@ -153,9 +153,13 @@ if (isset($_GET['action'])) {
                 if (
                     !$administrador->setNombre($_POST['nombreAdministrador']) or
                     !$administrador->setApellido($_POST['apellidoAdministrador']) or
+                    !$administrador->setClave($_POST['claveAdministrador']) or
                     !$administrador->setCorreo($_POST['correoAdministrador']) or
-                    !$administrador->setAlias($_POST['aliasAdministrador']) or
-                    !$administrador->setClave($_POST['claveAdministrador'])
+                    !$administrador->setTelefono($_POST['telefonoAdministrador']) or
+                    !$administrador->setDUI($_POST['duiAdministrador']) or
+                    !$administrador->setNacimiento($_POST['nacimientoAdministrador']) or
+                    !$administrador->setRol($_POST['rolAdministrador']) or
+                    !$administrador->setImagen($_FILES['imagenAdministrador'])
                 ) {
                     $result['error'] = $administrador->getDataError();
                 } elseif ($_POST['claveAdministrador'] != $_POST['confirmarClave']) {
@@ -169,7 +173,7 @@ if (isset($_GET['action'])) {
                 break;
             case 'logIn':
                 $_POST = Validator::validateForm($_POST);
-                if ($administrador->checkUser($_POST['alias'], $_POST['clave'])) {
+                if ($administrador->authenticateAdmin($_POST['alias'], $_POST['clave'])) {
                     $result['status'] = 1;
                     $result['message'] = 'Autenticación correcta';
                 } else {

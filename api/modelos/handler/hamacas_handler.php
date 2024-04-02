@@ -38,8 +38,8 @@ class HamacasHandler
 
     public function createRow()
     {
-        $sql = 'CALL insertar_hamaca(?,?,?,?,?,?,?,?,?);';
-        $params = array($this->nombre, $this->descripcion, $this->precio, $this->estado, $this->cantidad, $this->imagen, $this->administrador, $this->categoria, $this->material);
+        $sql = 'CALL insertar_hamaca(?,?,?,?,?,?,1,?,?);';
+        $params = array($this->nombre, $this->descripcion, $this->precio, $this->estado, $this->cantidad, $this->imagen, $this->categoria, $this->material);
         return Database::executeRow($sql, $params);
     }
 
