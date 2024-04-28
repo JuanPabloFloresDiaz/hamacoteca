@@ -54,14 +54,14 @@ class AdministradoresHandler
      */
     public function checkUser($username, $password)
     {
-        $sql = 'SELECT id_administrador, alias_administrador, clave_administrador
+        $sql = 'SELECT id_administrador AS ID, alias_administrador AS ALIAS, clave_administrador AS CLAVE
                 FROM administradores
                 WHERE  alias_administrador = ?';
         $params = array($username);
         $data = Database::getRow($sql, $params);
-        if (password_verify($password, $data['clave_administrador'])) {
-            $_SESSION['idAdministrador'] = $data['id_administrador'];
-            $_SESSION['aliasAdministrador'] = $data['alias_administrador'];
+        if (password_verify($password, $data['CLAVE'])) {
+            $_SESSION['idAdministrador'] = $data['ID'];
+            $_SESSION['aliasAdministrador'] = $data['ALIAS'];
             return true;
         } else {
             return false;
@@ -70,13 +70,13 @@ class AdministradoresHandler
 
     public function checkPassword($password)
     {
-        $sql = 'SELECT clave_administrador
+        $sql = 'SELECT clave_administrador AS CLAVE
                 FROM administradores
                 WHERE id_administrador = ?';
         $params = array($_SESSION['idAdministrador']);
         $data = Database::getRow($sql, $params);
         // Se verifica si la contraseña coincide con el hash almacenado en la base de datos.
-        if (password_verify($password, $data['clave_administrador'])) {
+        if (password_verify($password, $data['CLAVE'])) {
             return true;
         } else {
             return false;

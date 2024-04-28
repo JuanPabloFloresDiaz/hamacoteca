@@ -1,7 +1,7 @@
 // Constante para establecer el formulario de inicio de sesión.
 let LOGIN_FORM;
 // Constante para completar la ruta de la API.
-const USER_API = 'services/admin/administrador.php';
+const USER_API = 'servicios/privada/administradores.php';
 
 async function loadComponent(path) {
     const response = await fetch(path);
@@ -27,6 +27,7 @@ window.onload = async function () {
         const FORM = new FormData(LOGIN_FORM);
         // Petición para iniciar sesión.
         const DATA = await fetchData(USER_API, 'logIn', FORM);
+        console.log(DATA);
         // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
         if (DATA.status) {
             sweetAlert(1, DATA.message, true, 'dashboard.html');
