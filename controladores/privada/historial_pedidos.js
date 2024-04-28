@@ -117,13 +117,13 @@ async function cargarTabla(form = null) {
 window.onload = async function () {
 
     // Obtiene el contenedor principal
-    const appContainer = document.getElementById('pedidos');
+    const appContainer = document.getElementById('main');
 
     // Carga los componentes de manera síncrona
-    const navbarHtml = await loadComponent('../componentes/componentes_generales/menu_desplegable/barra_superior.html');
     const pedidosHtml = await loadComponent('../componentes/pedidos/historial_pedidos.html');
+    loadTemplate();
     // Agrega el HTML del encabezado
-    appContainer.innerHTML = navbarHtml + pedidosHtml;
+    appContainer.innerHTML = pedidosHtml;
     const theme = localStorage.getItem('theme'); // Obtener el tema desde localStorage
 
     if (theme === 'dark') {

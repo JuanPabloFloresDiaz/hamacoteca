@@ -259,13 +259,13 @@ async function cargarGraficaLineal() {
 // window.onload
 window.onload = async function () {
     // Obtiene el contenedor principal
-    const appContainer = document.getElementById('dashboard');
+    const appContainer = document.getElementById('main');
 
     // Carga los componentes de manera síncrona
-    const navbarHtml = await loadComponent('../componentes/componentes_generales/menu_desplegable/barra_superior.html');
     const dashboardHtml = await loadComponent('../componentes/dashboard/dashboard.html');
+    loadTemplate();
     // Agrega el HTML del encabezado
-    appContainer.innerHTML = navbarHtml + dashboardHtml;
+    appContainer.innerHTML = dashboardHtml;
     const theme = localStorage.getItem('theme'); // Obtener el tema desde localStorage
 
     if (theme === 'dark') {

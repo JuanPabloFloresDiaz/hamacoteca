@@ -213,13 +213,13 @@ async function cargarTabla(form = null) {
 window.onload = async function () {
 
     // Obtiene el contenedor principal
-    const appContainer = document.getElementById('productos');
+    const appContainer = document.getElementById('main');
 
     // Carga los componentes de manera síncrona
-    const navbarHtml = await loadComponent('../componentes/componentes_generales/menu_desplegable/barra_superior.html');
     const adminHtml = await loadComponent('../componentes/hamacas/hamacas.html');
+    loadTemplate();
     // Agrega el HTML del encabezado
-    appContainer.innerHTML = navbarHtml + adminHtml;
+    appContainer.innerHTML = adminHtml;
     cargarTabla();
     const theme = localStorage.getItem('theme'); // Obtener el tema desde localStorage
 

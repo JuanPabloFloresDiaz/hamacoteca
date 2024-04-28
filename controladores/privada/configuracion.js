@@ -7,13 +7,13 @@ async function loadComponent(path) {
 // window.onload
 window.onload = async function () {
     // Obtiene el contenedor principal
-    const appContainer = document.getElementById('configuracion');
+    const appContainer = document.getElementById('main');
 
     // Carga los componentes de manera síncrona
     const adminHtml = await loadComponent('../componentes/configuracion/configuracion.html');
-    const navbarHtml = await loadComponent('../componentes/componentes_generales/menu_desplegable/barra_superior.html');
+    loadTemplate();
     // Agrega el HTML del encabezado
-    appContainer.innerHTML = navbarHtml + adminHtml;
+    appContainer.innerHTML = adminHtml;
     const theme = localStorage.getItem('theme'); // Obtener el tema desde localStorage
 
     if (theme === 'dark') {

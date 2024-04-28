@@ -116,7 +116,7 @@ const loadTemplate = async () => {
                                 class="bi bi-chat-dots me-2"></i>Contáctanos</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-danger" href="index.html"><i
+                        <a class="nav-link text-danger" href="#" onclick="logOut()"><i
                                 class="bi bi-door-closed me-2 text-danger"></i>Cerrar sesión</a>
                     </li>
                 </ul>
