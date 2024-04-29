@@ -40,8 +40,8 @@ class AdministradoresHandler
         // Se verifica si la contraseña coincide con el hash almacenado en la base de datos.
         if (password_verify($password, $data['clave_administrador'])) {
             //Se ceden el id y el alias a una variable de sesión
-            $_SESSION['idAdministrador'] = $data['id_administrador'];
-            $_SESSION['aliasAdministrador'] = $data['alias_administrador'];
+            $_SESSION['idAdministrador'] = $data['ID'];
+            $_SESSION['aliasAdministrador'] = $data['ALIAS'];
             $_SESSION['fotoAdministrador'] = $data['FOTO'];
             return true;
         } else {
