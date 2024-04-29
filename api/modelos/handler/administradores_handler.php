@@ -189,4 +189,20 @@ class AdministradoresHandler
         $params = array($value, $value);
         return Database::getRow($sql, $params);
     }
+
+    public function firstUser()
+    {
+        $sql = 'CALL insertar_administrador(?,?,?,?,?,?,?,1,?);';
+        $params = array(
+            $this->nombre,
+            $this->apellido,
+            $this->clave,
+            $this->correo,
+            $this->telefono,
+            $this->dui,
+            $this->nacimiento,
+            $this->imagen
+        );
+        return Database::executeRow($sql, $params);
+    }
 }

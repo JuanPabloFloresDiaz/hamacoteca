@@ -36,15 +36,15 @@
                 </div>
                 <div class="col-sm-6 col-md-6 col-lg-6 col-12 mb-3">
                     <div class="form-floating borde ">
-                        <input id="correoRegistro" autocomplete="off" type="email" name="correoRegistro" placeholder="Correo electrónico"
-                            class="form-control" required />
+                        <input id="correoRegistro" autocomplete="off" type="email" name="correoRegistro"
+                            placeholder="Correo electrónico" class="form-control" required />
                         <label for="floatingInput">Correo electrónico</label>
                     </div>
                 </div>
                 <div class="col-sm-6 col-md-6 col-lg-6 col-12 mb-3">
                     <div class="form-floating borde">
-                        <input id="imagenRegistro" autocomplete="off" type="file" name="imagenRegistro" class="form-control"
-                            accept=".png, .jpg">
+                        <input id="imagenRegistro" autocomplete="off" type="file" name="imagenRegistro"
+                            class="form-control" accept=".png, .jpg">
                     </div>
                 </div>
                 <div class="col-sm-6 col-md-6 col-lg-6 col-12 mb-3">
@@ -55,13 +55,14 @@
                     </div>
                 </div>
                 <div class="col-sm-6 col-md-6 col-lg-6 col-12 mb-3">
-                    <label for="rolAdministrador" class="form-label">Rol de administrador</label>
-                    <select id="rolAdministrador" name="rolAdministrador" class="form-select" required>
-                    </select>
+                    <div class="form-floating borde">
+                        <label for="claveAdministrador" class="form-label">Contraseña</label>
+                        <input id="claveAdministrador" type="password" name="claveAdministrador" class="form-control"
+                            placeholder="Ingresa la clave del administrador" autocomplete="off" required>
+                    </div>
                 </div>
                 <!--Botón que envia los datos ingresados y lo redirige a la pantalla correspodiente -->
-                <button type="submit" class="btn btn-dark"><i
-                        class="bi bi-send"></i>
+                <button type="submit" class="btn btn-dark"><i class="bi bi-send"></i>
                     REGISTRARTE</button>
             </form>
         </div>
