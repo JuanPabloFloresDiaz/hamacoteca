@@ -165,17 +165,14 @@ if (isset($_GET['action'])) {
                     !$administrador->setTelefono($_POST['telefonoAdministrador']) or
                     !$administrador->setDUI($_POST['duiAdministrador']) or
                     !$administrador->setNacimiento($_POST['nacimientoAdministrador']) or
-                    !$administrador->setRol($_POST['rolAdministrador']) or
                     !$administrador->setImagen($_FILES['imagenAdministrador'])
                 ) {
                     $result['error'] = $administrador->getDataError();
-                } elseif ($_POST['claveAdministrador'] != $_POST['confirmarClave']) {
-                    $result['error'] = 'Contraseñas diferentes';
                 } elseif ($administrador->createRow()) {
                     $result['status'] = 1;
-                    $result['message'] = 'Administrador registrado correctamente';
+                    $result['message'] = 'Primer administrador registrado correctamente';
                 } else {
-                    $result['error'] = 'Ocurrió un problema al registrar el administrador';
+                    $result['error'] = 'Ocurrió un problema al registrar al primer administrador';
                 }
                 break;
             case 'logIn':
