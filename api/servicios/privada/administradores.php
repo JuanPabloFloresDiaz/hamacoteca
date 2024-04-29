@@ -92,7 +92,10 @@ if (isset($_GET['action'])) {
                 }
                 break;
             case 'deleteRow':
-                if (
+                if ($_POST['idAdministrador'] == $_SESSION['idAdministrador']) {
+                    $result['error'] = 'No se puede eliminar a sí mismo';
+                } 
+                elseif (
                     !$administrador->setId($_POST['idAdministrador']) or
                     !$administrador->setFilename()
                 ) {
@@ -110,6 +113,7 @@ if (isset($_GET['action'])) {
                 if (isset($_SESSION['aliasAdministrador'])) {
                     $result['status'] = 1;
                     $result['username'] = $_SESSION['aliasAdministrador'];
+                    $result['foto'] = $_SESSION['fotoAdministrador'];
                 } else {
                     $result['error'] = 'Alias de administrador indefinido';
                 }
@@ -176,7 +180,7 @@ if (isset($_GET['action'])) {
                 break;
             case 'logIn':
                 $_POST = Validator::validateForm($_POST);
-                if ($administrador->authenticateAdmin($_POST['alias'], $_POST['clave'])) {
+                if ($administrador->checkUser($_POST['alias'], $_POST['clave'])) {
                     $result['status'] = 1;
                     $result['message'] = 'Autenticación correcta';
                 } else {

@@ -41,7 +41,7 @@ const loadTemplate = async () => {
                         <span class="navbar-text ms-3">
                              ${DATA.username}
                         </span>
-                        <img src="../../../recursos/img/foto.png" alt="Logo de Hamacoteca" width="30" height="30"
+                        <img src="../../../api/imagenes/administradores/${DATA.foto}" alt="Logo de Hamacoteca" width="30" height="30"
                             class="ms-3 me-3 d-inline-block align-top rounded-circle">
                     </div>
         

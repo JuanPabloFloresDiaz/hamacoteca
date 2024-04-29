@@ -2,6 +2,7 @@
 let SAVE_FORM;
 // Constante para completar la ruta de la API.
 const USER_API = 'servicios/privada/administradores.php';
+const ROL_API = 'servicios/privada/roles.php';
 
 async function loadComponent(path) {
     const response = await fetch(path);
@@ -32,6 +33,7 @@ window.onload = async function () {
     } else {
          // Se mantiene en el primer uso.
          console.log('Formulario para registrar primer usuario');
+         fillSelect(ROL_API, 'readAll', 'rolAdministrador');
          SAVE_FORM = document.getElementById('loginForm');
          // Método del evento para cuando se envía el formulario de inicio de sesión.
          SAVE_FORM.addEventListener('submit', async (event) => {

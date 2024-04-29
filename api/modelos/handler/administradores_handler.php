@@ -41,7 +41,6 @@ class AdministradoresHandler
             //Se ceden el id y el alias a una variable de sesión
             $_SESSION['idAdministrador'] = $data['id_administrador'];
             $_SESSION['aliasAdministrador'] = $data['alias_administrador'];
-            //Se retorna true si todo sale bien
             return true;
         } else {
             //Se retorna false si falla la autentificación
@@ -54,7 +53,7 @@ class AdministradoresHandler
      */
     public function checkUser($username, $password)
     {
-        $sql = 'SELECT id_administrador AS ID, alias_administrador AS ALIAS, clave_administrador AS CLAVE
+        $sql = 'SELECT id_administrador AS ID, alias_administrador AS ALIAS, clave_administrador AS CLAVE, foto_administrador AS FOTO
                 FROM administradores
                 WHERE  alias_administrador = ?';
         $params = array($username);
@@ -62,6 +61,7 @@ class AdministradoresHandler
         if (password_verify($password, $data['CLAVE'])) {
             $_SESSION['idAdministrador'] = $data['ID'];
             $_SESSION['aliasAdministrador'] = $data['ALIAS'];
+            $_SESSION['fotoAdministrador'] = $data['FOTO'];
             return true;
         } else {
             return false;
