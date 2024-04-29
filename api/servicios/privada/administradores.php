@@ -171,6 +171,8 @@ if (isset($_GET['action'])) {
                 } elseif ($administrador->createRow()) {
                     $result['status'] = 1;
                     $result['message'] = 'Primer administrador registrado correctamente';
+                    // Se asigna el estado del archivo después de insertar.
+                    $result['fileStatus'] = Validator::saveFile($_FILES['imagenAdministrador'], $administrador::RUTA_IMAGEN);
                 } else {
                     $result['error'] = 'Ocurrió un problema al registrar al primer administrador';
                 }

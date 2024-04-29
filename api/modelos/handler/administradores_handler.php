@@ -53,17 +53,21 @@ class AdministradoresHandler
     //Función para chequear el usuario de un admministrador en el login, sin el procedimiento almacenado.
     public function checkUser($username, $password)
     {
+        //Se escribe la consulta
         $sql = 'SELECT id_administrador AS ID, alias_administrador AS ALIAS, clave_administrador AS CLAVE, foto_administrador AS FOTO
                 FROM administradores
                 WHERE  alias_administrador = ?';
+        //Se mandan los parametros en el orden que lo pide el procedimiento. Primer parametro: Alias o Correo. Segundo parametro: Clave
         $params = array($username);
         $data = Database::getRow($sql, $params);
+        // Se verifica si la contraseña coincide con el hash almacenado en la base de datos.
         if (password_verify($password, $data['CLAVE'])) {
             $_SESSION['idAdministrador'] = $data['ID'];
             $_SESSION['aliasAdministrador'] = $data['ALIAS'];
             $_SESSION['fotoAdministrador'] = $data['FOTO'];
             return true;
         } else {
+            //Se retorna false si falla la autentificación
             return false;
         }
     }
@@ -152,7 +156,7 @@ class AdministradoresHandler
         $params = array($this->id);
         return Database::getRow($sql, $params);
     }
-    
+
     //Función para leer la imagen del id desde la base.
     public function readFilename()
     {
@@ -218,10 +222,34 @@ class AdministradoresHandler
     }
 
     //Función para validación de cambio de contraseña cada 90 dias.
-    public function readDiasClave()
+    public function readPassDate()
     {
-        $sql = 'SELECT DATEDIFF(CURRENT_DATE, fecha_clave) as dias FROM administradores WHERE id_administrador = ?;';
+        $sql = 'SELECT DATEDIFF(CURRENT_DATE, fecha_clave) as DIAS FROM administradores WHERE id_administrador = ?;';
         $params = array($this->id);
         return Database::getRow($sql, $params);
+    }
+
+    //Agregar un intento fallido de inicio al usuario
+    public function addAttempt()
+    {
+        $sql = 'UPDATE administradores set intentos_administrador = intentos_administrador+1 where alias_administrador = ?';
+        $params = array($this->alias);
+        return Database::executeRow($sql, $params);
+    }
+
+    //Reiniciar el contador de intentos a 0
+    public function resetAttempts()
+    {
+        $sql = 'UPDATE administradores set intentos_administrador = 0 where alias_administrador = ?';
+        $params = array($this->alias);
+        return Database::executeRow($sql, $params);
+    }
+
+    //cambiar el contador de tiempo para incicar sesion nuevamente
+    public function uploadTimeAttempt($timer)
+    {
+        $sql = 'UPDATE administradores set tiempo_intento = ? where alias_administrador = ?';
+        $params = array($timer, $this->alias);
+        return Database::executeRow($sql, $params);
     }
 }

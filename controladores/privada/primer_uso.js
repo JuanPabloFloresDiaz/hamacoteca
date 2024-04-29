@@ -19,6 +19,19 @@ window.onload = async function () {
     // Agrega el HTML del encabezado
     appContainer.innerHTML = cambiarregistro;
 
+    
+
+    // Llamada a la función para establecer la mascara del campo teléfono.
+    vanillaTextMask.maskInput({
+        inputElement: document.getElementById('telefonoAdministrador'),
+        mask: [/\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/]
+    });
+    // Llamada a la función para establecer la mascara del campo DUI.
+    vanillaTextMask.maskInput({
+        inputElement: document.getElementById('duiAdministrador'),
+        mask: [/\d/, /\d/, /\d/, /\d/, /\d/, /\d/, /\d/, /\d/, '-', /\d/]
+    });
+
     // Petición para consultar los usuarios registrados.
     const DATA = await fetchData(USER_API, 'readUsers');
     // Se comprueba si existe una sesión, de lo contrario se sigue con el flujo normal.
@@ -50,17 +63,6 @@ window.onload = async function () {
              }
          });
     }
-
-    // Llamada a la función para establecer la mascara del campo teléfono.
-    vanillaTextMask.maskInput({
-        inputElement: document.getElementById('telefonoRegistro'),
-        mask: [/\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/]
-    });
-    // Llamada a la función para establecer la mascara del campo DUI.
-    vanillaTextMask.maskInput({
-        inputElement: document.getElementById('duiRegistro'),
-        mask: [/\d/, /\d/, /\d/, /\d/, /\d/, /\d/, /\d/, /\d/, '-', /\d/]
-    });
 
 };
 
