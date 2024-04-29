@@ -28,6 +28,7 @@ class AdministradoresHandler
      *  Métodos para gestionar la cuenta del administrador.
      */
 
+    //Función para chequear el usuario de un admministrador en el login, con el procedimiento almacenado.
     public function authenticateAdmin($aliasemail, $password)
     {
         //Se llama el procedimiento almacenado
@@ -41,6 +42,7 @@ class AdministradoresHandler
             //Se ceden el id y el alias a una variable de sesión
             $_SESSION['idAdministrador'] = $data['id_administrador'];
             $_SESSION['aliasAdministrador'] = $data['alias_administrador'];
+            $_SESSION['fotoAdministrador'] = $data['FOTO'];
             return true;
         } else {
             //Se retorna false si falla la autentificación
@@ -48,9 +50,7 @@ class AdministradoresHandler
         }
     }
 
-    /*
-     *  Métodos para gestionar la cuenta del administrador.
-     */
+    //Función para chequear el usuario de un admministrador en el login, sin el procedimiento almacenado.
     public function checkUser($username, $password)
     {
         $sql = 'SELECT id_administrador AS ID, alias_administrador AS ALIAS, clave_administrador AS CLAVE, foto_administrador AS FOTO
@@ -68,6 +68,7 @@ class AdministradoresHandler
         }
     }
 
+    //Función para chequear la contraseña de un admministrador.
     public function checkPassword($password)
     {
         $sql = 'SELECT clave_administrador AS CLAVE
@@ -84,6 +85,7 @@ class AdministradoresHandler
     }
 
 
+    //Función para cambiar la contraseña de un admministrador.
     public function changePassword()
     {
         $sql = 'UPDATE administradores
@@ -96,6 +98,7 @@ class AdministradoresHandler
     /*
      *  Métodos para realizar las operaciones SCRUD (search, create, read, update, and delete).
      */
+    //Función para buscar un admministrador o varios.
     public function searchRows()
     {
         $value = '%' . Validator::getSearchValue() . '%';
@@ -106,6 +109,7 @@ class AdministradoresHandler
         return Database::getRows($sql, $params);
     }
 
+    //Función para insertar un admministrador.
     public function createRow()
     {
         $sql = 'CALL insertar_administrador(?,?,?,?,?,?,?,?,?);';
@@ -123,6 +127,7 @@ class AdministradoresHandler
         return Database::executeRow($sql, $params);
     }
 
+    //Función para leer todos los admministradores.
     public function readAll()
     {
         $sql = 'SELECT * FROM vista_tabla_administradores
@@ -130,6 +135,7 @@ class AdministradoresHandler
         return Database::getRows($sql);
     }
 
+    //Función para leer un administrador.
     public function readOne()
     {
         $sql = 'SELECT id_administrador AS ID,
@@ -147,6 +153,7 @@ class AdministradoresHandler
         return Database::getRow($sql, $params);
     }
     
+    //Función para leer la imagen del id desde la base.
     public function readFilename()
     {
         $sql = 'SELECT IMAGEN
@@ -156,6 +163,7 @@ class AdministradoresHandler
         return Database::getRow($sql, $params);
     }
 
+    //Función para actualizar un admministrador.
     public function updateRow()
     {
         $sql = 'CALL actualizar_administrador_validado(?,?,?,?,?,?,?,?,?,?);';
@@ -174,6 +182,7 @@ class AdministradoresHandler
         return Database::executeRow($sql, $params);
     }
 
+    //Función para eliminar un admministrador.
     public function deleteRow()
     {
         $sql = 'CALL eliminar_administrador_validado(?);';
@@ -181,6 +190,7 @@ class AdministradoresHandler
         return Database::executeRow($sql, $params);
     }
 
+    //Función para chequear si el DUI o el CORREO estan duplicados.
     public function checkDuplicate($value)
     {
         $sql = 'SELECT ID
@@ -190,6 +200,7 @@ class AdministradoresHandler
         return Database::getRow($sql, $params);
     }
 
+    //Función para ingresar el primer usuario.
     public function firstUser()
     {
         $sql = 'CALL insertar_administrador(?,?,?,?,?,?,?,1,?);';
@@ -204,5 +215,13 @@ class AdministradoresHandler
             $this->imagen
         );
         return Database::executeRow($sql, $params);
+    }
+
+    //Función para validación de cambio de contraseña cada 90 dias.
+    public function readDiasClave()
+    {
+        $sql = 'SELECT DATEDIFF(CURRENT_DATE, fecha_clave) as dias FROM administradores WHERE id_administrador = ?;';
+        $params = array($this->id);
+        return Database::getRow($sql, $params);
     }
 }
