@@ -31,9 +31,9 @@ class AdministradoresHandler
     public function authenticateAdmin($aliasemail, $password)
     {
         //Se llama el procedimiento almacenado
-        $sql = 'CALL autentificar_administrador(?, ?);';
+        $sql = 'CALL autentificar_administrador(?);';
         //Se mandan los parametros en el orden que lo pide el procedimiento. Primer parametro: Alias o Correo. Segundo parametro: Clave
-        $params = array($aliasemail, $password);
+        $params = array($aliasemail);
         //Se crea una variable y se le cede la variable de la sentencia sql y los parametros
         $data = Database::getRow($sql, $params);
         // Se verifica si la contraseña coincide con el hash almacenado en la base de datos.
