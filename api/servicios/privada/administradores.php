@@ -168,7 +168,7 @@ if (isset($_GET['action'])) {
                     !$administrador->setImagen($_FILES['imagenAdministrador'])
                 ) {
                     $result['error'] = $administrador->getDataError();
-                } elseif ($administrador->createRow()) {
+                } elseif ($administrador->firstUser()) {
                     $result['status'] = 1;
                     $result['message'] = 'Primer administrador registrado correctamente';
                     // Se asigna el estado del archivo después de insertar.
