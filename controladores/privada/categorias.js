@@ -5,7 +5,7 @@ let SAVE_FORM,
     DESCRIPCION_CATEGORIA;
 let SEARCH_FORM;
 // Constantes para completar las rutas de la API.
-const CATEGORIA_API = '';
+const CATEGORIA_API = 'servicios/privada/categorias.php';
 
 async function loadComponent(path) {
     const response = await fetch(path);
@@ -20,10 +20,11 @@ async function loadComponent(path) {
 */
 const openCreate = () => {
     // Se muestra la caja de diálogo con su título.
-    SAVE_MODAL.show();
-    MODAL_TITLE.textContent = 'Crear categorías';
+    
     // Se prepara el formulario.
     SAVE_FORM.reset();
+    SAVE_MODAL.show();
+    MODAL_TITLE.textContent = 'Crear categorías';
 }
 
 /*
@@ -42,14 +43,15 @@ const openUpdate = async (id) => {
         if (DATA.status) {
             // Se muestra la caja de diálogo con su título.
             SAVE_MODAL.show();
+
+            MODAL_TITLE.textContent = 'Actualizar categorías';
             // Se prepara el formulario.
             SAVE_FORM.reset();
-            EXISTENCIAS_PRODUCTO.disabled = true;
             // Se inicializan los campos con los datos.
             const ROW = DATA.dataset;
-            ID_CATEGORIA.value = ROW.id_categoria;
-            NOMBRE_CATEGORIA.value = ROW.nombre_categoria;
-            DESCRIPCION_CATEGORIA.value = ROW.descripcion_categoria;
+            ID_CATEGORIA.value = ROW.ID;
+            NOMBRE_CATEGORIA.value = ROW.NOMBRE;
+            DESCRIPCION_CATEGORIA.value = ROW.DESCRIPCION;
         } else {
             sweetAlert(2, DATA.error, false);
         }
@@ -90,7 +92,6 @@ const openDelete = async (id) => {
     }
     catch (Error) {
         console.log(Error + ' Error al cargar el mensaje');
-        confirmAction('¿Desea eliminar la categoría de forma permanente?');
     }
 
 }
@@ -124,20 +125,17 @@ async function cargarTabla(form = null) {
             DATA.dataset.forEach(row => {
                 const tablaHtml = `
                 <tr>
-                    <td>${row.nombre_categoria}</td>
-                    <td>${row.descripcion_categoria}</td>
-                    <td>
-                        <button type="button" class="btn btn-info" onclick="openUpdate(${row.id_hamaca})">
-                            <i class="bi bi-pencil-fill"></i>
-                        </button>
-                        <button type="button" class="btn btn-danger" onclick="openDelete(${row.id_hamaca})">
-                            <i class="bi bi-trash-fill"></i>
-                        </button>
-                        <button type="button" class="btn btn-warning" onclick="openReport(${row.id_hamaca})">
-                            <i class="bi bi-filetype-pdf"></i>
-                        </button>
-                    </td>
-                </tr>
+                <td>${row.NOMBRE}</td>
+                <td>${row.DESCRIPCION}</td>
+                <td>
+                    <button type="button" class="btn btn-outline-success" onclick="openUpdate(${row.ID})">
+                        <i class="bi bi-pencil-fill"></i>
+                    </button>
+                    <button type="button" class="btn btn-outline-danger" onclick="openDelete(${row.ID})">
+                        <i class="bi bi-trash-fill"></i>
+                    </button>
+                </td>
+            </tr>
                 `;
                 cargarTabla.innerHTML += tablaHtml;
             });
