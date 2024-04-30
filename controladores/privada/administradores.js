@@ -258,26 +258,6 @@ window.onload = async function () {
         (ID_ADMINISTRADOR.value) ? action = 'updateRow' : action = 'createRow';
         // Constante tipo objeto con los datos del formulario.
         const FORM = new FormData(SAVE_FORM);
-        console.log("Nombre:");
-        console.log(NOMBRE_ADMINISTRADOR.value);
-        console.log("Apellido:");
-        console.log(APELLIDO_ADMINISTRADOR.value);
-        console.log("Correo:");
-        console.log(CORREO_ADMINISTRADOR.value);
-        console.log("Telefono:");
-        console.log(TELEFONO_ADMINISTRADOR.value);
-        console.log("DUI:");
-        console.log(DUI_ADMINISTRADOR.value);
-        console.log("Nacimiento:");
-        console.log(NACIMIENTO_ADMINISTRADOR.value);
-        console.log("Clave:");
-        console.log(CLAVE_ADMINISTRADOR.value);
-        console.log("Repetir Clave:");
-        console.log(REPETIR_CLAVE.value);
-        console.log("Numero del rol:");
-        console.log(ROL_ADMINISTRADOR.value);
-        console.log("Imagen:");
-        console.log(IMAGEN_ADMINISTRADOR.value);
         // Petición para guardar los datos del formulario.
         const DATA = await fetchData(ADMINISTRADOR_API, action, FORM);
         // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
@@ -303,8 +283,6 @@ window.onload = async function () {
         event.preventDefault();
         // Constante tipo objeto con los datos del formulario.
         const FORM = new FormData(SEARCH_FORM);
-        console.log(SEARCH_FORM);
-        console.log(FORM);
         // Llamada a la función para llenar la tabla con los resultados de la búsqueda.
         cargarTabla(FORM);
     });
