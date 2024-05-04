@@ -359,4 +359,46 @@ class Validator
             return false;
         }
     }
+
+    public static function validateSessionTime()
+    {
+        //Tiempo en segundos para dar vida a la sesión.
+        $inactivo = 300; //Tiempo en segundos.
+
+        //Calculamos tiempo de vida inactivo.
+        $vida_session = time() - $_SESSION['tiempo'];
+
+        //Compraración para redirigir página, si la vida de sesión sea mayor a el tiempo insertado en inactivo.
+        if ($vida_session > $inactivo) {
+            //Destruimos sesión.
+            session_destroy();
+            return false;
+        } else { // si no ha caducado la sesion, actualizamos
+            $_SESSION['tiempo'] = time();
+            return true;
+        }
+    }
+
+    public static function validateAttemptsTime($tiempo)
+    {
+        if ($tiempo != null) {
+            //Tiempo en segundos para dar vida a la sesión.
+            $temporizador = 30; //Tiempo en segundos.
+
+            //Calculamos tiempo de vida inactivo.
+            $cuenta = time() - $tiempo;
+
+            //Compraración para redirigir página, si la vida de sesión sea mayor a el tiempo insertado en inactivo.
+            if ($cuenta > $temporizador) {
+                //Destruimos sesión.
+                return true;
+                //Redirigimos pagina.
+                //self::$sessionError = 'Su sesión ha caducado';
+            } else { // si no ha caducado la sesion, actualizamos
+                return false;
+            }
+        } else {
+            return true;
+        }
+    }
 }

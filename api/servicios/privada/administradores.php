@@ -11,7 +11,8 @@ if (isset($_GET['action'])) {
     // Se declara e inicializa un arreglo para guardar el resultado que retorna la API.
     $result = array('status' => 0, 'session' => 0, 'message' => null, 'dataset' => null, 'error' => null, 'exception' => null, 'username' => null);
     // Se verifica si existe una sesión iniciada como administrador, de lo contrario se finaliza el script con un mensaje de error.
-    if (isset($_SESSION['idAdministrador'])) {
+    // También se verifica que el tiempo de su sesión no haya caducado aun.
+    if (isset($_SESSION['idAdministrador']) and Validator::validateSessionTime()) {
         $result['session'] = 1;
         // Se compara la acción a realizar cuando un administrador ha iniciado sesión.
         switch ($_GET['action']) {
@@ -94,8 +95,7 @@ if (isset($_GET['action'])) {
             case 'deleteRow':
                 if ($_POST['idAdministrador'] == $_SESSION['idAdministrador']) {
                     $result['error'] = 'No se puede eliminar a sí mismo';
-                } 
-                elseif (
+                } elseif (
                     !$administrador->setId($_POST['idAdministrador']) or
                     !$administrador->setFilename()
                 ) {
@@ -179,11 +179,25 @@ if (isset($_GET['action'])) {
                 break;
             case 'logIn':
                 $_POST = Validator::validateForm($_POST);
+                //Autenticación exitosa
                 if ($administrador->checkUser($_POST['alias'], $_POST['clave'])) {
-                    $result['status'] = 1;
-                    $result['message'] = 'Autenticación correcta';
-                } else {
-                    $result['error'] = 'Credenciales incorrectas';
+                    if ($administrador->checkStatus()) {
+                        // se reinician los intentos del inicio de sesión
+                        if ($administrador->resetAttempts()) {
+                            $result['status'] = 1;
+                            $result['message'] = 'Autenticación correcta';
+                            $_SESSION['tiempo'] = time();
+                        } else {
+                            $result['error'] = 'Error en el servidor';
+                        }
+                    } else {
+                        //el usuario esta bloqueado
+                        $result['error'] = 'Este usuario ha sido bloqueado. Contacta a los administradores para desbloquear el usuario';
+                    }
+                }
+                //Autenticación fallida 
+                else {
+                    $result['error'] = 'Credenciales incorrectas o cuenta desactivada';
                 }
                 break;
             default:

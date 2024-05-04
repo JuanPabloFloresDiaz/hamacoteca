@@ -29,6 +29,7 @@ id_rol INT,
 CONSTRAINT fk_rol_administradores FOREIGN KEY (id_rol)
 REFERENCES roles_administradores(id_rol),
 intentos_administrador INT DEFAULT 0,
+estado_administrador BOOLEAN DEFAULT 1,
 tiempo_intento VARCHAR(30) NULL,
 fecha_clave DATETIME NULL DEFAULT NOW(),
 fecha_bloqueo DATETIME NULL,
@@ -38,11 +39,8 @@ CONSTRAINT chk_url_foto_administrador CHECK (foto_administrador LIKE '%.jpg' OR 
 
 #CREATE TABLE permisos(
 #id_permiso INT AUTO_INCREMENT PRIMARY KEY,
-#id_rol INT,
-#CONSTRAINT fk_rol_administrador FOREIGN KEY (id_rol)
-#REFERENCES roles_administradores(id_rol),
 #id_administrador INT,
-#CONSTRAINT fk_administrador FOREIGN KEY (id_administrador)
+#CONSTRAINT fk_administrador_permisos FOREIGN KEY (id_administrador)
 #REFERENCES administradores(id_administrador),
 #pedido BOOLEAN DEFAULT FALSE,
 #usuario BOOLEAN DEFAULT FALSE,

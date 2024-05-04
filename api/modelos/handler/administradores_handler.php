@@ -20,6 +20,11 @@ class AdministradoresHandler
     protected $nacimiento = null;
     protected $rol = null;
     protected $imagen = null;
+    protected $estado = null;
+    protected $tiempo = null;
+    protected $dias = null;
+    protected $bloqueo = null;
+
 
     // Constante para establecer la ruta de las imágenes.
     const RUTA_IMAGEN = '../../imagenes/administradores/';
@@ -54,20 +59,63 @@ class AdministradoresHandler
     public function checkUser($username, $password)
     {
         //Se escribe la consulta
-        $sql = 'SELECT id_administrador AS ID, alias_administrador AS ALIAS, clave_administrador AS CLAVE, foto_administrador AS FOTO
-                FROM administradores
-                WHERE  alias_administrador = ?';
+        $sql = 'SELECT id_administrador AS ID, alias_administrador AS ALIAS, 
+        clave_administrador AS CLAVE, foto_administrador AS FOTO, estado_administrador AS ESTADO, 
+        intentos_administrador AS INTENTOS, DATEDIFF(CURRENT_DATE, fecha_clave) as DIAS, tiempo_intento AS TIEMPO
+        FROM administradores WHERE (BINARY alias_administrador = ? OR BINARY correo_administrador = ?)';
         //Se mandan los parametros en el orden que lo pide el procedimiento. Primer parametro: Alias o Correo. Segundo parametro: Clave
-        $params = array($username);
+        $params = array($username, $username);
         $data = Database::getRow($sql, $params);
         // Se verifica si la contraseña coincide con el hash almacenado en la base de datos.
-        if (password_verify($password, $data['CLAVE'])) {
-            $_SESSION['idAdministrador'] = $data['ID'];
-            $_SESSION['aliasAdministrador'] = $data['ALIAS'];
-            $_SESSION['fotoAdministrador'] = $data['FOTO'];
+        if($data['ESTADO'] == false){
+            //el usuario esta bloqueado
+            return false;
+        }elseif($data['ESTADO'] == true){
+            $timer = null;
+            //se verifica si el usuario tiene contador de tiempo
+            if (Validator::validateAttemptsTime($data['TIEMPO']) != true) {
+                //el usuario tiene contador de tiempo
+                $timer = false;
+                $this->tiempo = Validator::validateAttemptsTime($data['TIEMPO']);
+            } else {
+                //el usuario no tiene contador
+                $this->alias = $data['ALIAS'];
+                $this->uploadTimeAttempt(null);
+                $timer = true;
+            }
+            if ($timer == false) {
+                //el usuario tiene contador de tiempo
+                return 'Temporizador';
+            } 
+            elseif (password_verify($password, $data['CLAVE'])) {
+                $_SESSION['idAdministrador'] = $data['ID'];
+                $_SESSION['aliasAdministrador'] = $data['ALIAS'];
+                $_SESSION['fotoAdministrador'] = $data['FOTO'];
+                $this->dias = $data['DIAS'];
+                $this->estado = $data['ESTADO'];
+                return true;
+            } elseif ($data['INTENTOS'] == 6 || $data['INTENTOS'] == 12 || $data['INTENTOS'] == 18 || $data['INTENTOS'] == 24) {
+                //las contraseñas no coinciden, se validan los intentos de sesión para ver si el usuario deberia tener un cotnador
+                return 'time';
+            } elseif ($data['INTENTOS'] > 30) {
+                //las contraseñas no coinciden, se valida los intentos para ver si el usuario debe ser bloqueado
+                return 'bloquear';
+            } else {
+                //el usuario fallo al incicar sesión
+                return false;
+            }
+        }
+        else {
+            //Se retorna false si falla la autentificación
+            return false;
+        }
+    }
+
+    public function checkStatus()
+    {
+        if ($this->estado) {
             return true;
         } else {
-            //Se retorna false si falla la autentificación
             return false;
         }
     }
@@ -93,7 +141,7 @@ class AdministradoresHandler
     public function changePassword()
     {
         $sql = 'UPDATE administradores
-                SET clave_administrador = ?
+                SET clave_administrador = ?, fecha_clave = NOW()
                 WHERE id_administrador = ?';
         $params = array($this->clave, $_SESSION['idadministrador']);
         return Database::executeRow($sql, $params);
@@ -224,7 +272,7 @@ class AdministradoresHandler
     //Función para validación de cambio de contraseña cada 90 dias.
     public function readPassDate()
     {
-        $sql = 'SELECT DATEDIFF(CURRENT_DATE, fecha_clave) as DIAS FROM administradores WHERE id_administrador = ?;';
+        $sql = 'SELECT DATEDIFF(CURRENT_DATE, fecha_clave) AS DIAS FROM administradores WHERE id_administrador = ?;';
         $params = array($this->id);
         return Database::getRow($sql, $params);
     }
@@ -232,7 +280,7 @@ class AdministradoresHandler
     //Agregar un intento fallido de inicio al usuario
     public function addAttempt()
     {
-        $sql = 'UPDATE administradores set intentos_administrador = intentos_administrador+1 where alias_administrador = ?';
+        $sql = 'UPDATE administradores SET intentos_administrador = intentos_administrador+1 WHERE alias_administrador = ?';
         $params = array($this->alias);
         return Database::executeRow($sql, $params);
     }
@@ -240,7 +288,7 @@ class AdministradoresHandler
     //Reiniciar el contador de intentos a 0
     public function resetAttempts()
     {
-        $sql = 'UPDATE administradores set intentos_administrador = 0 where alias_administrador = ?';
+        $sql = 'UPDATE administradores SET intentos_administrador = 0 WHERE alias_administrador = ?';
         $params = array($this->alias);
         return Database::executeRow($sql, $params);
     }
@@ -248,8 +296,16 @@ class AdministradoresHandler
     //cambiar el contador de tiempo para incicar sesion nuevamente
     public function uploadTimeAttempt($timer)
     {
-        $sql = 'UPDATE administradores set tiempo_intento = ? where alias_administrador = ?';
+        $sql = 'UPDATE administradores SET tiempo_intento = ? WHERE alias_administrador = ?';
         $params = array($timer, $this->alias);
+        return Database::executeRow($sql, $params);
+    }
+
+    //bloquear un administrador
+    public function blockUser()
+    {
+        $sql = 'UPDATE administradores SET estado_administrador = 0, fecha_bloqueo = NOW() WHERE alias_administrador = ?';
+        $params = array($this->alias);
         return Database::executeRow($sql, $params);
     }
 }
