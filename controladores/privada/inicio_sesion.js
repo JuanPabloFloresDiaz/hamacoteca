@@ -44,6 +44,7 @@ window.onload = async function () {
                     sweetAlert(1, DATA.message, true, 'dashboard.html');
                 } else {
                     sweetAlert(2, DATA.error, false);
+                    console.log(DATA.exception);
                 }
             } catch {
                 sweetAlert(2, "No se detecta un usuario", false);

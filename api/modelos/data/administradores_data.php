@@ -158,6 +158,26 @@ class AdministradoresData extends AdministradoresHandler
     }
 
     
+    public function setEstado($value)
+    {
+        if (Validator::validateNaturalNumber($value)) {
+            $this->estado = $value;
+            return true;
+        } else {
+            return false;
+        }
+    }
+   
+    public function setDias($value)
+    {
+        if (Validator::validateNaturalNumber($value)) {
+            $this->dias = $value;
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
     public function setFilename()
     {
         if ($data = $this->readFilename()) {
@@ -178,5 +198,9 @@ class AdministradoresData extends AdministradoresHandler
     public function getFilename()
     {
         return $this->filename;
+    }
+
+    public function getCondicion(){
+        return $this->condicion;
     }
 }

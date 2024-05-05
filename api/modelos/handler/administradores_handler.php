@@ -24,6 +24,7 @@ class AdministradoresHandler
     protected $tiempo = null;
     protected $dias = null;
     protected $bloqueo = null;
+    protected $condicion = null;
 
 
     // Constante para establecer la ruta de las imágenes.
@@ -67,11 +68,12 @@ class AdministradoresHandler
         $params = array($username, $username);
         $data = Database::getRow($sql, $params);
         // Se verifica si la contraseña coincide con el hash almacenado en la base de datos.
-        if($data['ESTADO'] == false){
+        if ($data['ESTADO'] == false) {
             //el usuario esta bloqueado
-            return false;
-        }elseif($data['ESTADO'] == true){
+            $this->condicion = 'bloqueado';
+        } elseif ($data['ESTADO'] == true) {
             $timer = null;
+            $this->tiempo = $data['TIEMPO'];
             //se verifica si el usuario tiene contador de tiempo
             if (Validator::validateAttemptsTime($data['TIEMPO']) != true) {
                 //el usuario tiene contador de tiempo
@@ -80,35 +82,38 @@ class AdministradoresHandler
             } else {
                 //el usuario no tiene contador
                 $this->alias = $data['ALIAS'];
-                $this->uploadTimeAttempt(null);
+                $this->resetTimeAttempt(null);
                 $timer = true;
             }
             if ($timer == false) {
                 //el usuario tiene contador de tiempo
-                return 'Temporizador';
-            } 
-            elseif (password_verify($password, $data['CLAVE'])) {
+                $this->condicion = 'temporizador';
+            } elseif ($data['INTENTOS'] >= 6) {
+                //las contraseñas no coinciden, se validan los intentos de sesión para ver si el usuario deberia tener un cotnador
+                $this->condicion = 'tiempo';
+            } elseif ($data['INTENTOS'] > 30) {
+                //las contraseñas no coinciden, se valida los intentos para ver si el usuario debe ser bloqueado
+                $this->condicion = 'bloquear';
+            } elseif (password_verify($password, $data['CLAVE'])) {
                 $_SESSION['idAdministrador'] = $data['ID'];
                 $_SESSION['aliasAdministrador'] = $data['ALIAS'];
                 $_SESSION['fotoAdministrador'] = $data['FOTO'];
                 $this->dias = $data['DIAS'];
                 $this->estado = $data['ESTADO'];
                 return true;
-            } elseif ($data['INTENTOS'] == 6 || $data['INTENTOS'] == 12 || $data['INTENTOS'] == 18 || $data['INTENTOS'] == 24) {
-                //las contraseñas no coinciden, se validan los intentos de sesión para ver si el usuario deberia tener un cotnador
-                return 'time';
-            } elseif ($data['INTENTOS'] > 30) {
-                //las contraseñas no coinciden, se valida los intentos para ver si el usuario debe ser bloqueado
-                return 'bloquear';
             } else {
-                //el usuario fallo al incicar sesión
+                //Se retorna false si falla la autentificación
                 return false;
             }
-        }
-        else {
+        } else {
             //Se retorna false si falla la autentificación
             return false;
         }
+    }
+
+    public function resetCondition()
+    {
+        return $this->condicion = null;
     }
 
     public function checkStatus()
@@ -294,10 +299,18 @@ class AdministradoresHandler
     }
 
     //cambiar el contador de tiempo para incicar sesion nuevamente
-    public function uploadTimeAttempt($timer)
+    public function uploadTimeAttempt()
+    {
+        $sql = 'UPDATE administradores SET tiempo_intento = NOW() WHERE alias_administrador = ?';
+        $params = array($this->alias);
+        return Database::executeRow($sql, $params);
+    }
+
+    //cambiar el contador de tiempo para incicar sesion nuevamente
+    public function resetTimeAttempt($timer)
     {
         $sql = 'UPDATE administradores SET tiempo_intento = ? WHERE alias_administrador = ?';
-        $params = array($timer, $this->alias);
+        $params = array($timer ,$this->alias);
         return Database::executeRow($sql, $params);
     }
 

@@ -16,6 +16,7 @@ if (isset($_GET['action'])) {
         $result['session'] = 1;
         // Se compara la acción a realizar cuando un administrador ha iniciado sesión.
         switch ($_GET['action']) {
+                // Buscar
             case 'searchRows':
                 if (!Validator::validateSearch($_POST['search'])) {
                     $result['error'] = Validator::getSearchError();
@@ -26,6 +27,7 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'No hay coincidencias';
                 }
                 break;
+                // Agregar
             case 'createRow':
                 $_POST = Validator::validateForm($_POST);
                 if (
@@ -51,6 +53,7 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'Ocurrió un problema al crear el administrador';
                 }
                 break;
+                // Ver todo
             case 'readAll':
                 if ($result['dataset'] = $administrador->readAll()) {
                     $result['status'] = 1;
@@ -59,6 +62,7 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'No existen administradores registrados';
                 }
                 break;
+                // Ver uno
             case 'readOne':
                 if (!$administrador->setId($_POST['idAdministrador'])) {
                     $result['error'] = 'Administrador incorrecto';
@@ -68,6 +72,7 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'Administrador inexistente';
                 }
                 break;
+                // Actualizar
             case 'updateRow':
                 $_POST = Validator::validateForm($_POST);
                 if (
@@ -92,6 +97,7 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'Ocurrió un problema al modificar el administrador';
                 }
                 break;
+                // Eliminar
             case 'deleteRow':
                 if ($_POST['idAdministrador'] == $_SESSION['idAdministrador']) {
                     $result['error'] = 'No se puede eliminar a sí mismo';
@@ -109,6 +115,7 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'Ocurrió un problema al eliminar el administrador';
                 }
                 break;
+                // Traer datos del usuario
             case 'getUser':
                 if (isset($_SESSION['aliasAdministrador'])) {
                     $result['status'] = 1;
@@ -118,6 +125,7 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'Alias de administrador indefinido';
                 }
                 break;
+                // Cerrar sesión
             case 'logOut':
                 if (session_destroy()) {
                     $result['status'] = 1;
@@ -126,6 +134,7 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'Ocurrió un problema al cerrar la sesión';
                 }
                 break;
+                // Cambiar contraseña
             case 'changePassword':
                 $_POST = Validator::validateForm($_POST);
                 if (!$administrador->checkPassword($_POST['claveActual'])) {
@@ -147,6 +156,7 @@ if (isset($_GET['action'])) {
     } else {
         // Se compara la acción a realizar cuando el administrador no ha iniciado sesión.
         switch ($_GET['action']) {
+                // Leer usuarios para verificar que hayan en la base de datos
             case 'readUsers':
                 if ($administrador->readAll()) {
                     $result['status'] = 1;
@@ -155,6 +165,7 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'Debe crear un administrador para comenzar';
                 }
                 break;
+                // Metodo para el primer uso
             case 'signUp':
                 $_POST = Validator::validateForm($_POST);
                 if (
@@ -177,28 +188,70 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'Ocurrió un problema al registrar al primer administrador';
                 }
                 break;
+                // Metodo para el inicio de sesión
             case 'logIn':
                 $_POST = Validator::validateForm($_POST);
                 //Autenticación exitosa
                 if ($administrador->checkUser($_POST['alias'], $_POST['clave'])) {
-                    if ($administrador->checkStatus()) {
-                        // se reinician los intentos del inicio de sesión
-                        if ($administrador->resetAttempts()) {
-                            $result['status'] = 1;
-                            $result['message'] = 'Autenticación correcta';
-                            $_SESSION['tiempo'] = time();
+                    
+                    if ($administrador->getCondicion() == 'temporizador') {
+                        //el usuario tiene un contador de tiempo para iniciar sesión
+                        $result['error'] = 'Ha intentado iniciar sesión demasiadas veces, espere un momento';
+                    }
+                    elseif ($administrador->getCondicion() == 'tiempo') {
+                        //el usuario intento iniciar sesión demasiadas veces por lo que se le pondra un contador de tiempo
+                        if ($administrador->uploadTimeAttempt()) {
+                            //se sube el contador con el tiempo actual
+                            $result['error'] = 'Ha intentado iniciar sesión demasiadas veces, espere 30 segundos';
                         } else {
-                            $result['error'] = 'Error en el servidor';
+                            $result['exception'] = 'Error en el servidor';
                         }
-                    } else {
-                        //el usuario esta bloqueado
-                        $result['error'] = 'Este usuario ha sido bloqueado. Contacta a los administradores para desbloquear el usuario';
+                    }
+                    elseif ($administrador->getCondicion() == 'bloquear') {
+                        //el usuario será bloqueado por acumular intentos fallidos.
+                        if ($administrador->blockUser()) {
+                            $result['error'] = 'Ha intentado iniciar sesión demasiadas veces.';
+                        } else {
+                            $result['exception'] = 'Error en el servidor';
+                        }
+                    }
+                    else{
+                        // Se verifica que la cuenta tenga el estado activo
+                        if ($administrador->checkStatus()) {
+                            //Se reinician los intentos del inicio de sesión
+                            if ($administrador->resetAttempts()) {
+                                $result['status'] = 1;
+                                $result['message'] = 'Autenticación correcta';
+                                $_SESSION['tiempo'] = time();
+                            }
+                            //Se controla algún error en el servidor al reiniciar los intentos 
+                            else {
+                                $result['exception'] = 'Error en el servidor';
+                            }
+                        }
+                        //Se verifica si el usuario esta bloqueado 
+                        elseif ($administrador->getCondicion() == 'bloqueado') {
+                            //El usuario esta bloqueado
+                            $result['error'] = 'Su cuenta ha sido bloqueada. Contacte a los administradores.';
+                        }
+                        //Se controla algún error en el servidor al verificar el estado de la cuenta
+                        else {
+                            $result['exception'] = 'Error en el servidor';
+                        }
                     }
                 }
                 //Autenticación fallida 
                 else {
-                    $result['error'] = 'Credenciales incorrectas o cuenta desactivada';
+                    //El usuario falló el intento de sesión al no introducir sus credenciales correctamente, se le añade un intento a su cuenta
+                    if ($administrador->addAttempt()) {
+                        $result['error'] = 'Credenciales incorrectas';
+                    }
+                    //Se controla algún error en el servidor al agregarle un intento de inicio de sesión
+                    else {
+                        $result['exception'] = 'Error en el servidor';
+                    }
                 }
+                $administrador->resetCondition();
                 break;
             default:
                 $result['error'] = 'Acción no disponible fuera de la sesión';

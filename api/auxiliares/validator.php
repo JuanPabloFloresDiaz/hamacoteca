@@ -392,8 +392,6 @@ class Validator
             if ($cuenta > $temporizador) {
                 //Destruimos sesión.
                 return true;
-                //Redirigimos pagina.
-                //self::$sessionError = 'Su sesión ha caducado';
             } else { // si no ha caducado la sesion, actualizamos
                 return false;
             }
