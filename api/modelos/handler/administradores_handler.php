@@ -70,7 +70,7 @@ class AdministradoresHandler
         // Se verifica si la contraseña coincide con el hash almacenado en la base de datos.
         if ($data['ESTADO'] == false) {
             //el usuario esta bloqueado
-            $this->condicion = 'bloqueado';
+            return $this->condicion = 'bloqueado';
         } elseif ($data['ESTADO'] == true) {
             $timer = null;
             $this->tiempo = $data['TIEMPO'];

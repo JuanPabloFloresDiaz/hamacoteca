@@ -168,7 +168,7 @@ async function cargarTabla(form = null) {
                         <button type="button" class="btn btn-outline-danger" onclick="openDelete(${row.ID})">
                             <i class="bi bi-trash-fill"></i>
                         </button>
-                        <button type="button" class="btn btn-outline-primary" onclick="openImage(${row.id_hamaca})">
+                        <button type="button" class="btn btn-outline-primary" onclick="openImage(${row.ID})">
                         <i class="bi bi-card-image"></i>
                         </button>
                     </td>
@@ -177,7 +177,7 @@ async function cargarTabla(form = null) {
                 cargarTabla.innerHTML += tablaHtml;
             });
         } else {
-            throw new Error('La respuesta de la API no contiene datos válidos');
+            sweetAlert(4, DATA.error, true);
         }
     } catch (error) {
         console.error('Error al obtener datos de la API:', error);

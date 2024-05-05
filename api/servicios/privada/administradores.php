@@ -193,12 +193,11 @@ if (isset($_GET['action'])) {
                 $_POST = Validator::validateForm($_POST);
                 //Autenticación exitosa
                 if ($administrador->checkUser($_POST['alias'], $_POST['clave'])) {
-                    
+
                     if ($administrador->getCondicion() == 'temporizador') {
                         //el usuario tiene un contador de tiempo para iniciar sesión
                         $result['error'] = 'Ha intentado iniciar sesión demasiadas veces, espere un momento';
-                    }
-                    elseif ($administrador->getCondicion() == 'tiempo') {
+                    } elseif ($administrador->getCondicion() == 'tiempo') {
                         //el usuario intento iniciar sesión demasiadas veces por lo que se le pondra un contador de tiempo
                         if ($administrador->uploadTimeAttempt()) {
                             //se sube el contador con el tiempo actual
@@ -206,18 +205,19 @@ if (isset($_GET['action'])) {
                         } else {
                             $result['exception'] = 'Error en el servidor';
                         }
-                    }
-                    elseif ($administrador->getCondicion() == 'bloquear') {
+                    } elseif ($administrador->getCondicion() == 'bloquear') {
                         //el usuario será bloqueado por acumular intentos fallidos.
                         if ($administrador->blockUser()) {
                             $result['error'] = 'Ha intentado iniciar sesión demasiadas veces.';
                         } else {
                             $result['exception'] = 'Error en el servidor';
                         }
-                    }
-                    else{
-                        // Se verifica que la cuenta tenga el estado activo
-                        if ($administrador->checkStatus()) {
+                    } else {
+
+                        if ($administrador->getCondicion() == 'bloqueado') {
+                            //El usuario esta bloqueado
+                            $result['error'] = 'Su cuenta ha sido bloqueada. Contacte a los administradores.';
+                        } else {
                             //Se reinician los intentos del inicio de sesión
                             if ($administrador->resetAttempts()) {
                                 $result['status'] = 1;
@@ -229,15 +229,29 @@ if (isset($_GET['action'])) {
                                 $result['exception'] = 'Error en el servidor';
                             }
                         }
-                        //Se verifica si el usuario esta bloqueado 
-                        elseif ($administrador->getCondicion() == 'bloqueado') {
-                            //El usuario esta bloqueado
-                            $result['error'] = 'Su cuenta ha sido bloqueada. Contacte a los administradores.';
-                        }
-                        //Se controla algún error en el servidor al verificar el estado de la cuenta
-                        else {
-                            $result['exception'] = 'Error en el servidor';
-                        }
+
+                        // // Se verifica que la cuenta tenga el estado activo
+                        // if ($administrador->checkStatus()) {
+                        //     //Se reinician los intentos del inicio de sesión
+                        //     if ($administrador->resetAttempts()) {
+                        //         $result['status'] = 1;
+                        //         $result['message'] = 'Autenticación correcta';
+                        //         $_SESSION['tiempo'] = time();
+                        //     }
+                        //     //Se controla algún error en el servidor al reiniciar los intentos 
+                        //     else {
+                        //         $result['exception'] = 'Error en el servidor';
+                        //     }
+                        // }
+                        // //Se verifica si el usuario esta bloqueado 
+                        // elseif ($administrador->getCondicion() == 'bloqueado') {
+                        //     //El usuario esta bloqueado
+                        //     $result['error'] = 'Su cuenta ha sido bloqueada. Contacte a los administradores.';
+                        // }
+                        // //Se controla algún error en el servidor al verificar el estado de la cuenta
+                        // else {
+                        //     $result['exception'] = 'Error en el servidor';
+                        // }
                     }
                 }
                 //Autenticación fallida 
