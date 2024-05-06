@@ -144,6 +144,7 @@ SELECT ID, NOMBRE FROM vista_roles_administradores
 ORDER BY NOMBRE;
 
 SELECT * FROM administradores;
+SELECT * FROM roles_administradores;
 SELECT * FROM clientes;
 SELECT * FROM categorias;
 SELECT * FROM materiales;

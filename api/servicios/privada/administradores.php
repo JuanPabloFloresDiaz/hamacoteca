@@ -115,6 +115,21 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'Ocurrió un problema al eliminar el administrador';
                 }
                 break;
+                // Estado
+            case 'changeState':
+                if ($_POST['idAdministrador'] == $_SESSION['idAdministrador']) {
+                    $result['error'] = 'No se puede bloquear a sí mismo';
+                } elseif (
+                    !$administrador->setId($_POST['idAdministrador'])
+                ) {
+                    $result['error'] = $administrador->getDataError();
+                } elseif ($administrador->changeState()) {
+                    $result['status'] = 1;
+                    $result['message'] = 'Estado de administrador cambiado correctamente';
+                } else {
+                    $result['error'] = 'Ocurrió un problema al alterar el estado del administrador';
+                }
+                break;
                 // Traer datos del usuario
             case 'getUser':
                 if (isset($_SESSION['aliasAdministrador'])) {

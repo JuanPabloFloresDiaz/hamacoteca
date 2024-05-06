@@ -271,25 +271,43 @@ CONCAT(nombre_administrador, ' ', apellido_administrador) AS 'NOMBRE',
 correo_administrador AS 'CORREO', 
 telefono_administrador AS 'TELÉFONO',
 dui_administrador AS 'DUI',
-fecha_nacimiento_administrador AS 'NACIMIENTO'
+fecha_nacimiento_administrador AS 'NACIMIENTO',
+    CASE 
+        WHEN estado_administrador = 1 THEN 'Activo'
+        WHEN estado_administrador = 0 THEN 'Bloqueado'
+    END AS 'ESTADO'
 FROM administradores;
 $$
-
-SELECT id_administrador AS ID,
-nombre_administrador AS NOMBRE,
-apellido_administrador AS APELLIDO,
-correo_administrador AS CORREO,
-telefono_administrador AS TELÉFONO,
-dui_administrador AS DUI,
-fecha_nacimiento_administrador AS NACIMIENTO,
-clave_administrador AS CLAVE,
-id_rol AS ROL
-FROM administradores
-WHERE id_administrador LIKE ?
 
 SELECT * FROM vista_tabla_administradores
 WHERE NOMBRE LIKE '%%'
 ORDER BY NOMBRE;
+
+DELIMITER //
+
+CREATE PROCEDURE cambiar_estado_administrador(IN admin_id INT)
+BEGIN
+    DECLARE admin_estado BOOLEAN;
+    
+    -- Obtener el estado actual del administrador
+    SELECT estado_administrador INTO admin_estado
+    FROM administradores
+    WHERE id_administrador = admin_id;
+    
+    -- Actualizar el estado del administrador
+    IF admin_estado = 1 THEN
+        UPDATE administradores
+        SET estado_administrador = 0
+        WHERE id_administrador = admin_id;
+    ELSE
+        UPDATE administradores
+        SET estado_administrador = 1
+        WHERE id_administrador = admin_id;
+    END IF;
+END //
+
+DELIMITER ;
+
 
 # Procedimientos almacenados de la tabla clientes - Hecho por: Juan Pablo Flores Díaz
 
@@ -539,6 +557,7 @@ BEGIN
 END;
 
 $$
+
 
 DELIMITER $$
 CREATE VIEW vista_tabla_hamacas AS

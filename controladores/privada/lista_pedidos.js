@@ -103,22 +103,20 @@ async function cargarTabla(form = null) {
             // Mostrar elementos obtenidos de la API
             DATA.dataset.forEach(row => {
                 const tablaHtml = `
-                <tr>
-                    <td><img src="${SERVER_URL}images/categorias/${row.imagen_hamaca}" height="50" width="50" class="circulo"></td>
-                    <td>${row.nombre_hamaca}</td>
-                    <td>${row.nombre_cliente}</td>
-                    <td>${row.descripcion_pedido}</td>
-                    <td>${row.direccion_pedido}</td>
-                    <td>${row.cantidad_hamaca}</td>
-                    <td>${row.precio_hamaca}</td>
-                    <td>${row.fecha_pedido}</td>
-                    <td>${row.estado_pedido}</td>
-                    <td>
-                    <button type="button" class="btn btn-info" onclick="openUpdate(${row.id_administrador})">
-                    <i class="bi bi-pencil-fill"></i>
+        <tr>
+                <td>${row.cliente}</td>
+                <td>${row.direccion}</td>
+                <td>${row.fecha}</td>
+                <td class="text-warning">${row.estado}</td>
+            <td>
+                <button type="button" class="btn btn-outline-info" onclick="openReport(${row.id})">
+                <i class="bi bi-card-list"></i>
                 </button>
-                    </td>
-                </tr>
+                <button type="button" class="btn btn-outline-primary" onclick="openUpdate(${row.id})">
+                <i class="bi bi-exclamation-octagon"></i>
+                </button>
+            </td>
+        </tr>
                 `;
                 cargarTabla.innerHTML += tablaHtml;
             });
@@ -131,19 +129,17 @@ async function cargarTabla(form = null) {
         listapedidos.forEach(row => {
             const tablaHtml = `
             <tr>
-                <td><img src="${row.urlfoto}" height="50" width="50" class="circulo"></td>
-                    <td>${row.producto}</td>
                     <td>${row.cliente}</td>
-                    <td>${row.descricpion}</td>
                     <td>${row.direccion}</td>
-                    <td>${row.cantidad}</td>
-                    <td>${row.precio}</td>
                     <td>${row.fecha}</td>
                     <td class="text-warning">${row.estado}</td>
                 <td>
-                <button type="button" class="btn btn-outline-success" onclick="openUpdate(${row.id})">
-                <i class="bi bi-pencil-fill"></i>
-            </button>
+                <button type="button" class="btn btn-outline-info" onclick="openReport(${row.id})">
+                <i class="bi bi-card-list"></i>
+                </button>
+                <button type="button" class="btn btn-outline-primary" onclick="openUpdate(${row.id})">
+                <i class="bi bi-exclamation-octagon"></i>
+                </button>
                 </td>
             </tr>
             `;

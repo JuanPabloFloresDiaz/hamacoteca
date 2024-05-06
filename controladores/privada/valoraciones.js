@@ -101,9 +101,9 @@ async function cargarTabla(form = null) {
                     <td>${row.dui_administrador}</td>
                     <td>${row.fecha_nacimiento}</td>
                     <td>
-                        <button type="button" class="btn btn-info" onclick="openUpdate(${row.id_administrador})">
-                            <i class="bi bi-pencil-fill"></i>
-                        </button>
+                    <button type="button" class="btn btn-outline-primary" onclick="openUpdate(${row.id})">
+                    <i class="bi bi-exclamation-octagon"></i>
+                    </button>
                         <button type="button" class="btn btn-warning" onclick="openReport(${row.id_administrador})">
                             <i class="bi bi-filetype-pdf"></i>
                         </button>
@@ -127,9 +127,9 @@ async function cargarTabla(form = null) {
                 <td>${row.comentario}</td>
                 <td>${row.fecha}</td>
                 <td>
-                    <button type="button" class="btn btn-outline-success" onclick="openUpdate(${row.id})">
-                        <i class="bi bi-pencil-fill"></i>
-                    </button>
+                <button type="button" class="btn btn-outline-primary" onclick="openUpdate(${row.id})">
+                <i class="bi bi-exclamation-octagon"></i>
+                </button>
                 </td>
             </tr>
             `;

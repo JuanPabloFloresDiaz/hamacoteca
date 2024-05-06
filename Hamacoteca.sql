@@ -30,7 +30,7 @@ CONSTRAINT fk_rol_administradores FOREIGN KEY (id_rol)
 REFERENCES roles_administradores(id_rol),
 intentos_administrador INT DEFAULT 0,
 estado_administrador BOOLEAN DEFAULT 1,
-tiempo_intento VARCHAR(30) NULL,
+tiempo_intento DATETIME NULL,
 fecha_clave DATETIME NULL DEFAULT NOW(),
 fecha_bloqueo DATETIME NULL,
 foto_administrador VARCHAR(50) NULL,
