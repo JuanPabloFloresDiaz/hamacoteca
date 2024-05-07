@@ -211,7 +211,7 @@ if (isset($_GET['action'])) {
 
                     if ($administrador->getCondicion() == 'temporizador') {
                         //el usuario tiene un contador de tiempo para iniciar sesión
-                        $result['error'] = 'Intento iniciar sesión varias veces y su tiempo de bloque aun no ha acabado';
+                        $result['error'] = 'Intento iniciar sesión varias veces y su tiempo de bloqueo aun no ha acabado';
                     } elseif ($administrador->getCondicion() == 'tiempo') {
                         //el usuario intento iniciar sesión demasiadas veces por lo que se le pondra un contador de tiempo
                         if ($administrador->uploadTimeAttempt()) {
