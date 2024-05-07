@@ -62,12 +62,24 @@ class AdministradoresHandler
         //Se escribe la consulta
         $sql = 'SELECT id_administrador AS ID, alias_administrador AS ALIAS, 
         clave_administrador AS CLAVE, foto_administrador AS FOTO, estado_administrador AS ESTADO, 
-        intentos_administrador AS INTENTOS, DATEDIFF(CURRENT_DATE, fecha_clave) as DIAS, tiempo_intento AS TIEMPO
+        intentos_administrador AS INTENTOS, DATEDIFF(CURRENT_DATE, fecha_clave) as DIAS, 
+        tiempo_intento AS TIEMPO, fecha_bloqueo AS BLOQUEO
         FROM administradores WHERE (BINARY alias_administrador = ? OR BINARY correo_administrador = ?)';
         //Se mandan los parametros en el orden que lo pide el procedimiento. Primer parametro: Alias o Correo. Segundo parametro: Clave
         $params = array($username, $username);
         $data = Database::getRow($sql, $params);
-        // Se verifica si la contraseña coincide con el hash almacenado en la base de datos.
+        if($data['TIEMPO'] != null && $data['TIEMPO'] <= time()){
+            //el usuario tiene contador de tiempo
+            return $this->condicion = 'temporizador';
+        }elseif($data['TIEMPO'] == null && $data['TIEMPO'] >= time()){
+            //el usuario no tiene contador
+            $this->alias = $data['ALIAS'];
+            $this->resetTimeAttempt(null);
+            $this->changeStateBlock();
+            $this->resetAttempts();
+        }else{
+            
+        }
         if ($data['ESTADO'] == false) {
             //el usuario esta bloqueado
             return $this->condicion = 'bloqueado';
@@ -87,14 +99,13 @@ class AdministradoresHandler
             }
             if ($timer == false) {
                 //el usuario tiene contador de tiempo
-                $this->condicion = 'temporizador';
-            } elseif ($data['INTENTOS'] >= 6) {
+                return $this->condicion = 'temporizador';
+            } elseif ($data['INTENTOS'] >= 3) {
                 //las contraseñas no coinciden, se validan los intentos de sesión para ver si el usuario deberia tener un cotnador
-                $this->condicion = 'tiempo';
-            } elseif ($data['INTENTOS'] > 30) {
-                //las contraseñas no coinciden, se valida los intentos para ver si el usuario debe ser bloqueado
-                $this->condicion = 'bloquear';
-            } elseif (password_verify($password, $data['CLAVE'])) {
+                return $this->condicion = 'tiempo';
+            }
+            // Se verifica si la contraseña coincide con el hash almacenado en la base de datos. 
+            elseif (password_verify($password, $data['CLAVE'])) {
                 $_SESSION['idAdministrador'] = $data['ID'];
                 $_SESSION['aliasAdministrador'] = $data['ALIAS'];
                 $_SESSION['fotoAdministrador'] = $data['FOTO'];
@@ -247,12 +258,19 @@ class AdministradoresHandler
         return Database::executeRow($sql, $params);
     }
 
-    
     //Función para cambiar el estado de un admministrador.
     public function changeState()
     {
         $sql = 'CALL cambiar_estado_administrador(?);';
         $params = array($this->id);
+        return Database::executeRow($sql, $params);
+    }
+
+    //Función para cambiar el estado de un admministrador bloqueado.
+    public function changeStateBlock()
+    {
+        $sql = 'UPDATE administradores SET estado_administrador = 1, fecha_bloqueo = NULL WHERE alias_administrador = ?';
+        $params = array($this->alias);
         return Database::executeRow($sql, $params);
     }
 
@@ -310,16 +328,19 @@ class AdministradoresHandler
     //cambiar el contador de tiempo para incicar sesion nuevamente
     public function uploadTimeAttempt()
     {
-        $sql = 'UPDATE administradores SET tiempo_intento = NOW() WHERE alias_administrador = ?';
+        // Preparar la consulta SQL para actualizar el campo tiempo_intento sumando un día a la fecha actual
+        $sql = 'UPDATE administradores SET tiempo_intento = DATE_ADD(NOW(), INTERVAL 1 DAY) WHERE alias_administrador = ?';
         $params = array($this->alias);
+        // Ejecutar la consulta SQL
         return Database::executeRow($sql, $params);
     }
+
 
     //cambiar el contador de tiempo para incicar sesion nuevamente
     public function resetTimeAttempt($timer)
     {
         $sql = 'UPDATE administradores SET tiempo_intento = ? WHERE alias_administrador = ?';
-        $params = array($timer ,$this->alias);
+        $params = array($timer, $this->alias);
         return Database::executeRow($sql, $params);
     }
 
