@@ -6,7 +6,7 @@ let SAVE_FORM,
     IMAGEN_MATERIAL;
 let SEARCH_FORM;
 // Constantes para completar las rutas de la API.
-const MATERIAL_API = '';
+const MATERIAL_API = 'servicios/privada/materiales.php';
 
 async function loadComponent(path) {
     const response = await fetch(path);
@@ -50,9 +50,9 @@ const openUpdate = async (id) => {
             SAVE_FORM.reset();
             // Se inicializan los campos con los datos.
             const ROW = DATA.dataset;
-            ID_MATERIAL.value = ROW.id_material;
-            NOMBRE_MATERIAL.value = ROW.nombre_material;
-            DESCRIPCION_MATERIAL.value = ROW.descripcion_material;
+            ID_MATERIAL.value = ROW.ID;
+            NOMBRE_MATERIAL.value = ROW.NOMBRE;
+            DESCRIPCION_MATERIAL.value = ROW.DESCRIPCION;
         } else {
             sweetAlert(2, DATA.error, false);
         }
@@ -131,17 +131,17 @@ async function cargarTabla(form = null) {
             DATA.dataset.forEach(row => {
                 const tablaHtml = `
                 <tr>
-                    <td><img src="${SERVER_URL}images/categorias/${row.imagen_material}" height="50" width="50" class="circulo"></td>
-                    <td>${row.nombre_material}</td>
-                    <td>${row.descripcion_material}</td>
+                    <td><img src="${SERVER_URL}imagenes/materiales/${row.IMAGEN}" height="50" width="50" class="circulo"></td>
+                    <td>${row.NOMBRE}</td>
+                    <td>${row.DESCRIPCION}</td>
                     <td>
-                        <button type="button" class="btn btn-info" onclick="openUpdate(${row.id_hamaca})">
+                        <button type="button" class="btn btn-info" onclick="openUpdate(${row.ID})">
                             <i class="bi bi-pencil-fill"></i>
                         </button>
-                        <button type="button" class="btn btn-danger" onclick="openDelete(${row.id_hamaca})">
+                        <button type="button" class="btn btn-danger" onclick="openDelete(${row.ID})">
                             <i class="bi bi-trash-fill"></i>
                         </button>
-                        <button type="button" class="btn btn-warning" onclick="openReport(${row.id_hamaca})">
+                        <button type="button" class="btn btn-warning" onclick="openReport(${row.ID})">
                             <i class="bi bi-filetype-pdf"></i>
                         </button>
                     </td>
@@ -150,7 +150,7 @@ async function cargarTabla(form = null) {
                 cargarTabla.innerHTML += tablaHtml;
             });
         } else {
-            throw new Error('La respuesta de la API no contiene datos válidos');
+            sweetAlert(2, DATA.error, false);
         }
     } catch (error) {
         console.error('Error al obtener datos de la API:', error);
@@ -217,7 +217,7 @@ window.onload = async function () {
         // Constante tipo objeto con los datos del formulario.
         const FORM = new FormData(SAVE_FORM);
         // Petición para guardar los datos del formulario.
-        const DATA = await fetchData(PRODUCTO_API, action, FORM);
+        const DATA = await fetchData(MATERIAL_API, action, FORM);
         // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
         if (DATA.status) {
             // Se cierra la caja de diálogo.
