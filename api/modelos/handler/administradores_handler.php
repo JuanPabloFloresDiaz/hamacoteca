@@ -68,17 +68,17 @@ class AdministradoresHandler
         //Se mandan los parametros en el orden que lo pide el procedimiento. Primer parametro: Alias o Correo. Segundo parametro: Clave
         $params = array($username, $username);
         $data = Database::getRow($sql, $params);
-        if($data['TIEMPO'] != null && $data['TIEMPO'] <= time()){
+        // Obtener la fecha y hora actual
+        $now = new DateTime();
+        if ($data['TIEMPO'] != null && $data['TIEMPO'] < $now) {
             //el usuario tiene contador de tiempo
             return $this->condicion = 'temporizador';
-        }elseif($data['TIEMPO'] == null && $data['TIEMPO'] >= time()){
+        } else {
             //el usuario no tiene contador
             $this->alias = $data['ALIAS'];
             $this->resetTimeAttempt(null);
             $this->changeStateBlock();
             $this->resetAttempts();
-        }else{
-            
         }
         if ($data['ESTADO'] == false) {
             //el usuario esta bloqueado

@@ -18,6 +18,8 @@ let SAVE_FORM,
 let SEARCH_FORM;
 // Constantes para completar las rutas de la API.
 const HAMACA_API = 'servicios/privada/hamacas.php';
+const MATERIALES_API = 'servicios/privada/materiales.php';
+const CATEGORIAS_API = 'servicios/privada/categorias.php';
 /*
 *   Función para preparar el formulario al momento de insertar un registro.
 *   Parámetros: ninguno.
@@ -29,6 +31,8 @@ const openCreate = () => {
     MODAL_TITLE.textContent = 'Crear hamaca';
     // Se prepara el formulario.
     SAVE_FORM.reset();
+    fillSelect(MATERIALES_API, 'readAll', 'materiales');
+    fillSelect(CATEGORIAS_API, 'readAll', 'categorias');
 }
 const openImage = () => {
     // Se muestra la caja de diálogo con su título.
@@ -104,7 +108,41 @@ const openDelete = async (id) => {
     }
     catch (Error) {
         console.log(Error + ' Error al cargar el mensaje');
-        confirmAction('¿Desea eliminar la hamaca de forma permanente?');
+    }
+
+}
+
+/*
+*   Función asíncrona para cambiar el estado de un registro.
+*   Parámetros: id (identificador del registro seleccionado).
+*   Retorno: ninguno.
+*/
+const openState = async (id) => {
+    // Llamada a la función para mostrar un mensaje de confirmación, capturando la respuesta en una constante.
+    const RESPONSE = await confirmUpdateAction('¿Desea cambiar el estado del producto?');
+    try {
+        // Se verifica la respuesta del mensaje.
+        if (RESPONSE) {
+            // Se define una constante tipo objeto con los datos del registro seleccionado.
+            const FORM = new FormData();
+            FORM.append('idHamaca', id);
+            console.log(id);
+            // Petición para eliminar el registro seleccionado.
+            const DATA = await fetchData(HAMACA_API, 'changeState', FORM);
+            console.log(DATA.status);
+            // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
+            if (DATA.status) {
+                // Se muestra un mensaje de éxito.
+                await sweetAlert(1, DATA.message, true);
+                // Se carga nuevamente la tabla para visualizar los cambios.
+                cargarTabla();
+            } else {
+                sweetAlert(2, DATA.error, false);
+            }
+        }
+    }
+    catch (Error) {
+        console.log(Error + ' Error al cargar el mensaje');
     }
 
 }
@@ -119,6 +157,7 @@ async function cargarTabla(form = null) {
             descripcion: 'Es una hamaca bonita, ligera y cómoda',
             urlfoto: '../../../recursos/img/hamaca 3.jpg',
             fecha: '2023-02-16',
+            estado: 'Disponible',
             id: 1
         },
         {
@@ -128,6 +167,7 @@ async function cargarTabla(form = null) {
             descripcion: 'Es una hamaca colorada, bonita y cómoda',
             urlfoto: '../../../recursos/img/hamaca1.png',
             fecha: '2023-02-15',
+            estado: 'Disponible',
             id: 2
         },
         {
@@ -137,6 +177,7 @@ async function cargarTabla(form = null) {
             descripcion: 'Es una hamaca grande, preciosa y cómoda',
             urlfoto: '../../../recursos/img/hamacaKsK 1.png',
             fecha: '2023-02-12',
+            estado: 'Disponible',
             id: 3
         },
     ];
@@ -161,7 +202,11 @@ async function cargarTabla(form = null) {
                     <td>${row.DESCRIPCIÓN}</td>
                     <td>${row.CANTIDAD}</td>
                     <td>${row.PRECIO}</td>
+                    <td>${row.ESTADO}</td>
                     <td>
+                        <button type="button" class="btn btn-outline-danger" onclick="openState(${row.ID})">
+                            <i class="bi bi-trash-fill"></i>
+                        </button>
                         <button type="button" class="btn btn-outline-success" onclick="openUpdate(${row.ID})">
                             <i class="bi bi-pencil-fill"></i>
                         </button>
@@ -190,6 +235,7 @@ async function cargarTabla(form = null) {
                 <td>${row.descripcion}</td>
                 <td>${row.cantidad}</td>
                 <td>${row.precio}</td>
+                <td>${row.estado}</td>
                 <td>
                     <button type="button" class="btn btn-outline-success" onclick="openUpdate(${row.id})">
                         <i class="bi bi-pencil-fill"></i>

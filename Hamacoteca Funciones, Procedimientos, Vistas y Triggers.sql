@@ -499,12 +499,12 @@ $$
 
 #Procedimientos almacenados de la tabla hamacas - hecho por: Juan Pablo Flores Díaz
 
+
 DELIMITER $$
 CREATE PROCEDURE insertar_hamaca(
    IN p_nombre_hamaca VARCHAR(60),
    IN p_descripcion_hamaca TEXT,
    IN p_precio DECIMAL(5,2),
-   IN p_estado_venta ENUM('Disponible', 'Agotado'),
    IN p_cantidad_hamaca INT,
    IN p_foto_principal VARCHAR(50),
    IN p_id_administrador INT,
@@ -512,8 +512,8 @@ CREATE PROCEDURE insertar_hamaca(
    IN p_id_material INT
 )
 BEGIN
-   INSERT INTO hamacas (nombre_hamaca, descripcion_hamaca, precio, estado_venta, cantidad_hamaca, foto_principal, id_administrador, id_categoria, id_material)
-   VALUES(p_nombre_hamaca, p_descripcion_hamaca, p_precio, p_estado_venta, p_cantidad_hamaca, p_foto_principal, p_id_administrador, p_id_categoria, p_id_material);
+   INSERT INTO hamacas (nombre_hamaca, descripcion_hamaca, precio, cantidad_hamaca, foto_principal, id_administrador, id_categoria, id_material)
+   VALUES(p_nombre_hamaca, p_descripcion_hamaca, p_precio, p_cantidad_hamaca, p_foto_principal, p_id_administrador, p_id_categoria, p_id_material);
 END;
 $$
 
@@ -524,7 +524,6 @@ CREATE PROCEDURE actualizar_hamaca(
    IN p_nombre_hamaca VARCHAR(60),
    IN p_descripcion_hamaca TEXT,
    IN p_precio DECIMAL(5,2),
-   IN p_estado_venta ENUM('Disponible', 'Agotado'),
    IN p_cantidad_hamaca INT,
    IN p_foto_principal VARCHAR(50),
    IN p_id_administrador INT,
@@ -536,7 +535,6 @@ BEGIN
    SET nombre_hamaca = p_nombre_hamaca,
        descripcion_hamaca = p_descripcion_hamaca,
        precio = p_precio,
-       estado_venta = p_estado_venta,
        cantidad_hamaca = p_cantidad_hamaca,
        foto_principal = p_foto_principal,
        id_administrador = p_id_administrador,
