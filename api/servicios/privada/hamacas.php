@@ -71,8 +71,8 @@ if (isset($_GET['action'])) {
                     !$producto->setDescripcion($_POST['descripcionHamaca']) or
                     !$producto->setExistencias($_POST['cantidadHamaca']) or
                     !$producto->setPrecio($_POST['precioHamaca']) or
-                    !$producto->setCategoria($_POST['categoria']) or
-                    !$producto->setMaterial($_POST['material']) or
+                    !$producto->setCategoria($_POST['categorias']) or
+                    !$producto->setMaterial($_POST['materiales']) or
                     !$producto->setImagen($_FILES['imagenHamaca'], $producto->getFilename())
                 ) {
                     $result['error'] = $producto->getDataError();
