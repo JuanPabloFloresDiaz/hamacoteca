@@ -29,9 +29,10 @@ if (isset($_GET['action'])) {
                 if (
                     !$producto->setNombre($_POST['nombreHamaca']) or
                     !$producto->setDescripcion($_POST['descripcionHamaca']) or
-                    !$producto->setPrecio($_POST['precioHamaca']) or
                     !$producto->setExistencias($_POST['cantidadHamaca']) or
-                    !$producto->setCategoria($_POST['categoriaHamaca']) or
+                    !$producto->setPrecio($_POST['precioHamaca']) or
+                    !$producto->setCategoria($_POST['categorias']) or
+                    !$producto->setMaterial($_POST['materiales']) or
                     !$producto->setImagen($_FILES['imagenHamaca'])
                 ) {
                     $result['error'] = $producto->getDataError();
@@ -39,7 +40,7 @@ if (isset($_GET['action'])) {
                     $result['status'] = 1;
                     $result['message'] = 'Producto creado correctamente';
                     // Se asigna el estado del archivo después de insertar.
-                    $result['fileStatus'] = Validator::saveFile($_FILES['imagenProducto'], $producto::RUTA_IMAGEN);
+                    $result['fileStatus'] = Validator::saveFile($_FILES['imagenHamaca'], $producto::RUTA_IMAGEN);
                 } else {
                     $result['error'] = 'Ocurrió un problema al crear el producto';
                 }
@@ -68,8 +69,10 @@ if (isset($_GET['action'])) {
                     !$producto->setFilename() or
                     !$producto->setNombre($_POST['nombreHamaca']) or
                     !$producto->setDescripcion($_POST['descripcionHamaca']) or
+                    !$producto->setExistencias($_POST['cantidadHamaca']) or
                     !$producto->setPrecio($_POST['precioHamaca']) or
-                    !$producto->setCategoria($_POST['categoriaHamaca']) or
+                    !$producto->setCategoria($_POST['categoria']) or
+                    !$producto->setMaterial($_POST['material']) or
                     !$producto->setImagen($_FILES['imagenHamaca'], $producto->getFilename())
                 ) {
                     $result['error'] = $producto->getDataError();
@@ -77,7 +80,7 @@ if (isset($_GET['action'])) {
                     $result['status'] = 1;
                     $result['message'] = 'Producto modificado correctamente';
                     // Se asigna el estado del archivo después de actualizar.
-                    $result['fileStatus'] = Validator::changeFile($_FILES['imagenProducto'], $producto::RUTA_IMAGEN, $producto->getFilename());
+                    $result['fileStatus'] = Validator::changeFile($_FILES['imagenHamaca'], $producto::RUTA_IMAGEN, $producto->getFilename());
                 } else {
                     $result['error'] = 'Ocurrió un problema al modificar el producto';
                 }
@@ -95,6 +98,19 @@ if (isset($_GET['action'])) {
                     $result['fileStatus'] = Validator::deleteFile($producto::RUTA_IMAGEN, $producto->getFilename());
                 } else {
                     $result['error'] = 'Ocurrió un problema al eliminar el producto';
+                }
+                break;
+                // Estado
+            case 'changeState':
+                if (
+                    !$producto->setId($_POST['idHamaca'])
+                ) {
+                    $result['error'] = $producto->getDataError();
+                } elseif ($producto->changeState()) {
+                    $result['status'] = 1;
+                    $result['message'] = 'Estado del producto cambiado correctamente';
+                } else {
+                    $result['error'] = 'Ocurrió un problema al alterar el estado del administrador';
                 }
                 break;
             default:
