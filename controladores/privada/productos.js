@@ -14,6 +14,8 @@ let SAVE_FORM,
     NOMBRE_HAMACA,
     CANTIDAD_HAMACA,
     PRECIO_HAMACA,
+    CATEGORIA,
+    MATERIAL,
     DESCRIPCION_HAMACA;
 let SEARCH_FORM;
 // Constantes para completar las rutas de la API.
@@ -181,7 +183,7 @@ async function cargarTabla(form = null) {
             id: 3
         },
     ];
-    const cargarTabla = document.getElementById('tabla_administradores');
+    const cargarTabla = document.getElementById('tabla_hamacas');
 
     try {
         cargarTabla.innerHTML = '';
@@ -204,8 +206,8 @@ async function cargarTabla(form = null) {
                     <td>${row.PRECIO}</td>
                     <td>${row.ESTADO}</td>
                     <td>
-                        <button type="button" class="btn btn-outline-danger" onclick="openState(${row.ID})">
-                            <i class="bi bi-trash-fill"></i>
+                        <button type="button" class="btn btn-outline-primary" onclick="openState(${row.ID})">
+                            <i class="bi bi-exclamation-octagon"></i>
                         </button>
                         <button type="button" class="btn btn-outline-success" onclick="openUpdate(${row.ID})">
                             <i class="bi bi-pencil-fill"></i>
@@ -289,6 +291,8 @@ window.onload = async function () {
         CANTIDAD_HAMACA = document.getElementById('cantidadHamaca'),
         PRECIO_HAMACA = document.getElementById('precioHamaca'),
         DESCRIPCION_HAMACA = document.getElementById('descripcionHamaca'),
+        CATEGORIA = document.getElementById('categorias'),
+        MATERIAL = document.getElementById('materiales'),
         IMAGEN_HAMACA = document.getElementById('imagenHamaca');
 
     // Método del evento para cuando se envía el formulario de guardar.
@@ -300,7 +304,7 @@ window.onload = async function () {
         // Constante tipo objeto con los datos del formulario.
         const FORM = new FormData(SAVE_FORM);
         // Petición para guardar los datos del formulario.
-        const DATA = await fetchData(PRODUCTO_API, action, FORM);
+        const DATA = await fetchData(HAMACA_API, action, FORM);
         // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
         if (DATA.status) {
             // Se cierra la caja de diálogo.

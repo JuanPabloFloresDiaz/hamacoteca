@@ -113,7 +113,7 @@ class HamacasData extends HamacasHandler
             $this->administrador = $value;
             return true;
         } else {
-            $this->data_error = 'El identificador de la categoría es incorrecto';
+            $this->data_error = 'El identificador de el administrador es incorrecto';
             return false;
         }
     }
@@ -124,7 +124,7 @@ class HamacasData extends HamacasHandler
             $this->categoria = $value;
             return true;
         } else {
-            $this->data_error = 'El identificador de la categoría es incorrecto';
+            $this->data_error = 'El identificador de la categoria es incorrecto';
             return false;
         }
     }
@@ -135,7 +135,7 @@ class HamacasData extends HamacasHandler
             $this->material = $value;
             return true;
         } else {
-            $this->data_error = 'El identificador de la categoría es incorrecto';
+            $this->data_error = 'El identificador de el material es incorrecto';
             return false;
         }
     }

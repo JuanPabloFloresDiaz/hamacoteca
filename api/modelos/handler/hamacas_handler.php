@@ -39,7 +39,7 @@ class HamacasHandler
     public function createRow()
     {
         $sql = 'CALL insertar_hamaca(?,?,?,?,?,?,?,?);';
-        $params = array($this->nombre, $this->descripcion, $this->precio, $this->cantidad, $this->imagen, $this->categoria, $this->material);
+        $params = array($this->nombre, $this->descripcion, $this->precio, $this->cantidad, $this->imagen, $_SESSION['idAdministrador'], $this->categoria, $this->material);
         return Database::executeRow($sql, $params);
     }
 
@@ -53,7 +53,7 @@ class HamacasHandler
     public function readOne()
     {
         $sql = 'SELECT * FROM vista_tabla_hamacas
-        WHERE id_hamaca = ?;';
+        WHERE ID = ?;';
         $params = array($this->id);
         return Database::getRow($sql, $params);
     }
