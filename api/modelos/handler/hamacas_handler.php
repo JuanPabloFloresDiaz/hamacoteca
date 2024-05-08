@@ -38,8 +38,8 @@ class HamacasHandler
 
     public function createRow()
     {
-        $sql = 'CALL insertar_hamaca(?,?,?,?,?,?,1,?,?);';
-        $params = array($this->nombre, $this->descripcion, $this->precio, $this->estado, $this->cantidad, $this->imagen, $this->categoria, $this->material);
+        $sql = 'CALL insertar_hamaca(?,?,?,?,?,?,?,?);';
+        $params = array($this->nombre, $this->descripcion, $this->precio, $this->cantidad, $this->imagen, $this->categoria, $this->material);
         return Database::executeRow($sql, $params);
     }
 
@@ -52,17 +52,7 @@ class HamacasHandler
 
     public function readOne()
     {
-        $sql = 'SELECT id_hamaca AS ID,
-        foto_principal AS IMAGEN, 
-        nombre_hamaca AS NOMBRE,
-        descripcion_hamaca AS DESCRIPCIÓN, 
-        cantidad_hamaca AS CANTIDAD,
-        precio AS PRECIO,
-        estado_venta AS ESTADO,
-        id_administrador AS ADMINISTRADOR,
-        id_categoria AS CATEGORIA,
-        id_material AS MATERIAL
-        FROM hamacas
+        $sql = 'SELECT * FROM vista_tabla_hamacas
         WHERE id_hamaca = ?;';
         $params = array($this->id);
         return Database::getRow($sql, $params);
@@ -79,14 +69,22 @@ class HamacasHandler
 
     public function updateRow()
     {
-        $sql = 'CALL actualizar_hamaca(?,?,?,?,?,?,?,?,?,?);';
-        $params = array($this->id, $this->nombre, $this->descripcion, $this->precio, $this->estado, $this->cantidad, $this->imagen, $this->administrador, $this->categoria, $this->material);
+        $sql = 'CALL actualizar_hamaca(?,?,?,?,?,?,?,?);';
+        $params = array($this->id, $this->nombre, $this->descripcion, $this->precio, $this->cantidad, $this->imagen, $this->categoria, $this->material);
         return Database::executeRow($sql, $params);
     }
 
     public function deleteRow()
     {
         $sql = 'CALL eliminar_hamaca(?);';
+        $params = array($this->id);
+        return Database::executeRow($sql, $params);
+    }
+
+    //Función para cambiar el estado de un admministrador.
+    public function changeState()
+    {
+        $sql = 'CALL cambiar_estado_producto(?);';
         $params = array($this->id);
         return Database::executeRow($sql, $params);
     }
