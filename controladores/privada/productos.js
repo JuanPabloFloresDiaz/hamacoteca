@@ -57,8 +57,6 @@ const openUpdate = async (id) => {
         const DATA = await fetchData(HAMACA_API, 'readOne', FORM);
         // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
         if (DATA.status) {
-            fillSelect(MATERIALES_API, 'readAll', 'materiales');
-            fillSelect(CATEGORIAS_API, 'readAll', 'categorias');
             // Se muestra la caja de diálogo con su título.
             SAVE_MODAL.show();
             MODAL_TITLE.textContent = 'Actualizar hamaca';
@@ -71,8 +69,9 @@ const openUpdate = async (id) => {
             CANTIDAD_HAMACA.value = ROW.CANTIDAD;
             PRECIO_HAMACA.value = ROW.PRECIO;
             DESCRIPCION_HAMACA.value = ROW.DESCRIPCIÓN;
-            CATEGORIA.value = ROW.CATEGORIA;
-            MATERIAL.value = ROW.MATERIAL;
+            fillSelect(MATERIALES_API, 'readAll', 'materiales', ROW.MATERIAL);
+            fillSelect(CATEGORIAS_API, 'readAll', 'categorias', ROW.CATEGORIA);
+
         } else {
             sweetAlert(2, DATA.error, false);
         }
