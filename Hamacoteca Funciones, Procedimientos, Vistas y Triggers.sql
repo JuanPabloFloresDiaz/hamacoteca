@@ -136,6 +136,28 @@ $$
 CALL insertar_administrador('Juan Carlos', 'Castro Mirandez', 'Clave@2024', 'juan@gmail.com', '4568-5878', '64574357-0', '1990-01-01', 3, 'default.jpg');
 
 DELIMITER $$
+CREATE PROCEDURE cambiar_estado_cliente(IN cliente_id INT)
+BEGIN
+    DECLARE cliente_estado BOOLEAN;
+    
+    -- Obtener el estado actual del administrador
+    SELECT estado_cliente INTO cliente_estado
+    FROM clientes
+    WHERE id_cliente = cliente_id;
+    
+    -- Actualizar el estado del administrador
+    IF cliente_estado = 1 THEN
+        UPDATE clientes
+        SET estado_cliente = 0
+        WHERE id_cliente = cliente_id;
+    ELSE
+        UPDATE clientes
+        SET estado_cliente = 1
+        WHERE id_cliente = cliente_id;
+    END IF;
+END $$
+
+DELIMITER $$
 CREATE PROCEDURE insertar_administrador_validado(
    IN p_nombre_administrador VARCHAR(50),
    IN p_apellido_administrador VARCHAR(50),
