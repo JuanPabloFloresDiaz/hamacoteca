@@ -135,14 +135,11 @@ async function cargarTabla(form = null) {
                     <td>${row.NOMBRE}</td>
                     <td>${row.DESCRIPCION}</td>
                     <td>
-                        <button type="button" class="btn btn-info" onclick="openUpdate(${row.ID})">
+                        <button type="button" class="btn btn-outline-success" onclick="openUpdate(${row.ID})">
                             <i class="bi bi-pencil-fill"></i>
                         </button>
-                        <button type="button" class="btn btn-danger" onclick="openDelete(${row.ID})">
+                        <button type="button" class="btn btn-outline-danger" onclick="openDelete(${row.ID})">
                             <i class="bi bi-trash-fill"></i>
-                        </button>
-                        <button type="button" class="btn btn-warning" onclick="openReport(${row.ID})">
-                            <i class="bi bi-filetype-pdf"></i>
                         </button>
                     </td>
                 </tr>
