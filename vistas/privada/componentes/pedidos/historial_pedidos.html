@@ -15,6 +15,35 @@
         </div>
     </div>
 </div>
+<!-- Cartas-->
+<div class="container col-md-10 mt-4">
+    <div class="row row-cols-1 row-cols-md-3 gx-4 gy-4">
+        <!-- Pedidos entregados-->
+        <div class="col mb-4">
+            <div class="card bg-success border-dark cabezera">
+                <div class="card-header bg-transparent border-light text-white">Pedidos entregados ✅</div>
+                <div class="card-body text-white">
+                    <h5 class="card-title">Pedidos entregados:</h5>
+                    <p class="card-text" id="numero"></p>
+                </div>
+                <div class="card-footer bg-transparent border-light text-white">Hamacoteca</div>
+            </div>
+        </div>
+        <!-- Ganancias de las hamacas-->
+        <div class="col mb-4">
+            <div class="card bg-success border-dark cabezera">
+                <div class="card-header bg-transparent border-light text-white">Ganancias de ventas 💵</div>
+                <div class="card-body text-white">
+                    <h5 class="card-title">Ganancias totales:</h5>
+                    <p class="card-text" id="ganancias"></p>
+                </div>
+                <div class="card-footer bg-transparent border-light text-white">Hamacoteca</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Columna para la tabla-->
 <div class="container col-md-10">
     <!-- Tabla para mostrar los registros existentes -->
     <table class="table table-hover">
@@ -33,4 +62,41 @@
         <!-- Cuerpo de la tabla para mostrar un registro por fila -->
         <tbody id="tabla_pedidos"></tbody>
     </table>
+</div>
+
+
+<!-- Modal de detalle de pedido -->
+<div class="modal fade" id="detailModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel"></span></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- Campo oculto para asignar el id del registro al momento de modificar -->
+                <input type="hidden" id="idDetalle" name="idDetalle">
+                <div class="table-responsive">
+                    <table class="table table align-middle table-striped table-borderless">
+                        <!-- Cabeza de la tabla para mostrar la cantidad de registros y los títulos de las columnas -->
+                        <thead>
+                            <tr>
+                                <td colspan="6" id="rowsFound"></td>
+                            </tr>
+                            <tr>
+                                <th>Foto</th>
+                                <th>Nombre del producto</th>
+                                <th>Cantidad comprada</th>
+                                <th>Precio total</th>
+                            </tr>
+                        </thead>
+                        <!-- Cuerpo de la tabla para mostrar un registro por fila -->
+                        <tbody id="tabla_detalle"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

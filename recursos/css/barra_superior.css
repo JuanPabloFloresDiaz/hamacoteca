@@ -120,3 +120,7 @@
     background-color: white; 
     color: black;
 }
+
+.cabezera{
+    max-width: 18rem;
+}
