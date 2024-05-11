@@ -70,10 +70,12 @@ class AdministradoresHandler
         $data = Database::getRow($sql, $params);
         // Obtener la fecha y hora actual
         $now = new DateTime();
+        //Se verifica si tiene contador o si este ya paso.
         if ($data['TIEMPO'] != null && $data['TIEMPO'] < $now) {
             //el usuario tiene contador de tiempo
             return $this->condicion = 'temporizador';
-        } else {
+        } 
+        elseif($data['TIEMPO'] != null && $data['TIEMPO'] > $now) {
             //el usuario no tiene contador
             $this->alias = $data['ALIAS'];
             $this->resetTimeAttempt(null);
