@@ -7,7 +7,6 @@
 const USER_API = 'servicios/privada/administradores.php';
 // Constante para establecer el elemento del contenido principal.
 const MAIN = document.querySelector('main');
-
 /*  Función asíncrona para cargar el encabezado y pie del documento.
 *   Parámetros: ninguno.
 *   Retorno: ninguno.

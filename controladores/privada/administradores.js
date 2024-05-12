@@ -31,9 +31,11 @@ const openCreate = () => {
     // Se muestra la caja de diálogo con su título.
     SAVE_MODAL.show();
     MODAL_TITLE.textContent = 'Crear administrador';
+    CLAVE_ADMINISTRADOR.disabled = false;
+    REPETIR_CLAVE.disabled = false;
+    fillSelect(ROL_API, 'readAll', 'rolAdministrador');
     // Se prepara el formulario.
     SAVE_FORM.reset();
-    fillSelect(ROL_API, 'readAll', 'rolAdministrador');
 }
 /*
 *   Función asíncrona para preparar el formulario al momento de actualizar un registro.
@@ -63,8 +65,9 @@ const openUpdate = async (id) => {
             TELEFONO_ADMINISTRADOR.value = ROW.TELÉFONO;
             DUI_ADMINISTRADOR.value = ROW.DUI;
             NACIMIENTO_ADMINISTRADOR.value = ROW.NACIMIENTO;
-            CLAVE_ADMINISTRADOR.value = ROW.CLAVE;
             fillSelect(ROL_API, 'readAll', 'rolAdministrador', ROW.ROL);
+            CLAVE_ADMINISTRADOR.disabled = true;
+            REPETIR_CLAVE.disabled = true;
         } else {
             sweetAlert(2, DATA.error, false);
         }

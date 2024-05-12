@@ -268,6 +268,26 @@ window.onload = async function () {
     appContainer.innerHTML = dashboardHtml;
     const theme = localStorage.getItem('theme'); // Obtener el tema desde localStorage
 
+    // Constante para obtener el número de horas.
+    const HOUR = new Date().getHours();
+    // Se define una variable para guardar un saludo.
+    let greeting = '';
+    // Dependiendo del número de horas transcurridas en el día, se asigna un saludo para el usuario.
+    try{
+        const DATA = await fetchData(USER_API, 'getUser');
+        if (HOUR < 12) {
+            greeting = 'Buenos días ' + DATA.username;
+        } else if (HOUR < 19) {
+            greeting = 'Buenas tardes ' + DATA.username;
+        } else if (HOUR <= 23) {
+            greeting = 'Buenas noches ' + DATA.username;
+        }
+        
+        sweetAlert(1, greeting, true);
+    }catch{
+
+    }
+
     if (theme === 'dark') {
         document.documentElement.setAttribute('data-bs-theme', 'dark');
     } else {

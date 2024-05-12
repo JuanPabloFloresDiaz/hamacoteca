@@ -1,6 +1,11 @@
 let SEARCH_FORM;
 // Constantes para completar las rutas de la API.
 const PEDIDOS_API = '';
+let SAVE_MODAL,
+    MODAL_TITLE;
+let SAVE_FORM,
+    ID_PEDIDO,
+    ESTADO;
 let DETAIL_MODAL,
     MODAL_TITLE_DETAIL;
 
@@ -74,7 +79,7 @@ async function cargarDetalle(form = null) {
             DATA.dataset.forEach(row => {
                 const tablaHtml = `
             <tr>
-                    <td>${row.FOTO}</td>
+                    <td><img src="${row.FOTO}" height="50" width="50" class="circulo"></td>
                     <td>${row.PRODUCTO}</td>
                     <td>${row.CANTIDAD}</td>
                     <td>${row.PRECIO}</td>
@@ -93,7 +98,7 @@ async function cargarDetalle(form = null) {
             <tr">
                     <td><img src="${row.urlfoto}" height="50" width="50" class="circulo"></td>
                     <td>${row.producto}</td>
-                    <td>${row.fecha}</td>
+                    <td>${row.cantidad}</td>
                     <td>${row.precio}</td>
             </tr>
             `;
@@ -119,6 +124,7 @@ async function cargarTabla(form = null) {
             DATA.dataset.forEach(row => {
                 const tablaHtml = `
                 <tr class="${getRowBackgroundColor(row.ESTADO)}">
+                    <td><img src="${row.FOTO}" height="50" width="50" class="circulo"></td>
                     <td>${row.CLIENTE}</td>
                     <td>${row.DIRECCION}</td>
                     <td>${row.FECHA}</td>
@@ -210,6 +216,8 @@ window.onload = async function () {
 
     DETAIL_MODAL = new bootstrap.Modal('#detailModal'),
         MODAL_TITLE_DETAIL = document.getElementById('exampleModalLabel');
+    SAVE_MODAL = new bootstrap.Modal('#saveModal'),
+        MODAL_TITLE = document.getElementById('modalTitle');
 
     cargarTabla();
     // Constante para establecer el formulario de buscar.
