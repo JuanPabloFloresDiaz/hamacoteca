@@ -23,7 +23,7 @@ class PedidosHandler
         c.foto_cliente AS FOTO
         FROM pedidos p
         INNER JOIN clientes c ON p.id_cliente = c.id_cliente
-        WHERE nombre_cliente LIKE ? OR apellido_cliente LIKE ?
+        WHERE estado_pedido = "Entregado" OR estado_pedido = "Cancelado" AND nombre_cliente LIKE ? OR apellido_cliente LIKE ?
         ORDER BY CLIENTE;';
         $params = array($value, $value);
         return Database::getRows($sql, $params);
@@ -36,10 +36,45 @@ class PedidosHandler
         c.foto_cliente AS FOTO
         FROM pedidos p
         INNER JOIN clientes c ON p.id_cliente = c.id_cliente
+        WHERE estado_pedido = "Entregado" OR estado_pedido = "Cancelado"
         ORDER BY CLIENTE;';
         return Database::getRows($sql);
     }
 
+    //Función para leer un administrador.
+    public function readOne()
+    {
+        $sql = 'SELECT p.id_pedido AS ID, p.estado_pedido AS ESTADO, p.fecha_pedido AS FECHA, 
+        p.direccion_pedido AS DIRECCION, CONCAT(c.nombre_cliente, " ", c.apellido_cliente) AS CLIENTE, 
+        c.foto_cliente AS FOTO
+        FROM pedidos p
+        INNER JOIN clientes c ON p.id_cliente = c.id_cliente
+        WHERE estado_pedido = "Entregado" OR estado_pedido = "Cancelado" AND id_pedido = ?
+        ORDER BY CLIENTE;';
+        $params = array($this->id);
+        return Database::getRow($sql, $params);
+    }
+
+    //Función para contar los pedidos entregados
+    public function checkOrders()
+    {
+        $sql = 'SELECT COUNT(*) AS TOTAL
+        FROM pedidos
+        WHERE estado_pedido = "Entregado";
+        ';
+        return Database::getRows($sql);
+    }
+
+    //Función para contar las ganancias
+    public function totalProfits()
+    {
+        $sql = 'SELECT SUM(dp.precio_producto) AS TOTAL
+        FROM pedidos p
+        INNER JOIN detalles_pedidos dp ON p.id_pedido = dp.id_pedido
+        WHERE p.estado_pedido = "Entregado";     
+        ';
+        return Database::getRows($sql);
+    }
 
     //Función para leer la imagen del id desde la base.
     public function readFilename()
@@ -56,7 +91,7 @@ class PedidosHandler
     //Función para cambiar el estado de un cliente.
     public function changeState()
     {
-        $sql = 'CALL cambiar_estado_pedido(?,?);';
+        $sql = 'CALL actualizar_estado_pedido(?,?);';
         $params = array($this->id, $this->estado);
         return Database::executeRow($sql, $params);
     }
