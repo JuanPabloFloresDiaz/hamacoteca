@@ -1,6 +1,6 @@
 let SEARCH_FORM;
 // Constantes para completar las rutas de la API.
-const VALORACIONES_API = '';
+const VALORACIONES_API = 'servicios/privada/valoraciones.php';
 
 
 async function loadComponent(path) {
@@ -14,42 +14,36 @@ async function loadComponent(path) {
 *   Parámetros: id (identificador del registro seleccionado).
 *   Retorno: ninguno.
 */
-const openUpdate = async (id) => {
+
+const openState = async (id) => {
+    // Llamada a la función para mostrar un mensaje de confirmación, capturando la respuesta en una constante.
+    const RESPONSE = await confirmUpdateAction('¿Desea cambiar el estado del administrador?');
     try {
-        // Se define un objeto con los datos del registro seleccionado.
-        const FORM = new FormData();
-        FORM.append('idCliente', id);
-        // Petición para obtener los datos del registro solicitado.
-        const DATA = await fetchData(CLIENTES_API, 'readOne', FORM);
-        // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
-        if (DATA.status) {
-            // Se muestra la caja de diálogo con su título.
-            SAVE_MODAL.show();
-            MODAL_TITLE.textContent = 'Actualizar cliente';
-            // Se prepara el formulario.
-            SAVE_FORM.reset();
-            EXISTENCIAS_PRODUCTO.disabled = true;
-            // Se inicializan los campos con los datos.
-            const ROW = DATA.dataset;
-            ID_ADMINISTRADOR.value = ROW.id_administrado;
-            NOMBRE_ADMINISTRADOR.value = ROW.nombre_administrador;
-            CORREO_ADMINISTRADOR.value = ROW.correo_administrador;
-            TELEFONO_ADMINISTRADOR.value = ROW.telefono_administrador;
-            DUI_ADMINISTRADOR.value = ROW.dui_administrador;
-            NACIMIENTO_ADMINISTRADOR.value = row.fecha_nacimiento_administrador;
-            CLAVE_ADMINISTRADOR.value = ROW.clave_administrador;
-            ALIAS_ADMINISTRADOR.value = ROW.alias_administrador;
-            fillSelect(ROL_API, 'readAll', 'rolAdministrador', ROW.id_rol);
-        } else {
-            sweetAlert(2, DATA.error, false);
+        // Se verifica la respuesta del mensaje.
+        if (RESPONSE) {
+            // Se define una constante tipo objeto con los datos del registro seleccionado.
+            const FORM = new FormData();
+            FORM.append('idAdministrador', id);
+            console.log(id);
+            // Petición para eliminar el registro seleccionado.
+            const DATA = await fetchData(ADMINISTRADOR_API, 'changeState', FORM);
+            console.log(DATA.status);
+            // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
+            if (DATA.status) {
+                // Se muestra un mensaje de éxito.
+                await sweetAlert(1, DATA.message, true);
+                // Se carga nuevamente la tabla para visualizar los cambios.
+                cargarTabla();
+            } else {
+                sweetAlert(2, DATA.error, false);
+            }
         }
-    } catch (Error) {
-        console.log(Error);
-        confirmUpdateAction('¿Desea cambiar el estado del comentario?')
+    }
+    catch (Error) {
+        console.log(Error + ' Error al cargar el mensaje');
     }
 
 }
-
 
 async function cargarTabla(form = null) {
     const lista_datos = [
@@ -59,6 +53,7 @@ async function cargarTabla(form = null) {
             producto: 'Hamaca de tela',
             comentario: '¡Me encanta mi nueva hamaca! Es muy cómoda y resistente. La calidad del tejido es excelente y los colores son hermosos. Definitivamente recomendaría este producto a cualquiera que esté buscando una hamaca de calidad.',
             fecha: '2024-01-27',
+            estado: 'bloqueado',
             id: 1,
         },
         {
@@ -67,6 +62,7 @@ async function cargarTabla(form = null) {
             producto: 'Hamaca de color rojo',
             comentario: 'I am neither happy nor dissatisfied, they gave me what I expected',
             fecha: '2024-02-16',
+            estado: 'bloqueado',
             id: 2,
         },
         {
@@ -75,7 +71,8 @@ async function cargarTabla(form = null) {
             producto: 'Hamaca de red',
             comentario: 'No estoy contento con mi compra. La hamaca que recibí no coincide con la descripción en el sitio web. La calidad del material es pobre y se ve muy frágil. Además, el proceso de entrega fue lento y la comunicación con el vendedor fue deficiente.',
             fecha: '2024-02-29',
-            id: 4,
+            estado: 'bloqueado',
+            id: 3,
         },
     ];
     const cargarTabla = document.getElementById('tabla_valoracion');
@@ -86,7 +83,7 @@ async function cargarTabla(form = null) {
         (form) ? action = 'searchRows' : action = 'readAll';
         console.log(form);
         // Petición para obtener los registros disponibles.
-        const DATA = await fetchData(ROL_API, action, form);
+        const DATA = await fetchData(VALORACIONES_API, action, form);
         console.log(DATA);
 
         if (DATA.status) {
@@ -94,26 +91,23 @@ async function cargarTabla(form = null) {
             DATA.dataset.forEach(row => {
                 const tablaHtml = `
                 <tr>
-                    <td><img src="${SERVER_URL}images/categorias/${row.imagen_cliente}" height="50" width="50" class="circulo"></td>
-                    <td>${row.nombre_administrador}</td>
-                    <td>${row.correo_administrador}</td>
-                    <td>${row.telefono_administrador}</td>
-                    <td>${row.dui_administrador}</td>
-                    <td>${row.fecha_nacimiento}</td>
+                    <td><img src="${SERVER_URL}images/categorias/${row.IMAGEN}" height="50" width="50" class="circulo"></td>
+                    <td>${row.NOMBRE}</td>
+                    <td>${row.PRODUCTO}</td>
+                    <td>${row.COMENTARIO}</td>
+                    <td>${row.FECHA}</td>
+                    <td>${row.ESTADO}</td>
                     <td>
-                    <button type="button" class="btn btn-outline-primary" onclick="openUpdate(${row.id})">
+                    <button type="button" class="btn btn-outline-primary" onclick="openState(${row.ID})">
                     <i class="bi bi-exclamation-octagon"></i>
                     </button>
-                        <button type="button" class="btn btn-warning" onclick="openReport(${row.id_administrador})">
-                            <i class="bi bi-filetype-pdf"></i>
-                        </button>
                     </td>
                 </tr>
                 `;
                 cargarTabla.innerHTML += tablaHtml;
             });
         } else {
-            throw new Error('La respuesta de la API no contiene datos válidos');
+            sweetAlert(4, DATA.error, true);
         }
     } catch (error) {
         console.error('Error al obtener datos de la API:', error);
@@ -121,13 +115,14 @@ async function cargarTabla(form = null) {
         lista_datos.forEach(row => {
             const tablaHtml = `
             <tr>
-                <td><img src="${row.imagen}" height="50" width="50" class="circulo"></td>
-                <td>${row.nombre}</td>
-                <td>${row.producto}</td>
-                <td>${row.comentario}</td>
-                <td>${row.fecha}</td>
+                <td><img src="${row.IMAGEN}" height="50" width="50" class="circulo"></td>
+                <td>${row.NOMBRE}</td>
+                <td>${row.PRODUCTO}</td>
+                <td>${row.COMENTARIO}</td>
+                <td>${row.FECHA}</td>
+                <td>${row.ESTADO}</td>
                 <td>
-                <button type="button" class="btn btn-outline-primary" onclick="openUpdate(${row.id})">
+                <button type="button" class="btn btn-outline-primary" onclick="openState(${row.ID})">
                 <i class="bi bi-exclamation-octagon"></i>
                 </button>
                 </td>
@@ -149,13 +144,6 @@ window.onload = async function () {
     // Agrega el HTML del encabezado
     appContainer.innerHTML = valoracionHtml;
     cargarTabla();
-    const theme = localStorage.getItem('theme'); // Obtener el tema desde localStorage
-
-    if (theme === 'dark') {
-        document.documentElement.setAttribute('data-bs-theme', 'dark');
-    } else {
-        document.documentElement.setAttribute('data-bs-theme', 'light');
-    }
     // Constante para establecer el formulario de buscar.
     SEARCH_FORM = document.getElementById('searchForm');
     // Verificar si SEARCH_FORM está seleccionado correctamente

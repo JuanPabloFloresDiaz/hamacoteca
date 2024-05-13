@@ -4,14 +4,14 @@ require_once('../../auxiliares/database.php');
 /*
  *  Clase para manejar el comportamiento de los datos de la tabla administrador.
  */
-class CategoriasHandler
+class ValoracionesHandler
 {
     /*
      *  Declaración de atributos para el manejo de datos.
      */
     protected $id = null;
-    protected $nombre = null;
-    protected $descripcion = null;
+
+    protected $estado = null;
 
     /*
      *  Métodos para realizar las operaciones SCRUD (search, create, read, update, and delete).
@@ -19,8 +19,8 @@ class CategoriasHandler
     public function searchRows()
     {
         $value = '%' . Validator::getSearchValue() . '%';
-        $sql = 'SELECT id_valoracion AS ID, calificacion_producto AS CALIFICACION, descripcion_categoria AS DESCRIPCION FROM categorias
-                WHERE nombre_categoria LIKE ?
+        $sql = 'SELECT * FROM vista_tabla_valoraciones
+                WHERE NOMBRE LIKE ?
                 ORDER BY NOMBRE;';
         $params = array($value);
         return Database::getRows($sql, $params);
@@ -28,17 +28,18 @@ class CategoriasHandler
 
     public function readAll()
     {
-        $sql = 'SELECT vista_tabla_valoraciones
+        $sql = 'SELECT * FROM vista_tabla_valoraciones
                 ORDER BY NOMBRE;';
         return Database::getRows($sql);
     }
 
-    public function readOne()
+    //Función para cambiar el estado de un admministrador.
+    public function changeState()
     {
-        $sql = 'SELECT id_categoria AS ID, nombre_categoria AS NOMBRE, descripcion_categoria AS DESCRIPCION FROM categorias
-                WHERE id_categoria = ?';
+        $sql = 'CALL cambiar_estado_valoracion(?);';
         $params = array($this->id);
-        return Database::getRow($sql, $params);
+        return Database::executeRow($sql, $params);
     }
+
 
 }
