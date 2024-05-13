@@ -17,9 +17,13 @@ let SAVE_FORM,
     CATEGORIA,
     MATERIAL,
     DESCRIPCION_HAMACA;
+let IMAGE_FORM,
+    ID_FOTO,
+    FOTO;
 let SEARCH_FORM;
 // Constantes para completar las rutas de la API.
 const HAMACA_API = 'servicios/privada/hamacas.php';
+const FOTOS_API = 'servicios/privada/fotos.php';
 const MATERIALES_API = 'servicios/privada/materiales.php';
 const CATEGORIAS_API = 'servicios/privada/categorias.php';
 /*
@@ -36,12 +40,14 @@ const openCreate = () => {
     fillSelect(MATERIALES_API, 'readAll', 'materiales');
     fillSelect(CATEGORIAS_API, 'readAll', 'categorias');
 }
-const openImage = () => {
+const openImage = async (id) => {
+    // Se define un objeto con los datos del registro seleccionado.
+    const FORM = new FormData();
+    FORM.append('idHamaca', id);
     // Se muestra la caja de diálogo con su título.
     IMAGE_MODAL.show();
-    MODAL_TITLE_IMAGE.textContent = 'Agregar foto';
-    // Se prepara el formulario.
-    IMAGE_MODAL.reset();
+    MODAL_TITLE_IMAGE.textContent = 'Agregar foto de la hamaca ' + id;
+    cargarFotos(FORM);
 }
 /*
 *   Función asíncrona para preparar el formulario al momento de actualizar un registro.
@@ -152,6 +158,46 @@ const openState = async (id) => {
 
 }
 
+async function cargarFotos(form = null) {
+    const cargarTabla = document.getElementById('fotos');
+    try {
+        cargarTabla.innerHTML = '';
+        console.log(form);
+        // Petición para obtener los registros disponibles.
+        const DATA = await fetchData(FOTOS_API, 'readAll', form);
+        console.log(DATA);
+
+        if (DATA.status) {
+            // Mostrar elementos de la lista obtenidos de la API
+            DATA.dataset.forEach(row => {
+                const tablaHtml = `
+                            <div class="col-md-4">
+                                <div class="card mb-4 shadow-sm">
+                                    <img src="${SERVER_URL}imagenes/fotos/${row.IMAGEN}"
+                                        class="card-img-top img-thumbnail alto" alt="Imagen de ejemplo" width="50px" heigth="50px">
+                                    <div class="card-body">
+                                        <div class="d-flex justify-content-center align-items-center">
+                                            <button type="button" class="btn btn-outline-success" onclick="openUpdatePhoto(${row.ID})">
+                                                <i class="bi bi-pencil-fill"></i>
+                                            </button>
+                                            <button type="button" class="btn btn-outline-danger" onclick="openDeletePhoto(${row.ID})">
+                                                <i class="bi bi-trash-fill"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                `;
+                cargarTabla.innerHTML += tablaHtml;
+            });
+        } else {
+            sweetAlert(4, DATA.error, true);
+        }
+    } catch (error) {
+        console.error('Error al obtener datos de la API:', error);
+        sweetAlert(4, error, true);
+    }
+}
 
 async function cargarTabla(form = null) {
     const listahamacas = [
@@ -320,6 +366,13 @@ window.onload = async function () {
             sweetAlert(2, DATA.error, false);
         }
     });
+
+
+    // Constantes para establecer los elementos del formulario de guardar.
+    IMAGE_FORM = document.getElementById('photoForm'),
+        ID_FOTO = document.getElementById('idFoto'),
+        FOTO = document.getElementById('inputFoto');
+
     // Constante para establecer el formulario de buscar.
     SEARCH_FORM = document.getElementById('searchForm');
     // Verificar si SEARCH_FORM está seleccionado correctamente

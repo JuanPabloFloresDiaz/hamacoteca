@@ -67,7 +67,8 @@
                     <div class="col-sm-12 col-md-6">
                         <label for="cantidadHamaca" class="form-label">Cantidad</label>
                         <input id="cantidadHamaca" type="number" name="cantidadHamaca" min="1" step="1"
-                            class="form-control" placeholder="Ingresa la cantidad de hamacas existentes" autocomplete="off" required>
+                            class="form-control" placeholder="Ingresa la cantidad de hamacas existentes"
+                            autocomplete="off" required>
                     </div>
                     <div class="col-sm-12 col-md-6">
                         <label for="precioHamaca" class="form-label">Precio</label>
@@ -110,117 +111,24 @@
                 </button>
             </div>
             <div class="modal-body">
-                <!-- Carrusel de imágenes -->
-                <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-                    <ol class="carousel-indicators">
-                        <!-- Aquí se agregarán los indicadores de cada imagen -->
-                        <!-- <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li> -->
-                    </ol>
-                    <div class="carousel-inner">
-                        <!-- Área para mostrar fotos existentes -->
-                        <div class="row mt-3" id="fotosExistenteArea">
-                            <!-- Aquí puedes repetir este bloque para cada imagen que quieras mostrar -->
-                            <div class="col-md-4">
-                                <div class="card mb-4 shadow-sm">
-                                    <img src="../../../../recursos/img/hamaca chapina.jpg"
-                                        class="card-img-top img-thumbnail alto" alt="Imagen de ejemplo">
-                                    <div class="card-body">
-                                        <div class="d-flex justify-content-center align-items-center">
-                                            <!-- Puedes agregar cualquier otro contenido adicional aquí -->
-                                            <button type="button" class="btn btn-outline-danger">
-                                                <i class="bi bi-trash-fill"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="card mb-4 shadow-sm">
-                                    <img src="../../../../recursos/img/hamaca 3.jpg"
-                                        class="card-img-top img-thumbnail alto" alt="Imagen de ejemplo">
-                                    <div class="card-body">
-                                        <div class="d-flex justify-content-center align-items-center">
-                                            <!-- Puedes agregar cualquier otro contenido adicional aquí -->
-                                            <button type="button" class="btn btn-outline-danger">
-                                                <i class="bi bi-trash-fill"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="card mb-4 shadow-sm">
-                                    <img src="../../../../recursos/img/hamaca 2.jpg"
-                                        class="card-img-top img-thumbnail alto" alt="Imagen de ejemplo">
-                                    <div class="card-body">
-                                        <div class="d-flex justify-content-center align-items-center">
-                                            <!-- Puedes agregar cualquier otro contenido adicional aquí -->
-                                            <button type="button" class="btn btn-outline-danger">
-                                                <i class="bi bi-trash-fill"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="card mb-4 shadow-sm">
-                                    <img src="../../../../recursos/img/hamaca 6.jpg"
-                                        class="card-img-top img-thumbnail alto" alt="Imagen de ejemplo">
-                                    <div class="card-body">
-                                        <div class="d-flex justify-content-center align-items-center">
-                                            <!-- Puedes agregar cualquier otro contenido adicional aquí -->
-                                            <button type="button" class="btn btn-outline-danger">
-                                                <i class="bi bi-trash-fill"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="card mb-4 shadow-sm">
-                                    <img src="../../../../recursos/img/hamaca 5.jpg"
-                                        class="card-img-top img-thumbnail alto" alt="Imagen de ejemplo">
-                                    <div class="card-body">
-                                        <div class="d-flex justify-content-center align-items-center">
-                                            <!-- Puedes agregar cualquier otro contenido adicional aquí -->
-                                            <button type="button" class="btn btn-outline-danger">
-                                                <i class="bi bi-trash-fill"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="card mb-4 shadow-sm">
-                                    <img src="../../../../recursos/img/hamaca 4.jpg"
-                                        class="card-img-top img-thumbnail alto" alt="Imagen de ejemplo">
-                                    <div class="card-body">
-                                        <div class="d-flex justify-content-center align-items-center">
-                                            <!-- Puedes agregar cualquier otro contenido adicional aquí -->
-                                            <button type="button" class="btn btn-outline-danger">
-                                                <i class="bi bi-trash-fill"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
+
+                <!-- Cartas-->
+                <div class="container col-md-12 mt-4">
+                    <div class="row row-cols-1 row-cols-md-3 gx-4 gy-4">
+                        <!-- Cartas--><!-- Área para mostrar fotos existentes -->
+                        <div class="row mt-3" id="fotos">
+                                
                             </div>
                         </div>
                     </div>
-                    <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                        <span class="sr-only"></span>
-                    </a>
-                    <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                        <span class="sr-only"></span>
-                    </a>
                 </div>
-
                 <!-- Formulario para agregar la foto -->
-                <form>
+                <form id="photoForm">
+                    <!-- Campo oculto para asignar el id del registro al momento de modificar -->
+                    <input type="number" id="idFoto" name="idFoto" class="invisible">
                     <div class="form-group mt-3">
                         <label for="inputFoto">Subir Foto</label>
-                        <input type="file" class="form-control-file" id="inputFoto">
+                        <input type="file" class="form-control-file" name="inputFoto" id="inputFoto">
                     </div>
                 </form>
             </div>

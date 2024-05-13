@@ -26,31 +26,33 @@ class FotosHandler
     public function searchRows()
     {
         $value = '%' . Validator::getSearchValue() . '%';
-        $sql = 'SELECT id_material AS ID, nombre_material AS NOMBRE, descripcion_material AS DESCRIPCION, foto_material AS IMAGEN FROM materiales
-                WHERE nombre_material LIKE ?
-                ORDER BY nombre_material;';
+        $sql = 'SELECT id_foto AS ID, id_hamaca AS HAMACA, url AS IMAGEN FROM fotos
+                WHERE id_hamaca LIKE ?
+                ORDER BY id_hamaca;';
         $params = array($value);
         return Database::getRows($sql, $params);
     }
 
     public function createRow()
     {
-        $sql = 'CALL insertar_material(?,?,?);';
-        $params = array($this->nombre, $this->descripcion, $this->imagen);
+        $sql = 'CALL insertar_foto(?,?);';
+        $params = array($this->imagen, $this->hamaca);
         return Database::executeRow($sql, $params);
     }
 
     public function readAll()
     {
-        $sql = 'SELECT id_material AS ID, nombre_material AS NOMBRE, descripcion_material AS DESCRIPCION, foto_material AS IMAGEN FROM materiales
-                ORDER BY nombre_material;';
-        return Database::getRows($sql);
+        $sql = 'SELECT id_foto AS ID, id_hamaca AS HAMACA, url AS IMAGEN FROM fotos
+                WHERE id_hamaca = ?
+                ORDER BY id_hamaca;';
+        $params = array($this->hamaca);
+        return Database::getRows($sql, $params);
     }
 
     public function readOne()
     {
-        $sql = 'SELECT id_material AS ID, nombre_material AS NOMBRE, descripcion_material AS DESCRIPCION, foto_material AS IMAGEN FROM materiales
-                WHERE id_material = ?';
+        $sql = 'SELECT id_foto AS ID, id_hamaca AS HAMACA, url AS IMAGEN FROM fotos
+                WHERE id_foto = ?';
         $params = array($this->id);
         return Database::getRow($sql, $params);
     }
@@ -58,23 +60,23 @@ class FotosHandler
      //Función para leer la imagen del id desde la base.
      public function readFilename()
      {
-        $sql = 'SELECT foto_material AS IMAGEN
-                 FROM materiales
-                 WHERE id_material = ?';
+        $sql = 'SELECT url AS IMAGEN 
+                FROM fotos
+                WHERE id_foto = ?';
         $params = array($this->id);
         return Database::getRow($sql, $params);
      } 
 
     public function updateRow()
     {
-        $sql = 'CALL actualizar_material(?, ?, ?, ?);';
-        $params = array($this->id, $this->nombre, $this->descripcion, $this->imagen);
+        $sql = 'CALL actualizar_foto(?, ?, ?);';
+        $params = array($this->id, $this->imagen, $this->hamaca);
         return Database::executeRow($sql, $params);
     }
 
     public function deleteRow()
     {
-        $sql = 'CALL eliminar_material(?);';
+        $sql = 'CALL eliminar_foto(?);';
         $params = array($this->id);
         return Database::executeRow($sql, $params);
     }
