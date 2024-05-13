@@ -108,7 +108,7 @@
     /* Sombra más pronunciada en hover */
 }
 
-.tamaño-cabecera{
+.tamaño-cabecera {
     font-size: 20px;
 }
 
@@ -116,11 +116,27 @@
     border-radius: 50%;
 }
 
-.objetos{
-    background-color: white; 
+.objetos {
+    background-color: white;
     color: black;
 }
 
-.cabezera{
+.cabezera {
     max-width: 18rem;
+}
+
+.azul {
+    background-color: rgb(7, 7, 109);
+}
+
+
+@media (max-width: 770px) {
+    .pastilla {
+        display: inline-flex;
+        align-items: center;
+        padding: 2px 6px;
+        font-size: 12px;
+        border-radius: 20px;
+        border: 1px solid #DBDBDB;
+    }
 }

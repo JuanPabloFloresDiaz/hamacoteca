@@ -3,98 +3,6 @@ async function loadComponent(path) {
     const text = await response.text();
     return text;
 }
-
-async function cargarTabla() {
-    const lista_datos = [
-        {
-            imagen: '../../../recursos/img/foto.png',
-            nombre: 'Joel',
-            correo: 'joel@gmail.com',
-            telefono: '1234-5678',
-            dui: '12345678-9',
-            fecha: '2024-02-09'
-        },
-        {
-            imagen: '../../../recursos/img/foto.png',
-            nombre: 'Joel',
-            correo: 'joel@gmail.com',
-            telefono: '1234-5678',
-            dui: '12345678-9',
-            fecha: '2024-02-09'
-        },
-        {
-            imagen: '../../../recursos/img/foto.png',
-            nombre: 'Joel',
-            correo: 'joel@gmail.com',
-            telefono: '1234-5678',
-            dui: '12345678-9',
-            fecha: '2024-02-09'
-        },
-        {
-            imagen: '../../../recursos/img/foto.png',
-            nombre: 'Joel',
-            correo: 'joel@gmail.com',
-            telefono: '12345678-9',
-            dui: '1234-5678',
-            fecha: '2024-02-09'
-        }
-    ];
-    const cargarTabla = document.getElementById('tabla');
-
-    try {
-        const response = await fetch(DATOS_TABLA_API);
-        if (!response.ok) {
-            throw new Error('Error al obtener los datos de la API');
-        }
-        const data = await response.json();
-
-        if (data && Array.isArray(data) && data.length > 0) {
-            // Mostrar elementos de la lista de materiales obtenidos de la API
-            data.forEach(row => {
-                const tablaHtml = `
-                <tr>
-                    <td><img src="${SERVER_URL}images/categorias/${row.imagen_cliente}" height="50" width="50" class="circulo"></td>
-                    <td>${row.nombre_cliente}</td>
-                    <td>${row.correo_cliente}</td>
-                    <td>${row.telefono_cliente}</td>
-                    <td>${row.dui_cliente}</td>
-                    <td>${row.fecha_registro}</td>
-                    <td>
-                        <button type="button" class="btn btn-warning" onclick="openReport(${row.id_categoria})">
-                            <i class="bi bi-filetype-pdf"></i>
-                        </button>
-                    </td>
-                </tr>
-                `;
-                cargarTabla.innerHTML += tablaHtml;
-            });
-        } else {
-            throw new Error('La respuesta de la API no contiene datos válidos');
-        }
-    } catch (error) {
-        console.error('Error al obtener datos de la API:', error);
-        // Mostrar materiales de respaldo
-        lista_datos.forEach(row => {
-            const tablaHtml = `
-            <tr>
-                <td><img src="${row.imagen}" height="50" width="50" class="circulo"></td>
-                <td>${row.nombre}</td>
-                <td>${row.correo}</td>
-                <td>${row.telefono}</td>
-                <td>${row.dui}</td>
-                <td>${row.fecha}</td>
-                <td>
-                    <button type="button" class="btn btn-warning" onclick="openReport(${row.id_categoria})">
-                        <i class="bi bi-filetype-pdf"></i>
-                    </button>
-                </td>
-            </tr>
-            `;
-            cargarTabla.innerHTML += tablaHtml;
-        });
-    }
-}
-
 /*
 *   Función asíncrona para mostrar un gráfico de barras con la cantidad de productos por categoría.
 *   Parámetros: ninguno.
@@ -276,11 +184,11 @@ window.onload = async function () {
     try{
         const DATA = await fetchData(USER_API, 'getUser');
         if (HOUR < 12) {
-            greeting = 'Buenos días ' + DATA.username;
+            greeting = 'Buenos días ' + DATA.nombre;
         } else if (HOUR < 19) {
-            greeting = 'Buenas tardes ' + DATA.username;
+            greeting = 'Buenas tardes ' + DATA.nombre;
         } else if (HOUR <= 23) {
-            greeting = 'Buenas noches ' + DATA.username;
+            greeting = 'Buenas noches ' + DATA.nombre;
         }
         
         sweetAlert(1, greeting, true);
@@ -293,7 +201,6 @@ window.onload = async function () {
     } else {
         document.documentElement.setAttribute('data-bs-theme', 'light');
     }
-    cargarTabla();
     // Llama a la función para mostrar el gráfico de barras
     cargarGraficaLineal();
     graficoPastelCategorias();

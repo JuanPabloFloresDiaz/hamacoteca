@@ -79,7 +79,6 @@ if (isset($_GET['action'])) {
                     !$administrador->setId($_POST['idAdministrador']) or
                     !$administrador->setNombre($_POST['nombreAdministrador']) or
                     !$administrador->setApellido($_POST['apellidoAdministrador']) or
-                    !$administrador->setClave($_POST['claveAdministrador']) or
                     !$administrador->setCorreo($_POST['correoAdministrador']) or
                     !$administrador->setTelefono($_POST['telefonoAdministrador']) or
                     !$administrador->setDUI($_POST['duiAdministrador']) or
@@ -136,6 +135,7 @@ if (isset($_GET['action'])) {
                     $result['status'] = 1;
                     $result['username'] = $_SESSION['aliasAdministrador'];
                     $result['foto'] = $_SESSION['fotoAdministrador'];
+                    $result['nombre'] = $_SESSION['nombreAdministrador'];
                 } else {
                     $result['error'] = 'Alias de administrador indefinido';
                 }
