@@ -81,7 +81,7 @@ const openState = async (id) => {
         const FORM = new FormData();
         FORM.append('idPedido', id);
         // Petición para obtener los datos del registro solicitado.
-        const DATA = await fetchData(PEDIDOS_API, 'readOne', FORM);
+        const DATA = await fetchData(PEDIDOS_API, 'readOneList', FORM);
         // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
         if (DATA.status) {
             // Se muestra la caja de diálogo con su título.
@@ -196,7 +196,7 @@ async function cargarTabla(form = null) {
     try {
         cargarTabla.innerHTML = '';
         // Se verifica la acción a realizar.
-        (form) ? action = 'searchRows' : action = 'readAll';
+        (form) ? action = 'searchList' : action = 'readAllList';
         // Petición para obtener los registros disponibles.
         const DATA = await fetchData(PEDIDOS_API, action, form);
         console.log(DATA);
@@ -253,7 +253,7 @@ async function cargarTabla(form = null) {
 
 function getRowColor(estado) {
     switch (estado) {
-        case 'Pendiente':
+        case 'En camino':
             return 'text-warning';
         case 'Cancelado':
             return 'text-danger';
@@ -266,7 +266,7 @@ function getRowColor(estado) {
 
 function getRowBackgroundColor(estado) {
     switch (estado) {
-        case 'Pendiente':
+        case 'En camino':
             return 'border-warning';
         case 'Cancelado':
             return 'border-danger';

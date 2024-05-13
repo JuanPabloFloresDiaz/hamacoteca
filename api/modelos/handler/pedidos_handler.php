@@ -42,7 +42,7 @@ class PedidosHandler
         return Database::getRows($sql);
     }
     //Buscar lista
-    public function searchRowsList()
+    public function searchList()
     {
         $value = '%' . Validator::getSearchValue() . '%';
         $sql = 'SELECT p.id_pedido AS ID, p.estado_pedido AS ESTADO, p.fecha_pedido AS FECHA, 
