@@ -15,6 +15,7 @@ class PedidosHandler
     /*
      *  Métodos para realizar las operaciones SCRUD (search, create, read, update, and delete).
      */
+    //Buscar historial
     public function searchRows()
     {
         $value = '%' . Validator::getSearchValue() . '%';
@@ -28,7 +29,7 @@ class PedidosHandler
         $params = array($value, $value);
         return Database::getRows($sql, $params);
     }
-
+    //Leer historial
     public function readAll()
     {
         $sql = 'SELECT p.id_pedido AS ID, p.estado_pedido AS ESTADO, p.fecha_pedido AS FECHA, 
@@ -40,8 +41,48 @@ class PedidosHandler
         ORDER BY CLIENTE;';
         return Database::getRows($sql);
     }
+    //Buscar lista
+    public function searchRowsList()
+    {
+        $value = '%' . Validator::getSearchValue() . '%';
+        $sql = 'SELECT p.id_pedido AS ID, p.estado_pedido AS ESTADO, p.fecha_pedido AS FECHA, 
+        p.direccion_pedido AS DIRECCION, CONCAT(c.nombre_cliente, " ", c.apellido_cliente) AS CLIENTE, 
+        c.foto_cliente AS FOTO
+        FROM pedidos p
+        INNER JOIN clientes c ON p.id_cliente = c.id_cliente
+        WHERE estado_pedido = "En camino" AND nombre_cliente LIKE ? OR apellido_cliente LIKE ?
+        ORDER BY CLIENTE;';
+        $params = array($value, $value);
+        return Database::getRows($sql, $params);
+    }
+    //Leer lista
+    public function readAllList()
+    {
+        $sql = 'SELECT p.id_pedido AS ID, p.estado_pedido AS ESTADO, p.fecha_pedido AS FECHA, 
+        p.direccion_pedido AS DIRECCION, CONCAT(c.nombre_cliente, " ", c.apellido_cliente) AS CLIENTE, 
+        c.foto_cliente AS FOTO
+        FROM pedidos p
+        INNER JOIN clientes c ON p.id_cliente = c.id_cliente
+        WHERE estado_pedido = "En camino"
+        ORDER BY CLIENTE;';
+        return Database::getRows($sql);
+    }
 
-    //Función para leer un administrador.
+    //Función para leer un pedido de la lista.
+    public function readOneList()
+    {
+        $sql = 'SELECT p.id_pedido AS ID, p.estado_pedido AS ESTADO, p.fecha_pedido AS FECHA, 
+        p.direccion_pedido AS DIRECCION, CONCAT(c.nombre_cliente, " ", c.apellido_cliente) AS CLIENTE, 
+        c.foto_cliente AS FOTO
+        FROM pedidos p
+        INNER JOIN clientes c ON p.id_cliente = c.id_cliente
+        WHERE estado_pedido = "En camino" AND id_pedido = ?
+        ORDER BY CLIENTE;';
+        $params = array($this->id);
+        return Database::getRow($sql, $params);
+    }
+
+    //Función para leer un pedido del historial.
     public function readOne()
     {
         $sql = 'SELECT p.id_pedido AS ID, p.estado_pedido AS ESTADO, p.fecha_pedido AS FECHA, 

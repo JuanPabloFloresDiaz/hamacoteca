@@ -18,10 +18,13 @@ async function loadComponent(path) {
 
 
 const openDetail = async (id) => {
+    // Se define un objeto con los datos del registro seleccionado.
+    const FORM = new FormData();
+    FORM.append('idPedido', id);
     // Se muestra la caja de diálogo con su título.
     DETAIL_MODAL.show();
     MODAL_TITLE_DETAIL.textContent = 'Detalle del pedido ' + id;
-    cargarDetalle();
+    cargarDetalle(FORM);
 }
 
 
@@ -31,8 +34,8 @@ const lista_datos = [
         id: "Entregado",
     },
     {
-        estado: 'Pendiente',
-        id: 'Pendiente',
+        estado: 'En camino',
+        id: 'En camino',
     },
     {
         estado: 'Cancelado',
@@ -188,13 +191,8 @@ async function cargarDetalle(form = null) {
 
     try {
         cargarTabla.innerHTML = '';
-        // Se verifica la acción a realizar.
-        (form) ? action = 'searchRows' : action = 'readAll';
-        console.log(form);
         // Petición para obtener los registros disponibles.
-        const DATA = await fetchData(PEDIDOS_API, action, form);
-        console.log(DATA);
-
+        const DATA = await fetchData(DETALLE_PEDIDO_API, 'readOne', form);
         if (DATA.status) {
             // Mostrar elementos obtenidos de la API
             DATA.dataset.forEach(row => {
@@ -235,7 +233,6 @@ async function cargarTabla(form = null) {
         cargarTabla.innerHTML = '';
         // Se verifica la acción a realizar.
         (form) ? action = 'searchRows' : action = 'readAll';
-        console.log(form);
         // Petición para obtener los registros disponibles.
         const DATA = await fetchData(PEDIDOS_API, action, form);
         console.log(DATA);
@@ -316,6 +313,12 @@ function getRowBackgroundColor(estado) {
     }
 }
 
+function recharge(){
+    checkOrders();
+    totalProfits();
+    cargarTabla();
+}
+
 // window.onload
 window.onload = async function () {
 
@@ -364,11 +367,10 @@ window.onload = async function () {
         // Se evita recargar la página web después de enviar el formulario.
         event.preventDefault();
         // Se verifica la acción a realizar.
-        ID_PEDIDO.value ? action = 'changeState' : action = 'createRow';
         // Constante tipo objeto con los datos del formulario.
         const FORM = new FormData(SAVE_FORM);
         // Petición para guardar los datos del formulario.
-        const DATA = await fetchData(PEDIDOS_API, action, FORM);
+        const DATA = await fetchData(PEDIDOS_API, 'changeState', FORM);
         // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
         if (DATA.status) {
             // Se cierra la caja de diálogo.
