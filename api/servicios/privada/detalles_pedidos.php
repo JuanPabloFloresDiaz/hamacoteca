@@ -24,6 +24,14 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'Pedido inexistente';
                 }
                 break;
+                // Contar ganancias por fecha
+            case 'profitsForDate':
+                if ($result['dataset'] = $pedido->profitsForDate()) {
+                    $result['status'] = 1;
+                } else {
+                    $result['error'] = 'Error en el conteo de ordenes';
+                }
+                break;
             default:
                 $result['error'] = 'Acción no disponible dentro de la sesión';
         }

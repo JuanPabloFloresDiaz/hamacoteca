@@ -74,8 +74,7 @@ class AdministradoresHandler
         if ($data['TIEMPO'] != null && $data['TIEMPO'] < $now) {
             //el usuario tiene contador de tiempo
             return $this->condicion = 'temporizador';
-        } 
-        elseif($data['TIEMPO'] != null && $data['TIEMPO'] > $now) {
+        } elseif ($data['TIEMPO'] != null && $data['TIEMPO'] > $now) {
             //el usuario no tiene contador
             $this->alias = $data['ALIAS'];
             $this->resetTimeAttempt(null);

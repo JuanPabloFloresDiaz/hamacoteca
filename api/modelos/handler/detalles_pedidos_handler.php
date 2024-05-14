@@ -26,6 +26,18 @@ class DetallesPedidosHandler
         return Database::getRows($sql, $params);
     }
 
+    //Función para cargar gráfica de ganancias por fecha
+    public function profitsForDate()
+    {
+        $sql = 'SELECT fecha_pedido AS FECHA, 
+                SUM(precio_producto) AS GANANCIAS
+                FROM detalles_pedidos
+                INNER JOIN pedidos USING(id_pedido)
+                WHERE estado_pedido = "Entregado"
+                GROUP BY FECHA ORDER BY FECHA ASC';
+        return Database::getRows($sql);
+    }
+
     //Función para leer la imagen del id desde la base.
     public function readFilename()
     {

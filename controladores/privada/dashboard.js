@@ -2,6 +2,7 @@
 // Constantes para completar las rutas de la API.
 const CLIENTES_API = 'servicios/privada/clientes.php';
 const HAMACA_API = 'servicios/privada/hamacas.php';
+const DETALLE_PEDIDO_API = 'servicios/privada/detalles_pedidos.php';
 
 async function loadComponent(path) {
     const response = await fetch(path);
@@ -194,7 +195,7 @@ async function cargarGraficaLineal() {
     ];
     try {
         // Petición para obtener los datos del gráfico.
-        const DATA = await fetchData(PRODUCTO_API, 'gananciasPorFecha');
+        const DATA = await fetchData(DETALLE_PEDIDO_API, 'profitsForDate');
         // Se comprueba si la respuesta es satisfactoria, de lo contrario se remueve la etiqueta canvas.
         if (DATA.status) {
             // Se declaran los arreglos para guardar los datos a gráficar.
@@ -203,8 +204,8 @@ async function cargarGraficaLineal() {
             // Se recorre el conjunto de registros fila por fila a través del objeto row.
             DATA.dataset.forEach(row => {
                 // Se agregan los datos a los arreglos.
-                fecha.push(row.fecha_registro);
-                ganancias.push(row.ganancias);
+                fecha.push(row.FECHA);
+                ganancias.push(row.GANANCIAS);
             });
             // Llamada a la función para generar y mostrar un gráfico de pastel. Se encuentra en el archivo components.js
             lineGraph('chart3', fecha, ganancias, 'Ganancias por fecha $', 'Gráfica de ganancias');

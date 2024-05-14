@@ -19,7 +19,7 @@ class HamacasHandler
     protected $administrador = null;
     protected $categoria = null;
     protected $material = null;
-    
+
     // Constante para establecer la ruta de las imágenes.
     const RUTA_IMAGEN = '../../imagenes/hamacas/';
 
@@ -89,7 +89,7 @@ class HamacasHandler
         return Database::executeRow($sql, $params);
     }
 
-    
+
     //Función para contar los productos registrados
     public function totalProducts()
     {

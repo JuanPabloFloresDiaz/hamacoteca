@@ -39,16 +39,16 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'Ocurrió un problema al crear la foto';
                 }
                 break;
-                case 'readAll':
-                    if (!$foto->setHamaca($_POST['idHamaca'])) {
-                        $result['error'] = 'Hamaca incorrecta';
-                    } elseif ($result['dataset'] = $foto->readAll()) {
-                        $result['status'] = 1;
-                        $result['message'] = 'Existen ' . count($result['dataset']) . ' registros';
-                    } else {
-                        $result['error'] = 'Hamaca inexistente';
-                    }
-                    break;
+            case 'readAll':
+                if (!$foto->setHamaca($_POST['idHamaca'])) {
+                    $result['error'] = 'Hamaca incorrecta';
+                } elseif ($result['dataset'] = $foto->readAll()) {
+                    $result['status'] = 1;
+                    $result['message'] = 'Existen ' . count($result['dataset']) . ' registros';
+                } else {
+                    $result['error'] = 'No se encontraron resultados';
+                }
+                break;
             case 'readOne':
                 if (!$foto->setId($_POST['idFoto'])) {
                     $result['error'] = $foto->getDataError();
@@ -72,7 +72,6 @@ if (isset($_GET['action'])) {
                     $result['message'] = 'Foto modificada correctamente';
                     // Se asigna el estado del archivo después de actualizar.
                     $result['fileStatus'] = Validator::changeFile($_FILES['inputFoto'], $foto::RUTA_IMAGEN, $foto->getFilename());
-                
                 } else {
                     $result['error'] = 'Ocurrió un problema al modificar la foto';
                 }
