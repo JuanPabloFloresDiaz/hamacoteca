@@ -88,4 +88,23 @@ class HamacasHandler
         $params = array($this->id);
         return Database::executeRow($sql, $params);
     }
+
+    
+    //Función para contar los productos registrados
+    public function totalProducts()
+    {
+        $sql = 'SELECT COUNT(*) AS TOTAL
+        FROM hamacas;
+        ';
+        return Database::getRows($sql);
+    }
+
+    public function productsForCategory()
+    {
+        $sql = 'SELECT nombre_categoria, ROUND((COUNT(id_hamaca) * 100.0 / (SELECT COUNT(id_hamaca) FROM hamacas)), 2) porcentaje
+                FROM hamacas
+                INNER JOIN categorias USING(id_categoria)
+                GROUP BY nombre_categoria ORDER BY porcentaje DESC';
+        return Database::getRows($sql);
+    }
 }

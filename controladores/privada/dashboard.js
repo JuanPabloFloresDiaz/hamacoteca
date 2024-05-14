@@ -1,8 +1,69 @@
+
+// Constantes para completar las rutas de la API.
+const CLIENTES_API = 'servicios/privada/clientes.php';
+const HAMACA_API = 'servicios/privada/hamacas.php';
+
 async function loadComponent(path) {
     const response = await fetch(path);
     const text = await response.text();
     return text;
 }
+
+
+async function totalClients() {
+    try {
+        // Petición para obtener los registros disponibles.
+        const DATA = await fetchData(CLIENTES_API, 'totalClients');
+        console.log(DATA);
+
+        if (DATA.status) {
+            // Accede al primer elemento del array dataset y luego obtén el valor TOTAL
+            const totalClientes = DATA.dataset[0].TOTAL;
+            document.getElementById('clientes').textContent = totalClientes;
+        } else {
+            sweetAlert(4, DATA.error, true);
+        }
+    } catch (error) {
+        console.error('Error al obtener datos de la API: ', error);
+    }
+}
+
+async function totalClientBlock() {
+    try {
+        // Petición para obtener los registros disponibles.
+        const DATA = await fetchData(CLIENTES_API, 'totalBlocks');
+        console.log(DATA);
+
+        if (DATA.status) {
+            // Accede al primer elemento del array dataset y luego obtén el valor TOTAL
+            const totalBloqueados = DATA.dataset[0].TOTAL;
+            document.getElementById('bloqueados').textContent = totalBloqueados;
+        } else {
+            sweetAlert(4, DATA.error, true);
+        }
+    } catch (error) {
+        console.error('Error al obtener datos de la API: ', error);
+    }
+}
+
+async function totalProducts() {
+    try {
+        // Petición para obtener los registros disponibles.
+        const DATA = await fetchData(HAMACA_API, 'totalProducts');
+        console.log(DATA);
+
+        if (DATA.status) {
+            // Accede al primer elemento del array dataset y luego obtén el valor TOTAL
+            const totalProductos = DATA.dataset[0].TOTAL;
+            document.getElementById('productos').textContent = totalProductos;
+        } else {
+            sweetAlert(4, DATA.error, true);
+        }
+    } catch (error) {
+        console.error('Error al obtener datos de la API: ', error);
+    }
+}
+
 /*
 *   Función asíncrona para mostrar un gráfico de barras con la cantidad de productos por categoría.
 *   Parámetros: ninguno.
@@ -92,7 +153,7 @@ const graficoPastelCategorias = async () => {
     ];
     try {
         // Petición para obtener los datos del gráfico.
-        const DATA = await fetchData(PRODUCTO_API, 'porcentajeProductosCategoria');
+        const DATA = await fetchData(HAMACA_API, 'productsForCategory');
         // Se comprueba si la respuesta es satisfactoria, de lo contrario se remueve la etiqueta canvas.
         if (DATA.status) {
             // Se declaran los arreglos para guardar los datos a gráficar.
@@ -201,6 +262,10 @@ window.onload = async function () {
     } else {
         document.documentElement.setAttribute('data-bs-theme', 'light');
     }
+    // Llama a la función para cargar las cartas
+    totalClientBlock();
+    totalClients();
+    totalProducts();
     // Llama a la función para mostrar el gráfico de barras
     cargarGraficaLineal();
     graficoPastelCategorias();

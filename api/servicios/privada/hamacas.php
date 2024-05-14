@@ -113,6 +113,22 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'Ocurrió un problema al alterar el estado del administrador';
                 }
                 break;
+                // Contar hamacas
+            case 'totalProducts':
+                if ($result['dataset'] = $producto->totalProducts()) {
+                    $result['status'] = 1;
+                } else {
+                    $result['error'] = 'Error en el conteo de ordenes';
+                }
+                break;
+                // Contar productos por categoría
+            case 'productsForCategory':
+                if ($result['dataset'] = $producto->productsForCategory()) {
+                    $result['status'] = 1;
+                } else {
+                    $result['error'] = 'Error en el conteo de ordenes';
+                }
+                break;
             default:
                 $result['error'] = 'Acción no disponible dentro de la sesión';
         }

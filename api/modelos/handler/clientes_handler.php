@@ -14,6 +14,8 @@ class ClientesHandler
     /*
      *  Métodos para realizar las operaciones SCRUD (search, create, read, update, and delete).
      */
+
+     // Función para buscar
     public function searchRows()
     {
         $value = '%' . Validator::getSearchValue() . '%';
@@ -27,7 +29,7 @@ class ClientesHandler
         $params = array($value);
         return Database::getRows($sql, $params);
     }
-
+     // Función para leer todo
     public function readAll()
     {
         $sql = 'SELECT id_cliente AS ID, nombre_cliente AS NOMBRE, correo_cliente AS CORREO,
@@ -38,7 +40,25 @@ class ClientesHandler
                 ORDER BY NOMBRE;';
         return Database::getRows($sql);
     }
+    
+    //Función para contar los clientes registrados
+    public function totalClients()
+    {
+        $sql = 'SELECT COUNT(*) AS TOTAL
+        FROM clientes;
+        ';
+        return Database::getRows($sql);
+    }
 
+    //Función para contar los bloqueados
+    public function totalBlocks()
+    {
+        $sql = 'SELECT COUNT(*) AS TOTAL
+        FROM clientes
+        WHERE estado_cliente = 0   
+        ';
+        return Database::getRows($sql);
+    }
     
      //Función para leer la imagen del id desde la base.
      public function readFilename()

@@ -44,6 +44,22 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'Ocurrió un problema al alterar el estado del cliente';
                 }
                 break;
+                // Contar clientes
+            case 'totalClients':
+                if ($result['dataset'] = $cliente->totalClients()) {
+                    $result['status'] = 1;
+                } else {
+                    $result['error'] = 'Error en el conteo de ordenes';
+                }
+                break;
+                // Contar pedidos entregados
+            case 'totalBlocks':
+                if ($result['dataset'] = $cliente->totalBlocks()) {
+                    $result['status'] = 1;
+                } else {
+                    $result['error'] = 'Error en el conteo de ordenes';
+                }
+                break;
             default:
                 $result['error'] = 'Acción no disponible dentro de la sesión';
         }
