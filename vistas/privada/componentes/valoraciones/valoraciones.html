@@ -34,3 +34,23 @@
         <tbody id="tabla_valoracion"></tbody>
     </table>
 </div>
+
+<div class="modal fade" id="saveModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="modalTitle" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="modalTitle"></h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <!-- Formulario para crear o actualizar un registro -->
+            <form id="saveForm">
+                <div class="modal-body row g-3">
+                    <!-- Campo oculto para asignar el id del registro al momento de modificar -->
+                    <input type="number" id="idValoracion" name="idValoracion" class="invisible">
+                    
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

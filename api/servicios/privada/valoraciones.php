@@ -38,7 +38,11 @@ if (isset($_GET['action'])) {
                 break;
                 // Estado
             case 'changeState':
-                if ($valoracion->changeState()) {
+                if (
+                    !$valoracion->setId($_POST['idValoracion'])
+                ) {
+                    $result['error'] = $valoracion->getDataError();
+                } elseif ($valoracion->changeState()) {
                     $result['status'] = 1;
                     $result['message'] = 'Estado del comentario cambiado correctamente';
                 } else {

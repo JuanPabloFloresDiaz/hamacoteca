@@ -12,6 +12,17 @@ class ValoracionesData extends ValoracionesHandler
     private $data_error = null;
     private $filename = null;
 
+    public function setId($value)
+    {
+        if (Validator::validateNaturalNumber($value)) {
+            $this->id = $value;
+            return true;
+        } else {
+            $this->data_error = 'El identificador del comentario es incorrecto';
+            return false;
+        }
+    }
+
     public function setEstado($value)
     {
         if (Validator::validateNaturalNumber($value)) {

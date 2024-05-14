@@ -633,6 +633,27 @@ END;
 $$
 
 DELIMITER $$
+CREATE VIEW vista_tabla_valoraciones AS
+SELECT V.id_valoracion AS 'ID',
+foto_cliente AS 'IMAGEN',
+CONCAT(nombre_cliente, ' ', apellido_cliente	) AS 'NOMBRE',
+nombre_hamaca AS 'PRODUCTO',
+comentario_producto AS 'COMENTARIO', 
+fecha_valoracion AS 'FECHA',
+    CASE 
+        WHEN estado_comentario = 1 THEN 'Activo'
+        WHEN estado_comentario = 0 THEN 'Bloqueado'
+    END AS 'ESTADO'
+FROM valoraciones v
+INNER JOIN detalles_pedidos dp ON dp.id_detalles_pedidos = v.id_detalles_pedidos
+INNER JOIN hamacas h ON h.id_hamaca = dp.id_hamaca
+INNER JOIN pedidos p ON p.id_pedido = dp.id_pedido
+INNER JOIN clientes c ON c.id_cliente = p.id_cliente;
+$$
+ 
+DELIMITER $$
+
+DELIMITER $$
 
 CREATE PROCEDURE eliminar_foto(
     IN p_id_foto INT
@@ -703,6 +724,30 @@ BEGIN
     WHERE id_pedido = p_id_pedido;
 END
 $$
+
+DELIMITER //
+CREATE PROCEDURE cambiar_estado_valoracion(IN valora_id INT)
+BEGIN
+    DECLARE valora_estado BOOLEAN;
+    
+    -- Obtener el estado actual de la valoracion
+    SELECT estado_comentario INTO valora_estado
+    FROM valoraciones
+    WHERE id_valoracion = valora_id;
+    
+    -- Actualizar el estado de la valoracion
+    IF valora_estado = 1 THEN
+        UPDATE valoraciones
+        SET estado_comentario = 0
+        WHERE id_valoracion = valora_id;
+    ELSE
+        UPDATE valoraciones
+        SET estado_comentario = 1
+        WHERE id_valoracion = valora_id;
+    END IF;
+END //
+
+DELIMITER ;
 
 DELIMITER $$
 
