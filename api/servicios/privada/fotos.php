@@ -26,7 +26,7 @@ if (isset($_GET['action'])) {
             case 'createRow':
                 $_POST = Validator::validateForm($_POST);
                 if (
-                    !$foto->setHamaca($_POST['idHamaca']) or
+                    !$foto->setHamaca($_POST['idHamacas']) or
                     !$foto->setImagen($_FILES['inputFoto'])
                 ) {
                     $result['error'] = $foto->getDataError();
@@ -54,6 +54,7 @@ if (isset($_GET['action'])) {
                     $result['error'] = $foto->getDataError();
                 } elseif ($result['dataset'] = $foto->readOne()) {
                     $result['status'] = 1;
+                    $result['message'] = 'Se selecciono una foto correctamente';
                 } else {
                     $result['error'] = 'Foto inexistente';
                 }
@@ -62,7 +63,7 @@ if (isset($_GET['action'])) {
                 $_POST = Validator::validateForm($_POST);
                 if (
                     !$foto->setId($_POST['idFoto']) or
-                    !$foto->setHamaca($_POST['idHamaca']) or
+                    !$foto->setHamaca($_POST['idHamacas']) or
                     !$foto->setImagen($_FILES['inputFoto'], $foto->getFilename())
                 ) {
                     $result['error'] = $foto->getDataError();

@@ -21,7 +21,7 @@ class HamacasData extends HamacasHandler
             $this->id = $value;
             return true;
         } else {
-            $this->data_error = 'El identificador del administrador es incorrecto';
+            $this->data_error = 'El identificador de la hamaca es incorrecto';
             return false;
         }
     }

@@ -5,7 +5,9 @@ async function loadComponent(path) {
     return text;
 }
 
-
+let TOAST,
+    TITLE_TOAST,
+    MESSAGE_TOAST;
 let SAVE_MODAL;
 let IMAGE_MODAL;
 let SAVE_FORM,
@@ -19,6 +21,7 @@ let SAVE_FORM,
     DESCRIPCION_HAMACA;
 let IMAGE_FORM,
     ID_FOTO,
+    HAMACA,
     FOTO;
 let SEARCH_FORM;
 // Constantes para completar las rutas de la API.
@@ -41,6 +44,7 @@ const openCreate = () => {
     fillSelect(CATEGORIAS_API, 'readAll', 'categorias');
 }
 const openImage = async (id) => {
+    IMAGE_FORM.reset();
     // Se define un objeto con los datos del registro seleccionado.
     const FORM = new FormData();
     FORM.append('idHamaca', id);
@@ -48,6 +52,7 @@ const openImage = async (id) => {
     IMAGE_MODAL.show();
     MODAL_TITLE_IMAGE.textContent = 'Agregar foto de la hamaca ' + id;
     cargarFotos(FORM);
+    HAMACA.value = id;
 }
 /*
 *   Función asíncrona para preparar el formulario al momento de actualizar un registro.
@@ -123,6 +128,72 @@ const openDelete = async (id) => {
 
 }
 
+
+/*
+*   Función asíncrona para preparar el formulario al momento de actualizar un registro.
+*   Parámetros: id (identificador del registro seleccionado).
+*   Retorno: ninguno.
+*/
+const openUpdatePhoto = async (id) => {
+    try {
+        // Se define un objeto con los datos del registro seleccionado.
+        const FORM = new FormData();
+        FORM.append('idFoto', id);
+        // Petición para obtener los datos del registro solicitado.
+        const DATA = await fetchData(FOTOS_API, 'readOne', FORM);
+        // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
+        if (DATA.status) {
+            // Se prepara el formulario.
+            IMAGE_FORM.reset();
+            // Se inicializan los campos con los datos.
+            const ROW = DATA.dataset;
+            ID_FOTO.value = ROW.ID;
+            HAMACA.value = ROW.HAMACA;
+            TOAST.show();
+            TITLE_TOAST.textContent = 'Confirmación';
+            MESSAGE_TOAST.textContent = 'Se selecciono la foto ' + id;
+        } else {
+            sweetAlert(2, DATA.error, false);
+        }
+    } catch (Error) {
+        console.log(Error);
+    }
+
+}
+
+/*
+*   Función asíncrona para eliminar un registro.
+*   Parámetros: id (identificador del registro seleccionado).
+*   Retorno: ninguno.
+*/
+const openDeletePhoto = async (id) => {
+    // Llamada a la función para mostrar un mensaje de confirmación, capturando la respuesta en una constante.
+    const RESPONSE = await confirmAction('¿Desea eliminar la foto de la hamaca de forma permanente?');
+    try {
+        // Se verifica la respuesta del mensaje.
+        if (RESPONSE) {
+            // Se define una constante tipo objeto con los datos del registro seleccionado.
+            const FORM = new FormData();
+            FORM.append('idFoto', id);
+            // Petición para eliminar el registro seleccionado.
+            const DATA = await fetchData(FOTOS_API, 'deleteRow', FORM);
+            // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
+            if (DATA.status) {
+                // Se muestra un mensaje de éxito.
+                await sweetAlert(1, DATA.message, true);
+                IMAGE_MODAL.hide();
+            } else {
+                sweetAlert(2, DATA.error, false);
+            }
+        }
+    }
+    catch (Error) {
+        console.log(Error + ' Error al cargar el mensaje');
+    }
+
+}
+
+
 /*
 *   Función asíncrona para cambiar el estado de un registro.
 *   Parámetros: id (identificador del registro seleccionado).
@@ -174,7 +245,7 @@ async function cargarFotos(form = null) {
                             <div class="col-md-4">
                                 <div class="card mb-4 shadow-sm">
                                     <img src="${SERVER_URL}imagenes/fotos/${row.IMAGEN}"
-                                        class="card-img-top img-thumbnail alto" alt="Imagen de ejemplo" width="50px" heigth="50px">
+                                        class="card-img-top img-thumbnail" alt="Imagen de ejemplo"">
                                     <div class="card-body">
                                         <div class="d-flex justify-content-center align-items-center">
                                             <button type="button" class="btn btn-outline-success" onclick="openUpdatePhoto(${row.ID})">
@@ -333,6 +404,11 @@ window.onload = async function () {
         MODAL_TITLE_IMAGE = document.getElementById('exampleModalLabel');
 
 
+    // Constantes para establecer los elementos del componente Toast.
+    TOAST = new bootstrap.Toast(document.getElementById('toast')),
+        TITLE_TOAST = document.getElementById('titleToast'),
+        MESSAGE_TOAST = document.getElementById('messageToast');
+
     // Constantes para establecer los elementos del formulario de guardar.
     SAVE_FORM = document.getElementById('saveForm'),
         ID_HAMACA = document.getElementById('idHamaca'),
@@ -371,7 +447,32 @@ window.onload = async function () {
     // Constantes para establecer los elementos del formulario de guardar.
     IMAGE_FORM = document.getElementById('photoForm'),
         ID_FOTO = document.getElementById('idFoto'),
+        HAMACA = document.getElementById('idHamacas'),
         FOTO = document.getElementById('inputFoto');
+
+    // Método del evento para cuando se envía el formulario de guardar.
+    IMAGE_FORM.addEventListener('submit', async (event) => {
+        // Se evita recargar la página web después de enviar el formulario.
+        event.preventDefault();
+        // Se verifica la acción a realizar.
+        (ID_FOTO.value) ? action = 'updateRow' : action = 'createRow';
+        // Constante tipo objeto con los datos del formulario.
+        const FORM = new FormData(IMAGE_FORM);
+        // Petición para guardar los datos del formulario.
+        const DATA = await fetchData(FOTOS_API, action, FORM);
+        // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
+        if (DATA.status) {
+            // Se cierra la caja de diálogo.
+            IMAGE_MODAL.hide();
+            // Se muestra un mensaje de éxito.
+            sweetAlert(1, DATA.message, true);
+            // Se recarga nuevamente el modal y la tabla para visualizar los cambios.
+            IMAGE_MODAL.hide();
+            openImage(HAMACA.value);
+        } else {
+            sweetAlert(2, DATA.error, false);
+        }
+    });
 
     // Constante para establecer el formulario de buscar.
     SEARCH_FORM = document.getElementById('searchForm');

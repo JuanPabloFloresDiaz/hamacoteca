@@ -21,7 +21,7 @@ class FotosData extends FotosHandler
             $this->id = $value;
             return true;
         } else {
-            $this->data_error = 'El identificador de material es incorrecto';
+            $this->data_error = 'El identificador de la foto es incorrecto';
             return false;
         }
     }
@@ -33,7 +33,7 @@ class FotosData extends FotosHandler
             $this->hamaca = $value;
             return true;
         } else {
-            $this->data_error = 'El identificador de material es incorrecto';
+            $this->data_error = 'El identificador de la hamaca es incorrecto';
             return false;
         }
     }

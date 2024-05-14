@@ -111,30 +111,40 @@
                 </button>
             </div>
             <div class="modal-body">
-
                 <!-- Cartas-->
-                <div class="container col-md-12 mt-4">
-                    <div class="row row-cols-1 row-cols-md-3 gx-4 gy-4">
-                        <!-- Cartas--><!-- Área para mostrar fotos existentes -->
-                        <div class="row mt-3" id="fotos">
-                                
-                            </div>
-                        </div>
+                <div class="container mt-4">
+                    <!-- Cartas--><!-- Área para mostrar fotos existentes -->
+                    <div class="row mt-3" id="fotos">
+
                     </div>
                 </div>
-                <!-- Formulario para agregar la foto -->
-                <form id="photoForm">
-                    <!-- Campo oculto para asignar el id del registro al momento de modificar -->
-                    <input type="number" id="idFoto" name="idFoto" class="invisible">
-                    <div class="form-group mt-3">
-                        <label for="inputFoto">Subir Foto</label>
-                        <input type="file" class="form-control-file" name="inputFoto" id="inputFoto">
-                    </div>
-                </form>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                <button type="button" class="btn btn-primary">Guardar</button>
+            <!-- Formulario para agregar la foto -->
+            <form id="photoForm">
+                <!-- Campo oculto para asignar el id del registro al momento de modificar -->
+                <input type="number" id="idFoto" name="idFoto" class="invisible">
+                <!-- Campo oculto para asignar el id de la hamaca -->
+                <input type="number" id="idHamacas" name="idHamacas" class="invisible">
+                <div class="form-group mt-3">
+                    <label for="inputFoto">Subir Foto</label>
+                    <input type="file" class="form-control-file" name="inputFoto" id="inputFoto">
+                </div>
+                <div class="modal-footer">
+                    <button type="reset" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Agrega este div donde quieras que aparezca el toast -->
+    <div class="position-fixed bottom-0 end-0 p-3">
+        <div id="toast" class="toast border-success" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header border-success">
+                <strong class="me-auto" id="titleToast"></strong>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body border-success bg-light" id="messageToast">
             </div>
         </div>
     </div>

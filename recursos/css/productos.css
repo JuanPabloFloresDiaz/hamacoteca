@@ -32,3 +32,7 @@
 }
 
 /* Agregar estilos adicionales según sea necesario para otros navegadores */
+.fotos{
+    min-width: 100px;
+    min-height: 100px;
+}
