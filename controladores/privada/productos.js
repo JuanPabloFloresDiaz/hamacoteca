@@ -50,7 +50,7 @@ const openImage = async (id) => {
     FORM.append('idHamaca', id);
     // Se muestra la caja de diálogo con su título.
     IMAGE_MODAL.show();
-    MODAL_TITLE_IMAGE.textContent = 'Agregar foto de la hamaca ' + id;
+    MODAL_TITLE_IMAGE.textContent = 'Agregar fotos de la hamaca ' + id;
     cargarFotos(FORM);
     HAMACA.value = id;
 }
@@ -462,12 +462,8 @@ window.onload = async function () {
         const DATA = await fetchData(FOTOS_API, action, FORM);
         // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
         if (DATA.status) {
-            // Se cierra la caja de diálogo.
-            IMAGE_MODAL.hide();
             // Se muestra un mensaje de éxito.
             sweetAlert(1, DATA.message, true);
-            // Se recarga nuevamente el modal y la tabla para visualizar los cambios.
-            IMAGE_MODAL.hide();
             openImage(HAMACA.value);
         } else {
             sweetAlert(2, DATA.error, false);

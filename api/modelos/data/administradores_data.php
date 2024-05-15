@@ -120,11 +120,11 @@ class AdministradoresData extends AdministradoresHandler
 
     public function setNacimiento($value)
     {
-        if (Validator::validateDate($value)) {
+        if (Validator::validateDateBirthday($value)) {
             $this->nacimiento = $value;
             return true;
         } else {
-            $this->data_error = 'La fecha de nacimiento es incorrecta';
+            $this->data_error = 'La fecha de nacimiento no es valida, debe ser mayor de edad y menor a 122 años';
             return false;
         }
     }

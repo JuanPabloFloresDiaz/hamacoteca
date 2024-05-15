@@ -21,17 +21,17 @@
     </div>
     <div class="conatiner-fluid d-flex justify-content-between mt-5 align-items-center">
         <b>
-            <p class="fs-5">Seguridad</p>
+            <p class="fs-5">Ajustes</p>
         </b>
     </div>
     <hr class="border-1">
     <!--Cambiar la contraseña-->
     <div class="conatiner-fluid d-flex justify-content-between mt-3 align-items-center">
-        <p class="fs-5">Cambiar contraseña</p>
+        <p class="fs-5" onclick="openPassword()">Cambiar contraseña</p>
     </div>
     <div class="conatiner-fluid d-flex justify-content-between mt-5 align-items-center">
         <b>
-            <p class="fs-5">Seguridad</p>
+            <p class="fs-5">Versión</p>
         </b>
     </div>
     <hr class="border-1">
@@ -40,4 +40,46 @@
     </div>
 
 
+</div>
+
+
+<!-- Componente Modal para guardar un registro -->
+<div class="modal fade" id="saveModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="modalTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="modalTitle"></h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <!-- Formulario para crear o actualizar un registro -->
+            <form id="saveForm">
+                <div class="modal-body row g-3">
+                    <div class="col-sm-12 col-md-12">
+                        <div class="col-sm-12 col-md-12">
+                            <label for="claveActual" class="form-label">Contraseña actual</label>
+                            <input id="claveActual" type="password" name="claveActual"
+                                class="form-control" placeholder="Ingresa la clave del administrador" autocomplete="off"
+                                required>
+                        </div>
+                        <div class="col-sm-12 col-md-12">
+                            <label for="claveAdministrador" class="form-label">Contraseña nueva</label>
+                            <input id="claveAdministrador" type="password" name="claveAdministrador"
+                                class="form-control" placeholder="Ingresa la clave del administrador" autocomplete="off"
+                                required>
+                        </div>
+                        <div class="col-sm-12 col-md-12">
+                            <label for="repetirclaveAdministrador" class="form-label">Repetir contraseña</label>
+                            <input id="repetirclaveAdministrador" type="password" name="repetirclaveAdministrador"
+                                class="form-control" placeholder="Repite la clave del administrador" autocomplete="off"
+                                required>
+                        </div>
+                    </div>
+                    <div class="modal-footer col-sm-12 col-md-12 col-lg-12">
+                        <button type="reset" class="btn btn-outline-dark">Cancelar</button>
+                        <button type="submit" class="btn btn-outline-primary">Guardar</button>
+                    </div>
+            </form>
+        </div>
+    </div>
 </div>

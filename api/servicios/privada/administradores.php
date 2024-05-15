@@ -154,9 +154,11 @@ if (isset($_GET['action'])) {
                 $_POST = Validator::validateForm($_POST);
                 if (!$administrador->checkPassword($_POST['claveActual'])) {
                     $result['error'] = 'Contraseña actual incorrecta';
-                } elseif ($_POST['claveNueva'] != $_POST['confirmarClave']) {
+                } elseif ($_POST['claveAdministrador'] == $_POST['claveActual']) {
+                    $result['error'] = 'No puedes reutilizar la clave actual';
+                } elseif ($_POST['claveAdministrador'] != $_POST['repetirclaveAdministrador']) {
                     $result['error'] = 'Confirmación de contraseña diferente';
-                } elseif (!$administrador->setClave($_POST['claveNueva'])) {
+                } elseif (!$administrador->setClave($_POST['claveAdministrador'])) {
                     $result['error'] = $administrador->getDataError();
                 } elseif ($administrador->changePassword()) {
                     $result['status'] = 1;

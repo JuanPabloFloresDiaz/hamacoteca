@@ -91,7 +91,7 @@ async function cargarTabla(form = null) {
             DATA.dataset.forEach(row => {
                 const tablaHtml = `
                 <tr>
-                    <td><img src="${SERVER_URL}images/categorias/${row.IMAGEN}" height="50" width="50" class="circulo"></td>
+                    <td><img src="${SERVER_URL}imagenes/clientes/${row.IMAGEN}" height="50" width="50" class="circulo"></td>
                     <td>${row.NOMBRE}</td>
                     <td>${row.PRODUCTO}</td>
                     <td>${row.COMENTARIO}</td>

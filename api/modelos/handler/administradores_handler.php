@@ -154,14 +154,13 @@ class AdministradoresHandler
         }
     }
 
-
     //Función para cambiar la contraseña de un admministrador.
     public function changePassword()
     {
         $sql = 'UPDATE administradores
                 SET clave_administrador = ?, fecha_clave = NOW()
                 WHERE id_administrador = ?';
-        $params = array($this->clave, $_SESSION['idadministrador']);
+        $params = array($this->clave, $_SESSION['idAdministrador']);
         return Database::executeRow($sql, $params);
     }
 
