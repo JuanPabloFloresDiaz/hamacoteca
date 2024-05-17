@@ -181,7 +181,7 @@ const openDeletePhoto = async (id) => {
             if (DATA.status) {
                 // Se muestra un mensaje de éxito.
                 await sweetAlert(1, DATA.message, true);
-                IMAGE_MODAL.hide();
+                openImage(HAMACA.value);
             } else {
                 sweetAlert(2, DATA.error, false);
             }
@@ -262,7 +262,20 @@ async function cargarFotos(form = null) {
                 cargarTabla.innerHTML += tablaHtml;
             });
         } else {
-            sweetAlert(4, DATA.error, true);
+            const tablaHtml = `
+                            <div class="col-md-12">
+                                <div class="card mb-4 shadow-sm">
+                                    <img src="../../../recursos/img/404.jpg"
+                                        class="card-img-top img-thumbnail" alt="Imagen de ejemplo"">
+                                    <div class="card-body">
+                                        <div class="d-flex justify-content-center align-items-center">
+                                           <p class="${getRowColor('Agotado')}">${DATA.error} </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                `;
+                cargarTabla.innerHTML += tablaHtml;
         }
     } catch (error) {
         console.error('Error al obtener datos de la API:', error);
@@ -318,13 +331,13 @@ async function cargarTabla(form = null) {
             // Mostrar elementos de la lista obtenidos de la API
             DATA.dataset.forEach(row => {
                 const tablaHtml = `
-                <tr>
+                <tr class="${getRowBackgroundColor(row.ESTADO)}">
                     <td><img src="${SERVER_URL}imagenes/hamacas/${row.IMAGEN}" height="50" width="50" class="circulo"></td>
                     <td>${row.NOMBRE}</td>
                     <td>${row.DESCRIPCIÓN}</td>
                     <td>${row.CANTIDAD}</td>
                     <td>${row.PRECIO}</td>
-                    <td>${row.ESTADO}</td>
+                    <td class="${getRowColor(row.ESTADO)}">${row.ESTADO}</td>
                     <td>
                         <button type="button" class="btn btn-outline-primary" onclick="openState(${row.ID})">
                             <i class="bi bi-exclamation-octagon"></i>
@@ -344,7 +357,12 @@ async function cargarTabla(form = null) {
                 cargarTabla.innerHTML += tablaHtml;
             });
         } else {
-            sweetAlert(4, DATA.error, true);
+            const tablaHtml = `
+                <tr class="${getRowBackgroundColor('Agotado')}">
+                <td class="${getRowColor('Agotado')}">${DATA.error}</td>
+                </tr>
+                `;
+            cargarTabla.innerHTML += tablaHtml;
         }
     } catch (error) {
         console.error('Error al obtener datos de la API:', error);
@@ -376,6 +394,29 @@ async function cargarTabla(form = null) {
     }
 }
 
+
+
+function getRowColor(estado) {
+    switch (estado) {
+        case 'Agotado':
+            return 'text-danger';
+        case 'Disponible':
+            return 'text-success';
+        default:
+            return '';
+    }
+}
+
+function getRowBackgroundColor(estado) {
+    switch (estado) {
+        case 'Agotado':
+            return 'border-danger';
+        case 'Disponible':
+            return 'border-success';
+        default:
+            return '';
+    }
+}
 
 // window.onload
 window.onload = async function () {

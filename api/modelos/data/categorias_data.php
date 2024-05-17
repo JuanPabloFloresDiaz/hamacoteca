@@ -20,7 +20,7 @@ class CategoriasData extends CategoriasHandler
             $this->id = $value;
             return true;
         } else {
-            $this->data_error = 'El identificador del administrador es incorrecto';
+            $this->data_error = 'El identificador de la categoría es incorrecto';
             return false;
         }
     }

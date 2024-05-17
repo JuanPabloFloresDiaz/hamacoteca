@@ -41,7 +41,6 @@ const openState = async (id) => {
     catch (Error) {
         console.log(Error + ' Error al cargar el mensaje');
     }
-
 }
 
 
@@ -99,13 +98,13 @@ async function cargarTabla(form = null) {
             // Mostrar elementos obtenidos de la API
             DATA.dataset.forEach(row => {
                 const tablaHtml = `
-                <tr>
+                <tr class="${getRowBackgroundColor(row.ESTADO)}">
                     <td><img src="${SERVER_URL}imagenes/clientes/${row.FOTO}" height="50" width="50" class="circulo"></td>
                     <td>${row.NOMBRE}</td>
                     <td>${row.CORREO}</td>
                     <td>${row.TELEFONO}</td>
                     <td>${row.DUI}</td>
-                    <td>${row.ESTADO}</td>
+                    <td class="${getRowColor(row.ESTADO)}">${row.ESTADO}</td>
                     <td>
                     <button type="button" class="btn btn-outline-primary" onclick="openState(${row.ID})">
                     <i class="bi bi-exclamation-octagon"></i>
@@ -142,6 +141,28 @@ async function cargarTabla(form = null) {
     }
 }
 
+
+function getRowColor(estado) {
+    switch (estado) {
+        case 'Bloqueado':
+            return 'text-danger';
+        case 'Activo':
+            return 'text-success';
+        default:
+            return '';
+    }
+}
+
+function getRowBackgroundColor(estado) {
+    switch (estado) {
+        case 'Bloqueado':
+            return 'border-danger';
+        case 'Activo':
+            return 'border-success';
+        default:
+            return '';
+    }
+}
 
 // window.onload
 window.onload = async function () {
