@@ -107,7 +107,12 @@ async function cargarTabla(form = null) {
                 cargarTabla.innerHTML += tablaHtml;
             });
         } else {
-            sweetAlert(4, DATA.error, true);
+            const tablaHtml = `
+            <tr class="border-danger">
+                <td class="text-danger">${DATA.error}</td>
+            </tr>
+            `;
+            cargarTabla.innerHTML += tablaHtml;
         }
     } catch (error) {
         console.error('Error al obtener datos de la API:', error);
