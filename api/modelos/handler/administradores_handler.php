@@ -124,6 +124,7 @@ class AdministradoresHandler
         }
     }
 
+    // Función que retorna a su estado original la variable de condición
     public function resetCondition()
     {
         return $this->condicion = null;

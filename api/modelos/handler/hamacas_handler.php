@@ -36,6 +36,7 @@ class HamacasHandler
         return Database::getRows($sql, $params);
     }
 
+    //Función para crear una hamaca
     public function createRow()
     {
         $sql = 'CALL insertar_hamaca(?,?,?,?,?,?,?,?);';
@@ -43,6 +44,7 @@ class HamacasHandler
         return Database::executeRow($sql, $params);
     }
 
+    //Función para mostrar todas las hamacas
     public function readAll()
     {
         $sql = 'SELECT * FROM vista_tabla_hamacas
@@ -50,6 +52,7 @@ class HamacasHandler
         return Database::getRows($sql);
     }
 
+    //Función para mostrar una de las hamacas
     public function readOne()
     {
         $sql = 'SELECT * FROM vista_tabla_hamacas
@@ -58,6 +61,7 @@ class HamacasHandler
         return Database::getRow($sql, $params);
     }
 
+    //Función para mostrar la imagen correspondiente de cada una de las hamacas
     public function readFilename()
     {
         $sql = 'SELECT IMAGEN
@@ -67,6 +71,7 @@ class HamacasHandler
         return Database::getRow($sql, $params);
     }
 
+    //Función para actualizar una de las hamacas
     public function updateRow()
     {
         $sql = 'CALL actualizar_hamaca(?,?,?,?,?,?,?,?);';
@@ -74,6 +79,7 @@ class HamacasHandler
         return Database::executeRow($sql, $params);
     }
 
+    //Función para eliminar una de las hamacas
     public function deleteRow()
     {
         $sql = 'CALL eliminar_hamaca(?);';
@@ -81,7 +87,7 @@ class HamacasHandler
         return Database::executeRow($sql, $params);
     }
 
-    //Función para cambiar el estado de un admministrador.
+    //Función para cambiar el estado de una hamaca.
     public function changeState()
     {
         $sql = 'CALL cambiar_estado_producto(?);';
@@ -90,7 +96,7 @@ class HamacasHandler
     }
 
 
-    //Función para contar los productos registrados
+    //Función para contar las hamacas registrados
     public function totalProducts()
     {
         $sql = 'SELECT COUNT(*) AS TOTAL
@@ -99,6 +105,7 @@ class HamacasHandler
         return Database::getRows($sql);
     }
 
+    //Función para contar las hamacas por categoría
     public function productsForCategory()
     {
         $sql = 'SELECT nombre_categoria, ROUND((COUNT(id_hamaca) * 100.0 / (SELECT COUNT(id_hamaca) FROM hamacas)), 2) porcentaje

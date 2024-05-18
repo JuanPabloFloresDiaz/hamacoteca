@@ -15,7 +15,7 @@ class ClientesHandler
      *  Métodos para realizar las operaciones SCRUD (search, create, read, update, and delete).
      */
 
-    // Función para buscar
+    // Función para buscar un cliente
     public function searchRows()
     {
         $value = '%' . Validator::getSearchValue() . '%';
@@ -29,7 +29,7 @@ class ClientesHandler
         $params = array($value);
         return Database::getRows($sql, $params);
     }
-    // Función para leer todo
+    // Función para leer todos los clientes
     public function readAll()
     {
         $sql = 'SELECT id_cliente AS ID, nombre_cliente AS NOMBRE, correo_cliente AS CORREO,

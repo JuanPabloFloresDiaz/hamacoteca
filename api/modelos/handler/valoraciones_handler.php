@@ -16,6 +16,7 @@ class ValoracionesHandler
     /*
      *  Métodos para realizar las operaciones SCRUD (search, create, read, update, and delete).
      */
+    //Función para buscar valoraciones.
     public function searchRows()
     {
         $value = '%' . Validator::getSearchValue() . '%';
@@ -26,6 +27,7 @@ class ValoracionesHandler
         return Database::getRows($sql, $params);
     }
 
+    //Función para mostrar todas las valoraciones.
     public function readAll()
     {
         $sql = 'SELECT * FROM vista_tabla_valoraciones
@@ -33,7 +35,7 @@ class ValoracionesHandler
         return Database::getRows($sql);
     }
 
-    //Función para cambiar el estado de un admministrador.
+    //Función para cambiar el estado de una valoración.
     public function changeState()
     {
         $sql = 'CALL cambiar_estado_valoracion(?);';

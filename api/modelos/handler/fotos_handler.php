@@ -16,13 +16,10 @@ class FotosHandler
     //constante para establecer la ruta de la imágenes.
     const RUTA_IMAGEN = '../../imagenes/fotos/';
 
-    /*
-    * Métodos para gestionar los materiales.
-    */
-
      /*
      *  Métodos para realizar las operaciones SCRUD (search, create, read, update, and delete).
      */
+    //Función para buscar una foto (no utilizada)
     public function searchRows()
     {
         $value = '%' . Validator::getSearchValue() . '%';
@@ -33,6 +30,7 @@ class FotosHandler
         return Database::getRows($sql, $params);
     }
 
+    //Función para insertar una foto
     public function createRow()
     {
         $sql = 'CALL insertar_foto(?,?);';
@@ -40,6 +38,7 @@ class FotosHandler
         return Database::executeRow($sql, $params);
     }
 
+    //Función para mostrar todas las fotos
     public function readAll()
     {
         $sql = 'SELECT id_foto AS ID, id_hamaca AS HAMACA, url AS IMAGEN FROM fotos
@@ -49,6 +48,7 @@ class FotosHandler
         return Database::getRows($sql, $params);
     }
 
+    //Función para traer una foto
     public function readOne()
     {
         $sql = 'SELECT id_foto AS ID, id_hamaca AS HAMACA, url AS IMAGEN FROM fotos
@@ -67,6 +67,7 @@ class FotosHandler
         return Database::getRow($sql, $params);
      } 
 
+    //Función para actualizar una foto
     public function updateRow()
     {
         $sql = 'CALL actualizar_foto(?, ?, ?);';
@@ -74,6 +75,7 @@ class FotosHandler
         return Database::executeRow($sql, $params);
     }
 
+    //Función para eliminar una foto
     public function deleteRow()
     {
         $sql = 'CALL eliminar_foto(?);';

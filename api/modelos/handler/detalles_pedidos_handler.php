@@ -14,7 +14,7 @@ class DetallesPedidosHandler
     /*
      *  Métodos para realizar las operaciones SCRUD (search, create, read, update, and delete).
      */
-   //Leer
+   //Leer el detalle de pedido
     public function readOne()
     {
         $sql = 'SELECT h.foto_principal AS FOTO, h.nombre_hamaca AS PRODUCTO, 

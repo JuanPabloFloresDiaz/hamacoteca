@@ -129,7 +129,7 @@ class PedidosHandler
     }
 
 
-    //Función para cambiar el estado de un cliente.
+    //Función para cambiar el estado de un pedido.
     public function changeState()
     {
         $sql = 'CALL actualizar_estado_pedido(?,?);';

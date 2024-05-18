@@ -15,6 +15,7 @@ class RolesHandler
     /*
      *  Métodos para realizar las operaciones SCRUD (search, create, read, update, and delete).
      */
+    //Función para buscar roles
     public function searchRows()
     {
         $value = '%' . Validator::getSearchValue() . '%';
@@ -25,6 +26,7 @@ class RolesHandler
         return Database::getRows($sql, $params);
     }
 
+    //Función para crear un rol
     public function createRow()
     {
         $sql = 'CALL insertar_rol_administrador(?);';
@@ -32,6 +34,7 @@ class RolesHandler
         return Database::executeRow($sql, $params);
     }
 
+    //Función para mostrar todos los roles
     public function readAll()
     {
         $sql = 'SELECT ID, NOMBRE FROM vista_roles_administradores
@@ -39,6 +42,7 @@ class RolesHandler
         return Database::getRows($sql);
     }
 
+    //Función para mostrar uno de los roles
     public function readOne()
     {
         $sql = 'SELECT ID, NOMBRE FROM vista_roles_administradores
@@ -47,6 +51,7 @@ class RolesHandler
         return Database::getRow($sql, $params);
     }
 
+    //Función para actualizar un rol
     public function updateRow()
     {
         $sql = 'CALL actualizar_rol_administrador(?, ?);';
@@ -54,6 +59,7 @@ class RolesHandler
         return Database::executeRow($sql, $params);
     }
 
+    //Función para eliminar un rol
     public function deleteRow()
     {
         $sql = 'CALL eliminar_rol_administrador(?);';

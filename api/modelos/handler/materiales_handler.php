@@ -24,6 +24,7 @@ class MaterialesHandler
      /*
      *  Métodos para realizar las operaciones SCRUD (search, create, read, update, and delete).
      */
+    //Función para buscar los materiales
     public function searchRows()
     {
         $value = '%' . Validator::getSearchValue() . '%';
@@ -34,6 +35,7 @@ class MaterialesHandler
         return Database::getRows($sql, $params);
     }
 
+    //Función para crear un material
     public function createRow()
     {
         $sql = 'CALL insertar_material(?,?,?);';
@@ -41,6 +43,7 @@ class MaterialesHandler
         return Database::executeRow($sql, $params);
     }
 
+    //Función para mostrar todos los materiales
     public function readAll()
     {
         $sql = 'SELECT id_material AS ID, nombre_material AS NOMBRE, descripcion_material AS DESCRIPCION, foto_material AS IMAGEN FROM materiales
@@ -48,6 +51,7 @@ class MaterialesHandler
         return Database::getRows($sql);
     }
 
+    //Función para mostrar un material
     public function readOne()
     {
         $sql = 'SELECT id_material AS ID, nombre_material AS NOMBRE, descripcion_material AS DESCRIPCION, foto_material AS IMAGEN FROM materiales
@@ -66,6 +70,7 @@ class MaterialesHandler
         return Database::getRow($sql, $params);
      } 
 
+    //Función para actualizar un material
     public function updateRow()
     {
         $sql = 'CALL actualizar_material(?, ?, ?, ?);';
@@ -73,6 +78,7 @@ class MaterialesHandler
         return Database::executeRow($sql, $params);
     }
 
+    //Función para eliminar un material
     public function deleteRow()
     {
         $sql = 'CALL eliminar_material(?);';

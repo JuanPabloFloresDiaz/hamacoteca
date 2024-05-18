@@ -26,6 +26,7 @@ class CategoriasHandler
         return Database::getRows($sql, $params);
     }
 
+    // Función para insertar una categoría
     public function createRow()
     {
         $sql = 'CALL insertar_categoria(?,?);';
@@ -33,6 +34,7 @@ class CategoriasHandler
         return Database::executeRow($sql, $params);
     }
 
+    // Función para mostrar todas las categorías
     public function readAll()
     {
         $sql = 'SELECT id_categoria AS ID, nombre_categoria AS NOMBRE, descripcion_categoria AS DESCRIPCION FROM categorias
@@ -40,6 +42,7 @@ class CategoriasHandler
         return Database::getRows($sql);
     }
 
+    // Función para mostrar una categoría
     public function readOne()
     {
         $sql = 'SELECT id_categoria AS ID, nombre_categoria AS NOMBRE, descripcion_categoria AS DESCRIPCION FROM categorias
@@ -48,6 +51,7 @@ class CategoriasHandler
         return Database::getRow($sql, $params);
     }
 
+    // Función para actualizar una categoría
     public function updateRow()
     {
         $sql = 'CALL actualizar_categoria(?, ?, ?);';
@@ -55,6 +59,7 @@ class CategoriasHandler
         return Database::executeRow($sql, $params);
     }
 
+    // Función para eliminar una categoría
     public function deleteRow()
     {
         $sql = 'CALL eliminar_categoria(?);';
