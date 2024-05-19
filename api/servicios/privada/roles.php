@@ -13,6 +13,7 @@ if (isset($_GET['action'])) {
     if (isset($_SESSION['idAdministrador']) and Validator::validateSessionTime()) {
         // Se compara la acción a realizar cuando un administrador ha iniciado sesión.
         switch ($_GET['action']) {
+                // Buscar
             case 'searchRows':
                 if (!Validator::validateSearch($_POST['search'])) {
                     $result['error'] = Validator::getSearchError();
@@ -23,6 +24,7 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'No hay coincidencias';
                 }
                 break;
+                // Crear
             case 'createRow':
                 $_POST = Validator::validateForm($_POST);
                 if (
@@ -36,6 +38,7 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'Ocurrió un problema al crear el rol';
                 }
                 break;
+                // Leer todos
             case 'readAll':
                 if ($result['dataset'] = $rol->readAll()) {
                     $result['status'] = 1;
@@ -44,6 +47,7 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'No existen roles registrados';
                 }
                 break;
+                // Leer uno
             case 'readOne':
                 if (!$rol->setId($_POST['idRol'])) {
                     $result['error'] = $rol->getDataError();
@@ -53,6 +57,7 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'Rol inexistente';
                 }
                 break;
+                // Actualizar
             case 'updateRow':
                 $_POST = Validator::validateForm($_POST);
                 if (
@@ -67,6 +72,7 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'Ocurrió un problema al modificar el rol';
                 }
                 break;
+                // Eliminar
             case 'deleteRow':
                 if (
                     !$rol->setId($_POST['idRol'])

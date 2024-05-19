@@ -13,6 +13,7 @@ if (isset($_GET['action'])) {
     if (isset($_SESSION['idAdministrador']) and Validator::validateSessionTime()) {
         // Se compara la acción a realizar cuando un administrador ha iniciado sesión.
         switch ($_GET['action']) {
+                // Buscar
             case 'searchRows':
                 if (!Validator::validateSearch($_POST['search'])) {
                     $result['error'] = Validator::getSearchError();
@@ -23,6 +24,7 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'No hay coincidencias';
                 }
                 break;
+                // Crear
             case 'createRow':
                 $_POST = Validator::validateForm($_POST);
                 if (
@@ -40,6 +42,7 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'Ocurrió un problema al crear el material';
                 }
                 break;
+                // Leer todos
             case 'readAll':
                 if ($result['dataset'] = $material->readAll()) {
                     $result['status'] = 1;
@@ -48,6 +51,7 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'No hay material registrado';
                 }
                 break;
+                // Leer uno
             case 'readOne':
                 if (!$material->setId($_POST['idMaterial'])) {
                     $result['error'] = $material->getDataError();
@@ -57,12 +61,13 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'Material inexistente';
                 }
                 break;
+                // Actualizar
             case 'updateRow':
                 $_POST = Validator::validateForm($_POST);
                 if (
                     !$material->setId($_POST['idMaterial']) or
                     !$material->setNombre($_POST['nombreMaterial']) or
-                    !$material->setDescripcion($_POST['descripcionMaterial'])or
+                    !$material->setDescripcion($_POST['descripcionMaterial']) or
                     !$material->setImagen($_FILES['imagenMaterial'], $material->getFilename())
                 ) {
                     $result['error'] = $material->getDataError();
@@ -71,11 +76,11 @@ if (isset($_GET['action'])) {
                     $result['message'] = 'Material modificado correctamente';
                     // Se asigna el estado del archivo después de actualizar.
                     $result['fileStatus'] = Validator::changeFile($_FILES['imagenMaterial'], $material::RUTA_IMAGEN, $material->getFilename());
-                
                 } else {
                     $result['error'] = 'Ocurrió un problema al modificar el material';
                 }
                 break;
+                // Eliminar
             case 'deleteRow':
                 if (
                     !$material->setId($_POST['idMaterial']) or

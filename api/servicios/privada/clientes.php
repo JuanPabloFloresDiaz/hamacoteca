@@ -13,6 +13,7 @@ if (isset($_GET['action'])) {
     if (isset($_SESSION['idAdministrador']) and Validator::validateSessionTime()) {
         // Se compara la acción a realizar cuando un administrador ha iniciado sesión.
         switch ($_GET['action']) {
+                // Buscar
             case 'searchRows':
                 if (!Validator::validateSearch($_POST['search'])) {
                     $result['error'] = Validator::getSearchError();
@@ -23,6 +24,7 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'No hay coincidencias';
                 }
                 break;
+                // Leer todos
             case 'readAll':
                 if ($result['dataset'] = $cliente->readAll()) {
                     $result['status'] = 1;
@@ -31,7 +33,7 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'No hay clientes registrados';
                 }
                 break;
-            // Estado
+                // Estado
             case 'changeState':
                 if (
                     !$cliente->setId($_POST['idCliente'])

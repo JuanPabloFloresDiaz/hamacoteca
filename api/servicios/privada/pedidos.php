@@ -13,6 +13,7 @@ if (isset($_GET['action'])) {
     if (isset($_SESSION['idAdministrador']) and Validator::validateSessionTime()) {
         // Se compara la acción a realizar cuando un administrador ha iniciado sesión.
         switch ($_GET['action']) {
+                // Buscar historial
             case 'searchRows':
                 if (!Validator::validateSearch($_POST['search'])) {
                     $result['error'] = Validator::getSearchError();
@@ -23,6 +24,7 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'No hay coincidencias';
                 }
                 break;
+                // Leer todos historial
             case 'readAll':
                 if ($result['dataset'] = $pedido->readAll()) {
                     $result['status'] = 1;
@@ -31,7 +33,7 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'No hay clientes registrados';
                 }
                 break;
-                // Ver uno
+                // Ver uno historial
             case 'readOne':
                 if (!$pedido->setId($_POST['idPedido'])) {
                     $result['error'] = 'Pedido incorrecto';
@@ -41,34 +43,36 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'Pedido inexistente';
                 }
                 break;
-                case 'searchList':
-                    if (!Validator::validateSearch($_POST['search'])) {
-                        $result['error'] = Validator::getSearchError();
-                    } elseif ($result['dataset'] = $pedido->searchList()) {
-                        $result['status'] = 1;
-                        $result['message'] = 'Existen ' . count($result['dataset']) . ' coincidencias';
-                    } else {
-                        $result['error'] = 'No hay coincidencias';
-                    }
-                    break;
-                case 'readAllList':
-                    if ($result['dataset'] = $pedido->readAllList()) {
-                        $result['status'] = 1;
-                        $result['message'] = 'Existen ' . count($result['dataset']) . ' registros';
-                    } else {
-                        $result['error'] = 'No hay clientes registrados';
-                    }
-                    break;
-                    // Ver uno
-                case 'readOneList':
-                    if (!$pedido->setId($_POST['idPedido'])) {
-                        $result['error'] = 'Pedido incorrecto';
-                    } elseif ($result['dataset'] = $pedido->readOneList()) {
-                        $result['status'] = 1;
-                    } else {
-                        $result['error'] = 'Pedido inexistente';
-                    }
-                    break;
+                // Buscar lista
+            case 'searchList':
+                if (!Validator::validateSearch($_POST['search'])) {
+                    $result['error'] = Validator::getSearchError();
+                } elseif ($result['dataset'] = $pedido->searchList()) {
+                    $result['status'] = 1;
+                    $result['message'] = 'Existen ' . count($result['dataset']) . ' coincidencias';
+                } else {
+                    $result['error'] = 'No hay coincidencias';
+                }
+                break;
+                // Leer todos lista
+            case 'readAllList':
+                if ($result['dataset'] = $pedido->readAllList()) {
+                    $result['status'] = 1;
+                    $result['message'] = 'Existen ' . count($result['dataset']) . ' registros';
+                } else {
+                    $result['error'] = 'No hay clientes registrados';
+                }
+                break;
+                // Ver uno lista
+            case 'readOneList':
+                if (!$pedido->setId($_POST['idPedido'])) {
+                    $result['error'] = 'Pedido incorrecto';
+                } elseif ($result['dataset'] = $pedido->readOneList()) {
+                    $result['status'] = 1;
+                } else {
+                    $result['error'] = 'Pedido inexistente';
+                }
+                break;
                 // Contar pedidos entregados
             case 'checkOrders':
                 if ($result['dataset'] = $pedido->checkOrders()) {
@@ -85,7 +89,7 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'Error en el calculo de ganancias';
                 }
                 break;
-            // Estado
+                // Estado
             case 'changeState':
                 if (
                     !$pedido->setId($_POST['idPedido']) or
