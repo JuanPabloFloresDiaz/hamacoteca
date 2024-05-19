@@ -1,11 +1,18 @@
 Estándares de programación utilizados del lado del cliente (JavaScript)
 
+Justificación:
+El presente documento fue creado con el objetivo de describir los estandares de programación utilizados para JavaScript
+que se aplicaron al proyecto de Hamacoteca, hecho por los desarrolladores: 
+-Juan Pablo Flores Díaz.
+-Xochilt Gabriela López Pineda. 
+-Joel Omar Mena Domínguez.
+
+Introducción:
 Los estándares de programación en JavaScript son pautas y convenciones que los desarrolladores 
 siguen para escribir código de manera consistente, legible y mantenible. 
-
 A continuación, se detallan los estándares de programación utilizados en el código proporcionado.
 
-1. Nomenclatura de Variables y Funciones
+1. Nomenclatura de Variables y Funciones:
 -Nombres Descriptivos: Se utilizan nombres descriptivos en mayúsculas con guiones bajos para las constantes
 y en camelCase para las funciones.
 
@@ -94,6 +101,7 @@ const openUpdate = async (id) => {
     }
 }
 
+Conclusión:
 Estos estándares ayudan a mantener un código claro, legible y fácil de mantener, 
 asegurando una colaboración más eficiente entre desarrolladores y facilitando la detección y 
 corrección de errores.
