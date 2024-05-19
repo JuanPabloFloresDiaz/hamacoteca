@@ -10,8 +10,13 @@ class ValoracionesData extends ValoracionesHandler
 {
     // Atributo genérico para manejo de errores.
     private $data_error = null;
+    // Atributo para almacenar el nombre del archivo de imagen.
     private $filename = null;
 
+     /*
+     *  Métodos para validar y asignar valores de los atributos.
+     */
+    // Validación y asignación del ID de la valoración.
     public function setId($value)
     {
         if (Validator::validateNaturalNumber($value)) {
@@ -23,6 +28,7 @@ class ValoracionesData extends ValoracionesHandler
         }
     }
 
+    // Validación y asignación del estado de la valoración.
     public function setEstado($value)
     {
         if (Validator::validateNaturalNumber($value)) {
@@ -39,6 +45,7 @@ class ValoracionesData extends ValoracionesHandler
         return $this->data_error;
     }
 
+    // Método para obtener el nombre del archivo de imagen.
     public function getFilename()
     {
         return $this->filename;

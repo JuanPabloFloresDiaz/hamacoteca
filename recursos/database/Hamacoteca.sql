@@ -37,16 +37,6 @@ foto_administrador VARCHAR(50) NULL,
 CONSTRAINT chk_url_foto_administrador CHECK (foto_administrador LIKE '%.jpg' OR foto_administrador LIKE '%.png' OR foto_administrador LIKE '%.jpeg' OR foto_administrador LIKE '%.gif')
 );
 
-#CREATE TABLE permisos(
-#id_permiso INT AUTO_INCREMENT PRIMARY KEY,
-#id_administrador INT,
-#CONSTRAINT fk_administrador_permisos FOREIGN KEY (id_administrador)
-#REFERENCES administradores(id_administrador),
-#pedido BOOLEAN DEFAULT FALSE,
-#usuario BOOLEAN DEFAULT FALSE,
-#productos BOOLEAN DEFAULT FALSE
-#);
-
 CREATE TABLE clientes(
 id_cliente INT AUTO_INCREMENT PRIMARY KEY,
 nombre_cliente VARCHAR(50) NOT NULL,
@@ -117,7 +107,7 @@ REFERENCES hamacas(id_hamaca)
 CREATE TABLE pedidos(
 id_pedido INT AUTO_INCREMENT PRIMARY KEY,
 estado_pedido ENUM('Entregado', 'En camino', 'Cancelado') NOT NULL,
-fecha_pedido DATETIME DEFAULT NOW(),
+fecha_pedido DATE DEFAULT NOW(),
 direccion_pedido VARCHAR(50) NOT NULL,
 id_cliente INT,
 CONSTRAINT fk_carrito_del_cliente FOREIGN KEY (id_cliente)

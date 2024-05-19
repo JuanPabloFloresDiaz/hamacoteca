@@ -4,7 +4,7 @@ require_once('../../auxiliares/validator.php');
 // Se incluye la clase padre.
 require_once('../../modelos/handler/categorias_handler.php');
 /*
- *  Clase para manejar el encapsulamiento de los datos de la tabla USUARIO.
+ *  Clase para manejar el encapsulamiento de los datos de la tabla categorias.
  */
 class CategoriasData extends CategoriasHandler
 {
@@ -14,6 +14,7 @@ class CategoriasData extends CategoriasHandler
      /*
      *  Métodos para validar y asignar valores de los atributos.
      */
+    // Validación y asignación del ID de la categoría.
     public function setId($value)
     {
         if (Validator::validateNaturalNumber($value)) {
@@ -25,6 +26,7 @@ class CategoriasData extends CategoriasHandler
         }
     }
 
+    // Validación y asignación del nombre de la categoría.
     public function setNombre($value, $min = 2, $max = 60)
     {
         if (!Validator::validateAlphabetic($value)) {
@@ -39,6 +41,7 @@ class CategoriasData extends CategoriasHandler
         }
     }
 
+    // Validación y asignación de la descripción de la categoría.
     public function setDescripcion($value, $min = 2, $max = 250)
     {
         if (!Validator::validateString($value)) {

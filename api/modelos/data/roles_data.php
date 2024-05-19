@@ -14,17 +14,19 @@ class RolesData extends RolesHandler
      /*
      *  Métodos para validar y asignar valores de los atributos.
      */
+    // Validación y asignación del ID del rol.
     public function setId($value)
     {
         if (Validator::validateNaturalNumber($value)) {
             $this->id = $value;
             return true;
         } else {
-            $this->data_error = 'El identificador del administrador es incorrecto';
+            $this->data_error = 'El identificador del rol es incorrecto';
             return false;
         }
     }
 
+    // Validación y asignación del nombre del rol.
     public function setNombre($value, $min = 2, $max = 60)
     {
         if (!Validator::validateAlphabetic($value)) {

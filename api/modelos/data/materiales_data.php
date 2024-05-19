@@ -4,17 +4,19 @@ require_once('../../auxiliares/validator.php');
 // Se incluye la clase padre.
 require_once('../../modelos/handler/materiales_handler.php');
 /*
- *  Clase para manejar el encapsulamiento de los datos de la tabla USUARIO.
+ *  Clase para manejar el encapsulamiento de los datos de la tabla materiales.
  */
 class MaterialesData extends MaterialesHandler
 {
     // Atributo genérico para manejo de errores.
     private $data_error = null;
+    // Atributo para almacenar el nombre del archivo de imagen.
     private $filename = null;
 
     /*
      *  Métodos para validar y asignar valores de los atributos.
      */
+    // Validación y asignación del ID del material.
     public function setId($value)
     {
         if (Validator::validateNaturalNumber($value)) {
@@ -26,6 +28,7 @@ class MaterialesData extends MaterialesHandler
         }
     }
 
+    // Validación y asignación del nombre del material.
     public function setNombre($value, $min = 2, $max = 60)
     {
         if (!Validator::validateAlphabetic($value)) {
@@ -40,6 +43,7 @@ class MaterialesData extends MaterialesHandler
         }
     }
 
+    // Validación y asignación de la descripción del material.
     public function setDescripcion($value, $min = 2, $max = 250)
     {
         if (!Validator::validateString($value)) {
@@ -54,6 +58,7 @@ class MaterialesData extends MaterialesHandler
         }
     }
 
+    // Validación y asignación de la imagen del material.
     public function setImagen($file, $filename = null)
     {
         if (Validator::validateImageFile($file, 1000)) {
@@ -71,6 +76,7 @@ class MaterialesData extends MaterialesHandler
         }
     }
     
+    // Asignación del nombre del archivo de imagen del material.
     public function setFilename()
     {
         if ($data = $this->readFilename()) {
@@ -88,6 +94,7 @@ class MaterialesData extends MaterialesHandler
         return $this->data_error;
     }
 
+    // Método para obtener el nombre del archivo de imagen.
     public function getFilename()
     {
         return $this->filename;

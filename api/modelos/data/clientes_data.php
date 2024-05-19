@@ -4,17 +4,18 @@ require_once('../../auxiliares/validator.php');
 // Se incluye la clase padre.
 require_once('../../modelos/handler/clientes_handler.php');
 /*
- *  Clase para manejar el encapsulamiento de los datos de la tabla USUARIO.
+ *  Clase para manejar el encapsulamiento de los datos de la tabla clientes.
  */
 class ClientesData extends ClientesHandler
 {
     // Atributo genérico para manejo de errores.
-
     private $data_error = null;
+    // Atributo para almacenar el nombre del archivo de imagen.
     private $filename = null;
      /*
      *  Métodos para validar y asignar valores de los atributos.
      */
+    // Validación y asignación del ID del cliente.
     public function setId($value)
     {
         if (Validator::validateNaturalNumber($value)) {
@@ -26,6 +27,7 @@ class ClientesData extends ClientesHandler
         }
     }
 
+    // Asignación del nombre del archivo de imagen del cliente.
     public function setFilename()
     {
         if ($data = $this->readFilename()) {
@@ -43,6 +45,7 @@ class ClientesData extends ClientesHandler
         return $this->data_error;
     }
 
+    // Método para obtener el nombre del archivo de imagen.
     public function getFilename()
     {
         return $this->filename;

@@ -4,17 +4,19 @@ require_once('../../auxiliares/validator.php');
 // Se incluye la clase padre.
 require_once('../../modelos/handler/administradores_handler.php');
 /*
- *  Clase para manejar el encapsulamiento de los datos de la tabla USUARIO.
+ *  Clase para manejar el encapsulamiento de los datos de la tabla administradores.
  */
 class AdministradoresData extends AdministradoresHandler
 {
     // Atributo genérico para manejo de errores.
     private $data_error = null;
+    // Atributo para almacenar el nombre del archivo de imagen.
     private $filename = null;
 
     /*
      *  Métodos para validar y asignar valores de los atributos.
      */
+    // Validación y asignación del ID del administrador.
     public function setId($value)
     {
         if (Validator::validateNaturalNumber($value)) {
@@ -26,6 +28,7 @@ class AdministradoresData extends AdministradoresHandler
         }
     }
 
+    // Validación y asignación del nombre del administrador.
     public function setNombre($value, $min = 2, $max = 50)
     {
         if (!Validator::validateAlphabetic($value)) {
@@ -40,6 +43,7 @@ class AdministradoresData extends AdministradoresHandler
         }
     }
 
+    // Validación y asignación del apellido del administrador.
     public function setApellido($value, $min = 2, $max = 50)
     {
         if (!Validator::validateAlphabetic($value)) {
@@ -54,6 +58,7 @@ class AdministradoresData extends AdministradoresHandler
         }
     }
 
+    // Validación y asignación del correo del administrador.
     public function setCorreo($value, $min = 8, $max = 100)
     {
         if (!Validator::validateEmail($value)) {
@@ -68,6 +73,7 @@ class AdministradoresData extends AdministradoresHandler
         }
     }
 
+    // Validación y asignación del alias del administrador.
     public function setAlias($value, $min = 6, $max = 25)
     {
         if (!Validator::validateAlphanumeric($value)) {
@@ -82,6 +88,7 @@ class AdministradoresData extends AdministradoresHandler
         }
     }
 
+    // Validación y asignación de la clave del administrador.
     public function setClave($value)
     {
         if (Validator::validatePassword($value)) {
@@ -93,6 +100,7 @@ class AdministradoresData extends AdministradoresHandler
         }
     }
 
+    // Validación y asignación del teléfono del administrador.
     public function setTelefono($value)
     {
         if (Validator::validatePhone($value)) {
@@ -104,6 +112,7 @@ class AdministradoresData extends AdministradoresHandler
         }
     }
 
+    // Validación y asignación del DUI del administrador.
     public function setDUI($value)
     {
         if (!Validator::validateDUI($value)) {
@@ -118,6 +127,7 @@ class AdministradoresData extends AdministradoresHandler
         }
     }
 
+    // Validación y asignación de la fecha de nacimiento del administrador.
     public function setNacimiento($value)
     {
         if (Validator::validateDateBirthday($value)) {
@@ -129,6 +139,7 @@ class AdministradoresData extends AdministradoresHandler
         }
     }
 
+    // Validación y asignación del rol del administrador.
     public function setRol($value)
     {
         if (Validator::validateNaturalNumber($value)) {
@@ -140,6 +151,7 @@ class AdministradoresData extends AdministradoresHandler
         }
     }
 
+    // Validación y asignación de la imagen del administrador.
     public function setImagen($file, $filename = null)
     {
         if (Validator::validateImageFile($file, 1000)) {
@@ -156,8 +168,8 @@ class AdministradoresData extends AdministradoresHandler
             return true;
         }
     }
-
     
+    // Validación y asignación del estado del administrador.
     public function setEstado($value)
     {
         if (Validator::validateNaturalNumber($value)) {
@@ -168,6 +180,7 @@ class AdministradoresData extends AdministradoresHandler
         }
     }
    
+    // Validación y asignación de los días del administrador(campo que valida que no hayan pasado 90 días de uso de la clave).
     public function setDias($value)
     {
         if (Validator::validateNaturalNumber($value)) {
@@ -178,6 +191,7 @@ class AdministradoresData extends AdministradoresHandler
         }
     }
     
+    // Asignación del nombre del archivo de imagen del administrador.
     public function setFilename()
     {
         if ($data = $this->readFilename()) {
@@ -195,11 +209,13 @@ class AdministradoresData extends AdministradoresHandler
         return $this->data_error;
     }
 
+    // Método para obtener el nombre del archivo de imagen.
     public function getFilename()
     {
         return $this->filename;
     }
 
+    // Método para obtener la condición del administrador.
     public function getCondicion(){
         return $this->condicion;
     }

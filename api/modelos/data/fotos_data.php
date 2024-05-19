@@ -4,17 +4,19 @@ require_once('../../auxiliares/validator.php');
 // Se incluye la clase padre.
 require_once('../../modelos/handler/fotos_handler.php');
 /*
- *  Clase para manejar el encapsulamiento de los datos de la tabla USUARIO.
+ *  Clase para manejar el encapsulamiento de los datos de la tabla fotos.
  */
 class FotosData extends FotosHandler
 {
     // Atributo genérico para manejo de errores.
     private $data_error = null;
+    // Atributo para almacenar el nombre del archivo de imagen.
     private $filename = null;
 
     /*
      *  Métodos para validar y asignar valores de los atributos.
      */
+    // Validación y asignación del ID de la foto.
     public function setId($value)
     {
         if (Validator::validateNaturalNumber($value)) {
@@ -26,7 +28,7 @@ class FotosData extends FotosHandler
         }
     }
 
-    
+    // Validación y asignación del ID de la hamaca.
     public function setHamaca($value)
     {
         if (Validator::validateNaturalNumber($value)) {
@@ -38,6 +40,7 @@ class FotosData extends FotosHandler
         }
     }
 
+    // Validación y asignación de la imagen de la foto de la hamaca.
     public function setImagen($file, $filename = null)
     {
         if (Validator::validateImageFile($file, 1000)) {
@@ -55,6 +58,7 @@ class FotosData extends FotosHandler
         }
     }
     
+    // Asignación del nombre del archivo de imagen de la foto de la hamaca.
     public function setFilename()
     {
         if ($data = $this->readFilename()) {
@@ -72,6 +76,7 @@ class FotosData extends FotosHandler
         return $this->data_error;
     }
 
+    // Método para obtener el nombre del archivo de imagen.
     public function getFilename()
     {
         return $this->filename;

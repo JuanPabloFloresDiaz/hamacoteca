@@ -4,7 +4,7 @@ require_once('../../auxiliares/validator.php');
 // Se incluye la clase padre.
 require_once('../../modelos/handler/hamacas_handler.php');
 /*
- *  Clase para manejar el encapsulamiento de los datos de la tabla USUARIO.
+ *  Clase para manejar el encapsulamiento de los datos de la tabla hamacas.
  */
 class HamacasData extends HamacasHandler
 {
@@ -15,6 +15,7 @@ class HamacasData extends HamacasHandler
     /*
      *  Métodos para validar y asignar valores de los atributos.
      */
+    // Validación y asignación del ID de la hamaca.
     public function setId($value)
     {
         if (Validator::validateNaturalNumber($value)) {
@@ -26,6 +27,7 @@ class HamacasData extends HamacasHandler
         }
     }
 
+    // Validación y asignación del nombre de la hamaca.
     public function setNombre($value, $min = 2, $max = 50)
     {
         if (!Validator::validateAlphabetic($value)) {
@@ -40,6 +42,7 @@ class HamacasData extends HamacasHandler
         }
     }
 
+    // Validación y asignación de la descripción de la hamaca.
     public function setDescripcion($value, $min = 2, $max = 250)
     {
         if (!Validator::validateString($value)) {
@@ -54,6 +57,7 @@ class HamacasData extends HamacasHandler
         }
     }
 
+    // Validación y asignación del precio de la hamaca.
     public function setPrecio($value)
     {
         if (Validator::validateMoney($value)) {
@@ -65,6 +69,7 @@ class HamacasData extends HamacasHandler
         }
     }
 
+    // Validación y asignación del estado de la hamaca.
     public function setEstado($value, $min = 2, $max = 50)
     {
         if (!Validator::validateAlphabetic($value)) {
@@ -79,6 +84,7 @@ class HamacasData extends HamacasHandler
         }
     }
 
+    // Validación y asignación de la cantidad de existencias de la hamaca.
     public function setExistencias($value)
     {
         if (Validator::validateNaturalNumber($value)) {
@@ -90,6 +96,7 @@ class HamacasData extends HamacasHandler
         }
     }
 
+    // Validación y asignación de la imagen de la hamaca.
     public function setImagen($file, $filename = null)
     {
         if (Validator::validateImageFile($file, 1000)) {
@@ -107,6 +114,7 @@ class HamacasData extends HamacasHandler
         }
     }
 
+    // Validación y asignación del identificador del administrador.
     public function setAdministrador($value)
     {
         if (Validator::validateNaturalNumber($value)) {
@@ -118,6 +126,7 @@ class HamacasData extends HamacasHandler
         }
     }
         
+    // Validación y asignación del identificador de la categoría.
     public function setCategoria($value)
     {
         if (Validator::validateNaturalNumber($value)) {
@@ -129,6 +138,7 @@ class HamacasData extends HamacasHandler
         }
     }
         
+    // Validación y asignación del identificador del material.
     public function setMaterial($value)
     {
         if (Validator::validateNaturalNumber($value)) {
@@ -140,6 +150,7 @@ class HamacasData extends HamacasHandler
         }
     }
     
+    // Asignación del nombre del archivo de imagen de la hamaca.
     public function setFilename()
     {
         if ($data = $this->readFilename()) {
@@ -157,6 +168,7 @@ class HamacasData extends HamacasHandler
         return $this->data_error;
     }
 
+    // Método para obtener el nombre del archivo de imagen.
     public function getFilename()
     {
         return $this->filename;
