@@ -92,7 +92,6 @@ const openDelete = async (id) => {
             // Se define una constante tipo objeto con los datos del registro seleccionado.
             const FORM = new FormData();
             FORM.append('idAdministrador', id);
-            console.log(id);
             // Petición para eliminar el registro seleccionado.
             const DATA = await fetchData(ADMINISTRADOR_API, 'deleteRow', FORM);
             console.log(DATA.status);
@@ -128,7 +127,6 @@ const openState = async (id) => {
             // Se define una constante tipo objeto con los datos del registro seleccionado.
             const FORM = new FormData();
             FORM.append('idAdministrador', id);
-            console.log(id);
             // Petición para eliminar el registro seleccionado.
             const DATA = await fetchData(ADMINISTRADOR_API, 'changeState', FORM);
             console.log(DATA.status);
@@ -194,10 +192,8 @@ async function cargarTabla(form = null) {
         cargarTabla.innerHTML = '';
         // Se verifica la acción a realizar.
         (form) ? action = 'searchRows' : action = 'readAll';
-        console.log(form);
         // Petición para obtener los registros disponibles.
         const DATA = await fetchData(ADMINISTRADOR_API, action, form);
-        console.log(DATA);
 
         if (DATA.status) {
             // Mostrar elementos obtenidos de la API
