@@ -47,6 +47,16 @@ Identación: Usar 4 espacios por nivel de identación.
 
 Espacios en Blanco: Dejar una línea en blanco entre métodos para mejorar la legibilidad.
 
+5. Nomenclatura de Variables:
+-Nombres Descriptivos: Se utilizan nombres descriptivos en minusculas para las variables dentro del handler, por ejemplo:
+protected $id = null;
+protected $nombre = null;
+
+-Nombres Significativos: Los nombres de variables indican claramente su propósito, por ejemplo:
+protected $precio = null;
+protected $estado = null;
+protected $cantidad = null;
+
 Conclusión
 Este documento proporciona una guía para mantener un código limpio, legible y fácil de mantener en PHP. 
 Siguiendo estos estándares y prácticas recomendadas, podremos asegurarnos de que nuestro código sea consistente 
