@@ -8,6 +8,7 @@ let SEARCH_FORM;
 // Constantes para completar las rutas de la API.
 const ROL_API = 'servicios/privada/roles.php';
 
+let ROWS_FOUND;
 //Función que carga los componentes
 async function loadComponent(path) {
     const response = await fetch(path);
@@ -143,6 +144,8 @@ async function cargarTabla(form = null) {
                 </tr>
                 `;
                 cargarTabla.innerHTML += tablaHtml;
+                // Se muestra un mensaje de acuerdo con el resultado.
+                ROWS_FOUND.textContent = DATA.message;
             });
         } else {
             const tablaHtml = `
@@ -151,6 +154,8 @@ async function cargarTabla(form = null) {
             </tr>
             `;
             cargarTabla.innerHTML += tablaHtml;
+            // Se muestra un mensaje de acuerdo con el resultado.
+            ROWS_FOUND.textContent = DATA.message;
         }
     } catch (error) {
         console.error('Error al obtener datos de la API:', error);
@@ -200,6 +205,7 @@ window.onload = async function () {
     SAVE_FORM = document.getElementById('saveForm'),
         ID_ROL = document.getElementById('idRol'),
         NOMBRE_ROL = document.getElementById('nombreRol');
+    ROWS_FOUND = document.getElementById('rowsFound');
     // Método del evento para cuando se envía el formulario de guardar.
     SAVE_FORM.addEventListener('submit', async (event) => {
         // Se evita recargar la página web después de enviar el formulario.

@@ -16,6 +16,7 @@ async function loadComponent(path) {
     return text;
 }
 
+let ROWS_FOUND;
 
 const openDetail = async (id) => {
     // Se define un objeto con los datos del registro seleccionado.
@@ -222,6 +223,8 @@ async function cargarTabla(form = null) {
             </tr>
                 `;
                 cargarTabla.innerHTML += tablaHtml;
+                // Se muestra un mensaje de acuerdo con el resultado.
+                ROWS_FOUND.textContent = DATA.message;
             });
         } else {
             const tablaHtml = `
@@ -230,6 +233,8 @@ async function cargarTabla(form = null) {
             </tr>
             `;
             cargarTabla.innerHTML += tablaHtml;
+            // Se muestra un mensaje de acuerdo con el resultado.
+            ROWS_FOUND.textContent = DATA.message;
         }
     } catch (error) {
         console.error('Error al obtener datos de la API:', error);
@@ -282,7 +287,7 @@ function getRowBackgroundColor(estado) {
     }
 }
 
-function recharge(){
+function recharge() {
     checkOrders();
     totalProfits();
     cargarTabla();
@@ -311,6 +316,7 @@ window.onload = async function () {
         MODAL_TITLE_DETAIL = document.getElementById('exampleModalLabel');
     SAVE_MODAL = new bootstrap.Modal('#saveModal'),
         MODAL_TITLE = document.getElementById('modalTitle');
+    ROWS_FOUND = document.getElementById('rowsFound');
     cargarTabla();
     // Constante para establecer el formulario de buscar.
     SEARCH_FORM = document.getElementById('searchForm');

@@ -8,6 +8,7 @@ let SEARCH_FORM;
 // Constantes para completar las rutas de la API.
 const MATERIAL_API = 'servicios/privada/materiales.php';
 
+let ROWS_FOUND;
 async function loadComponent(path) {
     const response = await fetch(path);
     const text = await response.text();
@@ -145,6 +146,8 @@ async function cargarTabla(form = null) {
                 </tr>
                 `;
                 cargarTabla.innerHTML += tablaHtml;
+                // Se muestra un mensaje de acuerdo con el resultado.
+                ROWS_FOUND.textContent = DATA.message;
             });
         } else {
             const tablaHtml = `
@@ -153,6 +156,8 @@ async function cargarTabla(form = null) {
             </tr>
             `;
             cargarTabla.innerHTML += tablaHtml;
+            // Se muestra un mensaje de acuerdo con el resultado.
+            ROWS_FOUND.textContent = DATA.message;
         }
     } catch (error) {
         console.error('Error al obtener datos de la API:', error);
@@ -209,6 +214,7 @@ window.onload = async function () {
         NOMBRE_MATERIAL = document.getElementById('nombreMaterial'),
         DESCRIPCION_MATERIAL = document.getElementById('descripcionMaterial'),
         IMAGEN_MATERIAL = document.getElementById('imagenMaterial');
+    ROWS_FOUND = document.getElementById('rowsFound');
 
     // Método del evento para cuando se envía el formulario de guardar.
     SAVE_FORM.addEventListener('submit', async (event) => {

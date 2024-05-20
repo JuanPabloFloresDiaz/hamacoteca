@@ -13,6 +13,7 @@ let SAVE_FORM,
     REPETIR_CLAVE;
 let SEARCH_FORM;
 
+let ROWS_FOUND;
 // Constantes para completar las rutas de la API.
 const ADMINISTRADOR_API = 'servicios/privada/administradores.php';
 const ROL_API = 'servicios/privada/roles.php';
@@ -220,6 +221,8 @@ async function cargarTabla(form = null) {
                 </tr>
                 `;
                 cargarTabla.innerHTML += tablaHtml;
+                // Se muestra un mensaje de acuerdo con el resultado.
+                ROWS_FOUND.textContent = DATA.message;
             });
         } else {
             const tablaHtml = `
@@ -228,6 +231,8 @@ async function cargarTabla(form = null) {
             </tr>
             `;
             cargarTabla.innerHTML += tablaHtml;
+            // Se muestra un mensaje de acuerdo con el resultado.
+            ROWS_FOUND.textContent = DATA.message;
         }
     } catch (error) {
         console.error('Error al obtener datos de la API:', error);
@@ -340,6 +345,7 @@ window.onload = async function () {
             console.error(DATA.exception);
         }
     });
+    ROWS_FOUND = document.getElementById('rowsFound');
     // Constante para establecer el formulario de buscar.
     SEARCH_FORM = document.getElementById('searchForm');
     // Verificar si SEARCH_FORM está seleccionado correctamente

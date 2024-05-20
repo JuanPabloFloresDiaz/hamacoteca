@@ -16,6 +16,7 @@ async function loadComponent(path) {
     return text;
 }
 
+let ROWS_FOUND;
 
 const openDetail = async (id) => {
     // Se define un objeto con los datos del registro seleccionado.
@@ -258,6 +259,8 @@ async function cargarTabla(form = null) {
             </tr>
                 `;
                 cargarTabla.innerHTML += tablaHtml;
+                // Se muestra un mensaje de acuerdo con el resultado.
+                ROWS_FOUND.textContent = DATA.message;
             });
         } else {
             const tablaHtml = `
@@ -266,6 +269,8 @@ async function cargarTabla(form = null) {
             </tr>
             `;
             cargarTabla.innerHTML += tablaHtml;
+            // Se muestra un mensaje de acuerdo con el resultado.
+            ROWS_FOUND.textContent = DATA.message;
         }
     } catch (error) {
         console.error('Error al obtener datos de la API:', error);
@@ -363,6 +368,7 @@ window.onload = async function () {
         // Llamada a la función para llenar la tabla con los resultados de la búsqueda.
         cargarTabla(FORM);
     });
+    ROWS_FOUND = document.getElementById('rowsFound');
     // Constantes para establecer los elementos del formulario de guardar.
     SAVE_FORM = document.getElementById('saveForm'),
         ID_PEDIDO = document.getElementById('idPedido'),

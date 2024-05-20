@@ -2,6 +2,7 @@ let SEARCH_FORM;
 // Constantes para completar las rutas de la API.
 const VALORACIONES_API = 'servicios/privada/valoraciones.php';
 
+let ROWS_FOUND;
 
 async function loadComponent(path) {
     const response = await fetch(path);
@@ -105,6 +106,8 @@ async function cargarTabla(form = null) {
                 </tr>
                 `;
                 cargarTabla.innerHTML += tablaHtml;
+                // Se muestra un mensaje de acuerdo con el resultado.
+                ROWS_FOUND.textContent = DATA.message;
             });
         } else {
             const tablaHtml = `
@@ -113,6 +116,8 @@ async function cargarTabla(form = null) {
             </tr>
             `;
             cargarTabla.innerHTML += tablaHtml;
+            // Se muestra un mensaje de acuerdo con el resultado.
+            ROWS_FOUND.textContent = DATA.message;
         }
     } catch (error) {
         console.error('Error al obtener datos de la API:', error);
@@ -171,6 +176,7 @@ window.onload = async function () {
     // Agrega el HTML del encabezado
     appContainer.innerHTML = valoracionHtml;
     cargarTabla();
+    ROWS_FOUND = document.getElementById('rowsFound');
     // Constante para establecer el formulario de buscar.
     SEARCH_FORM = document.getElementById('searchForm');
     // Verificar si SEARCH_FORM está seleccionado correctamente

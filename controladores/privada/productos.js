@@ -24,6 +24,8 @@ let IMAGE_FORM,
     HAMACA,
     FOTO;
 let SEARCH_FORM;
+
+let ROWS_FOUND;
 // Constantes para completar las rutas de la API.
 const HAMACA_API = 'servicios/privada/hamacas.php';
 const FOTOS_API = 'servicios/privada/fotos.php';
@@ -260,6 +262,7 @@ async function cargarFotos(form = null) {
                             </div>
                 `;
                 cargarTabla.innerHTML += tablaHtml;
+
             });
         } else {
             const tablaHtml = `
@@ -275,7 +278,7 @@ async function cargarFotos(form = null) {
                                 </div>
                             </div>
                 `;
-                cargarTabla.innerHTML += tablaHtml;
+            cargarTabla.innerHTML += tablaHtml;
         }
     } catch (error) {
         console.error('Error al obtener datos de la API:', error);
@@ -355,6 +358,8 @@ async function cargarTabla(form = null) {
                 </tr>
                 `;
                 cargarTabla.innerHTML += tablaHtml;
+                // Se muestra un mensaje de acuerdo con el resultado.
+                ROWS_FOUND.textContent = DATA.message;
             });
         } else {
             const tablaHtml = `
@@ -363,6 +368,8 @@ async function cargarTabla(form = null) {
                 </tr>
                 `;
             cargarTabla.innerHTML += tablaHtml;
+            // Se muestra un mensaje de acuerdo con el resultado.
+            ROWS_FOUND.textContent = DATA.message;
         }
     } catch (error) {
         console.error('Error al obtener datos de la API:', error);
@@ -445,6 +452,8 @@ window.onload = async function () {
         MODAL_TITLE_IMAGE = document.getElementById('exampleModalLabel');
 
 
+    ROWS_FOUND = document.getElementById('rowsFound');
+
     // Constantes para establecer los elementos del componente Toast.
     TOAST = new bootstrap.Toast(document.getElementById('toast')),
         TITLE_TOAST = document.getElementById('titleToast'),
@@ -490,6 +499,7 @@ window.onload = async function () {
         ID_FOTO = document.getElementById('idFoto'),
         HAMACA = document.getElementById('idHamacas'),
         FOTO = document.getElementById('inputFoto');
+    ROWS_FOUND = document.getElementById('rowsFound');
 
     // Método del evento para cuando se envía el formulario de guardar.
     IMAGE_FORM.addEventListener('submit', async (event) => {
