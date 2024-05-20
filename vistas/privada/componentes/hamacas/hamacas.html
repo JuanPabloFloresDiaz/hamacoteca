@@ -53,7 +53,7 @@
             <form id="saveForm">
                 <div class="modal-body row g-3">
                     <!-- Campo oculto para asignar el id del registro al momento de modificar -->
-                    <input type="number" id="idHamaca" name="idHamaca" class="invisible">
+                    <input type="number" id="idHamaca" name="idHamaca" class="d-none">
                     <div class="col-sm-12 col-md-6">
                         <label for="imagenHamaca" class="form-label">Imagen</label>
                         <input id="imagenHamaca" type="file" name="imagenHamaca" class="form-control"
@@ -122,9 +122,9 @@
             <!-- Formulario para agregar la foto -->
             <form id="photoForm">
                 <!-- Campo oculto para asignar el id del registro al momento de modificar -->
-                <input type="number" id="idFoto" name="idFoto" class="invisible">
+                <input type="number" id="idFoto" name="idFoto" class="d-none">
                 <!-- Campo oculto para asignar el id de la hamaca -->
-                <input type="number" id="idHamacas" name="idHamacas" class="invisible">
+                <input type="number" id="idHamacas" name="idHamacas" class="d-none">
                 <div class="form-group mt-3">
                     <label for="inputFoto">Subir Foto</label>
                     <input type="file" class="form-control-file" name="inputFoto" id="inputFoto">
