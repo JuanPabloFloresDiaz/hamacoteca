@@ -90,7 +90,7 @@ class PedidosHandler
         c.foto_cliente AS FOTO
         FROM pedidos p
         INNER JOIN clientes c ON p.id_cliente = c.id_cliente
-        WHERE estado_pedido = "Entregado" OR estado_pedido = "Cancelado" AND id_pedido = ?
+        WHERE (estado_pedido = "Entregado" OR estado_pedido = "Cancelado") AND id_pedido = ?
         ORDER BY CLIENTE;';
         $params = array($this->id);
         return Database::getRow($sql, $params);

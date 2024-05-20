@@ -87,9 +87,9 @@ const openState = async (id) => {
         if (DATA.status) {
             // Se muestra la caja de diálogo con su título.
             SAVE_MODAL.show();
-            MODAL_TITLE.textContent = 'Actualizar estado';
             // Se prepara el formulario.
             SAVE_FORM.reset();
+            MODAL_TITLE.textContent = 'Actualizar estado';
             // Se inicializan los campos con los datos.
             const ROW = DATA.dataset;
             ID_PEDIDO.value = ROW.ID;
@@ -352,7 +352,7 @@ window.onload = async function () {
         MODAL_TITLE_DETAIL = document.getElementById('exampleModalLabel');
     SAVE_MODAL = new bootstrap.Modal('#saveModal'),
         MODAL_TITLE = document.getElementById('modalTitle');
-    cargarTabla();
+        recharge();
     // Constante para establecer el formulario de buscar.
     SEARCH_FORM = document.getElementById('searchForm');
     // Verificar si SEARCH_FORM está seleccionado correctamente
@@ -389,13 +389,10 @@ window.onload = async function () {
             // Se muestra un mensaje de éxito.
             sweetAlert(1, DATA.message, true);
             // Se carga nuevamente la tabla para visualizar los cambios.
-            cargarTabla();
+            recharge();
         } else {
             sweetAlert(2, DATA.error, false);
             console.error(DATA.exception);
         }
     });
-
-    checkOrders();
-    totalProfits();
 };
