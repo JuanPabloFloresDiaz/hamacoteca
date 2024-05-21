@@ -90,13 +90,18 @@ class HamacasData extends HamacasHandler
     }
 
     // Validación y asignación de la cantidad de existencias de la hamaca.
-    public function setExistencias($value)
+    public function setExistencias($value, $min = 1, $max = 1000)
     {
         if (Validator::validateNaturalNumber($value)) {
             $this->cantidad = $value;
-            return true;
+            if($this->cantidad >= $min && $this->cantidad <= $max){
+                return true;
+            }else{
+                $this->data_error = 'El valor minimo de la cantidad es ' . $min . ' y el maximo ' . $max;
+                return false;
+            }
         } else {
-            $this->data_error = 'El valor de las existencias debe ser numérico entero';
+            $this->data_error = 'El valor de la cantidad debe ser numérico entero';
             return false;
         }
     }
