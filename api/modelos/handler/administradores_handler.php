@@ -130,6 +130,7 @@ class AdministradoresHandler
         return $this->condicion = null;
     }
 
+    // Función que chequea el estado
     public function checkStatus()
     {
         if ($this->estado) {
