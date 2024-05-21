@@ -96,7 +96,7 @@ async function cargarTabla(form = null) {
                     <td>${row.NOMBRE}</td>
                     <td>${row.PRODUCTO}</td>
                     <td>${row.COMENTARIO}</td>
-                    <td>${row.FECHA}</td>
+                    <td>${row.CALIFICACIÓN}</td>
                     <td class="${getRowColor(row.ESTADO)}">${row.ESTADO}</td>
                     <td>
                     <button type="button" class="btn btn-outline-primary" onclick="openState(${row.ID})">
