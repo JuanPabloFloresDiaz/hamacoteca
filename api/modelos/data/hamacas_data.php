@@ -58,7 +58,7 @@ class HamacasData extends HamacasHandler
     }
 
     // Validación y asignación del precio de la hamaca.
-    public function setPrecio($value, $min = 20, $max = 1000)
+    public function setPrecio($value, $min = 10, $max = 1000)
     {
         if (Validator::validateMoney($value)) {
             $this->precio = $value;
