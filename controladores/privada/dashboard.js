@@ -243,7 +243,7 @@ window.onload = async function () {
     // Se define una variable para guardar un saludo.
     let greeting = '';
     // Dependiendo del número de horas transcurridas en el día, se asigna un saludo para el usuario.
-    try{
+    try {
         const DATA = await fetchData(USER_API, 'getUser');
         if (HOUR < 12) {
             greeting = 'Buenos días ' + DATA.nombre;
@@ -252,9 +252,9 @@ window.onload = async function () {
         } else if (HOUR <= 23) {
             greeting = 'Buenas noches ' + DATA.nombre;
         }
-        
+
         sweetAlert(1, greeting, true);
-    }catch{
+    } catch {
 
     }
 

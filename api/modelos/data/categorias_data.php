@@ -11,7 +11,7 @@ class CategoriasData extends CategoriasHandler
     // Atributo genérico para manejo de errores.
     private $data_error = null;
 
-     /*
+    /*
      *  Métodos para validar y asignar valores de los atributos.
      */
     // Validación y asignación del ID de la categoría.

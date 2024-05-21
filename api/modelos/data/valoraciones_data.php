@@ -13,7 +13,7 @@ class ValoracionesData extends ValoracionesHandler
     // Atributo para almacenar el nombre del archivo de imagen.
     private $filename = null;
 
-     /*
+    /*
      *  Métodos para validar y asignar valores de los atributos.
      */
     // Validación y asignación del ID de la valoración.

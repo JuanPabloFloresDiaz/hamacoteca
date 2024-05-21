@@ -21,7 +21,7 @@ class MaterialesHandler
     * Métodos para gestionar los materiales.
     */
 
-     /*
+    /*
      *  Métodos para realizar las operaciones SCRUD (search, create, read, update, and delete).
      */
     //Función para buscar los materiales
@@ -60,15 +60,15 @@ class MaterialesHandler
         return Database::getRow($sql, $params);
     }
 
-     //Función para leer la imagen del id desde la base.
-     public function readFilename()
-     {
+    //Función para leer la imagen del id desde la base.
+    public function readFilename()
+    {
         $sql = 'SELECT foto_material AS IMAGEN
                  FROM materiales
                  WHERE id_material = ?';
         $params = array($this->id);
         return Database::getRow($sql, $params);
-     } 
+    }
 
     //Función para actualizar un material
     public function updateRow()

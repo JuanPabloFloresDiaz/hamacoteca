@@ -12,7 +12,7 @@ class ClientesData extends ClientesHandler
     private $data_error = null;
     // Atributo para almacenar el nombre del archivo de imagen.
     private $filename = null;
-     /*
+    /*
      *  Métodos para validar y asignar valores de los atributos.
      */
     // Validación y asignación del ID del cliente.
@@ -50,5 +50,4 @@ class ClientesData extends ClientesHandler
     {
         return $this->filename;
     }
-    
 }

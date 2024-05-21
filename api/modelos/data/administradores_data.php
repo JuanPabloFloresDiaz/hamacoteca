@@ -118,7 +118,7 @@ class AdministradoresData extends AdministradoresHandler
         if (!Validator::validateDUI($value)) {
             $this->data_error = 'El DUI debe tener el formato ########-#';
             return false;
-        } elseif($this->checkDuplicate($value)) {
+        } elseif ($this->checkDuplicate($value)) {
             $this->data_error = 'El DUI ingresado ya existe';
             return false;
         } else {
@@ -168,7 +168,7 @@ class AdministradoresData extends AdministradoresHandler
             return true;
         }
     }
-    
+
     // Validación y asignación del estado del administrador.
     public function setEstado($value)
     {
@@ -179,7 +179,7 @@ class AdministradoresData extends AdministradoresHandler
             return false;
         }
     }
-   
+
     // Validación y asignación de los días del administrador(campo que valida que no hayan pasado 90 días de uso de la clave).
     public function setDias($value)
     {
@@ -190,7 +190,7 @@ class AdministradoresData extends AdministradoresHandler
             return false;
         }
     }
-    
+
     // Asignación del nombre del archivo de imagen del administrador.
     public function setFilename()
     {
@@ -216,7 +216,8 @@ class AdministradoresData extends AdministradoresHandler
     }
 
     // Método para obtener la condición del administrador.
-    public function getCondicion(){
+    public function getCondicion()
+    {
         return $this->condicion;
     }
 }

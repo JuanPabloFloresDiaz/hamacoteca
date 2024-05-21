@@ -75,7 +75,7 @@ class MaterialesData extends MaterialesHandler
             return true;
         }
     }
-    
+
     // Asignación del nombre del archivo de imagen del material.
     public function setFilename()
     {
@@ -99,5 +99,4 @@ class MaterialesData extends MaterialesHandler
     {
         return $this->filename;
     }
-
 }

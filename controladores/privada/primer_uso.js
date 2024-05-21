@@ -19,7 +19,7 @@ window.onload = async function () {
     // Agrega el HTML del encabezado
     appContainer.innerHTML = cambiarregistro;
 
-    
+
 
     // Llamada a la función para establecer la mascara del campo teléfono.
     vanillaTextMask.maskInput({
@@ -43,25 +43,25 @@ window.onload = async function () {
         location.href = 'index.html';
         sweetAlert(4, DATA.error, true);
     } else {
-         // Se mantiene en el primer uso.
-         console.log('Formulario para registrar primer usuario');
-         SAVE_FORM = document.getElementById('saveForm');
-         // Método del evento para cuando se envía el formulario de inicio de sesión.
-         SAVE_FORM.addEventListener('submit', async (event) => {
-             // Se evita recargar la página web después de enviar el formulario.
-             event.preventDefault();
-             // Constante tipo objeto con los datos del formulario.
-             const FORM = new FormData(SAVE_FORM);
-             // Petición para iniciar sesión.
-             const DATA = await fetchData(USER_API, 'signUp', FORM);
-             console.log(DATA);
-             // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
-             if (DATA.status) {
-                 sweetAlert(1, DATA.message, true, 'index.html');
-             } else {
-                 sweetAlert(2, DATA.error, false);
-             }
-         });
+        // Se mantiene en el primer uso.
+        console.log('Formulario para registrar primer usuario');
+        SAVE_FORM = document.getElementById('saveForm');
+        // Método del evento para cuando se envía el formulario de inicio de sesión.
+        SAVE_FORM.addEventListener('submit', async (event) => {
+            // Se evita recargar la página web después de enviar el formulario.
+            event.preventDefault();
+            // Constante tipo objeto con los datos del formulario.
+            const FORM = new FormData(SAVE_FORM);
+            // Petición para iniciar sesión.
+            const DATA = await fetchData(USER_API, 'signUp', FORM);
+            console.log(DATA);
+            // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
+            if (DATA.status) {
+                sweetAlert(1, DATA.message, true, 'index.html');
+            } else {
+                sweetAlert(2, DATA.error, false);
+            }
+        });
     }
 
 };

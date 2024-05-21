@@ -11,7 +11,7 @@ class RolesData extends RolesHandler
     // Atributo genérico para manejo de errores.
     private $data_error = null;
 
-     /*
+    /*
      *  Métodos para validar y asignar valores de los atributos.
      */
     // Validación y asignación del ID del rol.

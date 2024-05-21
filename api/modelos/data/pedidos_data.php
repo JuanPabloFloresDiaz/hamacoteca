@@ -12,7 +12,7 @@ class PedidosData extends PedidosHandler
     private $data_error = null;
     // Atributo para almacenar el nombre del archivo de imagen.
     private $filename = null;
-     /*
+    /*
      *  Métodos para validar y asignar valores de los atributos.
      */
     // Validación y asignación del ID del pedido.
@@ -65,5 +65,4 @@ class PedidosData extends PedidosHandler
     {
         return $this->filename;
     }
-    
 }

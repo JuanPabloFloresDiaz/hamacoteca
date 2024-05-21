@@ -16,7 +16,7 @@ class FotosHandler
     //constante para establecer la ruta de la imágenes.
     const RUTA_IMAGEN = '../../imagenes/fotos/';
 
-     /*
+    /*
      *  Métodos para realizar las operaciones SCRUD (search, create, read, update, and delete).
      */
     //Función para buscar una foto (no utilizada)
@@ -57,15 +57,15 @@ class FotosHandler
         return Database::getRow($sql, $params);
     }
 
-     //Función para leer la imagen del id desde la base.
-     public function readFilename()
-     {
+    //Función para leer la imagen del id desde la base.
+    public function readFilename()
+    {
         $sql = 'SELECT url AS IMAGEN 
                 FROM fotos
                 WHERE id_foto = ?';
         $params = array($this->id);
         return Database::getRow($sql, $params);
-     } 
+    }
 
     //Función para actualizar una foto
     public function updateRow()

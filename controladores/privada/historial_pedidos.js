@@ -323,7 +323,7 @@ function getRowBackgroundColor(estado) {
     }
 }
 
-function recharge(){
+function recharge() {
     checkOrders();
     totalProfits();
     cargarTabla();
@@ -352,7 +352,7 @@ window.onload = async function () {
         MODAL_TITLE_DETAIL = document.getElementById('exampleModalLabel');
     SAVE_MODAL = new bootstrap.Modal('#saveModal'),
         MODAL_TITLE = document.getElementById('modalTitle');
-        recharge();
+    recharge();
     // Constante para establecer el formulario de buscar.
     SEARCH_FORM = document.getElementById('searchForm');
     // Verificar si SEARCH_FORM está seleccionado correctamente

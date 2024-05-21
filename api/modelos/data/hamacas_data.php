@@ -62,9 +62,9 @@ class HamacasData extends HamacasHandler
     {
         if (Validator::validateMoney($value)) {
             $this->precio = $value;
-            if($this->precio >= $min && $this->precio < $max){
+            if ($this->precio >= $min && $this->precio < $max) {
                 return true;
-            }else{
+            } else {
                 $this->data_error = 'El precio debe estar entre $' . $min . ' y $' . $max;
                 return false;
             }
@@ -94,9 +94,9 @@ class HamacasData extends HamacasHandler
     {
         if (Validator::validateNaturalNumber($value)) {
             $this->cantidad = $value;
-            if($this->cantidad >= $min && $this->cantidad <= $max){
+            if ($this->cantidad >= $min && $this->cantidad <= $max) {
                 return true;
-            }else{
+            } else {
                 $this->data_error = 'El valor minimo de la cantidad es ' . $min . ' y el maximo ' . $max;
                 return false;
             }
@@ -135,7 +135,7 @@ class HamacasData extends HamacasHandler
             return false;
         }
     }
-        
+
     // Validación y asignación del identificador de la categoría.
     public function setCategoria($value)
     {
@@ -147,7 +147,7 @@ class HamacasData extends HamacasHandler
             return false;
         }
     }
-        
+
     // Validación y asignación del identificador del material.
     public function setMaterial($value)
     {
@@ -159,7 +159,7 @@ class HamacasData extends HamacasHandler
             return false;
         }
     }
-    
+
     // Asignación del nombre del archivo de imagen de la hamaca.
     public function setFilename()
     {

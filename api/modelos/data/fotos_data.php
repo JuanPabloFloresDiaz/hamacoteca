@@ -57,7 +57,7 @@ class FotosData extends FotosHandler
             return true;
         }
     }
-    
+
     // Asignación del nombre del archivo de imagen de la foto de la hamaca.
     public function setFilename()
     {
@@ -81,5 +81,4 @@ class FotosData extends FotosHandler
     {
         return $this->filename;
     }
-
 }
