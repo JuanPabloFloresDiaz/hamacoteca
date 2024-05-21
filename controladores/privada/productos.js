@@ -405,7 +405,7 @@ async function cargarTabla(form = null) {
 
 function getRowColor(estado) {
     switch (estado) {
-        case 'Agotado':
+        case 'No disponible':
             return 'text-danger';
         case 'Disponible':
             return 'text-success';
@@ -416,7 +416,7 @@ function getRowColor(estado) {
 
 function getRowBackgroundColor(estado) {
     switch (estado) {
-        case 'Agotado':
+        case 'No disponible':
             return 'border-danger';
         case 'Disponible':
             return 'border-success';
