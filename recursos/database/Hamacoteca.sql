@@ -61,7 +61,9 @@ CREATE TABLE categorias(
 id_categoria INT AUTO_INCREMENT PRIMARY KEY,
 nombre_categoria VARCHAR(50) NOT NULL,
 CONSTRAINT uq_nombre_categoria_unico UNIQUE(nombre_categoria),
-descripcion_categoria TEXT NOT NULL
+descripcion_categoria TEXT NOT NULL,
+foto_categoria VARCHAR(60) NULL,
+CONSTRAINT chk_url_foto_categoria CHECK (foto_categoria LIKE '%.jpg' OR foto_categoria LIKE '%.png' OR foto_categoria LIKE '%.jpeg' OR foto_categoria LIKE '%.gif')
 );
 
 CREATE TABLE materiales(
@@ -104,6 +106,16 @@ CONSTRAINT fk_fotos_de_las_hamacas FOREIGN KEY (id_hamaca)
 REFERENCES hamacas(id_hamaca)
 );
 
+CREATE TABLE favoritos(
+id_favorito INT AUTO_INCREMENT PRIMARY KEY,
+id_cliente INT,
+CONSTRAINT fk_favorito_del_cliente FOREIGN KEY (id_cliente)
+REFERENCES clientes(id_cliente),
+id_hamaca INT,
+CONSTRAINT fk_hamacas_favorita FOREIGN KEY (id_hamaca)
+REFERENCES hamacas(id_hamaca)
+);
+
 CREATE TABLE pedidos(
 id_pedido INT AUTO_INCREMENT PRIMARY KEY,
 estado_pedido ENUM('Entregado', 'En camino', 'Cancelado') NOT NULL,
@@ -113,7 +125,7 @@ id_cliente INT,
 CONSTRAINT fk_carrito_del_cliente FOREIGN KEY (id_cliente)
 REFERENCES clientes(id_cliente)
 );
-
+        
 CREATE TABLE detalles_pedidos(
 id_detalles_pedidos INT AUTO_INCREMENT PRIMARY KEY,
 id_pedido INT,

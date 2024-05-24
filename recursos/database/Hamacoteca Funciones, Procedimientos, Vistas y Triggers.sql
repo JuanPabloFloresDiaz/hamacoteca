@@ -2,6 +2,8 @@
 USE Hamacoteca;
 
 #Trigger para actualizar la cantidad de productos - Hecho por: Xochilt Gabriela López Pineda
+DROP TRIGGER IF EXISTS actualizar_cantidad_hamacas;
+
 DELIMITER $$
 
 CREATE TRIGGER actualizar_cantidad_hamacas
@@ -16,8 +18,8 @@ END;
 $$
 
 #Función que genere un alias para el administrador - Hecho por: Juan Pablo Flores Díaz
+DROP FUNCTION IF EXISTS generar_alias_administrador;
 DELIMITER //
-
 CREATE FUNCTION generar_alias_administrador(nombre VARCHAR(50), apellido VARCHAR(50), fecha_creacion DATETIME) RETURNS VARCHAR(25)
 BEGIN
     DECLARE alias_base VARCHAR(10);
@@ -39,7 +41,7 @@ END //
 
 DELIMITER ;
 
-
+DROP FUNCTION IF EXISTS calcular_total_producto;
 #Función para calcular el precio total de los pedidos - Hecho por: Juan Pablo Flores Díaz
 DELIMITER $$
 CREATE FUNCTION calcular_total_producto(p_id_producto INT, p_cantidad INT)
@@ -59,6 +61,7 @@ END
 
 $$
 
+DROP PROCEDURE IF EXISTS insertar_rol_administrador;
 #Procedimientos almacenados de la tabla roles de administrador - Hecho por: Juan Pablo Flores Díaz
 DELIMITER $$
 CREATE PROCEDURE insertar_rol_administrador(
@@ -70,6 +73,7 @@ BEGIN
 END;
 $$
 
+DROP PROCEDURE IF EXISTS actualizar_rol_administrador;
 DELIMITER $$
 CREATE PROCEDURE actualizar_rol_administrador(
    IN p_id_rol INT,
@@ -82,6 +86,7 @@ END;
 $$
 
 
+DROP PROCEDURE IF EXISTS eliminar_rol_administrador;
 DELIMITER $$
 CREATE PROCEDURE eliminar_rol_administrador(
     IN p_id_rol INT
@@ -92,6 +97,7 @@ BEGIN
 END;
 $$
 
+DROP VIEW IF EXISTS vista_roles_administradores;
 DELIMITER $$
 CREATE VIEW vista_roles_administradores AS
 SELECT id_rol AS ID ,nombre_rol AS NOMBRE
@@ -101,7 +107,7 @@ $$
 #Procedimientos almacenados de la tabla administradores - hecho por: Juan Pablo Flores Díaz
 -- En el caso de encriptamiento desde la base se puede usar SHA(parametro de la clave, 256), AES_ENCRYPT(parametro de la clave) Y BCRYPT desde el programa
 
-DROP PROCEDURE insertar_administrador;
+DROP PROCEDURE IF EXISTS insertar_administrador;
 DELIMITER $$
 CREATE PROCEDURE insertar_administrador(
    IN p_nombre_administrador VARCHAR(50),
@@ -135,28 +141,7 @@ $$
 
 CALL insertar_administrador('Juan Carlos', 'Castro Mirandez', 'Clave@2024', 'juan@gmail.com', '4568-5878', '64574357-0', '1990-01-01', 3, 'default.jpg');
 
-DELIMITER $$
-CREATE PROCEDURE cambiar_estado_cliente(IN cliente_id INT)
-BEGIN
-    DECLARE cliente_estado BOOLEAN;
-    
-    -- Obtener el estado actual del administrador
-    SELECT estado_cliente INTO cliente_estado
-    FROM clientes
-    WHERE id_cliente = cliente_id;
-    
-    -- Actualizar el estado del administrador
-    IF cliente_estado = 1 THEN
-        UPDATE clientes
-        SET estado_cliente = 0
-        WHERE id_cliente = cliente_id;
-    ELSE
-        UPDATE clientes
-        SET estado_cliente = 1
-        WHERE id_cliente = cliente_id;
-    END IF;
-END $$
-
+DROP PROCEDURE IF EXISTS insertar_administrador_validado;
 DELIMITER $$
 CREATE PROCEDURE insertar_administrador_validado(
    IN p_nombre_administrador VARCHAR(50),
@@ -194,12 +179,12 @@ BEGIN
 END;
 $$
 
+DROP PROCEDURE IF EXISTS actualizar_administrador;
 DELIMITER $$
 CREATE PROCEDURE actualizar_administrador(
    IN p_id_administrador INT,
    IN p_nombre_administrador VARCHAR(50),
    IN p_apellido_administrador VARCHAR(50),
-   IN p_clave_administrador VARCHAR(100),
    IN p_correo_administrador VARCHAR(50),
    IN p_telefono_administrador VARCHAR(15),
    IN p_dui_administrador VARCHAR(10),
@@ -208,20 +193,19 @@ CREATE PROCEDURE actualizar_administrador(
    IN p_foto_administrador VARCHAR(50)
 )
 BEGIN
-UPDATE administradores SET nombre_administrador = p_nombre_administrador, apellido_administrador = p_apellido_administrador, 
-clave_administrador = p_clave_administrador, correo_administrador = p_correo_administrador,
+UPDATE administradores SET nombre_administrador = p_nombre_administrador, apellido_administrador = p_apellido_administrador, correo_administrador = p_correo_administrador,
 telefono_administrador = p_telefono_administrador, dui_administrador = p_dui_administrador, fecha_nacimiento_administrador = p_fecha_nacimiento_administrador,
 id_rol = p_id_rol, foto_administrador = p_foto_administrador
 WHERE id_administrador = p_id_administrador;
 END;
 $$
 
+DROP PROCEDURE IF EXISTS actualizar_administrador_validado;
 DELIMITER $$
 CREATE PROCEDURE actualizar_administrador_validado(
    IN p_id_administrador INT,
    IN p_nombre_administrador VARCHAR(50),
    IN p_apellido_administrador VARCHAR(50),
-   IN p_clave_administrador VARCHAR(100),
    IN p_correo_administrador VARCHAR(50),
    IN p_telefono_administrador VARCHAR(15),
    IN p_dui_administrador VARCHAR(10),
@@ -231,27 +215,19 @@ CREATE PROCEDURE actualizar_administrador_validado(
 )
 BEGIN
     IF p_correo_administrador REGEXP '^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$' THEN
-        IF LENGTH(p_clave_administrador) >= 8
-           AND p_clave_administrador REGEXP '[A-Z]'
-           AND p_clave_administrador REGEXP '[a-z]'
-           AND p_clave_administrador REGEXP '[0-9]'
-           AND p_clave_administrador REGEXP '[^a-zA-Z0-9]' THEN
             UPDATE administradores SET nombre_administrador = p_nombre_administrador, apellido_administrador = p_apellido_administrador, 
-            clave_administrador = p_clave_administrador, correo_administrador = p_correo_administrador,
+            correo_administrador = p_correo_administrador,
             telefono_administrador = p_telefono_administrador, dui_administrador = p_dui_administrador, fecha_nacimiento_administrador = p_fecha_nacimiento_administrador,
             id_rol = p_id_rol, foto_administrador = p_foto_administrador
             WHERE id_administrador = p_id_administrador;
-        ELSE
-            SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'La contraseña no cumple con los requisitos mínimos';
-        END IF;
     ELSE
         SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Formato de correo electrónico no válido';
     END IF;
 END;
 $$
 
+DROP PROCEDURE IF EXISTS eliminar_administrador_validado;
 DELIMITER $$
-
 CREATE PROCEDURE eliminar_administrador_validado(
     IN p_id_administrador INT
 )
@@ -273,6 +249,7 @@ END;
 
 $$
 
+DROP PROCEDURE IF EXISTS autentificar_administrador;
 DELIMITER $$
 CREATE PROCEDURE autentificar_administrador(
   IN p_alias_correo VARCHAR(75)
@@ -284,7 +261,7 @@ BEGIN
 END;
 $$
 
-SELECT * FROM administradores
+DROP VIEW IF EXISTS vista_tabla_administradores;
 DELIMITER $$
 CREATE VIEW vista_tabla_administradores AS
 SELECT id_administrador AS 'ID',
@@ -305,8 +282,8 @@ SELECT * FROM vista_tabla_administradores
 WHERE NOMBRE LIKE '%%'
 ORDER BY NOMBRE;
 
+DROP PROCEDURE IF EXISTS cambiar_estado_administrador;
 DELIMITER //
-
 CREATE PROCEDURE cambiar_estado_administrador(IN admin_id INT)
 BEGIN
     DECLARE admin_estado BOOLEAN;
@@ -333,6 +310,7 @@ DELIMITER ;
 
 # Procedimientos almacenados de la tabla clientes - Hecho por: Juan Pablo Flores Díaz
 
+DROP PROCEDURE IF EXISTS insertar_cliente_validado;
 DELIMITER $$
 CREATE PROCEDURE insertar_cliente_validado(
    IN p_nombre_cliente VARCHAR(50),
@@ -365,6 +343,7 @@ BEGIN
 END;
 $$
 
+DROP PROCEDURE IF EXISTS actualizar_cliente_validado;
 DELIMITER $$
 CREATE PROCEDURE actualizar_cliente_validado(
    IN p_id_cliente INT,
@@ -401,6 +380,8 @@ BEGIN
 END;
 $$
 
+DROP PROCEDURE IF EXISTS eliminar_cliente_validado;
+DELIMITER $$
 CREATE PROCEDURE eliminar_cliente_validado(
     IN p_id_cliente INT
 )
@@ -423,6 +404,7 @@ END;
 $$
 
 
+DROP PROCEDURE IF EXISTS autentificar_cliente;
 DELIMITER $$
 CREATE PROCEDURE autentificar_cliente(
   IN p_correo VARCHAR(75),
@@ -436,6 +418,7 @@ END;
 $$
 
 
+DROP VIEW IF EXISTS vista_tabla_clientes;
 DELIMITER $$
 CREATE VIEW vista_tabla_clientes AS
 SELECT foto_cliente AS 'IMAGEN', 
@@ -447,31 +430,59 @@ fecha_nacimiento_cliente AS 'FECHA DE NACIMIENTO'
 FROM clientes;
 $$
 
+DROP PROCEDURE IF EXISTS cambiar_estado_cliente;
+DELIMITER $$
+CREATE PROCEDURE cambiar_estado_cliente(IN cliente_id INT)
+BEGIN
+    DECLARE cliente_estado BOOLEAN;
+    
+    -- Obtener el estado actual del cliente
+    SELECT estado_cliente INTO cliente_estado
+    FROM clientes
+    WHERE id_cliente = cliente_id;
+    
+    -- Actualizar el estado del cliente
+    IF cliente_estado = 1 THEN
+        UPDATE clientes
+        SET estado_cliente = 0
+        WHERE id_cliente = cliente_id;
+    ELSE
+        UPDATE clientes
+        SET estado_cliente = 1
+        WHERE id_cliente = cliente_id;
+    END IF;
+END $$
+
 # Procedimientos almacenados de la tabla categorias - Hecho por: Juan Pablo Flores Díaz
 
+DROP PROCEDURE IF EXISTS insertar_categoria;
 DELIMITER $$
 CREATE PROCEDURE insertar_categoria(
    IN p_nombre_categoria VARCHAR(60),
-   IN p_descripcion_categoria TEXT
+   IN p_descripcion_categoria TEXT,
+   IN p_foto_categoria  VARCHAR(60)
 )
 BEGIN
-   INSERT INTO categorias (nombre_categoria, descripcion_categoria)
-   VALUES(p_nombre_categoria, p_descripcion_categoria);
+   INSERT INTO categorias (nombre_categoria, descripcion_categoria, foto_categoria)
+   VALUES(p_nombre_categoria, p_descripcion_categoria, p_foto_categoria);
 END;
 $$
 
+DROP PROCEDURE IF EXISTS actualizar_categoria;
 DELIMITER $$
 CREATE PROCEDURE actualizar_categoria(
    IN p_id_categoria INT,
    IN p_nombre_categoria VARCHAR(60),
-   IN p_descripcion_categoria TEXT
+   IN p_descripcion_categoria TEXT,
+   IN p_foto_categoria  VARCHAR(60)
 )
 BEGIN
-   UPDATE categorias SET nombre_categoria = p_nombre_categoria, descripcion_categoria = p_descripcion_categoria
+   UPDATE categorias SET nombre_categoria = p_nombre_categoria, descripcion_categoria = p_descripcion_categoria, foto_categoria = p_foto_categoria
    WHERE id_categoria = p_id_categoria;
 END;
 $$
 
+DROP PROCEDURE IF EXISTS eliminar_categoria;
 DELIMITER $$
 CREATE PROCEDURE eliminar_categoria(
     IN p_id_categoria INT
@@ -484,6 +495,7 @@ $$
 
 # Procedimientos almacenados de la tabla materiales - Hecho por: Juan Pablo Flores Díaz
 
+DROP PROCEDURE IF EXISTS insertar_material;
 DELIMITER $$
 CREATE PROCEDURE insertar_material(
    IN p_nombre_material VARCHAR(60),
@@ -496,6 +508,7 @@ BEGIN
 END;
 $$
 
+DROP PROCEDURE IF EXISTS actualizar_material;
 DELIMITER $$
 CREATE PROCEDURE actualizar_material(
    IN p_id_material INT,
@@ -509,6 +522,7 @@ BEGIN
 END;
 $$
 
+DROP PROCEDURE IF EXISTS eliminar_material;
 DELIMITER $$
 CREATE PROCEDURE eliminar_material(
     IN p_id_material INT
@@ -521,7 +535,7 @@ $$
 
 #Procedimientos almacenados de la tabla hamacas - hecho por: Juan Pablo Flores Díaz
 
-
+DROP PROCEDURE IF EXISTS insertar_hamaca;
 DELIMITER $$
 CREATE PROCEDURE insertar_hamaca(
    IN p_nombre_hamaca VARCHAR(60),
@@ -539,8 +553,8 @@ BEGIN
 END;
 $$
 
+DROP PROCEDURE IF EXISTS actualizar_hamaca;
 DELIMITER $$
-
 CREATE PROCEDURE actualizar_hamaca(
    IN p_id_hamaca INT,
    IN p_nombre_hamaca VARCHAR(60),
@@ -548,7 +562,6 @@ CREATE PROCEDURE actualizar_hamaca(
    IN p_precio DECIMAL(5,2),
    IN p_cantidad_hamaca INT,
    IN p_foto_principal VARCHAR(50),
-   IN p_id_administrador INT,
    IN p_id_categoria INT,
    IN p_id_material INT
 )
@@ -559,15 +572,14 @@ BEGIN
        precio = p_precio,
        cantidad_hamaca = p_cantidad_hamaca,
        foto_principal = p_foto_principal,
-       id_administrador = p_id_administrador,
        id_categoria = p_id_categoria,
        id_material = p_id_material
    WHERE id_hamaca = p_id_hamaca;
 END;
 $$
 
+DROP PROCEDURE IF EXISTS eliminar_hamaca;
 DELIMITER $$
-
 CREATE PROCEDURE eliminar_hamaca(
     IN p_id_hamaca INT
 )
@@ -578,35 +590,54 @@ END;
 
 $$
 
-
+DROP VIEW IF EXISTS vista_tabla_hamacas;
 DELIMITER $$
 CREATE VIEW vista_tabla_hamacas AS
-SELECT id_hamaca AS 'ID',
-foto_principal AS 'IMAGEN', 
-nombre_hamaca AS 'NOMBRE',
-descripcion_hamaca AS 'DESCRIPCIÓN', 
-cantidad_hamaca AS 'CANTIDAD',
-precio AS 'PRECIO'
-FROM hamacas;
-$$
-
 SELECT id_hamaca AS ID,
-foto_principal AS IMAGEN, 
 nombre_hamaca AS NOMBRE,
+foto_principal AS IMAGEN, 
 descripcion_hamaca AS DESCRIPCIÓN, 
 cantidad_hamaca AS CANTIDAD,
 precio AS PRECIO,
-estado_venta AS ESTADO,
+ CASE 
+        WHEN estado_venta = 1 THEN 'Disponible'
+        WHEN estado_venta = 0 THEN 'No disponible'
+END AS ESTADO,
 id_administrador AS ADMINISTRADOR,
 id_categoria AS CATEGORIA,
 id_material AS MATERIAL
-FROM hamacas
-WHERE id_hamaca = ?;
+FROM hamacas;
+$$
+
+DROP PROCEDURE IF EXISTS cambiar_estado_producto;
+DELIMITER //
+CREATE PROCEDURE cambiar_estado_producto(IN hamaca_id INT)
+BEGIN
+    DECLARE hamaca_estado BOOLEAN;
+    
+    -- Obtener el estado actual del administrador
+    SELECT estado_venta INTO hamaca_estado
+    FROM hamacas
+    WHERE id_hamaca = hamaca_id;
+    
+    -- Actualizar el estado del administrador
+    IF hamaca_estado = 1 THEN
+        UPDATE hamacas
+        SET estado_venta = 0
+        WHERE id_hamaca = hamaca_id;
+    ELSE
+        UPDATE hamacas
+        SET estado_venta = 1
+        WHERE id_hamaca = hamaca_id;
+    END IF;
+END //
+
+DELIMITER ;
 
 #Procedimientos almacenados de la tabla fotos - hecho por: Juan Pablo Flores Díaz
 
+DROP PROCEDURE IF EXISTS insertar_foto;
 DELIMITER $$
-
 CREATE PROCEDURE insertar_foto(
    IN p_url VARCHAR(60),
    IN p_id_hamaca INT
@@ -617,8 +648,8 @@ BEGIN
 END;
 $$
 
+DROP PROCEDURE IF EXISTS actualizar_foto;
 DELIMITER $$
-
 CREATE PROCEDURE actualizar_foto(
    IN p_id_foto INT,
    IN p_url VARCHAR(60),
@@ -632,29 +663,8 @@ BEGIN
 END;
 $$
 
+DROP PROCEDURE IF EXISTS eliminar_foto;
 DELIMITER $$
-CREATE VIEW vista_tabla_valoraciones AS
-SELECT V.id_valoracion AS 'ID',
-foto_cliente AS 'IMAGEN',
-CONCAT(nombre_cliente, ' ', apellido_cliente	) AS 'NOMBRE',
-nombre_hamaca AS 'PRODUCTO',
-comentario_producto AS 'COMENTARIO', 
-fecha_valoracion AS 'FECHA',
-    CASE 
-        WHEN estado_comentario = 1 THEN 'Activo'
-        WHEN estado_comentario = 0 THEN 'Bloqueado'
-    END AS 'ESTADO'
-FROM valoraciones v
-INNER JOIN detalles_pedidos dp ON dp.id_detalles_pedidos = v.id_detalles_pedidos
-INNER JOIN hamacas h ON h.id_hamaca = dp.id_hamaca
-INNER JOIN pedidos p ON p.id_pedido = dp.id_pedido
-INNER JOIN clientes c ON c.id_cliente = p.id_cliente;
-$$
- 
-DELIMITER $$
-
-DELIMITER $$
-
 CREATE PROCEDURE eliminar_foto(
     IN p_id_foto INT
 )
@@ -667,6 +677,7 @@ $$
 
 #Procedimientos almacenados de la tabla pedidos y detalle pedidos - hecho por: Juan Pablo Flores Díaz
 
+DROP PROCEDURE IF EXISTS insertar_pedido_y_detalle_pedido;
 DELIMITER $$
 CREATE PROCEDURE insertar_pedido_y_detalle_pedido(
     IN p_estado_pedido ENUM('Entregado', 'En camino', 'Cancelado'),
@@ -691,10 +702,8 @@ BEGIN
 END
 $$
 
+DROP PROCEDURE IF EXISTS actualizar_estado_pedido;
 DELIMITER $$
-
-DELIMITER $$
-
 CREATE PROCEDURE actualizar_estado_pedido(
     IN p_id_pedido INT,
     IN p_estado_pedido ENUM('Entregado', 'En camino', 'Cancelado')
@@ -707,8 +716,9 @@ BEGIN
 END
 $$
 
-DELIMITER $$
 
+DROP PROCEDURE IF EXISTS actualizar_datos_pedido;
+DELIMITER $$
 CREATE PROCEDURE actualizar_datos_pedido(
     IN p_id_pedido INT,
     IN p_estado_pedido ENUM('Entregado', 'En camino', 'Cancelado'),
@@ -725,6 +735,112 @@ BEGIN
 END
 $$
 
+DELIMITER $$
+
+DROP PROCEDURE IF EXISTS actualizar_cantidad_y_precio_detalles_pedido;
+DELIMITER $$
+CREATE PROCEDURE actualizar_cantidad_y_precio_detalles_pedido(
+    IN p_id_detalles_pedido INT,
+    IN p_cantidad_comprada INT,
+    IN p_id_hamaca INT
+)
+BEGIN
+    DECLARE p_precio_producto DECIMAL(10,2);
+
+    -- Calcular el precio utilizando la función
+    SET p_precio_producto = calcular_total_producto(p_id_hamaca, p_cantidad_comprada);
+
+    -- Actualizar la cantidad y el precio en la tabla detalles_pedidos
+    UPDATE detalles_pedidos
+    SET cantidad_comprada = p_cantidad_comprada,
+        precio_producto = p_precio_producto
+    WHERE id_detalles_pedido = p_id_detalles_pedido;
+END
+$$
+
+DROP PROCEDURE IF EXISTS eliminar_pedido_y_detalle_pedido;
+DELIMITER $$
+CREATE PROCEDURE eliminar_pedido_y_detalle_pedido(
+    IN p_id_pedido INT
+)
+BEGIN
+
+    -- Eliminar los detalles del pedido de la tabla detalles_pedidos
+    DELETE FROM detalles_pedidos
+    WHERE id_pedido = p_id_pedido;
+    
+    -- Eliminar el pedido de la tabla pedidos
+    DELETE FROM pedidos
+    WHERE id_pedido = p_id_pedido;
+    
+END
+$$
+
+#Procedimientos almacenados de la tabla pedidos y detalle pedidos - hecho por: Joel Omar Mena Domínguez
+
+DROP PROCEDURE IF EXISTS insertar_valoracion;
+-- Insertar datos en la tabla valoraciones
+DELIMITER $$
+CREATE PROCEDURE insertar_valoracion(
+IN p_calificacion INT,
+IN p_comentario TEXT,
+IN p_id_detalles_pedidos INT)
+BEGIN
+	INSERT INTO valoraciones(calificacion_producto,comentario_producto,id_detalles_pedidos) 
+    VALUES (p_calificacion,p_comentario,p_id_detalles_pedidos);
+END
+$$
+ 
+DROP PROCEDURE IF EXISTS actualizar_valoracion;
+-- actualizar datos en la tablas valoraciones
+DELIMITER $$
+CREATE PROCEDURE actualizar_valoracion(
+IN p_calificacion INT,
+IN p_comentario TEXT,
+IN p_id_detalles_pedidos INT,
+IN p_id_valoracion INT)
+BEGIN
+	UPDATE valoraciones
+    SET calificacion_producto = p_calificacion, comentario_producto = p_comentario, id_detalles_pedidos = p_id_detalles_pedidos
+    WHERE id_valoracion = p_id_valoracion;
+END
+$$
+ 
+DROP PROCEDURE IF EXISTS eliminar_valoraciones;
+-- eliminar datos en la tabla valoraciones
+DELIMITER $$
+CREATE PROCEDURE eliminar_valoraciones(
+IN p_id_valoracion INT)
+BEGIN
+	DELETE FROM valoraciones 
+    WHERE id_valoracion = P_id_valoracion;
+END
+$$
+
+
+DROP VIEW IF EXISTS vista_tabla_valoraciones;
+DELIMITER $$
+CREATE VIEW vista_tabla_valoraciones AS
+SELECT V.id_valoracion AS 'ID',
+foto_cliente AS 'IMAGEN',
+CONCAT(nombre_cliente, ' ', apellido_cliente	) AS 'NOMBRE',
+nombre_hamaca AS 'PRODUCTO',
+comentario_producto AS 'COMENTARIO', 
+calificacion_producto AS 'CALIFICACIÓN',
+fecha_valoracion AS 'FECHA',
+    CASE 
+        WHEN estado_comentario = 1 THEN 'Activo'
+        WHEN estado_comentario = 0 THEN 'Bloqueado'
+    END AS 'ESTADO'
+FROM valoraciones v
+INNER JOIN detalles_pedidos dp ON dp.id_detalles_pedidos = v.id_detalles_pedidos
+INNER JOIN hamacas h ON h.id_hamaca = dp.id_hamaca
+INNER JOIN pedidos p ON p.id_pedido = dp.id_pedido
+INNER JOIN clientes c ON c.id_cliente = p.id_cliente;
+$$
+ 
+
+DROP PROCEDURE IF EXISTS cambiar_estado_valoracion;
 DELIMITER //
 CREATE PROCEDURE cambiar_estado_valoracion(IN valora_id INT)
 BEGIN
@@ -749,81 +865,6 @@ END //
 
 DELIMITER ;
 
-DELIMITER $$
-
-CREATE PROCEDURE actualizar_cantidad_y_precio_detalles_pedido(
-    IN p_id_detalles_pedido INT,
-    IN p_cantidad_comprada INT,
-    IN p_id_hamaca INT
-)
-BEGIN
-    DECLARE p_precio_producto DECIMAL(10,2);
-
-    -- Calcular el precio utilizando la función
-    SET p_precio_producto = calcular_total_producto(p_id_hamaca, p_cantidad_comprada);
-
-    -- Actualizar la cantidad y el precio en la tabla detalles_pedidos
-    UPDATE detalles_pedidos
-    SET cantidad_comprada = p_cantidad_comprada,
-        precio_producto = p_precio_producto
-    WHERE id_detalles_pedido = p_id_detalles_pedido;
-END
-$$
-
-DELIMITER $$
-CREATE PROCEDURE eliminar_pedido_y_detalle_pedido(
-    IN p_id_pedido INT
-)
-BEGIN
-
-    -- Eliminar los detalles del pedido de la tabla detalles_pedidos
-    DELETE FROM detalles_pedidos
-    WHERE id_pedido = p_id_pedido;
-    
-    -- Eliminar el pedido de la tabla pedidos
-    DELETE FROM pedidos
-    WHERE id_pedido = p_id_pedido;
-    
-END
-$$
-
-#Procedimientos almacenados de la tabla pedidos y detalle pedidos - hecho por: Joel Omar Mena Domínguez
-
--- Insertar datos en la tabla valoraciones
-DELIMITER $$
-CREATE PROCEDURE insertar_valoracion(
-IN p_calificacion INT,
-IN p_comentario TEXT,
-IN p_id_detalles_pedidos INT)
-BEGIN
-	INSERT INTO valoraciones(calificacion_producto,comentario_producto,id_detalles_pedidos) 
-    VALUES (p_calificacion,p_comentario,p_id_detalles_pedidos);
-END
-$$
- 
--- actualizar datos en la tablas valoraciones
-DELIMITER $$
-CREATE PROCEDURE actualizar_valoracion(
-IN p_calificacion INT,
-IN p_comentario TEXT,
-IN p_id_detalles_pedidos INT,
-IN p_id_valoracion INT)
-BEGIN
-	UPDATE valoraciones
-    SET calificacion_producto = p_calificacion, comentario_producto = p_comentario, id_detalles_pedidos = p_id_detalles_pedidos
-    WHERE id_valoracion = p_id_valoracion;
-END
-$$
- 
--- eliminar datos en la tabla valoraciones
-DELIMITER $$
-CREATE PROCEDURE eliminar_valoraciones(
-IN p_id_valoracion INT)
-BEGIN
-	DELETE FROM valoraciones 
-    WHERE id_valoracion = P_id_valoracion;
-END
-$$
 
 SELECT ROUTINE_NAME
 FROM information_schema.ROUTINES

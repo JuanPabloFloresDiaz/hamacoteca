@@ -7,7 +7,7 @@ CALL insertar_rol_administrador('Administrador de usuarios');
 
 CALL actualizar_rol_administrador(3, 'Administrador de usuarios');
 
-CALL insertar_administrador_validado('Juan Pablo', 'Flores Díaz', 'Clave1@JPFD', 'pablojuanfd@gmail.com', '4568-5678', '12345678-0', '1990-01-01', 1, 'default.jpg');
+-- CALL insertar_administrador_validado('Juan Pablo', 'Flores Díaz', 'Clave1@JPFD', 'pablojuanfd@gmail.com', '4568-5678', '12345678-0', '1990-01-01', 1, 'default.jpg');
 CALL insertar_administrador_validado('Xochilt Gabriela', 'López Pineda', 'Clave2@XGLP', 'sochii@gmail.com', '1254-5679', '12345689-1', '1991-01-01', 2, 'default.jpg');
 CALL insertar_administrador_validado('Joel Omar', 'Mena Domínguez', 'Clave3@JOMD', 'torugam@gmail.com', '1434-5670', '12345689-2', '1992-01-01', 3, 'default.jpg');
 CALL insertar_administrador_validado('María', 'González', 'Clave4@MG', 'maria@gmail.com', '5678-1234', '12345678-3', '1993-01-01', 1, 'default.jpg');
@@ -60,10 +60,10 @@ CALL insertar_cliente_validado('Javier', 'Vásquez', 'Clave23@Password', 'javier
 CALL insertar_cliente_validado('Luisa', 'Zamora', 'Clave24@Password', 'luisa@gmail.com', '5432-1098', '12345642-3', '2013-01-01', 'Femenino', true, 'default.jpg', 'Dirección 24');
 CALL insertar_cliente_validado('Diego', 'Álvarez', 'Clave25@Password', 'diego@gmail.com', '4321-0987', '13345567-4', '2014-01-01', 'Masculino', false, 'default.jpg', 'Dirección 25');
 
-CALL insertar_categoria('Colgante', 'Es una hamaca colgante');
-CALL insertar_categoria('Silla', 'Es una hamaca silla');
-CALL insertar_categoria('Estandar', 'Es una hamaca estandar');
-CALL insertar_categoria('Moderna', 'Es una hamaca moderna');
+CALL insertar_categoria('Colgante', 'Es una hamaca colgante', 'default.png');
+CALL insertar_categoria('Silla', 'Es una hamaca silla', 'default.png');
+CALL insertar_categoria('Estandar', 'Es una hamaca estandar', 'default.png');
+CALL insertar_categoria('Moderna', 'Es una hamaca moderna', 'default.png');
 
 CALL insertar_material('Algodón', 'Material de algodón para mayor comodidad y durabilidad', 'default.jpg');
 CALL insertar_material('Seda', 'Material de seda suave y lujoso', 'default.jpg');
@@ -90,31 +90,31 @@ CALL insertar_material('Vidrio', 'Material de vidrio elegante y transparente', '
 CALL insertar_material('Piedra', 'Material de piedra natural y duradero', 'default.jpg');
 CALL insertar_material('Terciopelo', 'Material de terciopelo suave y lujoso', 'default.jpg');
 
-CALL insertar_hamaca('Hamaca de lana', 'Hamaca hecha de lana tejida a mano', 99.99, 'Disponible', 50, 'default.jpg', 1, 1, 1);
-CALL insertar_hamaca('Hamaca de tela', 'Hamaca hecha de tela resistente', 79.99, 'Disponible', 30, 'default.jpg', 2, 2, 2);
-CALL insertar_hamaca('Hamaca de lona', 'Hamaca de lona con diseños coloridos', 109.99, 'Disponible', 40, 'default.jpg', 3, 3, 3);
-CALL insertar_hamaca('Hamaca de seda', 'Hamaca de seda suave y lujosa', 149.99, 'Disponible', 25, 'default.jpg', 4, 4, 4);
-CALL insertar_hamaca('Hamaca de algodón', 'Hamaca cómoda y transpirable de algodón', 89.99, 'Disponible', 35, 'default.jpg', 5, 1, 5);
-CALL insertar_hamaca('Hamaca de nylon', 'Hamaca resistente al agua y duradera de nylon', 129.99, 'Disponible', 20, 'default.jpg', 6, 2, 6);
-CALL insertar_hamaca('Hamaca de poliéster', 'Hamaca de poliéster de secado rápido', 69.99, 'Disponible', 45, 'default.jpg', 7, 3, 7);
-CALL insertar_hamaca('Hamaca de cuero', 'Hamaca de cuero genuino para uso rústico', 199.99, 'Disponible', 15, 'default.jpg', 8, 4, 8);
-CALL insertar_hamaca('Hamaca de mimbre', 'Hamaca de mimbre tejida a mano', 119.99, 'Disponible', 25, 'default.jpg', 9, 1, 9);
-CALL insertar_hamaca('Hamaca de bambú', 'Hamaca de bambú ecológica y resistente', 159.99, 'Disponible', 30, 'default.jpg', 10, 2, 10);
-CALL insertar_hamaca('Hamaca de plástico', 'Hamaca de plástico ligera y fácil de limpiar', 49.99, 'Disponible', 50, 'default.jpg', 11, 3, 11);
-CALL insertar_hamaca('Hamaca de acero', 'Hamaca de acero inoxidable para uso exterior', 179.99, 'Disponible', 10, 'default.jpg', 12, 4, 12);
-CALL insertar_hamaca('Hamaca de aluminio', 'Hamaca de aluminio resistente y ligera', 139.99, 'Disponible', 20, 'default.jpg', 13, 1, 13);
-CALL insertar_hamaca('Hamaca de hierro', 'Hamaca de hierro forjado con diseño elegante', 169.99, 'Disponible', 15, 'default.jpg', 14, 2, 14);
-CALL insertar_hamaca('Hamaca de madera', 'Hamaca de madera maciza para jardín', 189.99, 'Disponible', 10, 'default.jpg', 15, 3, 15);
-CALL insertar_hamaca('Hamaca de plástico reciclado', 'Hamaca ecológica de plástico reciclado', 99.99, 'Disponible', 30, 'default.jpg', 16, 4, 16);
-CALL insertar_hamaca('Hamaca de tela impermeable', 'Hamaca con tela impermeable para uso en la playa', 119.99, 'Disponible', 25, 'default.jpg', 17, 1, 17);
-CALL insertar_hamaca('Hamaca de tela transpirable', 'Hamaca con tela transpirable para uso en el jardín', 109.99, 'Disponible', 20, 'default.jpg', 18, 2, 18);
-CALL insertar_hamaca('Hamaca de lona resistente', 'Hamaca de lona resistente para camping', 129.99, 'Disponible', 15, 'default.jpg', 19, 3, 19);
-CALL insertar_hamaca('Hamaca de algodón orgánico', 'Hamaca de algodón orgánico para uso en interiores', 149.99, 'Disponible', 10, 'default.jpg', 20, 4, 20);
-CALL insertar_hamaca('Hamaca de seda natural', 'Hamaca de seda natural para uso terapéutico', 199.99, 'Disponible', 10, 'default.jpg', 21, 1, 21);
-CALL insertar_hamaca('Hamaca de bambú reciclado', 'Hamaca de bambú reciclado para uso sostenible', 139.99, 'Disponible', 20, 'default.jpg', 22, 2, 22);
-CALL insertar_hamaca('Hamaca de tela de cáñamo', 'Hamaca de tela de cáñamo resistente y duradera', 159.99, 'Disponible', 15, 'default.jpg', 23, 3, 23);
-CALL insertar_hamaca('Hamaca de nylon de alta resistencia', 'Hamaca de nylon de alta resistencia para exteriores', 179.99, 'Disponible', 20, 'default.jpg', 24, 4, 24);
-CALL insertar_hamaca('Hamaca de tela de lino', 'Hamaca de tela de lino fresca y transpirable', 169.99, 'Disponible', 15, 'default.jpg', 24, 1, 24);
+CALL insertar_hamaca('Hamaca de lana', 'Hamaca hecha de lana tejida a mano', 99.99, 50, 'default.jpg', 1, 1, 1);
+CALL insertar_hamaca('Hamaca de tela', 'Hamaca hecha de tela resistente', 79.99, 30, 'default.jpg', 3, 2, 2);
+CALL insertar_hamaca('Hamaca de lona', 'Hamaca de lona con diseños coloridos', 109.99, 40, 'default.jpg', 3, 3, 3);
+CALL insertar_hamaca('Hamaca de seda', 'Hamaca de seda suave y lujosa', 149.99, 25, 'default.jpg', 4, 4, 4);
+CALL insertar_hamaca('Hamaca de algodón', 'Hamaca cómoda y transpirable de algodón', 89.99, 35, 'default.jpg', 5, 1, 5);
+CALL insertar_hamaca('Hamaca de nylon', 'Hamaca resistente al agua y duradera de nylon', 129.99, 20, 'default.jpg', 6, 2, 6);
+CALL insertar_hamaca('Hamaca de poliéster', 'Hamaca de poliéster de secado rápido', 69.99, 45, 'default.jpg', 7, 3, 7);
+CALL insertar_hamaca('Hamaca de cuero', 'Hamaca de cuero genuino para uso rústico', 199.99, 15, 'default.jpg', 8, 4, 8);
+CALL insertar_hamaca('Hamaca de mimbre', 'Hamaca de mimbre tejida a mano', 119.99, 25, 'default.jpg', 9, 1, 9);
+CALL insertar_hamaca('Hamaca de bambú', 'Hamaca de bambú ecológica y resistente', 159.99, 30, 'default.jpg', 10, 2, 10);
+CALL insertar_hamaca('Hamaca de plástico', 'Hamaca de plástico ligera y fácil de limpiar', 49.99, 50, 'default.jpg', 11, 3, 11);
+CALL insertar_hamaca('Hamaca de acero', 'Hamaca de acero inoxidable para uso exterior', 179.99, 10, 'default.jpg', 12, 4, 12);
+CALL insertar_hamaca('Hamaca de aluminio', 'Hamaca de aluminio resistente y ligera', 139.99, 20, 'default.jpg', 13, 1, 13);
+CALL insertar_hamaca('Hamaca de hierro', 'Hamaca de hierro forjado con diseño elegante', 169.99, 15, 'default.jpg', 14, 2, 14);
+CALL insertar_hamaca('Hamaca de madera', 'Hamaca de madera maciza para jardín', 189.99, 10, 'default.jpg', 15, 3, 15);
+CALL insertar_hamaca('Hamaca de plástico reciclado', 'Hamaca ecológica de plástico reciclado', 99.99, 30, 'default.jpg', 16, 4, 16);
+CALL insertar_hamaca('Hamaca de tela impermeable', 'Hamaca con tela impermeable para uso en la playa', 119.99, 25, 'default.jpg', 17, 1, 17);
+CALL insertar_hamaca('Hamaca de tela transpirable', 'Hamaca con tela transpirable para uso en el jardín', 109.99, 20, 'default.jpg', 18, 2, 18);
+CALL insertar_hamaca('Hamaca de lona resistente', 'Hamaca de lona resistente para camping', 129.99, 15, 'default.jpg', 19, 3, 19);
+CALL insertar_hamaca('Hamaca de algodón orgánico', 'Hamaca de algodón orgánico para uso en interiores', 149.99, 10, 'default.jpg', 20, 4, 20);
+CALL insertar_hamaca('Hamaca de seda natural', 'Hamaca de seda natural para uso terapéutico', 199.99, 10, 'default.jpg', 21, 1, 21);
+CALL insertar_hamaca('Hamaca de bambú reciclado', 'Hamaca de bambú reciclado para uso sostenible', 139.99, 20, 'default.jpg', 22, 2, 22);
+CALL insertar_hamaca('Hamaca de tela de cáñamo', 'Hamaca de tela de cáñamo resistente y duradera', 159.99, 15, 'default.jpg', 23, 3, 23);
+CALL insertar_hamaca('Hamaca de nylon de alta resistencia', 'Hamaca de nylon de alta resistencia para exteriores', 179.99, 20, 'default.jpg', 24, 4, 24);
+CALL insertar_hamaca('Hamaca de tela de lino', 'Hamaca de tela de lino fresca y transpirable', 169.99, 15, 'default.jpg', 24, 1, 24);
 
 
 CALL insertar_foto('default.jpg', 1);
@@ -135,10 +135,76 @@ CALL insertar_foto('default.jpg', 3);
 CALL insertar_foto('default.jpg', 3);
 CALL insertar_foto('default.jpg', 3);
 CALL insertar_foto('default.jpg', 3);
+CALL insertar_foto('default.jpg', 4);
+CALL insertar_foto('default.jpg', 4);
+CALL insertar_foto('default.jpg', 4);
 
-CALL insertar_pedido_y_detalle_pedido('Entregado', 'San Salvador', 1, 2, 1);
-CALL insertar_pedido_y_detalle_pedido('Entregado', 'San Salvador', 2, 2, 2);
-CALL insertar_pedido_y_detalle_pedido('Entregado', 'San Salvador', 3, 2, 3);
+CALL insertar_pedido_y_detalle_pedido('En camino', 'San Salvador', 1, 1, 1);
+CALL insertar_pedido_y_detalle_pedido('En camino', 'San Salvador', 2, 2, 2);
+CALL insertar_pedido_y_detalle_pedido('En camino', 'San Salvador', 3, 3, 3);
+CALL insertar_pedido_y_detalle_pedido('En camino', 'San Salvador', 1, 1, 1);
+CALL insertar_pedido_y_detalle_pedido('En camino', 'San Salvador', 2, 2, 2);
+CALL insertar_pedido_y_detalle_pedido('En camino', 'San Salvador', 3, 3, 3);
+CALL insertar_pedido_y_detalle_pedido('En camino', 'San Salvador', 1, 1, 1);
+CALL insertar_pedido_y_detalle_pedido('En camino', 'San Salvador', 2, 2, 2);
+CALL insertar_pedido_y_detalle_pedido('En camino', 'San Salvador', 3, 3, 3);
+CALL insertar_pedido_y_detalle_pedido('En camino', 'San Salvador', 1, 4, 4);
+CALL insertar_pedido_y_detalle_pedido('En camino', 'San Salvador', 2, 4, 4);
+CALL insertar_pedido_y_detalle_pedido('En camino', 'San Salvador', 3, 4, 4);
+
+
+CALL insertar_valoracion(1, 'Horrible compra nunca vuelvo a comprar aquí', 1);
+CALL insertar_valoracion(5, 'Muy buena calidad', 2);
+CALL insertar_valoracion(1, '(Censurado por el bien de la trama)************', 3);
+CALL insertar_valoracion(5, 'Me encanto', 4);
+
+INSERT INTO pedidos (estado_pedido, fecha_pedido, direccion_pedido, id_cliente) VALUES ('Entregado', '2024-03-01', '123 Calle Falsa', 1);
+INSERT INTO pedidos (estado_pedido, fecha_pedido, direccion_pedido, id_cliente) VALUES ('En camino', '2024-03-05', '456 Avenida Siempreviva', 2);
+INSERT INTO pedidos (estado_pedido, fecha_pedido, direccion_pedido, id_cliente) VALUES ('Cancelado', '2024-03-10', '789 Calle Real', 3);
+INSERT INTO pedidos (estado_pedido, fecha_pedido, direccion_pedido, id_cliente) VALUES ('Entregado', '2024-03-15', '1011 Calle Mayor', 4);
+INSERT INTO pedidos (estado_pedido, fecha_pedido, direccion_pedido, id_cliente) VALUES ('En camino', '2024-03-20', '1213 Avenida del Sol', 5);
+INSERT INTO pedidos (estado_pedido, fecha_pedido, direccion_pedido, id_cliente) VALUES ('Entregado', '2024-03-25', '1415 Calle Luna', 6);
+INSERT INTO pedidos (estado_pedido, fecha_pedido, direccion_pedido, id_cliente) VALUES ('En camino', '2024-04-01', '1617 Avenida Estrella', 7);
+INSERT INTO pedidos (estado_pedido, fecha_pedido, direccion_pedido, id_cliente) VALUES ('Entregado', '2024-04-05', '1819 Calle Cielo', 8);
+INSERT INTO pedidos (estado_pedido, fecha_pedido, direccion_pedido, id_cliente) VALUES ('Cancelado', '2024-04-10', '2021 Avenida Mar', 9);
+INSERT INTO pedidos (estado_pedido, fecha_pedido, direccion_pedido, id_cliente) VALUES ('Entregado', '2024-04-15', '2223 Calle Sol', 10);
+INSERT INTO pedidos (estado_pedido, fecha_pedido, direccion_pedido, id_cliente) VALUES ('En camino', '2024-04-20', '2425 Avenida Luna', 11);
+INSERT INTO pedidos (estado_pedido, fecha_pedido, direccion_pedido, id_cliente) VALUES ('Entregado', '2024-04-25', '2627 Calle Estrella', 12);
+INSERT INTO pedidos (estado_pedido, fecha_pedido, direccion_pedido, id_cliente) VALUES ('Cancelado', '2024-05-01', '2829 Avenida Cielo', 13);
+INSERT INTO pedidos (estado_pedido, fecha_pedido, direccion_pedido, id_cliente) VALUES ('Entregado', '2024-05-05', '3031 Calle Mar', 14);
+INSERT INTO pedidos (estado_pedido, fecha_pedido, direccion_pedido, id_cliente) VALUES ('En camino', '2024-05-10', '3233 Avenida Sol', 15);
+
+INSERT INTO detalles_pedidos (id_pedido, precio_producto, cantidad_comprada, id_hamaca) 
+VALUES (1, calcular_total_producto(1, 2), 2, 1);
+INSERT INTO detalles_pedidos (id_pedido, precio_producto, cantidad_comprada, id_hamaca) 
+VALUES (2, calcular_total_producto(2, 1), 1, 2);
+INSERT INTO detalles_pedidos (id_pedido, precio_producto, cantidad_comprada, id_hamaca) 
+VALUES (3, calcular_total_producto(3, 1), 1, 3);
+INSERT INTO detalles_pedidos (id_pedido, precio_producto, cantidad_comprada, id_hamaca) 
+VALUES (4, calcular_total_producto(4, 3), 3, 4);
+INSERT INTO detalles_pedidos (id_pedido, precio_producto, cantidad_comprada, id_hamaca) 
+VALUES (5, calcular_total_producto(4, 1), 1, 4);
+INSERT INTO detalles_pedidos (id_pedido, precio_producto, cantidad_comprada, id_hamaca) 
+VALUES (6, calcular_total_producto(4, 2), 2, 3);
+INSERT INTO detalles_pedidos (id_pedido, precio_producto, cantidad_comprada, id_hamaca) 
+VALUES (7, calcular_total_producto(4, 4), 4, 3);
+INSERT INTO detalles_pedidos (id_pedido, precio_producto, cantidad_comprada, id_hamaca) 
+VALUES (8, calcular_total_producto(4, 2), 2, 3);
+INSERT INTO detalles_pedidos (id_pedido, precio_producto, cantidad_comprada, id_hamaca) 
+VALUES (9, calcular_total_producto(4, 1), 1, 3);
+INSERT INTO detalles_pedidos (id_pedido, precio_producto, cantidad_comprada, id_hamaca) 
+VALUES (10, calcular_total_producto(4, 3), 3, 3);
+INSERT INTO detalles_pedidos (id_pedido, precio_producto, cantidad_comprada, id_hamaca) 
+VALUES (11, calcular_total_producto(4, 2), 2, 3);
+INSERT INTO detalles_pedidos (id_pedido, precio_producto, cantidad_comprada, id_hamaca) 
+VALUES (12, calcular_total_producto(4, 1), 1, 4);
+INSERT INTO detalles_pedidos (id_pedido, precio_producto, cantidad_comprada, id_hamaca) 
+VALUES (13, calcular_total_producto(4, 1), 1, 4);
+INSERT INTO detalles_pedidos (id_pedido, precio_producto, cantidad_comprada, id_hamaca) 
+VALUES (14, calcular_total_producto(4, 2), 2, 4);
+INSERT INTO detalles_pedidos (id_pedido, precio_producto, cantidad_comprada, id_hamaca) 
+VALUES (15, calcular_total_producto(4, 1), 1, 4);
+
 
 SELECT ID, NOMBRE FROM vista_roles_administradores
 ORDER BY NOMBRE;
@@ -152,3 +218,29 @@ SELECT * FROM hamacas;
 SELECT * FROM fotos;
 SELECT * FROM pedidos;
 SELECT * FROM detalles_pedidos;
+SELECT * FROM valoraciones;
+
+SELECT fecha_pedido AS FECHA, 
+SUM(precio_producto) AS GANANCIAS
+FROM detalles_pedidos
+INNER JOIN pedidos USING(id_pedido)
+WHERE estado_pedido = "Entregado"
+GROUP BY FECHA ORDER BY FECHA ASC;
+
+SELECT fecha_pedido, precio_producto, cantidad_comprada
+FROM detalles_pedidos
+INNER JOIN pedidos USING(id_pedido)
+WHERE estado_pedido = 'Entregado';
+
+
+
+SELECT id_foto AS ID, id_hamaca AS HAMACA, url AS IMAGEN FROM fotos
+                WHERE id_hamaca = 2;
+                
+                
+SELECT fecha_pedido AS FECHA, 
+SUM(precio_producto) AS GANANCIAS
+FROM detalles_pedidos
+INNER JOIN pedidos USING(id_pedido)
+WHERE estado_pedido = "Entregado"
+GROUP BY FECHA ORDER BY GANANCIAS ASC
