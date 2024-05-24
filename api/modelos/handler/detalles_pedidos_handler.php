@@ -2,7 +2,7 @@
 // Se incluye la clase para trabajar con la base de datos.
 require_once('../../auxiliares/database.php');
 /*
- *  Clase para manejar el comportamiento de los datos de la tabla administrador.
+ *  Clase para manejar el comportamiento de los datos de la tabla detalles de pedidos.
  */
 class DetallesPedidosHandler
 {

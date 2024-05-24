@@ -205,6 +205,17 @@ VALUES (14, calcular_total_producto(4, 2), 2, 4);
 INSERT INTO detalles_pedidos (id_pedido, precio_producto, cantidad_comprada, id_hamaca) 
 VALUES (15, calcular_total_producto(4, 1), 1, 4);
 
+INSERT INTO favoritos (id_cliente, id_hamaca) VALUES (1, 1);
+INSERT INTO favoritos (id_cliente, id_hamaca) VALUES (2, 2);
+INSERT INTO favoritos (id_cliente, id_hamaca) VALUES (3, 3);
+INSERT INTO favoritos (id_cliente, id_hamaca) VALUES (4, 4);
+INSERT INTO favoritos (id_cliente, id_hamaca) VALUES (10, 1);
+INSERT INTO favoritos (id_cliente, id_hamaca) VALUES (12, 2);
+INSERT INTO favoritos (id_cliente, id_hamaca) VALUES (13, 3);
+INSERT INTO favoritos (id_cliente, id_hamaca) VALUES (14, 4);
+INSERT INTO favoritos (id_cliente, id_hamaca) VALUES (21, 4);
+INSERT INTO favoritos (id_cliente, id_hamaca) VALUES (22, 4);
+INSERT INTO favoritos (id_cliente, id_hamaca) VALUES (25, 4);
 
 SELECT ID, NOMBRE FROM vista_roles_administradores
 ORDER BY NOMBRE;
@@ -215,6 +226,7 @@ SELECT * FROM clientes;
 SELECT * FROM categorias;
 SELECT * FROM materiales;
 SELECT * FROM hamacas;
+SELECT * FROM favoritos;
 SELECT * FROM fotos;
 SELECT * FROM pedidos;
 SELECT * FROM detalles_pedidos;
@@ -243,4 +255,7 @@ SUM(precio_producto) AS GANANCIAS
 FROM detalles_pedidos
 INNER JOIN pedidos USING(id_pedido)
 WHERE estado_pedido = "Entregado"
-GROUP BY FECHA ORDER BY GANANCIAS ASC
+GROUP BY FECHA ORDER BY GANANCIAS ASC;
+
+SELECT CONCAT(c.nombre_cliente, " ", c.apellido_cliente) AS CLIENTE, c.foto_cliente AS FOTO
+FROM  favoritos f INNER JOIN clientes c ON f.id_cliente = c.id_cliente WHERE f.id_hamaca = 4;

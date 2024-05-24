@@ -10,6 +10,7 @@ let TOAST,
     MESSAGE_TOAST;
 let SAVE_MODAL;
 let IMAGE_MODAL;
+let FAVS_MODAL;
 let SAVE_FORM,
     ID_HAMACA,
     IMAGEN_HAMACA,
@@ -31,6 +32,7 @@ const HAMACA_API = 'servicios/privada/hamacas.php';
 const FOTOS_API = 'servicios/privada/fotos.php';
 const MATERIALES_API = 'servicios/privada/materiales.php';
 const CATEGORIAS_API = 'servicios/privada/categorias.php';
+const FAVORITOS_API = 'servicios/privada/favoritos.php';
 /*
 *   Función para preparar el formulario al momento de insertar un registro.
 *   Parámetros: ninguno.
@@ -45,6 +47,11 @@ const openCreate = () => {
     fillSelect(MATERIALES_API, 'readAll', 'materiales');
     fillSelect(CATEGORIAS_API, 'readAll', 'categorias');
 }
+/*
+*   Función asíncrona para preparar el formulario de la imagen antes de un registro.
+*   Parámetros: id (identificador del registro seleccionado).
+*   Retorno: ninguno.
+*/
 const openImage = async (id) => {
     IMAGE_FORM.reset();
     // Se define un objeto con los datos del registro seleccionado.
@@ -55,6 +62,20 @@ const openImage = async (id) => {
     MODAL_TITLE_IMAGE.textContent = 'Agregar fotos de la hamaca ' + id;
     cargarFotos(FORM);
     HAMACA.value = id;
+}
+/*
+*   Función asíncrona para preparar el formulario de la imagen antes de un registro.
+*   Parámetros: id (identificador del registro seleccionado).
+*   Retorno: ninguno.
+*/
+const openFavs = async (id) => {
+    // Se define un objeto con los datos del registro seleccionado.
+    const FORM = new FormData();
+    FORM.append('idHamaca', id);
+    // Se muestra la caja de diálogo con su título.
+    FAVS_MODAL.show();
+    MODAL_TITLE_FAVS.textContent = 'Guardado en favoritos por';
+    cargarFavs(FORM);
 }
 /*
 *   Función asíncrona para preparar el formulario al momento de actualizar un registro.
@@ -354,6 +375,9 @@ async function cargarTabla(form = null) {
                         <button type="button" class="btn btn-outline-primary" onclick="openImage(${row.ID})">
                         <i class="bi bi-card-image"></i>
                         </button>
+                        <button type="button" class="btn btn-outline-warning" onclick="openFavs(${row.ID})">
+                        <i class="bi bi-bookmark-star"></i>
+                        </button>
                     </td>
                 </tr>
                 `;
@@ -401,7 +425,59 @@ async function cargarTabla(form = null) {
     }
 }
 
+const listafavs = [
+    {
+        cliente: 'Joel Ramírez',
+        urlfoto: '../../../recursos/img/foto.png',
+        id: 1
+    },
+    {
+        cliente: 'Joel',
+        urlfoto: '../../../recursos/img/foto.png',
+        id: 2
+    },
+    {
+        cliente: 'Mujer',
+        urlfoto: '../../../recursos/img/mujer.jpg',
+        id: 3
+    },
+];
 
+async function cargarFavs(form = null) {
+    const cargarTabla = document.getElementById('tabla_favoritos');
+
+    try {
+        cargarTabla.innerHTML = '';
+        // Petición para obtener los registros disponibles.
+        const DATA = await fetchData(FAVORITOS_API, 'readOne', form);
+        if (DATA.status) {
+            // Mostrar elementos obtenidos de la API
+            DATA.dataset.forEach(row => {
+                const tablaHtml = `
+            <tr>
+                    <td><img src="${SERVER_URL}imagenes/clientes/${row.FOTO}" height="50" width="50" class="circulo"></td>
+                    <td>${row.CLIENTE}</td>
+            </tr>
+                `;
+                cargarTabla.innerHTML += tablaHtml;
+            });
+        } else {
+            sweetAlert(4, DATA.error, true);
+        }
+    } catch (error) {
+        console.error('Error al obtener datos de la API:', error);
+        // Mostrar materiales de respaldo
+        listafavs.forEach(row => {
+            const tablaHtml = `
+            <tr">
+                    <td><img src="${row.urlfoto}" height="50" width="50" class="circulo"></td>
+                    <td>${row.cliente}</td>
+            </tr>
+            `;
+            cargarTabla.innerHTML += tablaHtml;
+        });
+    }
+}
 
 function getRowColor(estado) {
     switch (estado) {
@@ -451,6 +527,8 @@ window.onload = async function () {
     IMAGE_MODAL = new bootstrap.Modal('#modalAgregarFoto'),
         MODAL_TITLE_IMAGE = document.getElementById('exampleModalLabel');
 
+    FAVS_MODAL = new bootstrap.Modal('#modalFavs'),
+        MODAL_TITLE_FAVS = document.getElementById('titleModal');
 
     ROWS_FOUND = document.getElementById('rowsFound');
 
