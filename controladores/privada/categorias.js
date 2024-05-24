@@ -1,6 +1,7 @@
 let SAVE_MODAL;
 let SAVE_FORM,
     ID_CATEGORIA,
+    IMAGEN_CATEGORIA,
     NOMBRE_CATEGORIA,
     DESCRIPCION_CATEGORIA;
 let SEARCH_FORM;
@@ -126,6 +127,7 @@ async function cargarTabla(form = null) {
             DATA.dataset.forEach(row => {
                 const tablaHtml = `
                 <tr>
+                <td><img src="${SERVER_URL}imagenes/categorias/${row.IMAGEN}" height="50" width="50" class="circulo"></td>
                 <td>${row.NOMBRE}</td>
                 <td>${row.DESCRIPCION}</td>
                 <td>
@@ -202,6 +204,7 @@ window.onload = async function () {
     // Constantes para establecer los elementos del formulario de guardar.
     SAVE_FORM = document.getElementById('saveForm'),
         ID_CATEGORIA = document.getElementById('idCategoria'),
+        IMAGEN_CATEGORIA = document.getElementById('imagenCategoria'),
         NOMBRE_CATEGORIA = document.getElementById('nombreCategoria'),
         DESCRIPCION_CATEGORIA = document.getElementById('descripcionCategoria');
 

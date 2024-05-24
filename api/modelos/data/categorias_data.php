@@ -10,6 +10,9 @@ class CategoriasData extends CategoriasHandler
 {
     // Atributo genérico para manejo de errores.
     private $data_error = null;
+    // Atributo para almacenar el nombre del archivo de imagen.
+    private $filename = null;
+
 
     /*
      *  Métodos para validar y asignar valores de los atributos.
@@ -56,9 +59,45 @@ class CategoriasData extends CategoriasHandler
         }
     }
 
+    // Validación y asignación de la imagen del material.
+    public function setImagen($file, $filename = null)
+    {
+        if (Validator::validateImageFile($file, 1000)) {
+            $this->imagen = Validator::getFilename();
+            return true;
+        } elseif (Validator::getFileError()) {
+            $this->data_error = Validator::getFileError();
+            return false;
+        } elseif ($filename) {
+            $this->imagen = $filename;
+            return true;
+        } else {
+            $this->imagen = 'default.png';
+            return true;
+        }
+    }
+    
+    // Asignación del nombre del archivo de imagen del material.
+    public function setFilename()
+    {
+        if ($data = $this->readFilename()) {
+            $this->filename = $data['IMAGEN'];
+            return true;
+        } else {
+            $this->data_error = 'Imagen inexistente';
+            return false;
+        }
+    }
+
     // Método para obtener el error de los datos.
     public function getDataError()
     {
         return $this->data_error;
+    }
+
+    // Método para obtener el nombre del archivo de imagen.
+    public function getFilename()
+    {
+        return $this->filename;
     }
 }

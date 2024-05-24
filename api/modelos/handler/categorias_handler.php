@@ -12,6 +12,10 @@ class CategoriasHandler
     protected $id = null;
     protected $nombre = null;
     protected $descripcion = null;
+    protected $imagen = null;
+
+    //constante para establecer la ruta de la imágenes.
+    const RUTA_IMAGEN = '../../imagenes/categorias/';
 
     /*
      *  Métodos para realizar las operaciones SCRUD (search, create, read, update, and delete).
@@ -19,7 +23,7 @@ class CategoriasHandler
     public function searchRows()
     {
         $value = '%' . Validator::getSearchValue() . '%';
-        $sql = 'SELECT id_categoria AS ID, nombre_categoria AS NOMBRE, descripcion_categoria AS DESCRIPCION FROM categorias
+        $sql = 'SELECT id_categoria AS ID, nombre_categoria AS NOMBRE, descripcion_categoria AS DESCRIPCION, foto_categoria AS IMAGEN FROM categorias
                 WHERE nombre_categoria LIKE ?
                 ORDER BY NOMBRE;';
         $params = array($value);
@@ -29,15 +33,15 @@ class CategoriasHandler
     // Función para insertar una categoría
     public function createRow()
     {
-        $sql = 'CALL insertar_categoria(?,?);';
-        $params = array($this->nombre, $this->descripcion);
+        $sql = 'CALL insertar_categoria(?,?,?);';
+        $params = array($this->nombre, $this->descripcion, $this->imagen);
         return Database::executeRow($sql, $params);
     }
 
     // Función para mostrar todas las categorías
     public function readAll()
     {
-        $sql = 'SELECT id_categoria AS ID, nombre_categoria AS NOMBRE, descripcion_categoria AS DESCRIPCION FROM categorias
+        $sql = 'SELECT id_categoria AS ID, nombre_categoria AS NOMBRE, descripcion_categoria AS DESCRIPCION, foto_categoria AS IMAGEN FROM categorias
                 ORDER BY NOMBRE;';
         return Database::getRows($sql);
     }
@@ -45,7 +49,7 @@ class CategoriasHandler
     // Función para mostrar una categoría
     public function readOne()
     {
-        $sql = 'SELECT id_categoria AS ID, nombre_categoria AS NOMBRE, descripcion_categoria AS DESCRIPCION FROM categorias
+        $sql = 'SELECT id_categoria AS ID, nombre_categoria AS NOMBRE, descripcion_categoria AS DESCRIPCION, foto_categoria AS IMAGEN FROM categorias
                 WHERE id_categoria = ?';
         $params = array($this->id);
         return Database::getRow($sql, $params);
@@ -54,8 +58,8 @@ class CategoriasHandler
     // Función para actualizar una categoría
     public function updateRow()
     {
-        $sql = 'CALL actualizar_categoria(?, ?, ?);';
-        $params = array($this->id, $this->nombre, $this->descripcion);
+        $sql = 'CALL actualizar_categoria(?, ?, ?, ?);';
+        $params = array($this->id, $this->nombre, $this->descripcion, $this->imagen);
         return Database::executeRow($sql, $params);
     }
 
@@ -66,4 +70,15 @@ class CategoriasHandler
         $params = array($this->id);
         return Database::executeRow($sql, $params);
     }
+
+    //Función para leer la imagen del id desde la base.
+    public function readFilename()
+    {
+        $sql = 'SELECT foto_categoria AS IMAGEN
+                 FROM categorias
+                 WHERE id_categoria = ?';
+        $params = array($this->id);
+        return Database::getRow($sql, $params);
+    }
+
 }
