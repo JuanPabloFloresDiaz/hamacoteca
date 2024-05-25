@@ -10,10 +10,30 @@ class ClientesHandler
      *  Declaración de atributos para el manejo de datos.
      */
     protected $id = null;
+    protected $nombre = null;
+    protected $apellido = null;
+    protected $correo = null;
+    protected $telefono = null;
+    protected $dui = null;
+    protected $nacimiento = null;
+    protected $direccion = null;
+    protected $clave = null;
+    protected $estado = null;
+    protected $genero = null;
+    protected $imagen = null;
+
+    //Metodos para la privada
 
     /*
-     *  Métodos para realizar las operaciones SCRUD (search, create, read, update, and delete).
-     */
+    *   Métodos para realizar las operaciones SCRUD (search, create, read, update, and delete).
+    */
+
+    public function createRow()
+    {
+        $sql = 'CALL insertar_cliente_validado(?,?,?,?,?,?,?,?,?,?,?)';
+        $params = array($this->nombre, $this->apellido, $this->clave, $this->correo, $this->telefono, $this->dui, $this->nacimiento, $this->genero, $this->estado, $this->imagen, $this->direccion);
+        return Database::executeRow($sql, $params);
+    }
 
     // Función para buscar un cliente
     public function searchRows()
@@ -77,5 +97,75 @@ class ClientesHandler
         $sql = 'CALL cambiar_estado_cliente(?);';
         $params = array($this->id);
         return Database::executeRow($sql, $params);
+    }
+
+    //Metodos para la publica
+
+    /*
+    *   Métodos para gestionar la cuenta del cliente.
+    */
+
+    public function checkUser($mail, $password)
+    {
+        $sql = 'SELECT id_cliente, correo_cliente, clave_cliente, estado_cliente
+                FROM cliente
+                WHERE correo_cliente = ?';
+        $params = array($mail);
+        $data = Database::getRow($sql, $params);
+        if (password_verify($password, $data['clave_cliente'])) {
+            $this->id = $data['id_cliente'];
+            $this->correo = $data['correo_cliente'];
+            $this->estado = $data['estado_cliente'];
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function checkStatus()
+    {
+        if ($this->estado) {
+            $_SESSION['idCliente'] = $this->id;
+            $_SESSION['correoCliente'] = $this->correo;
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function changePassword()
+    {
+        $sql = 'UPDATE cliente
+                SET clave_cliente = ?
+                WHERE id_cliente = ?';
+        $params = array($this->clave, $this->id);
+        return Database::executeRow($sql, $params);
+    }
+
+    public function editProfile()
+    {
+        $sql = 'UPDATE cliente
+                SET nombre_cliente = ?, apellido_cliente = ?, correo_cliente = ?, dui_cliente = ?, telefono_cliente = ?, nacimiento_cliente = ?, direccion_cliente = ?
+                WHERE id_cliente = ?';
+        $params = array($this->nombre, $this->apellido, $this->correo, $this->dui, $this->telefono, $this->nacimiento, $this->direccion, $this->id);
+        return Database::executeRow($sql, $params);
+    }
+
+    public function changeStatus()
+    {
+        $sql = 'UPDATE cliente
+                SET estado_cliente = ?
+                WHERE id_cliente = ?';
+        $params = array($this->estado, $this->id);
+        return Database::executeRow($sql, $params);
+    }
+
+    public function checkDuplicate($value)
+    {
+        $sql = 'SELECT id_cliente
+                FROM cliente
+                WHERE dui_cliente = ? OR correo_cliente = ?';
+        $params = array($value, $value);
+        return Database::getRow($sql, $params);
     }
 }
