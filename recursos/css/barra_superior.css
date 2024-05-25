@@ -125,6 +125,11 @@
     background-color: rgb(7, 7, 109);
 }
 
+.logout{
+    width: 30px;
+    height: 30px;
+}
+
 
 @media (max-width: 770px) {
     .pastilla {

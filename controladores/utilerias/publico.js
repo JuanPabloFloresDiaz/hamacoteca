@@ -62,6 +62,11 @@ const loadTemplate = async () => {
                                         alt="Ícono de carrito de compras" width="30" height="30">
                                 </a>
                             </li>
+                            <li class="nav-item logout">
+                                <a class="nav-link" href="#" onclick="logOut()">
+                                    <i class="bi bi-box-arrow-left text-dark"></i>
+                                </a>
+                            </li>
                         </ul>
                     </div>
                 </div>
@@ -110,11 +115,15 @@ const loadTemplate = async () => {
     
         <button id="toggleFooterBtn" class="btn btn-light d-md-none fixed-bottom"><i class="bi bi-chevron-up"></i></button>
         `);
+            document.getElementById('toggleFooterBtn').addEventListener('click', function () {
+                var footer = document.querySelector('footer');
+                footer.classList.toggle('d-none');
+            });
         } else {
             location.href = 'index.html';
         }
     } else {
-        if (!location.pathname.endsWith('inicio_sesion.html') 
+        if (!location.pathname.endsWith('inicio_sesion.html')
             && !location.pathname.endsWith('registro.html')
             && !location.pathname.endsWith('recuperacion.html')
             && !location.pathname.endsWith('codigo_verificacio.html')
@@ -208,6 +217,10 @@ const loadTemplate = async () => {
     
         <button id="toggleFooterBtn" class="btn btn-light d-md-none fixed-bottom"><i class="bi bi-chevron-up"></i></button>
         `);
+        document.getElementById('toggleFooterBtn').addEventListener('click', function () {
+            var footer = document.querySelector('footer');
+            footer.classList.toggle('d-none');
+        });
         } else {
             MAIN.style.paddingTop = '200px';
             // Se agrega el encabezado de la página web antes del contenido principal.
@@ -259,9 +272,4 @@ const loadTemplate = async () => {
                 `);
         }
     }
-
-    document.getElementById('toggleFooterBtn').addEventListener('click', function () {
-        var footer = document.querySelector('footer');
-        footer.classList.toggle('d-none');
-    });
 }
