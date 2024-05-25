@@ -7,7 +7,7 @@ async function loadComponent(path) {
 // window.onload
 window.onload = async function () {
     // Obtiene el contenedor principal
-    const appContainer = document.getElementById('registro');
+    const appContainer = document.getElementById('main');
 
     // Carga los componentes de manera síncrona
     const cambiarregistro = await loadComponent('../componentes/registro/registro.html');

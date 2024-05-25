@@ -11,7 +11,7 @@ async function loadComponent(path) {
 // Acción cuando se carga la ventana
 window.onload = async function () {
     // Obtiene el contenedor principal donde se cargará el componente
-    const appContainer = document.getElementById('cambiarcontra');
+    const appContainer = document.getElementById('main');
     // Carga el componente HTML de cambio de contraseña de manera asincrónica
     const cambiarcontraHtml = await loadComponent('../componentes/recuperacion/cambiar_contra.html');
     // Agrega el HTML del componente al contenedor principal

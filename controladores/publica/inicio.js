@@ -101,7 +101,7 @@ async function cargar_productos_semanales() {
 // window.onload
 window.onload = async function () {
     // Obtiene el contenedor principal
-    const appContainer = document.getElementById('app');
+    const appContainer = document.getElementById('main');
 
     // Carga los componentes de manera síncrona
     const headerHtml = await loadComponent('../componentes/componentes_generales/barra_superior/barra_superior.html');

@@ -210,7 +210,7 @@ async function cargarTabla() {
 window.onload = async function () {
 
     // Obtiene el contenedor principal
-    const appContainer = document.getElementById('carrito');
+    const appContainer = document.getElementById('main');
 
     // Carga los componentes de manera síncrona
     // Carga los componentes de manera síncrona

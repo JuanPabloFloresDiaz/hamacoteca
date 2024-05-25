@@ -258,7 +258,7 @@ const PRODUCTOS_API = '';
 
 window.onload = async function () {
     // Obtiene el contenedor principal
-    const appContainer = document.getElementById('tienda');
+    const appContainer = document.getElementById('main');
 
     // Carga los componentes de manera síncrona
     const headerHtml = await loadComponent('../componentes/componentes_generales/barra_superior/barra_superior.html');
