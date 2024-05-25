@@ -8,7 +8,7 @@ async function loadComponent(path) {
 window.onload = async function () {
     // Obtiene el contenedor principal
     const appContainer = document.getElementById('main');
-
+    loadTemplate();
     // Carga los componentes de manera síncrona
     const navbarHtml = await loadComponent('../componentes/inicio_de_sesion/inicio_de_sesion.html');
     // Agrega el HTML del encabezado

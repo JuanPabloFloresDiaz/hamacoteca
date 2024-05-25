@@ -1,6 +1,6 @@
 <?php
 // Se incluye la clase del modelo.
-require_once('../../models/data/cliente_data.php');
+require_once('../../modelos/data/clientes_data.php');
 
 // Se comprueba si existe una acción a realizar, de lo contrario se finaliza el script con un mensaje de error.
 if (isset($_GET['action'])) {
@@ -19,6 +19,7 @@ if (isset($_GET['action'])) {
                 if (isset($_SESSION['correoCliente'])) {
                     $result['status'] = 1;
                     $result['username'] = $_SESSION['correoCliente'];
+                    $result['foto'] = $_SESSION['fotoCliente'];
                 } else {
                     $result['error'] = 'Correo de usuario indefinido';
                 }

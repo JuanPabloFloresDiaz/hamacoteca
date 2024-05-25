@@ -259,15 +259,12 @@ const PRODUCTOS_API = '';
 window.onload = async function () {
     // Obtiene el contenedor principal
     const appContainer = document.getElementById('main');
+    loadTemplate();
 
     // Carga los componentes de manera síncrona
-    const headerHtml = await loadComponent('../componentes/componentes_generales/barra_superior/barra_superior.html');
     const productsHtml = await loadComponent('../componentes/tienda/productos.html');
-    const footerHtml = await loadComponent('../componentes/componentes_generales/barra_inferior/barra_inferior.html');
     // Agrega el HTML del encabezado
-    appContainer.innerHTML += `${headerHtml}`;
     appContainer.innerHTML += `${productsHtml}`;
-    appContainer.innerHTML += `${footerHtml}`;
 
     const rango = document.getElementById('customRange1');
     const rangoValor = document.getElementById('rangoValor');
@@ -281,8 +278,4 @@ window.onload = async function () {
     cargar_categorias();
     cargar_materiales();
     ordenar_resultados();
-    document.getElementById('toggleFooterBtn').addEventListener('click', function() {
-        var footer = document.querySelector('footer');
-        footer.classList.toggle('d-none');
-    });
 };

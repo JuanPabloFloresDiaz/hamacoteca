@@ -426,16 +426,13 @@ window.onload = async function () {
 
     // Obtiene el contenedor principal
     const appContainer = document.getElementById('main');
+    loadTemplate();
     // Carga los componentes de manera síncrona
-    const headerHtml = await loadComponent('../componentes/componentes_generales/barra_superior/barra_superior.html');
     const detalleHtml = await loadComponent('../componentes/detalle_producto/producto/detalle_producto.html');
     const valoracionesHtml = await loadComponent('../componentes/detalle_producto/valoraciones/valoraciones.html');
-    const footerHtml = await loadComponent('../componentes/componentes_generales/barra_inferior/barra_inferior.html');
     // Agrega el HTML del encabezado
-    appContainer.innerHTML += `${headerHtml}`;
     appContainer.innerHTML += `${detalleHtml}`;
     appContainer.innerHTML += `${valoracionesHtml}`;
-    appContainer.innerHTML += `${footerHtml}`;
     
     // Obtener el ID del producto desde la URL
     const urlParams = new URLSearchParams(window.location.search);
@@ -476,9 +473,5 @@ window.onload = async function () {
 
     cargarComentarios(listacomentarios);
     bindQuantityButtons();
-    document.getElementById('toggleFooterBtn').addEventListener('click', function () {
-        var footer = document.querySelector('footer');
-        footer.classList.toggle('d-none');
-    });
 
 };

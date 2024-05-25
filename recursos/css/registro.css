@@ -1,0 +1,17 @@
+
+.imagen-fondo {
+    z-index: -1;
+    /*Se posiciona atras de otros elementos*/
+
+}
+
+.imagen-fondo-derecha {
+    z-index: -1;
+    /*Se posiciona atras de otros elementos*/
+}
+
+
+.container {
+    margin-top: 0px;
+    /*El contenedor esta 100 pixeles abajo de su posición original*/
+}

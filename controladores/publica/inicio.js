@@ -102,17 +102,11 @@ async function cargar_productos_semanales() {
 window.onload = async function () {
     // Obtiene el contenedor principal
     const appContainer = document.getElementById('main');
-
+    loadTemplate();
     // Carga los componentes de manera síncrona
-    const headerHtml = await loadComponent('../componentes/componentes_generales/barra_superior/barra_superior.html');
     const carrouselHtml = await loadComponent('../componentes/inicio/carrusel_de_imagenes/carrusel.html');
     const cardsHtml = await loadComponent('../componentes/inicio/cartas_de_productos_de_la_semana/cartas.html');
-    const footerHtml = await loadComponent('../componentes/componentes_generales/barra_inferior/barra_inferior.html');
     // Agrega el HTML del encabezado
-    appContainer.innerHTML += headerHtml + carrouselHtml + cardsHtml + footerHtml;
+    appContainer.innerHTML += carrouselHtml + cardsHtml;
     cargar_productos_semanales();
-    document.getElementById('toggleFooterBtn').addEventListener('click', function() {
-        var footer = document.querySelector('footer');
-        footer.classList.toggle('d-none');
-    });
 };
