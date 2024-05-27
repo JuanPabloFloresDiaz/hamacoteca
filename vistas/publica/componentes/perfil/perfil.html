@@ -1,0 +1,105 @@
+<section class="about m-4">
+    <div class="col-10 mx-auto">
+        <div class="profile-container p-4">
+            <div class="d-flex justify-content-end">
+                <button class="btn btn-outline-dark mr-2 mb-2">
+                    <i class="fas fa-edit"></i>
+                </button>
+                <button class="btn btn-outline-dark mb-2">
+                    <i class="fas fa-lock"></i>
+                </button>
+            </div>
+            <div class="text-center">
+                <img src="../../../recursos/img/foto.png" alt="Foto de Perfil"
+                    class="profile-image img-fluid rounded-circle mb-3">
+                <h2 class="user-name" id="nombre">Joel Mena</h2>
+                <p class="user-email" id="email">joel@gmail.com</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<article>
+    <!-- Tabs Navigation -->
+    <ul class="nav nav-tabs mt-4 justify-content-center" id="profileTabs" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active text-dark" id="favorites-tab" data-bs-toggle="tab" data-bs-target="#favorites"
+                type="button" role="tab" aria-controls="favorites" aria-selected="true">Favoritos</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link text-dark" id="history-tab" data-bs-toggle="tab" data-bs-target="#history" type="button"
+                role="tab" aria-controls="history" aria-selected="false">Historial de Compras</button>
+        </li>
+    </ul>
+
+    <!-- Tabs Content -->
+    <div class="tab-content" id="profileTabsContent">
+        <!-- Favoritos -->
+        <div class="tab-pane fade show active" id="favorites" role="tabpanel" aria-labelledby="favorites-tab">
+            <div class="row container-fluid mt-3" id="favorites-cards">
+                <!-- Aquí se cargarán las cartas -->
+            </div>
+        </div>
+
+        <!-- Historial de Compras -->
+        <div class="tab-pane fade" id="history" role="tabpanel" aria-labelledby="history-tab">
+            <!-- Columna para la tabla-->
+            <div class="container col-md-10">
+                <!-- Tabla para mostrar los registros existentes -->
+                <table class="table table-hover">
+                    <!-- Cabeza de la tabla para mostrar la cantidad de registros y los títulos de las columnas -->
+                    <thead>
+                        <tr>
+                            <td colspan="6" id="rowsFound"></td>
+                        </tr>
+                        <tr>
+                            <th>FOTO</th>
+                            <th>CLIENTE</th>
+                            <th>DIRECCIÓN DEL PEDIDO</th>
+                            <th>FECHA DE PEDIDO</th>
+                            <th>ESTADO DE PEDIDO</th>
+                            <th>ACCIONES</th>
+                        </tr>
+                    </thead>
+                    <!-- Cuerpo de la tabla para mostrar un registro por fila -->
+                    <tbody id="tabla_pedidos"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</article>
+
+
+<!-- Modal de detalle de pedido -->
+<div class="modal fade" id="detailModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel"></span></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="table-responsive">
+                    <table class="table table align-middle table-striped table-borderless">
+                        <!-- Cabeza de la tabla para mostrar la cantidad de registros y los títulos de las columnas -->
+                        <thead>
+                            <tr>
+                                <td colspan="6" id="rowsFound"></td>
+                            </tr>
+                            <tr>
+                                <th>Foto</th>
+                                <th>Nombre del producto</th>
+                                <th>Cantidad comprada</th>
+                                <th>Precio total</th>
+                            </tr>
+                        </thead>
+                        <!-- Cuerpo de la tabla para mostrar un registro por fila -->
+                        <tbody id="tabla_detalle"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

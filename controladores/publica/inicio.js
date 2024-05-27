@@ -6,21 +6,7 @@ async function loadComponent(path) {
 
 // Constantes para completar la ruta de la API.
 const PRODUCTOS_API = '';
-const PRUEBA_CONEXION_API = '/api/auxiliares/database.php?action=check_connection';
 
-// async function chequearConexion() {
-//     try {
-//         const response = await fetch(PRUEBA_CONEXION_API);
-//         if (!response.ok) {
-//             throw new Error('Error al verificar la conexión');
-//         }
-//         const data = await response.json();
-//         return data.connected;
-//     } catch (error) {
-//         console.error('Error al verificar la conexión:', error);
-//         return false;
-//     }
-// }
 
 async function cargar_productos_semanales() {
     const listahamacas = [
@@ -98,6 +84,81 @@ async function cargar_productos_semanales() {
 
 
 
+async function cargarCategorias() {
+    const listacategorias = [
+        {
+            id: 1,
+            categoria: 'Clasicas',
+            urlfoto: '../../../recursos/img/hamaca 3.jpg',
+        },
+        {
+            id: 2,
+            categoria: 'Colgantes',
+            urlfoto: '../../../recursos/img/hamaca 3.jpg',
+        },
+        {
+            id: 3,
+            categoria: 'Soporte',
+            urlfoto: '../../../recursos/img/hamaca 3.jpg',
+        },
+        {
+            id: 4,
+            categoria: 'Modernas',
+            urlfoto: '../../../recursos/img/hamaca 3.jpg',
+        }
+    ];
+
+    const productCardsContainer = document.getElementById('category');
+    try {
+        const response = await fetch(PRODUCTOS_API);
+        if (!response.ok) {
+            throw new Error('Error al obtener los datos de la API');
+        }
+        const data = await response.json();
+
+        if (data && Array.isArray(data) && data.length > 0) {
+            // Mostrar cartas de productos obtenidos de la API
+            data.forEach(product => {
+                const cardHtml = `
+                <div class="col-lg-2 col-md-2 col-sm-12 text-center">
+                 <div class="card categoria">
+                   <a href="tienda.html" class="text-secondary">
+                     <div class="card-body">
+                         <img src="${product.urlfoto}" class="card-img-top category" alt="${product.categoria}">
+                         <h5 class="card-title">${product.categoria}</h5>
+                     </div>
+                    </a>
+                 </div>
+                </div>
+                `;
+                productCardsContainer.innerHTML += cardHtml;
+            });
+        } else {
+            throw new Error('La respuesta de la API no contiene datos válidos');
+        }
+    } catch (error) {
+        console.error('Error al obtener datos de la API:', error);
+        // Mostrar cartas de productos de respaldo
+        listacategorias.forEach(product => {
+            const cardHtml = `
+                <div class="col-lg-2 col-md-2 col-sm-12 text-center">
+                    <div class="card categoria">
+                        <a href="tienda.html" class="text-secondary">
+                        <div class="card-body">
+                            <img src="${product.urlfoto}" class="card-img-top category" alt="${product.categoria}">
+                            
+                            <h5 class="card-title">${product.categoria}</h5>
+                        </div>
+                        </a>
+                    </div>
+                </div>
+            `;
+            productCardsContainer.innerHTML += cardHtml;
+        });
+    }
+}
+
+
 // window.onload
 window.onload = async function () {
     // Obtiene el contenedor principal
@@ -105,8 +166,10 @@ window.onload = async function () {
     loadTemplate();
     // Carga los componentes de manera síncrona
     const carrouselHtml = await loadComponent('../componentes/inicio/carrusel_de_imagenes/carrusel.html');
+    const categoriesHtml = await loadComponent('../componentes/inicio/categorias/categorias.html');
     const cardsHtml = await loadComponent('../componentes/inicio/cartas_de_productos_de_la_semana/cartas.html');
     // Agrega el HTML del encabezado
-    appContainer.innerHTML += carrouselHtml + cardsHtml;
+    appContainer.innerHTML += carrouselHtml + categoriesHtml + cardsHtml;
     cargar_productos_semanales();
+    cargarCategorias();
 };
