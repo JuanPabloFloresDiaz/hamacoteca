@@ -1,6 +1,6 @@
 .heading {
     text-align: center;
-    font-size: 3rem;
+    font-size: 2.5rem;
     color: #222;
 }
 
@@ -16,6 +16,18 @@
 
 .categoria{
     border-radius: 100%;
+}
+
+.categoria:hover{
+    animation: translateAnimation 2s ease-in-out infinite;
+}
+
+.corrector{
+    width: 100%;
+}
+
+.correccion{
+    height: 400px;
 }
 
 .category{

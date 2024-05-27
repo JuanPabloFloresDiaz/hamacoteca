@@ -6,6 +6,7 @@ async function loadComponent(path) {
 
 // Constantes para completar la ruta de la API.
 const PRODUCTOS_API = '';
+const CATEGORIAS_API = 'servicios/publica/categoria.php';
 
 
 async function cargar_productos_semanales() {
@@ -45,9 +46,9 @@ async function cargar_productos_semanales() {
             // Mostrar cartas de productos obtenidos de la API
             data.forEach(product => {
                 const cardHtml = `
-                    <div class="col text-center ">
+                    <div class="col-lg-4 col-md-4 col-sm-12  text-center ">
                         <div class="card carta">
-                            <img src="${product.url}" height="400" class="card-img-top" alt="${product.nombre_hamaca} ">
+                            <img src="${product.url}" class="card-img-top correccion" alt="${product.nombre_hamaca} ">
                             <a href="detalle.html?id=${producto.id_producto}" class="btn btn-outline-light position-absolute top-50 start-50 translate-middle">Ver detalle</a>
                             <div class="card-body">
                                 <h5 class="card-title">${product.nombre_hamaca}</h5>
@@ -68,7 +69,7 @@ async function cargar_productos_semanales() {
             const cardHtml = `
                 <div class="col-lg-4 col-md-4 col-sm-12 text-center">
                     <div class="card carta">
-                        <img src="${product.urlfoto}" height="400" class="card-img-top" alt="${product.nombre_producto}">
+                        <img src="${product.urlfoto}" class="card-img-top correccion" alt="${product.nombre_producto}">
                         <a href="detalle.html?id=${product.id_hamaca}" class="btn btn-outline-light position-absolute top-50 start-50 translate-middle">Ver detalle</a>
                         <div class="card-body">
                             <h5 class="card-title">${product.nombre_producto}</h5>
@@ -110,22 +111,21 @@ async function cargarCategorias() {
 
     const productCardsContainer = document.getElementById('category');
     try {
-        const response = await fetch(PRODUCTOS_API);
-        if (!response.ok) {
-            throw new Error('Error al obtener los datos de la API');
-        }
-        const data = await response.json();
+        productCardsContainer.innerHTML = '';
+        // Petición para obtener los registros disponibles.
+        const DATA = await fetchData(CATEGORIAS_API, "readAll");
+        console.log(DATA);
 
-        if (data && Array.isArray(data) && data.length > 0) {
+        if (DATA.status) {
             // Mostrar cartas de productos obtenidos de la API
-            data.forEach(product => {
+            DATA.dataset.forEach(product => {
                 const cardHtml = `
                 <div class="col-lg-2 col-md-2 col-sm-12 text-center">
                  <div class="card categoria">
-                   <a href="tienda.html" class="text-secondary">
+                   <a href="tienda.html?idCategoria=${product.ID}" class="text-secondary">
                      <div class="card-body">
-                         <img src="${product.urlfoto}" class="card-img-top category" alt="${product.categoria}">
-                         <h5 class="card-title">${product.categoria}</h5>
+                         <img src="${SERVER_URL}imagenes/categorias/${product.IMAGEN}" class="card-img-top category" alt="${product.NOMBRE}">
+                         <h5 class="card-title">${product.NOMBRE}</h5>
                      </div>
                     </a>
                  </div>
@@ -134,7 +134,7 @@ async function cargarCategorias() {
                 productCardsContainer.innerHTML += cardHtml;
             });
         } else {
-            throw new Error('La respuesta de la API no contiene datos válidos');
+            console.log(DATA.error);
         }
     } catch (error) {
         console.error('Error al obtener datos de la API:', error);
@@ -146,7 +146,6 @@ async function cargarCategorias() {
                         <a href="tienda.html" class="text-secondary">
                         <div class="card-body">
                             <img src="${product.urlfoto}" class="card-img-top category" alt="${product.categoria}">
-                            
                             <h5 class="card-title">${product.categoria}</h5>
                         </div>
                         </a>
@@ -170,6 +169,6 @@ window.onload = async function () {
     const cardsHtml = await loadComponent('../componentes/inicio/cartas_de_productos_de_la_semana/cartas.html');
     // Agrega el HTML del encabezado
     appContainer.innerHTML += carrouselHtml + categoriesHtml + cardsHtml;
-    cargar_productos_semanales();
     cargarCategorias();
+    cargar_productos_semanales();
 };
