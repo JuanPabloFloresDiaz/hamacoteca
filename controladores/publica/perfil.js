@@ -24,6 +24,27 @@ const openDetail = async (id) => {
     cargarDetalle(FORM);
 }
 
+async function openProfile() {
+    // Petición para solicitar los datos del producto seleccionado.
+    const DATA = await fetchData(PRODUCTO_API, 'readProfile');
+    // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
+    if (DATA.status) {
+        // Se colocan los datos en la página web de acuerdo con el producto seleccionado previamente.
+        document.getElementById('imagenProducto').src = SERVER_URL.concat('imagenes/hamacas/', DATA.dataset.IMAGEN);
+        document.getElementById('nombre').textContent = DATA.dataset.NOMBRE;
+        document.getElementById('email').textContent = DATA.dataset.DESCRIPCION;
+        document.getElementById('precioProducto').textContent = DATA.dataset.PRECIO;
+        document.getElementById('existenciasProducto').textContent = DATA.dataset.CANTIDAD;
+        document.getElementById('idProducto').value = DATA.dataset.ID;
+    } else {
+        // Se presenta un mensaje de error cuando no existen datos para mostrar.
+        document.getElementById('mainTitle').textContent = DATA.error;
+        // Se limpia el contenido cuando no hay datos para mostrar.
+        document.getElementById('detalle').innerHTML = '';
+    }
+}
+
+
 
 const listapedidos = [
     {
