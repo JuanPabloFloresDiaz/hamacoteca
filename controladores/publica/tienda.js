@@ -4,6 +4,10 @@ async function loadComponent(path) {
     return text;
 }
 
+let ROWS_FOUND;
+
+const PRODUCTO_API = 'servicios/publica/producto.php';
+
 async function cargar_productos() {
     const listahamacas = [
         {
@@ -65,33 +69,35 @@ async function cargar_productos() {
     const contenedorCartasProductos = document.getElementById('productos-cartas');
 
     try {
-        const response = await fetch(PRODUCTOS_API);
-        if (!response.ok) {
-            throw new Error('Error al obtener los datos de la API');
-        }
-        const data = await response.json();
+        contenedorCartasProductos.innerHTML = '';
+        // Petición para obtener los registros disponibles.
+        const DATA = await fetchData(PRODUCTO_API, "readAll");
+        console.log(DATA);
 
-        if (data && Array.isArray(data) && data.length > 0) {
+        if (DATA.status) {
             // Mostrar cartas de productos obtenidos de la API
-            data.forEach(producto => {
+            DATA.dataset.forEach(producto => {
                 const cartasHtml = `
                 <div class="col">
-                 <div class="card carta-personalizada" onclick="redireccionarDetalleID(${producto.id_hamaca})">
+                 <div class="card carta-personalizada"">
                     <div class="position-relative">
-                    <img src="${producto.url}" height="200" class="card-img-top" alt="${producto.nombre_hamaca}">
-                    <a href="detalle.html?id=${producto.id_producto}" class="btn btn-outline-light position-absolute top-50 start-50 translate-middle">Ver detalle</a>
+                    <img src="${SERVER_URL}imagenes/HAMACAS/${producto.IMAGEN}" height="200" class="card-img-top" alt="${producto.NOMBRE}">
+                    <a href="detalle.html?id=${producto.ID}" class="btn btn-outline-light position-absolute top-50 start-50 translate-middle">Ver detalle</a>
                     </div>
                     <div class="card-body">
-                        <h5 class="card-title">${producto.nombre_hamaca}</h5>
-                        <p class="card-text">$${producto.precio}</p>
+                        <h5 class="card-title">${producto.NOMBRE}</h5>
+                        <p class="card-text">$${producto.PRECIO}</p>
                     </div>
                  </div>
                 </div>
                 `;
                 contenedorCartasProductos.innerHTML += cartasHtml;
             });
+            // Se muestra un mensaje de acuerdo con el resultado.
+            ROWS_FOUND.textContent = DATA.message;
         } else {
-            throw new Error('La respuesta de la API no contiene datos válidos');
+            // Se muestra un mensaje de acuerdo con el resultado.
+            ROWS_FOUND.textContent = "Existen 0 coincidencias";
         }
     } catch (error) {
         console.error('Error al obtener datos de la API:', error);
@@ -273,6 +279,8 @@ window.onload = async function () {
     rango.addEventListener('input', () => {
         rangoValor.textContent = rango.value;
     });
+
+    ROWS_FOUND = document.getElementById('rowsFound');
 
     cargar_productos();
     cargar_categorias();

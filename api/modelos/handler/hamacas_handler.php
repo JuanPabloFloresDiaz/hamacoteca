@@ -114,4 +114,25 @@ class HamacasHandler
                 GROUP BY nombre_categoria ORDER BY porcentaje DESC';
         return Database::getRows($sql);
     }
+
+    //Función para mostrar los productos mas vendidos
+    public function readMostSell(){
+        $sql = 'SELECT h.id_hamaca AS ID, h.nombre_hamaca AS NOMBRE, h.descripcion_hamaca AS DESCRIPCION, h.precio AS PRECIO,
+        h.cantidad_hamaca AS CANTIDAD, h.foto_principal AS IMAGEN,
+        SUM(dp.cantidad_comprada) AS TOTAL
+    FROM hamacas h
+    JOIN detalles_pedidos dp ON h.id_hamaca = dp.id_hamaca
+    JOIN pedidos p ON dp.id_pedido = p.id_pedido
+    WHERE p.estado_pedido = "Entregado"
+    GROUP BY
+        h.id_hamaca,
+        h.nombre_hamaca,
+        h.descripcion_hamaca,
+        h.precio,
+        h.cantidad_hamaca,
+        h.foto_principal
+    ORDER BY TOTAL DESC 
+    LIMIT 3;';
+        return Database::getRows($sql); 
+    }
 }
