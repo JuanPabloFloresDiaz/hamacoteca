@@ -6,7 +6,7 @@ async function loadComponent(path) {
 
 let ROWS_FOUND;
 
-const PRODUCTO_API = 'servicios/publica/producto.php';
+const PRODUCTO_API = 'servicios/publica/hamaca.php';
 
 async function cargar_productos() {
     const listahamacas = [
