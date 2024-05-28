@@ -26,21 +26,15 @@ const openDetail = async (id) => {
 
 async function openProfile() {
     // Petición para solicitar los datos del producto seleccionado.
-    const DATA = await fetchData(PRODUCTO_API, 'readProfile');
+    const DATA = await fetchData(USER_API, 'readProfile');
     // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
     if (DATA.status) {
         // Se colocan los datos en la página web de acuerdo con el producto seleccionado previamente.
-        document.getElementById('imagenProducto').src = SERVER_URL.concat('imagenes/hamacas/', DATA.dataset.IMAGEN);
+        document.getElementById('foto').src = SERVER_URL.concat('imagenes/clientes/', DATA.dataset.IMAGEN);
         document.getElementById('nombre').textContent = DATA.dataset.NOMBRE;
-        document.getElementById('email').textContent = DATA.dataset.DESCRIPCION;
-        document.getElementById('precioProducto').textContent = DATA.dataset.PRECIO;
-        document.getElementById('existenciasProducto').textContent = DATA.dataset.CANTIDAD;
-        document.getElementById('idProducto').value = DATA.dataset.ID;
+        document.getElementById('email').textContent = DATA.dataset.EMAIL;
     } else {
-        // Se presenta un mensaje de error cuando no existen datos para mostrar.
-        document.getElementById('mainTitle').textContent = DATA.error;
-        // Se limpia el contenido cuando no hay datos para mostrar.
-        document.getElementById('detalle').innerHTML = '';
+
     }
 }
 
@@ -313,7 +307,7 @@ window.onload = async function () {
 
         
     ROWS_FOUND = document.getElementById('rowsFound');
-
+    openProfile();
     cargarFavoritos();
     cargarTabla();
 };

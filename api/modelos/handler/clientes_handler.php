@@ -146,7 +146,7 @@ class ClientesHandler
 
     public function readProfile()
     {
-        $sql = 'SELECT id_cliente, correo_cliente, clave_cliente, estado_cliente, foto_cliente
+        $sql = 'SELECT id_cliente, correo_cliente AS EMAIL , clave_cliente, estado_cliente, foto_cliente AS IMAGEN, nombre_cliente AS NOMBRE
                 FROM clientes
                 WHERE id_cliente = ?';
         $params = array($_SESSION['idCliente']);
