@@ -10,8 +10,12 @@ const PRODUCTOS_API = '';
 
 let DETAIL_MODAL,
     MODAL_TITLE_DETAIL;
+let SAVE_MODAL;
+let SAVE_FORM,
+    ACTUAL_ADMINISTRADOR,
+    CLAVE_ADMINISTRADOR,
+    REPETIR_CLAVE;
 
-    
 let ROWS_FOUND;
 
 const openDetail = async (id) => {
@@ -287,7 +291,13 @@ async function cargarFavoritos() {
     }
 }
 
-
+const openPassword = () => {
+    // Se abre la caja de diálogo que contiene el formulario.
+    SAVE_MODAL.show();
+    MODAL_TITLE.textContent = 'Cambiar tu contraseña';
+    // Se restauran los elementos del formulario.
+    SAVE_FORM.reset();
+}
 
 
 // window.onload
@@ -301,13 +311,43 @@ window.onload = async function () {
     // Agrega el HTML del encabezado
     appContainer.innerHTML += profileHtml;
 
-    
+
     DETAIL_MODAL = new bootstrap.Modal('#detailModal'),
         MODAL_TITLE_DETAIL = document.getElementById('exampleModalLabel');
 
-        
+
     ROWS_FOUND = document.getElementById('rowsFound');
     openProfile();
     cargarFavoritos();
     cargarTabla();
+
+
+    // Constantes para establecer los elementos del componente Modal.
+    SAVE_MODAL = new bootstrap.Modal('#saveModal'),
+        MODAL_TITLE = document.getElementById('modalTitle');
+
+    // Constantes para establecer los elementos del formulario de guardar.
+    SAVE_FORM = document.getElementById('saveForm'),
+        ACTUAL_ADMINISTRADOR = document.getElementById('claveActual'),
+        CLAVE_ADMINISTRADOR = document.getElementById('claveCliente'),
+        REPETIR_CLAVE = document.getElementById('repetirclaveCliente');
+
+    // Método del evento para cuando se envía el formulario de guardar.
+    SAVE_FORM.addEventListener('submit', async (event) => {
+        // Se evita recargar la página web después de enviar el formulario.
+        event.preventDefault();
+        // Constante tipo objeto con los datos del formulario.
+        const FORM = new FormData(SAVE_FORM);
+        // Petición para guardar los datos del formulario.
+        const DATA = await fetchData(USER_API, 'changePassword', FORM);
+        // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
+        if (DATA.status) {
+            // Se cierra la caja de diálogo.
+            SAVE_MODAL.hide();
+            // Se muestra un mensaje de éxito.
+            sweetAlert(1, DATA.message, true);
+        } else {
+            sweetAlert(2, DATA.error, false);
+        }
+    });
 };
