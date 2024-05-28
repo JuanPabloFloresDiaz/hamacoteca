@@ -22,6 +22,9 @@ class ClientesHandler
     protected $genero = null;
     protected $imagen = null;
 
+    // Constante para establecer la ruta de las imágenes.
+    const RUTA_IMAGEN = '../../imagenes/clientes/';
+
     //Metodos para la privada
 
     /*

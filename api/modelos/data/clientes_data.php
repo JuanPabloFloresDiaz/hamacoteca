@@ -167,6 +167,17 @@ class ClientesData extends ClientesHandler
         }
     }
 
+    public function setGenero($value)
+    {
+        if (Validator::validateNaturalNumber($value)) {
+            $this->genero = $value;
+            return true;
+        } else {
+            $this->data_error = 'El identificador del género es incorrecto';
+            return false;
+        }
+    }
+
     // Asignación del nombre del archivo de imagen del cliente.
     public function setFilename()
     {
