@@ -16,10 +16,22 @@
 
 .categoria{
     border-radius: 100%;
+    height: 150px;
+    width: 150px;
+    max-width: 225px;
+    max-height: 225px;
+    min-width: 50px;
+    min-height: 50px;
 }
 
 .categoria:hover{
     animation: translateAnimation 2s ease-in-out infinite;
+}
+
+.titulito{
+    font-size: 14px;
+    font-weight: bold;
+    text-decoration: none;
 }
 
 .corrector{

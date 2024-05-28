@@ -37,31 +37,38 @@
         <!-- Contenedor de los filtros -->
         <aside class="col-lg-4 order-lg-last order-md-first order-sm-first">
             <!-- Aquí irían tus filtros -->
-            <form class="d-flex mb-2 mt-2">
+            <form class="d-flex mb-2 mt-2" id="searchForm">
                 <input class="form-control me-2 borde-transparente" name="search" type="search" placeholder="Buscar">
                 <button class="btn btn-outline-dark borde-transparente" type="submit"><i
                         class="bi bi-search"></i></button>
+                <button type="reset" class="btn btn-outline-dark borde-transparente" onclick="cargar_productos()">
+                    <i class="bi bi-arrow-clockwise"></i>
+                </button>
             </form>
-            <div>
-                <h5 class="mt-4">Categorías</h5>
-                <select class="form-select mb-2 borde-transparente" aria-label="Seleccionar" id="categorias">
-                    <option selected>Selecciona una opción</option>
-                </select>
-            </div>
-            <div>
-                <h5>Materiales</h5>
-                <select class="form-select mb-2 borde-transparente" aria-label="Seleccionar" id="materiales">
-                    <option selected>Selecciona una opción</option>
-                </select>
-            </div>
-            <div>
-                <input type="range" class="form-range rango mt-5" id="customRange1" min="0" max="800" step="1">
-                <div class="d-flex justify-content-between">
-                    <label for="customRange1" class="form-label">Precio $<span id="rangoValor">400</span> - $800</label>
-                    <button type="button" class="btn btn-dark borde-transparente">Filtrar</button>
-                </div>
-            </div>
+            <form id="filterForm">
+                <div class="row d-flex">
+                    <div class="col-6">
+                        <h5 class="mt-4 mb-2">Categorías</h5>
+                        <div class="row" id="categorias">
 
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <h5 class="mt-4 mb-2">Materiales</h5>
+                        <div class="row" id="materiales">
+
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <input type="range" class="form-range rango mt-5" id="customRange1" min="10" max="1000" step="1">
+                    <div class="d-flex justify-content-between">
+                        <label for="customRange1" class="form-label">Precio $<span id="rangoValor">500</span> -
+                            $1000</label>
+                        <button type="submit" class="btn btn-dark borde-transparente">Filtrar</button>
+                    </div>
+                </div>
+            </form>
         </aside>
     </div>
 </section>

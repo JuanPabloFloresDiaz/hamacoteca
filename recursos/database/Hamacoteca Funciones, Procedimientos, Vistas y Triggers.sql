@@ -864,7 +864,41 @@ BEGIN
 END //
 
 DELIMITER ;
+DROP PROCEDURE IF EXISTS filtrar_hamacas;
+DELIMITER //
 
+CREATE PROCEDURE filtrar_hamacas (
+    IN categoriaIds VARCHAR(255),
+    IN materialIds VARCHAR(255),
+    IN precioMin DECIMAL(5,2),
+    IN precioMax DECIMAL(5,2)
+)
+BEGIN
+    SET @categoriaQuery := IF(categoriaIds IS NULL OR categoriaIds = '', '', CONCAT(' AND h.id_categoria IN (', categoriaIds, ')'));
+    SET @materialQuery := IF(materialIds IS NULL OR materialIds = '', '', CONCAT(' AND h.id_material IN (', materialIds, ')'));
+    SET @precioQuery := CONCAT(' AND h.precio BETWEEN ', IF(precioMin IS NULL, '0', precioMin), ' AND ', IF(precioMax IS NULL, '99999.99', precioMax));
+    
+    SET @sql := CONCAT(
+        'SELECT 
+            h.id_hamaca, 
+            h.nombre_hamaca, 
+            h.descripcion_hamaca, 
+            h.precio, 
+            h.foto_principal
+        FROM 
+            hamacas h
+        WHERE 1=1',
+        @categoriaQuery,
+        @materialQuery,
+        @precioQuery
+    );
+
+    PREPARE stmt FROM @sql;
+    EXECUTE stmt;
+    DEALLOCATE PREPARE stmt;
+END //
+
+DELIMITER ;
 
 SELECT ROUTINE_NAME
 FROM information_schema.ROUTINES

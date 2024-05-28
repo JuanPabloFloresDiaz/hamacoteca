@@ -10,6 +10,17 @@ if (isset($_GET['action'])) {
     $result = array('status' => 0, 'message' => null, 'dataset' => null, 'error' => null, 'exception' => null);
     // Se compara la acción a realizar según la petición del controlador.
     switch ($_GET['action']) {
+            // Buscar
+        case 'searchRows':
+            if (!Validator::validateSearch($_POST['search'])) {
+                $result['error'] = Validator::getSearchError();
+            } elseif ($result['dataset'] = $producto->searchRows()) {
+                $result['status'] = 1;
+                $result['message'] = 'Existen ' . count($result['dataset']) . ' coincidencias';
+            } else {
+                $result['error'] = 'No hay coincidencias';
+            }
+            break;
             // Leer todos
         case 'readAll':
             if ($result['dataset'] = $producto->readAll()) {

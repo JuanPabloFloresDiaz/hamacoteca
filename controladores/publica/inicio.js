@@ -125,7 +125,7 @@ async function cargarCategorias() {
                    <a href="tienda.html?idCategoria=${product.ID}" class="text-secondary">
                      <div class="card-body">
                          <img src="${SERVER_URL}imagenes/categorias/${product.IMAGEN}" class="card-img-top category" alt="${product.NOMBRE}">
-                         <h5 class="card-title">${product.NOMBRE}</h5>
+                         <p class="card-title titulito">${product.NOMBRE}</p>
                      </div>
                     </a>
                  </div>

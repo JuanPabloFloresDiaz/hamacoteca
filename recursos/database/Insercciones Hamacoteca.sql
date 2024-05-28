@@ -34,11 +34,11 @@ CALL insertar_administrador_validado('Sara', 'Martínez', 'Clave24@SM', 'sara@gm
 CALL insertar_administrador_validado('Manuel', 'Pérez', 'Clave25@MP', 'manuel@gmail.com', '8765-4321', '12300038-4', '2014-01-01', 1, 'default.jpg');
 CALL insertar_administrador_validado('Marcos', 'Lopéz', 'Clave26@ML', 'marcos@gmail.com', '6565-4321', '12340038-4', '2004-01-01', 1, 'default.jpg');
 
-CALL insertar_cliente_validado('Carlos', 'Alvarez', 'Clave1@Password', 'carlos@gmail.com', '1234-5678', '12345678-0', '1990-01-01', 'Masculino', true, 'default.jpg', 'Dirección 1');
-CALL insertar_cliente_validado('Mario', 'Almeria', 'Clave2@Password', 'mario@gmail.com', '2345-6789', '12345689-1', '1991-01-01', 'Femenino', false, 'default.jpg', 'Dirección 2');
-CALL insertar_cliente_validado('Claudio', 'Angelo', 'Clave3@Password', 'claudio@gmail.com', '3456-7890', '12345689-2', '1992-01-01', 'No definido', true, 'default.jpg', 'Dirección 3');
-CALL insertar_cliente_validado('Lucía', 'Bárcenas', 'Clave4@Password', 'lucia@gmail.com', '4567-8901', '12345689-3', '1993-01-01', 'Femenino', true, 'default.jpg', 'Dirección 4');
-CALL insertar_cliente_validado('Mateo', 'Cabrera', 'Clave5@Password', 'mateo@gmail.com', '5678-9012', '12345689-4', '1994-01-01', 'Masculino', false, 'default.jpg', 'Dirección 5');
+CALL insertar_cliente_validado('Carlos', 'Alvarez', '$2y$10$/8JZKxjAdlo4jTfS7uri7OzhZZ1/yNiw2DCurBt/Tb9h/c7L7P/Y6', 'carlos@gmail.com', '1234-5678', '12345678-0', '1990-01-01', 'Masculino', true, 'default.jpg', 'Dirección 1');
+CALL insertar_cliente_validado('Mario', 'Almeria', '$2y$10$/8JZKxjAdlo4jTfS7uri7OzhZZ1/yNiw2DCurBt/Tb9h/c7L7P/Y6', 'mario@gmail.com', '2345-6789', '12345689-1', '1991-01-01', 'Femenino', false, 'default.jpg', 'Dirección 2');
+CALL insertar_cliente_validado('Claudio', 'Angelo', '$2y$10$/8JZKxjAdlo4jTfS7uri7OzhZZ1/yNiw2DCurBt/Tb9h/c7L7P/Y6', 'claudio@gmail.com', '3456-7890', '12345689-2', '1992-01-01', 'No definido', true, 'default.jpg', 'Dirección 3');
+CALL insertar_cliente_validado('Lucía', 'Bárcenas', '$2y$10$/8JZKxjAdlo4jTfS7uri7OzhZZ1/yNiw2DCurBt/Tb9h/c7L7P/Y6', 'lucia@gmail.com', '4567-8901', '12345689-3', '1993-01-01', 'Femenino', true, 'default.jpg', 'Dirección 4');
+CALL insertar_cliente_validado('Mateo', 'Cabrera', '$2y$10$/8JZKxjAdlo4jTfS7uri7OzhZZ1/yNiw2DCurBt/Tb9h/c7L7P/Y6', 'mateo@gmail.com', '5678-9012', '12345689-4', '1994-01-01', 'Masculino', false, 'default.jpg', 'Dirección 5');
 CALL insertar_cliente_validado('Mariana', 'Díaz', 'Clave6@Password', 'mariana@gmail.com', '6789-0123', '12345689-5', '1995-01-01', 'Femenino', true, 'default.jpg', 'Dirección 6');
 CALL insertar_cliente_validado('Fernando', 'Estrada', 'Clave7@Password', 'fernando@gmail.com', '7890-1234', '12345689-6', '1996-01-01', 'Masculino', false, 'default.jpg', 'Dirección 7');
 CALL insertar_cliente_validado('Isabella', 'Fuentes', 'Clave8@Password', 'isabella@gmail.com', '8901-2345', '12345689-7', '1997-01-01', 'Femenino', true, 'default.jpg', 'Dirección 8');
@@ -153,7 +153,7 @@ CALL insertar_pedido_y_detalle_pedido('En camino', 'San Salvador', 2, 4, 4);
 CALL insertar_pedido_y_detalle_pedido('En camino', 'San Salvador', 3, 4, 4);
 
 
-CALL insertar_valoracion(1, 'Horrible compra nunca vuelvo a comprar aquí', 1);
+CALL insertar_valoracion(1, 'Horrible compra nunca vuelvo a comprar aquí', 2);
 CALL insertar_valoracion(5, 'Muy buena calidad', 2);
 CALL insertar_valoracion(1, '(Censurado por el bien de la trama)************', 3);
 CALL insertar_valoracion(5, 'Me encanto', 4);
@@ -185,17 +185,17 @@ VALUES (4, calcular_total_producto(4, 3), 3, 4);
 INSERT INTO detalles_pedidos (id_pedido, precio_producto, cantidad_comprada, id_hamaca) 
 VALUES (5, calcular_total_producto(4, 1), 1, 4);
 INSERT INTO detalles_pedidos (id_pedido, precio_producto, cantidad_comprada, id_hamaca) 
-VALUES (6, calcular_total_producto(4, 2), 2, 3);
+VALUES (6, calcular_total_producto(4, 2), 2, 4);
 INSERT INTO detalles_pedidos (id_pedido, precio_producto, cantidad_comprada, id_hamaca) 
-VALUES (7, calcular_total_producto(4, 4), 4, 3);
+VALUES (7, calcular_total_producto(4, 4), 4, 4);
 INSERT INTO detalles_pedidos (id_pedido, precio_producto, cantidad_comprada, id_hamaca) 
-VALUES (8, calcular_total_producto(4, 2), 2, 3);
+VALUES (8, calcular_total_producto(4, 2), 2, 4);
 INSERT INTO detalles_pedidos (id_pedido, precio_producto, cantidad_comprada, id_hamaca) 
-VALUES (9, calcular_total_producto(4, 1), 1, 3);
+VALUES (9, calcular_total_producto(4, 1), 1, 4);
 INSERT INTO detalles_pedidos (id_pedido, precio_producto, cantidad_comprada, id_hamaca) 
-VALUES (10, calcular_total_producto(4, 3), 3, 3);
+VALUES (10, calcular_total_producto(4, 3), 3, 4);
 INSERT INTO detalles_pedidos (id_pedido, precio_producto, cantidad_comprada, id_hamaca) 
-VALUES (11, calcular_total_producto(4, 2), 2, 3);
+VALUES (11, calcular_total_producto(4, 2), 2, 4);
 INSERT INTO detalles_pedidos (id_pedido, precio_producto, cantidad_comprada, id_hamaca) 
 VALUES (12, calcular_total_producto(4, 1), 1, 4);
 INSERT INTO detalles_pedidos (id_pedido, precio_producto, cantidad_comprada, id_hamaca) 
@@ -244,12 +244,8 @@ FROM detalles_pedidos
 INNER JOIN pedidos USING(id_pedido)
 WHERE estado_pedido = 'Entregado';
 
+SELECT id_foto AS ID, id_hamaca AS HAMACA, url AS IMAGEN FROM fotos WHERE id_hamaca = 2;
 
-
-SELECT id_foto AS ID, id_hamaca AS HAMACA, url AS IMAGEN FROM fotos
-                WHERE id_hamaca = 2;
-                
-                
 SELECT fecha_pedido AS FECHA, 
 SUM(precio_producto) AS GANANCIAS
 FROM detalles_pedidos

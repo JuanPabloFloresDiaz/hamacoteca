@@ -5,10 +5,13 @@ async function loadComponent(path) {
 }
 
 let ROWS_FOUND;
+let SEARCH_FORM;
 
 const PRODUCTO_API = 'servicios/publica/hamaca.php';
+const MATERIALES_API = 'servicios/publica/material.php';
+const CATEGORIAS_API = 'servicios/publica/categoria.php';
 
-async function cargar_productos() {
+async function cargar_productos(form = null) {
     const listahamacas = [
         {
             id_hamaca: 1,
@@ -71,7 +74,9 @@ async function cargar_productos() {
     try {
         contenedorCartasProductos.innerHTML = '';
         // Petición para obtener los registros disponibles.
-        const DATA = await fetchData(PRODUCTO_API, "readAll");
+        // Se verifica la acción a realizar.
+        (form) ? action = 'searchRows' : action = 'readAll';
+        const DATA = await fetchData(PRODUCTO_API, action, form);
         console.log(DATA);
 
         if (DATA.status) {
@@ -148,17 +153,18 @@ async function cargar_categorias() {
     const cargarListaCategorias = document.getElementById('categorias');
 
     try {
-        const response = await fetch(CATEGORIAS_API);
-        if (!response.ok) {
-            throw new Error('Error al obtener los datos de la API');
-        }
-        const data = await response.json();
+        cargarListaCategorias.innerHTML = "";
+        // Petición para obtener los registros disponibles.
+        const DATA = await fetchData(CATEGORIAS_API, "readAll");
+        console.log(DATA);
 
-        if (data && Array.isArray(data) && data.length > 0) {
-            // Mostrar elementos de la lista de categorias obtenidos de la API
-            data.forEach(categoria => {
+        if (DATA.status) {
+            // Mostrar cartas de productos obtenidos de la API
+            DATA.dataset.forEach(categoria => {
                 const categoriasHtml = `
-                <option value="${categoria.id_categoria}">${categoria.nombre_categoria}</option>
+                <div class="form-check col-md-12 col-sm-4">
+                    <input class="form-check-input" type="checkbox" name="${categoria.NOMBRE}" id="${categoria.NOMBRE}" value="${categoria.ID}">${categoria.NOMBRE}</input>
+                </div>
                 `;
                 cargarListaCategorias.innerHTML += categoriasHtml;
             });
@@ -170,8 +176,10 @@ async function cargar_categorias() {
         // Mostrar categorias de respaldo
         lista_categorias.forEach(categoria => {
             const categoriasHtml = `
-                <option value="${categoria.id}">${categoria.nombre}</option>
-            `;
+            <div class="form-check col-md-12 col-sm-4">
+                <input class="form-check-input" type="checkbox" name="${categoria.nombre}" id="${categoria.nombre}" value="${categoria.id}">${categoria.nombre}</input>
+            </div>
+                `;
             cargarListaCategorias.innerHTML += categoriasHtml;
         });
     }
@@ -200,17 +208,18 @@ async function cargar_materiales() {
     const cargarListaMateriales = document.getElementById('materiales');
 
     try {
-        const response = await fetch(MATERIALES_API);
-        if (!response.ok) {
-            throw new Error('Error al obtener los datos de la API');
-        }
-        const data = await response.json();
+        cargarListaMateriales.innerHTML = "";
+        // Petición para obtener los registros disponibles.
+        const DATA = await fetchData(MATERIALES_API, "readAll");
+        console.log(DATA);
 
-        if (data && Array.isArray(data) && data.length > 0) {
-            // Mostrar elementos de la lista de materiales obtenidos de la API
-            data.forEach(materiales => {
+        if (DATA.status) {
+            // Mostrar cartas de productos obtenidos de la API
+            DATA.dataset.forEach(materiales => {
                 const materialesHtml = `
-                <option value="${materiales.id_material}">${materiales.nombre_material}</option>
+                <div class="form-check col-md-12 col-sm-4">
+                <input class="form-check-input" type="checkbox" name="${materiales.NOMBRE}" id="${materiales.NOMBRE}" value="${materiales.ID}">${materiales.NOMBRE}</input>
+                </div>
                 `;
                 cargarListaMateriales.innerHTML += materialesHtml;
             });
@@ -222,8 +231,10 @@ async function cargar_materiales() {
         // Mostrar materiales de respaldo
         lista_materiales.forEach(materiales => {
             const materialesHtml = `
-                <option value="${materiales.id}">${materiales.nombre}</option>
-            `;
+                <div class="form-check col-md-12 col-sm-4">
+                <input class="form-check-input" type="checkbox" name="${materiales.nombre}" id="${materiales.nombre}" value="${materiales.id}">${materiales.nombre}</input>
+                </div>
+                `;
             cargarListaMateriales.innerHTML += materialesHtml;
         });
     }
@@ -255,12 +266,6 @@ async function ordenar_resultados() {
     });
 }
 
-// Constantes para completar la ruta de la API.
-const CATEGORIAS_API = '';
-const COLORES_API = '';
-const MATERIALES_API = '';
-const PRODUCTOS_API = '';
-
 
 window.onload = async function () {
     // Obtiene el contenedor principal
@@ -286,4 +291,20 @@ window.onload = async function () {
     cargar_categorias();
     cargar_materiales();
     ordenar_resultados();
+
+    // Constante para establecer el formulario de buscar.
+    SEARCH_FORM = document.getElementById('searchForm');
+    // Verificar si SEARCH_FORM está seleccionado correctamente
+    console.log(SEARCH_FORM)
+    // Método del evento para cuando se envía el formulario de buscar.
+    SEARCH_FORM.addEventListener('submit', (event) => {
+        // Se evita recargar la página web después de enviar el formulario.
+        event.preventDefault();
+        // Constante tipo objeto con los datos del formulario.
+        const FORM = new FormData(SEARCH_FORM);
+        console.log(SEARCH_FORM);
+        console.log(FORM);
+        // Llamada a la función para llenar la tabla con los resultados de la búsqueda.
+        cargar_productos(FORM);
+    });
 };

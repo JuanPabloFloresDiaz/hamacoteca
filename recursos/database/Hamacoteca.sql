@@ -41,7 +41,7 @@ CREATE TABLE clientes(
 id_cliente INT AUTO_INCREMENT PRIMARY KEY,
 nombre_cliente VARCHAR(50) NOT NULL,
 apellido_cliente VARCHAR(50) NOT NULL,
-clave_cliente VARCHAR(50) NOT NULL,
+clave_cliente VARCHAR(100) NOT NULL,
 correo_cliente VARCHAR(50) NOT NULL,
 CONSTRAINT uq_correo_cliente_unico UNIQUE(correo_cliente),
 CONSTRAINT chk_correo_cliente_formato CHECK (correo_cliente REGEXP '^[A-Za-z0-9._%-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}$'),
@@ -56,7 +56,7 @@ direccion_cliente VARCHAR(100) NOT NULL,
 foto_cliente VARCHAR(50) NULL,
 CONSTRAINT chk_url_foto_cliente CHECK (foto_cliente LIKE '%.jpg' OR foto_cliente LIKE '%.png' OR foto_cliente LIKE '%.jpeg' OR foto_cliente LIKE '%.gif')
 );
-
+              
 CREATE TABLE categorias(
 id_categoria INT AUTO_INCREMENT PRIMARY KEY,
 nombre_categoria VARCHAR(50) NOT NULL,
