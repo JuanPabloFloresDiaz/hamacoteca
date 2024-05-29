@@ -2,7 +2,7 @@
     <div class="col-10 mx-auto">
         <div class="profile-container p-4">
             <div class="d-flex justify-content-end">
-                <button class="btn btn-outline-dark mr-2 mb-2">
+                <button class="btn btn-outline-dark mr-2 mb-2" onclick="openEdit()">
                     <i class="fas fa-edit"></i>
                 </button>
                 <button class="btn btn-outline-dark mb-2" onclick="openPassword()">
@@ -45,9 +45,9 @@
         <div class="tab-pane fade" id="history" role="tabpanel" aria-labelledby="history-tab">
             <!-- Columna para la tabla-->
             <div class="container col-md-10">
-                <!-- Tabla para mostrar los registros existentes -->
+                <!-- Tabla para mostrar los Perfils existentes -->
                 <table class="table table-hover">
-                    <!-- Cabeza de la tabla para mostrar la cantidad de registros y los títulos de las columnas -->
+                    <!-- Cabeza de la tabla para mostrar la cantidad de Perfils y los títulos de las columnas -->
                     <thead>
                         <tr>
                             <td colspan="6" id="rowsFound"></td>
@@ -61,7 +61,7 @@
                             <th>ACCIONES</th>
                         </tr>
                     </thead>
-                    <!-- Cuerpo de la tabla para mostrar un registro por fila -->
+                    <!-- Cuerpo de la tabla para mostrar un Perfil por fila -->
                     <tbody id="tabla_pedidos"></tbody>
                 </table>
             </div>
@@ -83,7 +83,7 @@
             <div class="modal-body">
                 <div class="table-responsive">
                     <table class="table table align-middle table-striped table-borderless">
-                        <!-- Cabeza de la tabla para mostrar la cantidad de registros y los títulos de las columnas -->
+                        <!-- Cabeza de la tabla para mostrar la cantidad de Perfils y los títulos de las columnas -->
                         <thead>
                             <tr>
                                 <td colspan="6" id="rowsFound"></td>
@@ -95,7 +95,7 @@
                                 <th>Precio total</th>
                             </tr>
                         </thead>
-                        <!-- Cuerpo de la tabla para mostrar un registro por fila -->
+                        <!-- Cuerpo de la tabla para mostrar un Perfil por fila -->
                         <tbody id="tabla_detalle"></tbody>
                     </table>
                 </div>
@@ -113,7 +113,7 @@
                 <h1 class="modal-title fs-5" id="modalTitle"></h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <!-- Formulario para crear o actualizar un registro -->
+            <!-- Formulario para actualizar la contraseña -->
             <form id="saveForm">
                 <div class="modal-body row g-3">
                     <div class="col-sm-12 col-md-12">
@@ -134,6 +134,106 @@
                             <input id="repetirclaveCliente" type="password" name="repetirclaveCliente"
                                 class="form-control" placeholder="Repite la clave del cliente" autocomplete="off"
                                 required>
+                        </div>
+                    </div>
+                    <div class="modal-footer col-sm-12 col-md-12 col-lg-12">
+                        <button type="reset" class="btn btn-outline-dark">Cancelar</button>
+                        <button type="submit" class="btn btn-outline-primary">Guardar</button>
+                    </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<!-- Componente Modal para editar perfil -->
+<div class="modal fade" id="editModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="modalTitleEdit" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="modalTitleEdit"></h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <!-- Formulario para actualizar el perfil -->
+            <form id="editForm">
+                <div class="modal-body row g-3">
+                    <div class="col-sm-6 col-md-6 col-lg-6 col-12 mb-3 ">
+                        <div class=" form-floating borde ">
+                            <input id="nombrePerfil" type="text" name="nombrePerfil" placeholder="Nombre"
+                                class="form-control" required autocomplete="off" />
+                            <label for="nombrePerfil">Nombre</label>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-md-6 col-lg-6 col-12 mb-3">
+                        <div class="form-floating borde">
+                            <input id="fechanacimientoPerfil" type="date" name="fechanacimientoPerfil"
+                                placeholder="fechanacimiento" class="form-control" required autocomplete="off"/>
+                            <label for="fechanacimientoPerfil">Fecha nacimiento</label>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-md-6 col-lg-6 col-12 mb-3">
+                        <div class="form-floating borde ">
+                            <input id="apellidoPerfil" type="text" name="apellidoPerfil" placeholder="Apellido"
+                                class="form-control" required autocomplete="off"/>
+                            <label for="apellidoPerfil">Apellido</label>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-md-6 col-lg-6 col-12 mb-3">
+                        <div class="form-floating borde">
+                            <input id="telefonoPerfil" type="text" name="telefonoPerfil" class="form-control"
+                                placeholder="0000-0000" required autocomplete="off"/>
+                            <label for="telefonoPerfil">Teléfono</label>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-md-6 col-lg-6 col-12 mb-3">
+                        <div class="form-floating borde ">
+                            <input id="correoPerfil" type="email" name="correoPerfil" placeholder="Correo electrónico"
+                                class="form-control" required autocomplete="off" />
+                            <label for="correoPerfil">Correo electrónico</label>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-md-6 col-lg-6 col-12 mb-3">
+                        <div class="form-floating borde">
+                            <input id="clavePerfil" type="password" name="clavePerfil" class="form-control"
+                                placeholder="Ingresa la clave del administrador" autocomplete="off" >
+                            <label for="clavePerfil">Contraseña</label>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-md-6 col-lg-6 col-12 mb-3">
+                        <div class="form-floating borde">
+                            <input id="duiPerfil" type="text" name="duiPerfil" placeholder="00000000-0"
+                                class="form-control" required autocomplete="off"/>
+                            <label for="duiPerfil">DUI</label>
+                        </div>
+    
+                    </div>
+                    <div class="col-sm-6 col-md-6 col-lg-6 col-12 mb-3">
+                        <div class="form-floating borde">
+                            <select class="form-select" name="generoPerfil">
+                                <option selected>Género</option>
+                                <option value="1">Masculino</option>
+                                <option value="2">Femenino</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-md-6 col-lg-6 col-6 mb-3">
+                        <div class="form-floating borde">
+                            <input id="imagenPerfil" type="file" name="imagenPerfil" class="form-control"
+                                accept=".png, .jpg">
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-md-6 col-lg-6 col-6 mb-3">
+                        <div class="form-floating borde ">
+                            <input id="direccionPerfil" type="text" name="direccionPerfil" placeholder="Dirección"
+                                class="form-control" required autocomplete="off"/>
+                            <label for="direccionPerfil">Dirección</label>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-12 col-lg-12 col-12 mb-3">
+                        <div class="form-check justify-content-center">
+                            <input type="checkbox" class="form-check-input" id="condicion" name="condicion" required>
+                            <label class="form-check-label" for="condicion">Acepto términos y condiciones</label>
                         </div>
                     </div>
                     <div class="modal-footer col-sm-12 col-md-12 col-lg-12">

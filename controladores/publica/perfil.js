@@ -17,6 +17,18 @@ let SAVE_FORM,
     REPETIR_CLAVE;
 
 let ROWS_FOUND;
+let EDIT_MODAL;
+let EDIT_FORM,
+    ID_PERFIL,
+    NOMBRE_PERFIL,
+    APELLIDO_PERFIL,
+    CORREO_PERFIL,
+    TELEFONO_PERFIL,
+    DUI_PERFIL,
+    NACIMIENTO_PERFIL,
+    GENERO_PERFIL,
+    DIRECCION_PERFIL,
+    IMAGEN_PERFIL;
 
 const openDetail = async (id) => {
     // Se define un objeto con los datos del registro seleccionado.
@@ -299,6 +311,14 @@ const openPassword = () => {
     SAVE_FORM.reset();
 }
 
+const openEdit = () => {
+    // Se abre la caja de diálogo que contiene el formulario.
+    EDIT_MODAL.show();
+    EDIT_TITLE.textContent = 'Editar perfil';
+    // Se restauran los elementos del formulario.
+    EDIT_FORM.reset();
+}
+
 
 // window.onload
 window.onload = async function () {
@@ -350,4 +370,10 @@ window.onload = async function () {
             sweetAlert(2, DATA.error, false);
         }
     });
+
+
+    EDIT_TITLE = document.getElementById('modalTitleEdit');
+
+    EDIT_FORM = document.getElementById('editForm');
+    
 };
