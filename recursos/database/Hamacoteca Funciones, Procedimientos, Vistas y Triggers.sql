@@ -880,11 +880,11 @@ BEGIN
     
     SET @sql := CONCAT(
         'SELECT 
-            h.id_hamaca, 
-            h.nombre_hamaca, 
-            h.descripcion_hamaca, 
-            h.precio, 
-            h.foto_principal
+            h.id_hamaca AS ID, 
+            h.nombre_hamaca AS NOMBRE, 
+            h.descripcion_hamaca AS DESCRIPCION, 
+            h.precio AS PRECIO, 
+            h.foto_principal AS IMAGEN
         FROM 
             hamacas h
         WHERE 1=1',

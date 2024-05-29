@@ -34,7 +34,7 @@ if (isset($_GET['action'])) {
         case 'readOne':
             if (!$producto->setId($_POST['idProducto'])) {
                 $result['error'] = $producto->getDataError();
-            } elseif ($result['dataset'] = $producto->readOne()) {
+            } elseif ($result['dataset'] = $producto->readDetail()) {
                 $result['status'] = 1;
             } else {
                 $result['error'] = 'Producto inexistente';
@@ -47,6 +47,22 @@ if (isset($_GET['action'])) {
                 $result['message'] = 'Mostrando ' . count($result['dataset']) . ' productos';
             } else {
                 $result['error'] = 'No existen productos registrados';
+            }
+            break;
+            //Filtrar productos
+        case 'filterRows':
+            $_POST = Validator::validateForm($_POST);
+            if (!$producto->setCategorias($_POST['categorias']) or
+                !$producto->setMateriales($_POST['materiales']) or
+                !$producto->setMinimo($_POST['minimo']) or
+                !$producto->setMaximo($_POST['maximo'])
+            ) {
+                $result['error'] = $producto->getDataError();
+            } elseif ($result['dataset'] = $producto->filterRows()) {
+                $result['status'] = 1;
+                $result['message'] = 'Filtrando ' . count($result['dataset']) . ' productos';
+            } else {
+                $result['error'] = 'Producto inexistente';
             }
             break;
         default:

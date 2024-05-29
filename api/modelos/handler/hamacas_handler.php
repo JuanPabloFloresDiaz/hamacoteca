@@ -19,6 +19,10 @@ class HamacasHandler
     protected $administrador = null;
     protected $categoria = null;
     protected $material = null;
+    protected $categorias = null;
+    protected $materiales = null;
+    protected $minimo = null;
+    protected $maximo = null;
 
     // Constante para establecer la ruta de las imágenes.
     const RUTA_IMAGEN = '../../imagenes/hamacas/';
@@ -134,5 +138,29 @@ class HamacasHandler
     ORDER BY TOTAL DESC 
     LIMIT 3;';
         return Database::getRows($sql); 
+    }
+
+    
+    //Función para mostrar una de las hamacas
+    public function readDetail()
+    {
+        $sql = 'SELECT h.nombre_hamaca AS NOMBRE, h.descripcion_hamaca AS DESCRIPCIÓN, h.precio AS PRECIO,
+        h.cantidad_hamaca AS CANTIDAD, IFNULL(AVG(v.calificacion_producto), 0) AS PROMEDIO, h.foto_principal AS IMAGEN,
+        c.nombre_categoria AS CATEGORIA, nombre_material AS MATERIAL FROM hamacas h
+        INNER JOIN categorias c USING(id_categoria)
+        INNER JOIN materiales m USING(id_material)
+        LEFT JOIN detalles_pedidos dp ON h.id_hamaca = dp.id_hamaca
+        LEFT JOIN valoraciones v ON dp.id_detalles_pedidos = v.id_detalles_pedidos
+        WHERE h.id_hamaca = ? GROUP BY h.id_hamaca;';
+        $params = array($this->id);
+        return Database::getRow($sql, $params);
+    }
+
+    //Función para filtrar las hamacas
+    public function filterRows()
+    {
+        $sql = 'CALL filtrar_hamacas(?, ?, ?, ?);';
+        $params = array($this->categorias, $this->materiales, $this->minimo, $this->maximo);
+        return Database::getRows($sql, $params);
     }
 }

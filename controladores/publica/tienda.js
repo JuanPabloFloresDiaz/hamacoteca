@@ -6,10 +6,53 @@ async function loadComponent(path) {
 
 let ROWS_FOUND;
 let SEARCH_FORM;
+let FILTER_FORM;
+
+let CATEGORIAS;
+let MATERIALES;
+
 
 const PRODUCTO_API = 'servicios/publica/hamaca.php';
 const MATERIALES_API = 'servicios/publica/material.php';
 const CATEGORIAS_API = 'servicios/publica/categoria.php';
+
+async function filtrarProductos(form) {
+    const contenedorCartasProductos = document.getElementById('productos-cartas');
+    contenedorCartasProductos.innerHTML = '';
+    try {
+        // Se verifica la acción a realizar.
+        const DATA = await fetchData(PRODUCTO_API, "filterRows", form);
+        console.log(DATA);
+
+        if (DATA.status) {
+            // Mostrar cartas de productos obtenidos de la API
+            DATA.dataset.forEach(producto => {
+                const cartasHtml = `
+        <div class="col">
+         <div class="card carta-personalizada"">
+            <div class="position-relative">
+            <img src="${SERVER_URL}imagenes/HAMACAS/${producto.IMAGEN}" height="200" class="card-img-top" alt="${producto.NOMBRE}">
+            <a href="detalle.html?id=${producto.ID}" class="btn btn-outline-light position-absolute top-50 start-50 translate-middle">Ver detalle</a>
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">${producto.NOMBRE}</h5>
+                <p class="card-text">$${producto.PRECIO}</p>
+            </div>
+         </div>
+        </div>
+        `;
+                contenedorCartasProductos.innerHTML += cartasHtml;
+            });
+            // Se muestra un mensaje de acuerdo con el resultado.
+            ROWS_FOUND.textContent = DATA.message;
+        } else {
+            // Se muestra un mensaje de acuerdo con el resultado.
+            ROWS_FOUND.textContent = "Existen 0 coincidencias";
+        }
+    } catch (error) {
+        console.error('Error al obtener datos de la API:', error);
+    }
+}
 
 async function cargar_productos(form = null) {
     const listahamacas = [
@@ -125,9 +168,6 @@ async function cargar_productos(form = null) {
             contenedorCartasProductos.innerHTML += cartasHtml;
         });
     }
-
-
-
 }
 
 async function cargar_categorias() {
@@ -163,7 +203,7 @@ async function cargar_categorias() {
             DATA.dataset.forEach(categoria => {
                 const categoriasHtml = `
                 <div class="form-check col-md-12 col-sm-4">
-                    <input class="form-check-input" type="checkbox" name="${categoria.NOMBRE}" id="${categoria.NOMBRE}" value="${categoria.ID}">${categoria.NOMBRE}</input>
+                    <input class="form-check-input" type="checkbox" name="categorias" id="${categoria.NOMBRE}" value="${categoria.ID}">${categoria.NOMBRE}</input>
                 </div>
                 `;
                 cargarListaCategorias.innerHTML += categoriasHtml;
@@ -218,7 +258,7 @@ async function cargar_materiales() {
             DATA.dataset.forEach(materiales => {
                 const materialesHtml = `
                 <div class="form-check col-md-12 col-sm-4">
-                <input class="form-check-input" type="checkbox" name="${materiales.NOMBRE}" id="${materiales.NOMBRE}" value="${materiales.ID}">${materiales.NOMBRE}</input>
+                <input class="form-check-input" type="checkbox" name="materiales" id="${materiales.NOMBRE}" value="${materiales.ID}">${materiales.NOMBRE}</input>
                 </div>
                 `;
                 cargarListaMateriales.innerHTML += materialesHtml;
@@ -306,5 +346,31 @@ window.onload = async function () {
         console.log(FORM);
         // Llamada a la función para llenar la tabla con los resultados de la búsqueda.
         cargar_productos(FORM);
+    });
+
+    // Constante para establecer el formulario de buscar.
+    FILTER_FORM = document.getElementById('filterForm');
+    // Verificar si SEARCH_FORM está seleccionado correctamente
+    console.log(SEARCH_FORM)
+    // Método del evento para cuando se envía el formulario de buscar.
+    FILTER_FORM.addEventListener('submit', (event) => {
+        // Se evita recargar la página web después de enviar el formulario.
+        event.preventDefault();
+        // Llamada a la función para llenar las cartas con los resultados de la búsqueda filtrada.
+        const FORM = new FormData(FILTER_FORM);
+        const categoriaIds = [];
+        const materialIds = [];
+
+        FILTER_FORM.querySelectorAll('input[name=categorias]:checked').forEach(checkbox => {
+            categoriaIds.push(checkbox.value);
+        });
+
+        FILTER_FORM.querySelectorAll('input[name=materiales]:checked').forEach(checkbox => {
+            materialIds.push(checkbox.value);
+        });
+
+        FORM.set('categorias', categoriaIds.join(','));
+        FORM.set('materiales', materialIds.join(','))
+        filtrarProductos(FORM);
     });
 };
