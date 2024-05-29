@@ -33,8 +33,8 @@ class ClientesHandler
 
     public function createRow()
     {
-        $sql = 'CALL insertar_cliente_validado(?,?,?,?,?,?,?,?,?,?,?)';
-        $params = array($this->nombre, $this->apellido, $this->clave, $this->correo, $this->telefono, $this->dui, $this->nacimiento, $this->genero, $this->estado, $this->imagen, $this->direccion);
+        $sql = 'CALL insertar_cliente_validado(?,?,?,?,?,?,?,?,?,?)';
+        $params = array($this->nombre, $this->apellido, $this->clave, $this->correo, $this->telefono, $this->dui, $this->nacimiento, $this->genero, $this->imagen, $this->direccion);
         return Database::executeRow($sql, $params);
     }
 

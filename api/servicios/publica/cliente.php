@@ -88,21 +88,19 @@ if (isset($_GET['action'])) {
                 } elseif(!isset($_POST['condicion'])) {
                     $result['error'] = 'Debe marcar la aceptación de términos y condiciones';
                 } elseif (
-                    !$cliente->setNombre($_POST['nombreCliente']) or
-                    !$cliente->setApellido($_POST['apellidoCliente']) or
-                    !$cliente->setCorreo($_POST['correoCliente']) or
-                    !$cliente->setDireccion($_POST['direccionCliente']) or
-                    !$cliente->setDUI($_POST['duiCliente']) or
-                    !$cliente->setNacimiento($_POST['nacimientoCliente']) or
-                    !$cliente->setTelefono($_POST['telefonoCliente']) or
-                    !$cliente->setClave($_POST['claveCliente']) or
+                    !$cliente->setNombre($_POST['nombreRegistro']) or
+                    !$cliente->setApellido($_POST['apellidoRegistro']) or
+                    !$cliente->setCorreo($_POST['correoRegistro']) or
+                    !$cliente->setDireccion($_POST['direccionRegistro']) or
+                    !$cliente->setDUI($_POST['duiRegistro']) or
+                    !$cliente->setNacimiento($_POST['fechanacimientoRegistro']) or
+                    !$cliente->setTelefono($_POST['telefonoRegistro']) or
+                    !$cliente->setClave($_POST['claveRegistro']) or
                     !$cliente->setGenero($_POST['generoRegistro']) or
                     !$cliente->setImagen($_FILES['imagenRegistro'])
                 ) {
                     $result['error'] = $cliente->getDataError();
-                } elseif ($_POST['claveCliente'] != $_POST['confirmarClave']) {
-                    $result['error'] = 'Contraseñas diferentes';
-                } elseif ($cliente->createRow()) {
+                }  elseif ($cliente->createRow()) {
                     $result['status'] = 1;
                     $result['message'] = 'Cuenta registrada correctamente';
                      // Se asigna el estado del archivo después de insertar.

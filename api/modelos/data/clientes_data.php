@@ -64,7 +64,7 @@ class ClientesData extends ClientesHandler
             $this->data_error = 'La dirección debe ser un valor alfanúmerico';
             return false;
         } elseif (Validator::validateLength($value, $min, $max)) {
-            $this->apellido = $value;
+            $this->direccion = $value;
             return true;
         } else {
             $this->data_error = 'La dirección debe tener una longitud entre ' . $min . ' y ' . $max;
