@@ -136,7 +136,7 @@ class HamacasHandler
         h.cantidad_hamaca,
         h.foto_principal
     ORDER BY TOTAL DESC 
-    LIMIT 3;';
+    LIMIT 5;';
         return Database::getRows($sql); 
     }
 
