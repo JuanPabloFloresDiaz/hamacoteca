@@ -15,6 +15,30 @@ if (isset($_GET['action'])) {
         $result['session'] = 1;
         // Se compara la acción a realizar cuando un cliente ha iniciado sesión.
         switch ($_GET['action']) {
+            // Actualizar
+            case 'updateRow':
+                $_POST = Validator::validateForm($_POST);
+                if (
+                    !$cliente->setNombre($_POST['nombrePerfil']) or
+                    !$cliente->setApellido($_POST['apellidoPerfil']) or
+                    !$cliente->setCorreo($_POST['correoPerfil']) or
+                    !$cliente->setTelefono($_POST['telefonoPerfil']) or
+                    !$cliente->setDUI($_POST['duiPerfil']) or
+                    !$cliente->setNacimiento($_POST['fechanacimientoPerfil']) or
+                    !$cliente->setGenero($_POST['generoPerfil']) or
+                    !$cliente->setDireccion($_POST['direccionPerfil']) or
+                    !$cliente->setImagen($_FILES['imagenPerfil'], $cliente->getFilename())
+                ) {
+                    $result['error'] = $cliente->getDataError();
+                } elseif ($cliente->updateRow()) {
+                    $result['status'] = 1;
+                    $result['message'] = 'Perfil modificado correctamente';
+                    // Se asigna el estado del archivo después de actualizar.
+                    $result['fileStatus'] = Validator::changeFile($_FILES['imagenPerfil'], $cliente::RUTA_IMAGEN, $cliente->getFilename());
+                } else {
+                    $result['error'] = 'Ocurrió un problema al modificar el perfil';
+                }
+                break;
             case 'getUser':
                 if (isset($_SESSION['correoCliente'])) {
                     $result['status'] = 1;
@@ -31,6 +55,14 @@ if (isset($_GET['action'])) {
                         $result['error'] = 'Ocurrió un problema al leer el perfil';
                     }
                     break;
+            // Ver uno
+            case 'readOne':
+                if ($result['dataset'] = $cliente->readOne()) {
+                    $result['status'] = 1;
+                } else {
+                    $result['error'] = 'Perfil inexistente';
+                }
+                break;
             // Cambiar contraseña
             case 'changePassword':
                 $_POST = Validator::validateForm($_POST);

@@ -169,7 +169,7 @@ class ClientesData extends ClientesHandler
 
     public function setGenero($value)
     {
-        if (Validator::validateNaturalNumber($value)) {
+        if (Validator::validateString($value)) {
             $this->genero = $value;
             return true;
         } else {

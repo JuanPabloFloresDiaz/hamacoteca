@@ -38,6 +38,44 @@ class ClientesHandler
         return Database::executeRow($sql, $params);
     }
 
+
+    //Función para actualizar un admministrador.
+    public function updateRow()
+    {
+        $sql = 'CALL actualizar_cliente_validado(?,?,?,?,?,?,?,?,?,?);';
+        $params = array(
+            $_SESSION['idCliente'],
+            $this->nombre,
+            $this->apellido,
+            $this->correo,
+            $this->telefono,
+            $this->dui,
+            $this->nacimiento,
+            $this->genero,
+            $this->imagen,
+            $this->direccion
+        );
+        return Database::executeRow($sql, $params);
+    }
+
+    public function readOne()
+    {
+        $sql = 'SELECT id_cliente AS ID,
+        nombre_cliente AS NOMBRE,
+        apellido_cliente AS APELLIDO,
+        correo_cliente AS CORREO,
+        telefono_cliente AS TELÉFONO,
+        dui_cliente AS DUI,
+        fecha_nacimiento_cliente AS NACIMIENTO,
+        genero_cliente AS GENERO,
+        direccion_cliente AS DIRECCION
+        FROM clientes
+        WHERE id_cliente LIKE ?';
+        $params = array($_SESSION['idCliente']);
+        return Database::getRow($sql, $params);
+    }
+
+
     // Función para buscar un cliente
     public function searchRows()
     {
@@ -193,7 +231,7 @@ class ClientesHandler
     public function checkDuplicate($value)
     {
         $sql = 'SELECT id_cliente
-                FROM cliente
+                FROM clientes
                 WHERE dui_cliente = ? OR correo_cliente = ?';
         $params = array($value, $value);
         return Database::getRow($sql, $params);
