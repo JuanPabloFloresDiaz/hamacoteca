@@ -172,6 +172,66 @@ class HamacasData extends HamacasHandler
         }
     }
 
+    
+
+    // Validación y asignación del identificador de la categoría.
+    public function setCategorias($value)
+    {
+        if (Validator::validateString($value)) {
+            $this->categorias = $value;
+            return true;
+        } else {
+            $this->data_error = 'El arreglo de las categorías se esta mandando de forma incorrecta';
+            return false;
+        }
+    }
+
+    // Validación y asignación del identificador del material.
+    public function setMateriales($value)
+    {
+        if (Validator::validateString($value)) {
+            $this->materiales = $value;
+            return true;
+        } else {
+            $this->data_error = 'El arreglo de los materiales se esta mandando de forma incorrecta';
+            return false;
+        }
+    }
+
+    // Validación y asignación del precio de la hamaca.
+    public function setMinimo($value, $min = 10, $max = 1000)
+    {
+        if (Validator::validateMoney($value)) {
+            $this->minimo = $value;
+            if ($this->minimo >= $min && $this->minimo < $max) {
+                return true;
+            } else {
+                $this->data_error = 'El precio minimo debe estar entre $' . $min . ' y $' . $max;
+                return false;
+            }
+        } else {
+            $this->data_error = 'El precio debe ser un valor numérico';
+            return false;
+        }
+    }
+
+    // Validación y asignación del precio de la hamaca.
+    public function setMaximo($value, $min = 10, $max = 1000)
+    {
+        if (Validator::validateMoney($value)) {
+            $this->maximo = $value;
+            if ($this->maximo >= $min && $this->maximo <= $max) {
+                return true;
+            } else {
+                $this->data_error = 'El precio maximo debe estar entre $' . $min . ' y $' . $max;
+                return false;
+            }
+        } else {
+            $this->data_error = 'El precio debe ser un valor numérico';
+            return false;
+        }
+    }
+
     // Método para obtener el error de los datos.
     public function getDataError()
     {

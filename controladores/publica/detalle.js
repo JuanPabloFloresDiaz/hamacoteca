@@ -378,7 +378,44 @@ async function openDetail() {
         document.getElementById('descripcionProducto').textContent = DATA.dataset.DESCRIPCION;
         document.getElementById('precioProducto').textContent = DATA.dataset.PRECIO;
         document.getElementById('existenciasProducto').textContent = DATA.dataset.CANTIDAD;
+        document.getElementById('categoria').textContent = DATA.dataset.CATEGORIA;
+        document.getElementById('material').textContent = DATA.dataset.MATERIAL;
         document.getElementById('idProducto').value = DATA.dataset.ID;
+        if(DATA.dataset.PROMEDIO > 0){
+            document.getElementById('ratingValue').textContent = DATA.dataset.PROMEDIO;
+
+            // Captura el valor del rating del h3
+            let ratingValue = parseFloat(document.getElementById('ratingValue').textContent);
+            console.log("Valor del rating obtenido:", ratingValue);
+    
+            // Intenta imprimir un mensaje después de obtener el ratingValue
+            console.log("Este mensaje se imprime después de obtener el ratingValue:", ratingValue);
+    
+            // Captura todas las estrellas
+            let stars = document.querySelectorAll('.rating input');
+    
+            // Marca las estrellas según el rating
+            stars.forEach(function (star, index) {
+                if (index + 0 <= 5 - ratingValue) { // Ajustar la condición
+                    star.checked = true;
+                    console.log("Estrella marcada:", index + 1);
+                    // Desactiva la interactividad de las estrellas
+                    star.disabled = true;
+                }
+                star.disabled = true;
+            });
+    
+            // Colorea las estrellas marcadas de naranja
+            let checkedStars = document.querySelectorAll('.rating input:checked');
+            checkedStars.forEach(function (star) {
+                star.nextElementSibling.style.color = 'orange';
+                console.log("Estrella coloreada de naranja:", star.id);
+                star.disabled = true;
+            });
+        }else{
+            document.getElementById('ratingValue').textContent = "No existen calificaciones aun para este producto"
+            document.getElementById('rating').remove();
+        }
     } else {
         // Se presenta un mensaje de error cuando no existen datos para mostrar.
         document.getElementById('mainTitle').textContent = DATA.error;
@@ -408,36 +445,6 @@ window.onload = async function () {
     appContainer.innerHTML += `${recomendacionesHtml}`;
 
     openDetail();
-
-    // Captura el valor del rating del h3
-    var ratingValue = parseFloat(document.getElementById('ratingValue').textContent);
-    console.log("Valor del rating obtenido:", ratingValue);
-
-    // Intenta imprimir un mensaje después de obtener el ratingValue
-    console.log("Este mensaje se imprime después de obtener el ratingValue:", ratingValue);
-
-    // Captura todas las estrellas
-    var stars = document.querySelectorAll('.rating input');
-
-    // Marca las estrellas según el rating
-    stars.forEach(function (star, index) {
-        if (index + 0 <= 5 - ratingValue) { // Ajustar la condición
-            star.checked = true;
-            console.log("Estrella marcada:", index + 1);
-            // Desactiva la interactividad de las estrellas
-            star.disabled = true;
-        }
-        star.disabled = true;
-    });
-
-    // Colorea las estrellas marcadas de naranja
-    var checkedStars = document.querySelectorAll('.rating input:checked');
-    checkedStars.forEach(function (star) {
-        star.nextElementSibling.style.color = 'orange';
-        console.log("Estrella coloreada de naranja:", star.id);
-        star.disabled = true;
-    });
-
     cargarComentarios(listacomentarios);
     cargarRecomendaciones();
 
