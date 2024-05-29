@@ -95,7 +95,9 @@ if (isset($_GET['action'])) {
                     !$cliente->setDUI($_POST['duiCliente']) or
                     !$cliente->setNacimiento($_POST['nacimientoCliente']) or
                     !$cliente->setTelefono($_POST['telefonoCliente']) or
-                    !$cliente->setClave($_POST['claveCliente'])
+                    !$cliente->setClave($_POST['claveCliente']) or
+                    !$cliente->setGenero($_POST['generoRegistro']) or
+                    !$cliente->setImagen($_FILES['imagenRegistro'])
                 ) {
                     $result['error'] = $cliente->getDataError();
                 } elseif ($_POST['claveCliente'] != $_POST['confirmarClave']) {
@@ -103,6 +105,8 @@ if (isset($_GET['action'])) {
                 } elseif ($cliente->createRow()) {
                     $result['status'] = 1;
                     $result['message'] = 'Cuenta registrada correctamente';
+                     // Se asigna el estado del archivo después de insertar.
+                     $result['fileStatus'] = Validator::saveFile($_FILES['imagenRegistro'], $cliente::RUTA_IMAGEN);
                 } else {
                     $result['error'] = 'Ocurrió un problema al registrar la cuenta';
                 }

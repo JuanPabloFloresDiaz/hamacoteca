@@ -6,52 +6,55 @@
             <h5 class=" text-center">Es rápido y fácil.</h5>
             <!--formulario para registrar usuaario -->
             <form class="mt-5 row g-3" id="saveForm">
+                <!-- Campo oculto para asignar el token del reCAPTCHA -->
+                <input type="text" class="d-none" id="gRecaptchaResponse" name="gRecaptchaResponse">
                 <div class="col-sm-6 col-md-6 col-lg-6 col-12 mb-3 ">
                     <div class=" form-floating borde ">
                         <input id="nombreRegistro" type="text" name="nombreRegistro" placeholder="Nombre"
-                            class="form-control" required />
-                        <label for="floatingInput">Nombre</label>
+                            class="form-control" required autocomplete="off" />
+                        <label for="nombreRegistro">Nombre</label>
                     </div>
                 </div>
                 <div class="col-sm-6 col-md-6 col-lg-6 col-12 mb-3">
                     <div class="form-floating borde">
                         <input id="fechanacimientoRegistro" type="date" name="fechanacimientoRegistro"
-                            placeholder="fechanacimiento" class="form-control" required />
-                        <label for="floatingInput">Fecha nacimiento</label>
+                            placeholder="fechanacimiento" class="form-control" required autocomplete="off"/>
+                        <label for="fechanacimientoRegistro">Fecha nacimiento</label>
                     </div>
                 </div>
                 <div class="col-sm-6 col-md-6 col-lg-6 col-12 mb-3">
                     <div class="form-floating borde ">
                         <input id="apellidoRegistro" type="text" name="apellidoRegistro" placeholder="Apellido"
-                            class="form-control" required />
-                        <label for="floatingInput">Apellido</label>
+                            class="form-control" required autocomplete="off"/>
+                        <label for="apellidoRegistro">Apellido</label>
                     </div>
                 </div>
                 <div class="col-sm-6 col-md-6 col-lg-6 col-12 mb-3">
                     <div class="form-floating borde">
                         <input id="telefonoRegistro" type="text" name="telefonoRegistro" class="form-control"
-                            placeholder="0000-0000" required />
-                        <label for="floatingInput">Teléfono</label>
+                            placeholder="0000-0000" required autocomplete="off"/>
+                        <label for="telefonoRegistro">Teléfono</label>
                     </div>
                 </div>
                 <div class="col-sm-6 col-md-6 col-lg-6 col-12 mb-3">
                     <div class="form-floating borde ">
                         <input id="correoRegistro" type="email" name="correoRegistro" placeholder="Correo electrónico"
-                            class="form-control" required />
-                        <label for="floatingInput">Correo electrónico</label>
+                            class="form-control" required autocomplete="off" />
+                        <label for="correoRegistro">Correo electrónico</label>
                     </div>
                 </div>
                 <div class="col-sm-6 col-md-6 col-lg-6 col-12 mb-3">
                     <div class="form-floating borde">
-                        <input id="imagenRegistro" type="file" name="imagenRegistro" class="form-control"
-                            accept=".png, .jpg">
+                        <input id="claveRegistro" type="password" name="claveRegistro" class="form-control"
+                            placeholder="Ingresa la clave del administrador" autocomplete="off" >
+                        <label for="claveRegistro">Contraseña</label>
                     </div>
                 </div>
                 <div class="col-sm-6 col-md-6 col-lg-6 col-12 mb-3">
                     <div class="form-floating borde">
                         <input id="duiRegistro" type="text" name="duiRegistro" placeholder="00000000-0"
-                            class="form-control" required />
-                        <label for="floatingInput">DUI</label>
+                            class="form-control" required autocomplete="off"/>
+                        <label for="duiRegistro">DUI</label>
                     </div>
 
                 </div>
@@ -64,10 +67,28 @@
                         </select>
                     </div>
                 </div>
+                <div class="col-sm-6 col-md-6 col-lg-6 col-6 mb-3">
+                    <div class="form-floating borde">
+                        <input id="imagenRegistro" type="file" name="imagenRegistro" class="form-control"
+                            accept=".png, .jpg">
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-6 col-lg-6 col-6 mb-3">
+                    <div class="form-floating borde ">
+                        <input id="direccionRegistro" type="text" name="direccionRegistro" placeholder="Dirección"
+                            class="form-control" required autocomplete="off"/>
+                        <label for="direccionRegistro">Dirección</label>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-12 col-lg-12 col-12 mb-3">
+                    <div class="form-check justify-content-center">
+                        <input type="checkbox" class="form-check-input" id="condicion" name="condicion" required>
+                        <label class="form-check-label" for="condicion">Acepto términos y condiciones</label>
+                    </div>
+                </div>
                 <!--Botón que envia los datos ingresados y lo redirige a la pantalla correspodiente -->
-                <a href="inicio_sesion.html" type="submit" class="btn btn-dark"><i
-                        class="bi bi-send"></i>
-                    REGISTRARTE</a>
+                <button type="submit" class="btn btn-dark"><i class="bi bi-send"></i>
+                    REGISTRARTE</button>
             </form>
         </div>
     </div>
