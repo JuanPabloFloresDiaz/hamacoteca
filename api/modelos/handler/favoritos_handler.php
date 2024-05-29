@@ -31,4 +31,18 @@ class FavoritosHandler
         $params = array($this->id);
         return Database::getRow($sql, $params);
     }
+
+    //Función para leer todos los favoritos.
+    public function readAll()
+    {
+        $sql = 'SELECT h.id_hamaca AS ID, 
+        h.nombre_hamaca AS NOMBRE, 
+        h.descripcion_hamaca AS DESCRIPCION, 
+        h.precio AS PRECIO, 
+        h.foto_principal AS IMAGEN FROM favoritos f
+        INNER JOIN hamacas h USING(id_hamaca)
+        WHERE f.id_cliente = ?;';
+        $params = array($_SESSION['idCliente']);
+        return Database::getRows($sql, $params);
+    }
 }
