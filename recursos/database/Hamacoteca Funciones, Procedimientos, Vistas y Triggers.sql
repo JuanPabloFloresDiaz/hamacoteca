@@ -321,7 +321,6 @@ CREATE PROCEDURE insertar_cliente_validado(
    IN p_dui_cliente VARCHAR(10),
    IN p_fecha_nacimiento_cliente DATE,
    IN p_genero_cliente ENUM('Masculino', 'Femenino', 'No definido'),
-   IN p_estado_cliente BOOLEAN,
    IN p_foto_cliente VARCHAR(50),
    IN p_direccion_cliente VARCHAR(100)
 )
@@ -332,8 +331,8 @@ BEGIN
            AND p_clave_cliente REGEXP '[a-z]'
            AND p_clave_cliente REGEXP '[0-9]'
            AND p_clave_cliente REGEXP '[^a-zA-Z0-9]' THEN
-               INSERT INTO clientes (nombre_cliente, apellido_cliente, clave_cliente, correo_cliente, telefono_cliente, dui_cliente, fecha_nacimiento_cliente, genero_cliente, estado_cliente, foto_cliente, direccion_cliente)
-               VALUES(p_nombre_cliente, p_apellido_cliente, p_clave_cliente, p_correo_cliente, p_telefono_cliente, p_dui_cliente, p_fecha_nacimiento_cliente, p_genero_cliente, p_estado_cliente, p_foto_cliente, p_direccion_cliente);
+               INSERT INTO clientes (nombre_cliente, apellido_cliente, clave_cliente, correo_cliente, telefono_cliente, dui_cliente, fecha_nacimiento_cliente, genero_cliente, foto_cliente, direccion_cliente)
+               VALUES(p_nombre_cliente, p_apellido_cliente, p_clave_cliente, p_correo_cliente, p_telefono_cliente, p_dui_cliente, p_fecha_nacimiento_cliente, p_genero_cliente, p_foto_cliente, p_direccion_cliente);
         ELSE
             SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'La contraseña no cumple con los requisitos mínimos';
         END IF;
@@ -680,7 +679,7 @@ $$
 DROP PROCEDURE IF EXISTS insertar_pedido_y_detalle_pedido;
 DELIMITER $$
 CREATE PROCEDURE insertar_pedido_y_detalle_pedido(
-    IN p_estado_pedido ENUM('Entregado', 'En camino', 'Cancelado'),
+    IN p_estado_pedido ENUM('Pendiente', 'Entregado', 'En camino', 'Cancelado'),
     IN p_direccion_pedido VARCHAR(50),
     IN p_id_cliente INT,
     IN p_cantidad_comprada INT,
@@ -706,7 +705,7 @@ DROP PROCEDURE IF EXISTS actualizar_estado_pedido;
 DELIMITER $$
 CREATE PROCEDURE actualizar_estado_pedido(
     IN p_id_pedido INT,
-    IN p_estado_pedido ENUM('Entregado', 'En camino', 'Cancelado')
+    IN p_estado_pedido ENUM('Pendiente', 'Entregado', 'En camino', 'Cancelado')
 )
 BEGIN
     -- Actualizar el estado del pedido en la tabla pedidos
@@ -721,7 +720,7 @@ DROP PROCEDURE IF EXISTS actualizar_datos_pedido;
 DELIMITER $$
 CREATE PROCEDURE actualizar_datos_pedido(
     IN p_id_pedido INT,
-    IN p_estado_pedido ENUM('Entregado', 'En camino', 'Cancelado'),
+    IN p_estado_pedido ENUM('Pendiente', 'Entregado', 'En camino', 'Cancelado'),
     IN p_direccion_pedido VARCHAR(50),
     IN p_id_cliente INT
 )
@@ -899,6 +898,8 @@ BEGIN
 END //
 
 DELIMITER ;
+
+CALL filtrar_hamacas('1,2,3,4', '1,2,3,4', 10.00, 1000.00);
 
 SELECT ROUTINE_NAME
 FROM information_schema.ROUTINES

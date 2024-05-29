@@ -34,31 +34,31 @@ CALL insertar_administrador_validado('Sara', 'Martínez', 'Clave24@SM', 'sara@gm
 CALL insertar_administrador_validado('Manuel', 'Pérez', 'Clave25@MP', 'manuel@gmail.com', '8765-4321', '12300038-4', '2014-01-01', 1, 'default.jpg');
 CALL insertar_administrador_validado('Marcos', 'Lopéz', 'Clave26@ML', 'marcos@gmail.com', '6565-4321', '12340038-4', '2004-01-01', 1, 'default.jpg');
 
-CALL insertar_cliente_validado('Carlos', 'Alvarez', '$2y$10$/8JZKxjAdlo4jTfS7uri7OzhZZ1/yNiw2DCurBt/Tb9h/c7L7P/Y6', 'carlos@gmail.com', '1234-5678', '12345678-0', '1990-01-01', 'Masculino', true, 'default.jpg', 'Dirección 1');
-CALL insertar_cliente_validado('Mario', 'Almeria', '$2y$10$/8JZKxjAdlo4jTfS7uri7OzhZZ1/yNiw2DCurBt/Tb9h/c7L7P/Y6', 'mario@gmail.com', '2345-6789', '12345689-1', '1991-01-01', 'Femenino', false, 'default.jpg', 'Dirección 2');
-CALL insertar_cliente_validado('Claudio', 'Angelo', '$2y$10$/8JZKxjAdlo4jTfS7uri7OzhZZ1/yNiw2DCurBt/Tb9h/c7L7P/Y6', 'claudio@gmail.com', '3456-7890', '12345689-2', '1992-01-01', 'No definido', true, 'default.jpg', 'Dirección 3');
-CALL insertar_cliente_validado('Lucía', 'Bárcenas', '$2y$10$/8JZKxjAdlo4jTfS7uri7OzhZZ1/yNiw2DCurBt/Tb9h/c7L7P/Y6', 'lucia@gmail.com', '4567-8901', '12345689-3', '1993-01-01', 'Femenino', true, 'default.jpg', 'Dirección 4');
-CALL insertar_cliente_validado('Mateo', 'Cabrera', '$2y$10$/8JZKxjAdlo4jTfS7uri7OzhZZ1/yNiw2DCurBt/Tb9h/c7L7P/Y6', 'mateo@gmail.com', '5678-9012', '12345689-4', '1994-01-01', 'Masculino', false, 'default.jpg', 'Dirección 5');
-CALL insertar_cliente_validado('Mariana', 'Díaz', 'Clave6@Password', 'mariana@gmail.com', '6789-0123', '12345689-5', '1995-01-01', 'Femenino', true, 'default.jpg', 'Dirección 6');
-CALL insertar_cliente_validado('Fernando', 'Estrada', 'Clave7@Password', 'fernando@gmail.com', '7890-1234', '12345689-6', '1996-01-01', 'Masculino', false, 'default.jpg', 'Dirección 7');
-CALL insertar_cliente_validado('Isabella', 'Fuentes', 'Clave8@Password', 'isabella@gmail.com', '8901-2345', '12345689-7', '1997-01-01', 'Femenino', true, 'default.jpg', 'Dirección 8');
-CALL insertar_cliente_validado('Santiago', 'García', 'Clave9@Password', 'santiago@gmail.com', '9012-3456', '12345689-8', '1998-01-01', 'Masculino', false, 'default.jpg', 'Dirección 9');
-CALL insertar_cliente_validado('Valeria', 'Hernández', 'Clave10@Password', 'valeria@gmail.com', '0123-4567', '12345689-9', '1999-01-01', 'Femenino', true, 'default.jpg', 'Dirección 10');
-CALL insertar_cliente_validado('Alejandro', 'Iglesias', 'Clave11@Password', 'alejandro@gmail.com', '9876-5432', '12355678-0', '2000-01-01', 'Masculino', false, 'default.jpg', 'Dirección 11');
-CALL insertar_cliente_validado('Camila', 'Juárez', 'Clave12@Password', 'camila@gmail.com', '8765-4321', '12445678-1', '2001-01-01', 'Femenino', true, 'default.jpg', 'Dirección 12');
-CALL insertar_cliente_validado('Nicolás', 'López', 'Clave13@Password', 'nicolas@gmail.com', '7654-3210', '12345678-2', '2002-01-01', 'Masculino', false, 'default.jpg', 'Dirección 13');
-CALL insertar_cliente_validado('Victoria', 'Mendoza', 'Clave14@Password', 'victoria@gmail.com', '6543-2109', '52345678-3', '2003-01-01', 'Femenino', true, 'default.jpg', 'Dirección 14');
-CALL insertar_cliente_validado('Gabriel', 'Núñez', 'Clave15@Password', 'gabriel@gmail.com', '5432-1098', '12346678-4', '2004-01-01', 'Masculino', false, 'default.jpg', 'Dirección 15');
-CALL insertar_cliente_validado('Olivia', 'Ortega', 'Clave16@Password', 'olivia@gmail.com', '4321-0987', '12345478-5', '2005-01-01', 'Femenino', true, 'default.jpg', 'Dirección 16');
-CALL insertar_cliente_validado('Joaquín', 'Pérez', 'Clave17@Password', 'joaquin@gmail.com', '3210-9876', '12347678-6', '2006-01-01', 'Masculino', false, 'default.jpg', 'Dirección 17');
-CALL insertar_cliente_validado('Sofía', 'Quintero', 'Clave18@Password', 'sofia@gmail.com', '2109-8765', '12343578-7', '2007-01-01', 'Femenino', true, 'default.jpg', 'Dirección 18');
-CALL insertar_cliente_validado('Juan', 'Ramírez', 'Clave19@Password', 'juan@gmail.com', '0987-6543', '12345568-8', '2008-01-01', 'Masculino', false, 'default.jpg', 'Dirección 19');
-CALL insertar_cliente_validado('Valentina', 'Sánchez', 'Clave20@Password', 'valentina@gmail.com', '9876-5432', '35745678-9', '2009-01-01', 'Femenino', true, 'default.jpg', 'Dirección 20');
-CALL insertar_cliente_validado('Martín', 'Torres', 'Clave21@Password', 'martin@gmail.com', '8765-4321', '12346783-0', '2010-01-01', 'Masculino', false, 'default.jpg', 'Dirección 21');
-CALL insertar_cliente_validado('Florencia', 'Ureña', 'Clave22@Password', 'florencia@gmail.com', '7654-3210', '13445677-1', '2011-01-01', 'Femenino', true, 'default.jpg', 'Dirección 22');
-CALL insertar_cliente_validado('Javier', 'Vásquez', 'Clave23@Password', 'javier@gmail.com', '6543-2109', '12345677-2', '2012-01-01', 'Masculino', false, 'default.jpg', 'Dirección 23');
-CALL insertar_cliente_validado('Luisa', 'Zamora', 'Clave24@Password', 'luisa@gmail.com', '5432-1098', '12345642-3', '2013-01-01', 'Femenino', true, 'default.jpg', 'Dirección 24');
-CALL insertar_cliente_validado('Diego', 'Álvarez', 'Clave25@Password', 'diego@gmail.com', '4321-0987', '13345567-4', '2014-01-01', 'Masculino', false, 'default.jpg', 'Dirección 25');
+CALL insertar_cliente_validado('Carlos', 'Alvarez', '$2y$10$/8JZKxjAdlo4jTfS7uri7OzhZZ1/yNiw2DCurBt/Tb9h/c7L7P/Y6', 'carlos@gmail.com', '1234-5678', '12345678-0', '1990-01-01', 'Masculino', 'default.jpg', 'Dirección 1');
+CALL insertar_cliente_validado('Mario', 'Almeria', '$2y$10$/8JZKxjAdlo4jTfS7uri7OzhZZ1/yNiw2DCurBt/Tb9h/c7L7P/Y6', 'mario@gmail.com', '2345-6789', '12345689-1', '1991-01-01', 'Femenino', 'default.jpg', 'Dirección 2');
+CALL insertar_cliente_validado('Claudio', 'Angelo', '$2y$10$/8JZKxjAdlo4jTfS7uri7OzhZZ1/yNiw2DCurBt/Tb9h/c7L7P/Y6', 'claudio@gmail.com', '3456-7890', '12345689-2', '1992-01-01', 'No definido', 'default.jpg', 'Dirección 3');
+CALL insertar_cliente_validado('Lucía', 'Bárcenas', '$2y$10$/8JZKxjAdlo4jTfS7uri7OzhZZ1/yNiw2DCurBt/Tb9h/c7L7P/Y6', 'lucia@gmail.com', '4567-8901', '12345689-3', '1993-01-01', 'Femenino', 'default.jpg', 'Dirección 4');
+CALL insertar_cliente_validado('Mateo', 'Cabrera', '$2y$10$/8JZKxjAdlo4jTfS7uri7OzhZZ1/yNiw2DCurBt/Tb9h/c7L7P/Y6', 'mateo@gmail.com', '5678-9012', '12345689-4', '1994-01-01', 'Masculino', 'default.jpg', 'Dirección 5');
+CALL insertar_cliente_validado('Mariana', 'Díaz', 'Clave6@Password', 'mariana@gmail.com', '6789-0123', '12345689-5', '1995-01-01', 'Femenino', 'default.jpg', 'Dirección 6');
+CALL insertar_cliente_validado('Fernando', 'Estrada', 'Clave7@Password', 'fernando@gmail.com', '7890-1234', '12345689-6', '1996-01-01', 'Masculino', 'default.jpg', 'Dirección 7');
+CALL insertar_cliente_validado('Isabella', 'Fuentes', 'Clave8@Password', 'isabella@gmail.com', '8901-2345', '12345689-7', '1997-01-01', 'Femenino', 'default.jpg', 'Dirección 8');
+CALL insertar_cliente_validado('Santiago', 'García', 'Clave9@Password', 'santiago@gmail.com', '9012-3456', '12345689-8', '1998-01-01', 'Masculino', 'default.jpg', 'Dirección 9');
+CALL insertar_cliente_validado('Valeria', 'Hernández', 'Clave10@Password', 'valeria@gmail.com', '0123-4567', '12345689-9', '1999-01-01', 'Femenino', 'default.jpg', 'Dirección 10');
+CALL insertar_cliente_validado('Alejandro', 'Iglesias', 'Clave11@Password', 'alejandro@gmail.com', '9876-5432', '12355678-0', '2000-01-01', 'Masculino', 'default.jpg', 'Dirección 11');
+CALL insertar_cliente_validado('Camila', 'Juárez', 'Clave12@Password', 'camila@gmail.com', '8765-4321', '12445678-1', '2001-01-01', 'Femenino', 'default.jpg', 'Dirección 12');
+CALL insertar_cliente_validado('Nicolás', 'López', 'Clave13@Password', 'nicolas@gmail.com', '7654-3210', '12345678-2', '2002-01-01', 'Masculino', 'default.jpg', 'Dirección 13');
+CALL insertar_cliente_validado('Victoria', 'Mendoza', 'Clave14@Password', 'victoria@gmail.com', '6543-2109', '52345678-3', '2003-01-01', 'Femenino', 'default.jpg', 'Dirección 14');
+CALL insertar_cliente_validado('Gabriel', 'Núñez', 'Clave15@Password', 'gabriel@gmail.com', '5432-1098', '12346678-4', '2004-01-01', 'Masculino', 'default.jpg', 'Dirección 15');
+CALL insertar_cliente_validado('Olivia', 'Ortega', 'Clave16@Password', 'olivia@gmail.com', '4321-0987', '12345478-5', '2005-01-01', 'Femenino', 'default.jpg', 'Dirección 16');
+CALL insertar_cliente_validado('Joaquín', 'Pérez', 'Clave17@Password', 'joaquin@gmail.com', '3210-9876', '12347678-6', '2006-01-01', 'Masculino', 'default.jpg', 'Dirección 17');
+CALL insertar_cliente_validado('Sofía', 'Quintero', 'Clave18@Password', 'sofia@gmail.com', '2109-8765', '12343578-7', '2007-01-01', 'Femenino', 'default.jpg', 'Dirección 18');
+CALL insertar_cliente_validado('Juan', 'Ramírez', 'Clave19@Password', 'juan@gmail.com', '0987-6543', '12345568-8', '2008-01-01', 'Masculino', 'default.jpg', 'Dirección 19');
+CALL insertar_cliente_validado('Valentina', 'Sánchez', 'Clave20@Password', 'valentina@gmail.com', '9876-5432', '35745678-9', '2009-01-01', 'Femenino', 'default.jpg', 'Dirección 20');
+CALL insertar_cliente_validado('Martín', 'Torres', 'Clave21@Password', 'martin@gmail.com', '8765-4321', '12346783-0', '2010-01-01', 'Masculino', 'default.jpg', 'Dirección 21');
+CALL insertar_cliente_validado('Florencia', 'Ureña', 'Clave22@Password', 'florencia@gmail.com', '7654-3210', '13445677-1', '2011-01-01', 'Femenino', 'default.jpg', 'Dirección 22');
+CALL insertar_cliente_validado('Javier', 'Vásquez', 'Clave23@Password', 'javier@gmail.com', '6543-2109', '12345677-2', '2012-01-01', 'Masculino', 'default.jpg', 'Dirección 23');
+CALL insertar_cliente_validado('Luisa', 'Zamora', 'Clave24@Password', 'luisa@gmail.com', '5432-1098', '12345642-3', '2013-01-01', 'Femenino', 'default.jpg', 'Dirección 24');
+CALL insertar_cliente_validado('Diego', 'Álvarez', 'Clave25@Password', 'diego@gmail.com', '4321-0987', '13345567-4', '2014-01-01', 'Masculino', 'default.jpg', 'Dirección 25');
 
 CALL insertar_categoria('Colgante', 'Es una hamaca colgante', 'default.png');
 CALL insertar_categoria('Silla', 'Es una hamaca silla', 'default.png');
@@ -158,20 +158,20 @@ CALL insertar_valoracion(5, 'Muy buena calidad', 2);
 CALL insertar_valoracion(1, '(Censurado por el bien de la trama)************', 3);
 CALL insertar_valoracion(5, 'Me encanto', 4);
 
-INSERT INTO pedidos (estado_pedido, fecha_pedido, direccion_pedido, id_cliente) VALUES ('Entregado', '2024-03-01', '123 Calle Falsa', 1);
+INSERT INTO pedidos (estado_pedido, fecha_pedido, direccion_pedido, id_cliente) VALUES ('En camino', '2024-03-01', '123 Calle Falsa', 1);
 INSERT INTO pedidos (estado_pedido, fecha_pedido, direccion_pedido, id_cliente) VALUES ('En camino', '2024-03-05', '456 Avenida Siempreviva', 2);
-INSERT INTO pedidos (estado_pedido, fecha_pedido, direccion_pedido, id_cliente) VALUES ('Cancelado', '2024-03-10', '789 Calle Real', 3);
-INSERT INTO pedidos (estado_pedido, fecha_pedido, direccion_pedido, id_cliente) VALUES ('Entregado', '2024-03-15', '1011 Calle Mayor', 4);
+INSERT INTO pedidos (estado_pedido, fecha_pedido, direccion_pedido, id_cliente) VALUES ('En camino', '2024-03-10', '789 Calle Real', 3);
+INSERT INTO pedidos (estado_pedido, fecha_pedido, direccion_pedido, id_cliente) VALUES ('En camino', '2024-03-15', '1011 Calle Mayor', 4);
 INSERT INTO pedidos (estado_pedido, fecha_pedido, direccion_pedido, id_cliente) VALUES ('En camino', '2024-03-20', '1213 Avenida del Sol', 5);
-INSERT INTO pedidos (estado_pedido, fecha_pedido, direccion_pedido, id_cliente) VALUES ('Entregado', '2024-03-25', '1415 Calle Luna', 6);
+INSERT INTO pedidos (estado_pedido, fecha_pedido, direccion_pedido, id_cliente) VALUES ('En camino', '2024-03-25', '1415 Calle Luna', 6);
 INSERT INTO pedidos (estado_pedido, fecha_pedido, direccion_pedido, id_cliente) VALUES ('En camino', '2024-04-01', '1617 Avenida Estrella', 7);
-INSERT INTO pedidos (estado_pedido, fecha_pedido, direccion_pedido, id_cliente) VALUES ('Entregado', '2024-04-05', '1819 Calle Cielo', 8);
-INSERT INTO pedidos (estado_pedido, fecha_pedido, direccion_pedido, id_cliente) VALUES ('Cancelado', '2024-04-10', '2021 Avenida Mar', 9);
-INSERT INTO pedidos (estado_pedido, fecha_pedido, direccion_pedido, id_cliente) VALUES ('Entregado', '2024-04-15', '2223 Calle Sol', 10);
+INSERT INTO pedidos (estado_pedido, fecha_pedido, direccion_pedido, id_cliente) VALUES ('En camino', '2024-04-05', '1819 Calle Cielo', 8);
+INSERT INTO pedidos (estado_pedido, fecha_pedido, direccion_pedido, id_cliente) VALUES ('En camino', '2024-04-10', '2021 Avenida Mar', 9);
+INSERT INTO pedidos (estado_pedido, fecha_pedido, direccion_pedido, id_cliente) VALUES ('En camino', '2024-04-15', '2223 Calle Sol', 10);
 INSERT INTO pedidos (estado_pedido, fecha_pedido, direccion_pedido, id_cliente) VALUES ('En camino', '2024-04-20', '2425 Avenida Luna', 11);
-INSERT INTO pedidos (estado_pedido, fecha_pedido, direccion_pedido, id_cliente) VALUES ('Entregado', '2024-04-25', '2627 Calle Estrella', 12);
-INSERT INTO pedidos (estado_pedido, fecha_pedido, direccion_pedido, id_cliente) VALUES ('Cancelado', '2024-05-01', '2829 Avenida Cielo', 13);
-INSERT INTO pedidos (estado_pedido, fecha_pedido, direccion_pedido, id_cliente) VALUES ('Entregado', '2024-05-05', '3031 Calle Mar', 14);
+INSERT INTO pedidos (estado_pedido, fecha_pedido, direccion_pedido, id_cliente) VALUES ('En camino', '2024-04-25', '2627 Calle Estrella', 12);
+INSERT INTO pedidos (estado_pedido, fecha_pedido, direccion_pedido, id_cliente) VALUES ('En camino', '2024-05-01', '2829 Avenida Cielo', 13);
+INSERT INTO pedidos (estado_pedido, fecha_pedido, direccion_pedido, id_cliente) VALUES ('En camino', '2024-05-05', '3031 Calle Mar', 14);
 INSERT INTO pedidos (estado_pedido, fecha_pedido, direccion_pedido, id_cliente) VALUES ('En camino', '2024-05-10', '3233 Avenida Sol', 15);
 
 INSERT INTO detalles_pedidos (id_pedido, precio_producto, cantidad_comprada, id_hamaca) 
@@ -255,3 +255,22 @@ GROUP BY FECHA ORDER BY GANANCIAS ASC;
 
 SELECT CONCAT(c.nombre_cliente, " ", c.apellido_cliente) AS CLIENTE, c.foto_cliente AS FOTO
 FROM  favoritos f INNER JOIN clientes c ON f.id_cliente = c.id_cliente WHERE f.id_hamaca = 4;
+
+SELECT id_hamaca AS ID,
+nombre_hamaca AS NOMBRE, foto_principal AS IMAGEN, descripcion_hamaca AS DESCRIPCIÓN, 
+cantidad_hamaca AS CANTIDAD, precio AS PRECIO,
+CASE WHEN estado_venta = 1 THEN 'Disponible' WHEN estado_venta = 0 THEN 'No disponible'
+END AS ESTADO, id_administrador AS ADMINISTRADOR, c.nombre_categoria AS CATEGORIA, nombre_material AS MATERIAL
+FROM hamacas 
+INNER JOIN categorias c USING(id_categoria)
+INNER JOIN materiales m USING(id_material)
+INNER JOIN valoraciones v USING(id_valoracion);
+
+SELECT h.nombre_hamaca AS NOMBRE, h.descripcion_hamaca AS DESCRIPCIÓN, h.precio AS PRECIO,
+h.cantidad_hamaca AS CANTIDAD, IFNULL(AVG(v.calificacion_producto), 0) AS PROMEDIO, h.foto_principal AS FOTO,
+c.nombre_categoria AS CATEGORIA, nombre_material AS MATERIAL FROM hamacas h
+INNER JOIN categorias c USING(id_categoria)
+INNER JOIN materiales m USING(id_material)
+LEFT JOIN detalles_pedidos dp ON h.id_hamaca = dp.id_hamaca
+LEFT JOIN valoraciones v ON dp.id_detalles_pedidos = v.id_detalles_pedidos
+WHERE h.id_hamaca = 1 GROUP BY h.id_hamaca;

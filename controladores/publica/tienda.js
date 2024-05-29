@@ -306,6 +306,10 @@ async function ordenar_resultados() {
     });
 }
 
+async function recharge(){
+    cargar_productos();
+    FILTER_FORM.reset();
+}
 
 window.onload = async function () {
     // Obtiene el contenedor principal
