@@ -28,8 +28,9 @@
             <p class="mt-3">Categoría: <span id="categoria"></span> </p>
             <p class="mt-3">Material: <span id="material"></span> </p>
             <p class="mt-3">Cantidad: <span id="existenciasProducto"></span> </p>
-            <h3 class="mt-3">Promedio: <h3 class="mt-3" id="ratingValue"></h3></h3>
-            
+            <h3 class="mt-3">Promedio: <h3 class="mt-3" id="ratingValue"></h3>
+            </h3>
+
             <div class="rating" id="rating">
                 <input type="radio" id="star5" name="rating" value="5"><label for="star5"></label>
                 <input type="radio" id="star4" name="rating" value="4"><label for="star4"></label>
@@ -41,23 +42,69 @@
     </div>
 
     <article id="carrusel">
-
+        <div id="carouselExampleControls" class="carousel slide mt-5 imagenes" data-bs-ride="carousel">
+            <div class="carousel-inner" id="carousel-inner">
+                <!-- Las imágenes serán insertadas dinámicamente aquí -->
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Anterior</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Siguiente</span>
+            </button>
+        </div>
     </article>
-
-    <div class="modal modal-fullscreen" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog modal-dialog-scrollable modal-fullscreen">
-            <div class="modal-content bg-dark text-white">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="imageModalLabel">Imagen en modal</h5>
-                    <button type="button" class="btn-close bg-white" data-bs-dismiss="modal"
-                        aria-label="Cerrar"></button>
+    
+    <!-- <article id="carrusel">
+        <div id="carouselExampleControls" class="carousel slide mt-5 imagenes" data-bs-ride="carousel">
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <div class="row">
+                        <div class="col-4">
+                            <img src="../../../recursos/img/hamaca 2.jpg" class="d-block w-100" data-bs-toggle="modal"
+                                data-bs-target="#imageModal" alt="Imagen 1">
+                        </div>
+                        <div class="col-4">
+                            <img src="../../../recursos/img/hamaca 2.jpg" class="d-block w-100" data-bs-toggle="modal"
+                                data-bs-target="#imageModal" alt="Imagen 2">
+                        </div>
+                        <div class="col-4">
+                            <img src="../../../recursos/img/hamaca 2.jpg" class="d-block w-100" data-bs-toggle="modal"
+                                data-bs-target="#imageModal" alt="Imagen 3">
+                        </div>
+                    </div>
                 </div>
-                <div class="modal-body text-center">
-                    <img id="fotoMostrar" src="" class="img-fluid w-50 h-100 mx-auto d-block" alt="Imagen en modal">
+                <div class="carousel-inner">
+                    <div class="carousel-item">
+                        <div class="row">
+                            <div class="col-4">
+                                <img src="../../../recursos/img/hamaca 2.jpg" class="d-block w-100"
+                                    data-bs-toggle="modal" data-bs-target="#imageModal" alt="Imagen 4">
+                            </div>
+                            <div class="col-4">
+                                <img src="../../../recursos/img/hamaca 2.jpg" class="d-block w-100"
+                                    data-bs-toggle="modal" data-bs-target="#imageModal" alt="Imagen 4">
+                            </div>
+                            <div class="col-4">
+                                <img src="../../../recursos/img/hamaca 2.jpg" class="d-block w-100"
+                                    data-bs-toggle="modal" data-bs-target="#imageModal" alt="Imagen 4">
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls"
+                data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Anterior</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls"
+                data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Siguiente</span>
+            </button>
         </div>
-    </div>
-
+    </article> -->
 </section>

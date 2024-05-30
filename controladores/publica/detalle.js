@@ -5,6 +5,7 @@ async function loadComponent(path) {
 }
 // Constantes para completar la ruta de la API.
 const PRODUCTO_API = 'servicios/publica/hamaca.php';
+const FOTO_API = 'servicios/publica/foto.php';
 // Constante tipo objeto para obtener los parámetros disponibles en la URL.
 const PARAMS = new URLSearchParams(location.search);
 
@@ -158,6 +159,64 @@ const listahamacas = [
     }
 ];
 
+
+async function cargarFotos() {
+    const carouselInner = document.getElementById('carousel-inner');
+    try {
+        // Constante tipo objeto con los datos del producto seleccionado.
+        const FORM = new FormData();
+        FORM.append('idProducto', PARAMS.get('id'));
+
+        // Petición para solicitar los datos del producto seleccionado.
+        const DATA = await fetchData(FOTO_API, 'readAll', FORM);
+
+        if (DATA.status) {
+            let isActive = true;
+            let itemsHtml = ''; // Almacena el HTML de cada slide
+            let rowHtml = ''; // Almacena el HTML de cada fila
+            let count = 0;
+
+            // Mostrar fotos de productos obtenidos de la API
+            DATA.dataset.forEach((product, index) => {
+                rowHtml += `
+                    <div class="col-4">
+                        <img src="${SERVER_URL}imagenes/fotos/${product.IMAGEN}" class="d-block w-100" alt="${product.nombre_hamaca}">
+                    </div>
+                `;
+                count++;
+
+                // Cada tres imágenes, crea una nueva slide
+                if (count === 3 || index === DATA.dataset.length - 1) {
+                    itemsHtml += `
+                        <div class="carousel-item ${isActive ? 'active' : ''}">
+                            <div class="row">
+                                ${rowHtml}
+                            </div>
+                        </div>
+                    `;
+                    rowHtml = ''; // Reinicia el HTML de la fila
+                    count = 0; // Reinicia el contador
+                    isActive = false; // Después del primer slide, todos los demás no serán activos
+                }
+            });
+
+            carouselInner.innerHTML = itemsHtml; // Inserta todos los slides en el carrusel
+        } else {
+            const noPhotosHtml = `
+                <div class="carousel-item active">
+                    <div class="row">
+                        <div class="col-12 text-center">
+                            <p>No existen fotos extra de este producto</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+            carouselInner.innerHTML += noPhotosHtml;
+        }
+    } catch (error) {
+        console.error('Error al obtener datos de la API:', error);
+    }
+}
 const listacomentarios = [
     {
         index: 1,
@@ -381,19 +440,19 @@ async function openDetail() {
         document.getElementById('categoria').textContent = DATA.dataset.CATEGORIA;
         document.getElementById('material').textContent = DATA.dataset.MATERIAL;
         document.getElementById('idProducto').value = DATA.dataset.ID;
-        if(DATA.dataset.PROMEDIO > 0){
+        if (DATA.dataset.PROMEDIO > 0) {
             document.getElementById('ratingValue').textContent = DATA.dataset.PROMEDIO;
 
             // Captura el valor del rating del h3
             let ratingValue = parseFloat(document.getElementById('ratingValue').textContent);
             console.log("Valor del rating obtenido:", ratingValue);
-    
+
             // Intenta imprimir un mensaje después de obtener el ratingValue
             console.log("Este mensaje se imprime después de obtener el ratingValue:", ratingValue);
-    
+
             // Captura todas las estrellas
             let stars = document.querySelectorAll('.rating input');
-    
+
             // Marca las estrellas según el rating
             stars.forEach(function (star, index) {
                 if (index + 0 <= 5 - ratingValue) { // Ajustar la condición
@@ -404,7 +463,7 @@ async function openDetail() {
                 }
                 star.disabled = true;
             });
-    
+
             // Colorea las estrellas marcadas de naranja
             let checkedStars = document.querySelectorAll('.rating input:checked');
             checkedStars.forEach(function (star) {
@@ -412,7 +471,7 @@ async function openDetail() {
                 console.log("Estrella coloreada de naranja:", star.id);
                 star.disabled = true;
             });
-        }else{
+        } else {
             document.getElementById('ratingValue').textContent = "No existen calificaciones aun para este producto"
             document.getElementById('rating').remove();
         }
@@ -445,6 +504,7 @@ window.onload = async function () {
     appContainer.innerHTML += `${recomendacionesHtml}`;
 
     openDetail();
+    cargarFotos();
     cargarComentarios(listacomentarios);
     cargarRecomendaciones();
 
