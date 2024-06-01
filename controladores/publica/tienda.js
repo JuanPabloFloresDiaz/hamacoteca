@@ -16,6 +16,93 @@ const PRODUCTO_API = 'servicios/publica/hamaca.php';
 const MATERIALES_API = 'servicios/publica/material.php';
 const CATEGORIAS_API = 'servicios/publica/categoria.php';
 
+const listahamacas = [
+    {
+        id_hamaca: 1,
+        nombre_producto: 'Hamaca ligera',
+        precio: 200,
+        urlfoto: '../../../recursos/img/hamaca 3.jpg'
+    },
+    {
+        id_hamaca: 2,
+        nombre_producto: 'Hamaca ligera',
+        precio: 200,
+        urlfoto: '../../../recursos/img/hamaca 3.jpg'
+    },
+    {
+        id_hamaca: 3,
+        nombre_producto: 'Hamaca ligera',
+        precio: 200,
+        urlfoto: '../../../recursos/img/hamaca 3.jpg'
+    },
+    {
+        id_hamaca: 4,
+        nombre_producto: 'Hamaca estándar',
+        precio: 300,
+        urlfoto: '../../../recursos/img/hamaca1.png'
+    },
+    {
+        id_hamaca: 5,
+        nombre_producto: 'Hamaca estándar',
+        precio: 300,
+        urlfoto: '../../../recursos/img/hamaca1.png'
+    },
+    {
+        id_hamaca: 6,
+        nombre_producto: 'Hamaca estándar',
+        precio: 300,
+        urlfoto: '../../../recursos/img/hamaca1.png'
+    },
+    {
+        id_hamaca: 7,
+        nombre_producto: 'Hamaca grande',
+        precio: 400,
+        urlfoto: '../../../recursos/img/hamacaKsK 1.png'
+    },
+    {
+        id_hamaca: 8,
+        nombre_producto: 'Hamaca grande',
+        precio: 400,
+        urlfoto: '../../../recursos/img/hamacaKsK 1.png'
+    },
+    {
+        id_hamaca: 9,
+        nombre_producto: 'Hamaca grande',
+        precio: 400,
+        urlfoto: '../../../recursos/img/hamacaKsK 1.png'
+    }
+];
+
+const productosPorPagina = 9;
+let paginaActual = 1;
+let productos = [];
+
+// Función para cargar productos con paginación
+async function cargar_productos(form = null) {
+    const contenedorCartasProductos = document.getElementById('productos-cartas');
+    try {
+        contenedorCartasProductos.innerHTML = '';
+        // Petición para obtener los registros disponibles.
+        let action;
+        (form) ? action = 'searchRows' : action = 'readAll';
+        const DATA = await fetchData(PRODUCTO_API, action, form);
+        console.log(DATA);
+
+        if (DATA.status) {
+            productos = DATA.dataset;
+            mostrarProductos(paginaActual);
+            // Se muestra un mensaje de acuerdo con el resultado.
+            ROWS_FOUND.textContent = DATA.message;
+        } else {
+            // Se muestra un mensaje de acuerdo con el resultado.
+            ROWS_FOUND.textContent = "Existen 0 coincidencias";
+        }
+    } catch (error) {
+        console.error('Error al obtener datos de la API:', error);
+    }
+}
+
+
 async function filtrarProductos(form) {
     const contenedorCartasProductos = document.getElementById('productos-cartas');
     contenedorCartasProductos.innerHTML = '';
@@ -25,24 +112,8 @@ async function filtrarProductos(form) {
         console.log(DATA);
 
         if (DATA.status) {
-            // Mostrar cartas de productos obtenidos de la API
-            DATA.dataset.forEach(producto => {
-                const cartasHtml = `
-        <div class="col">
-         <div class="card carta-personalizada"">
-            <div class="position-relative">
-            <img src="${SERVER_URL}imagenes/HAMACAS/${producto.IMAGEN}" height="200" class="card-img-top" alt="${producto.NOMBRE}">
-            <a href="detalle.html?id=${producto.ID}" class="btn btn-outline-light position-absolute top-50 start-50 translate-middle">Ver detalle</a>
-            </div>
-            <div class="card-body">
-                <h5 class="card-title">${producto.NOMBRE}</h5>
-                <p class="card-text">$${producto.PRECIO}</p>
-            </div>
-         </div>
-        </div>
-        `;
-                contenedorCartasProductos.innerHTML += cartasHtml;
-            });
+            productos = DATA.dataset;
+            mostrarProductos(paginaActual);
             // Se muestra un mensaje de acuerdo con el resultado.
             ROWS_FOUND.textContent = DATA.message;
         } else {
@@ -54,141 +125,77 @@ async function filtrarProductos(form) {
     }
 }
 
-async function cargar_productos(form = null) {
-    const listahamacas = [
-        {
-            id_hamaca: 1,
-            nombre_producto: 'Hamaca ligera',
-            precio: 200,
-            urlfoto: '../../../recursos/img/hamaca 3.jpg'
-        },
-        {
-            id_hamaca: 2,
-            nombre_producto: 'Hamaca ligera',
-            precio: 200,
-            urlfoto: '../../../recursos/img/hamaca 3.jpg'
-        },
-        {
-            id_hamaca: 3,
-            nombre_producto: 'Hamaca ligera',
-            precio: 200,
-            urlfoto: '../../../recursos/img/hamaca 3.jpg'
-        },
-        {
-            id_hamaca: 4,
-            nombre_producto: 'Hamaca estándar',
-            precio: 300,
-            urlfoto: '../../../recursos/img/hamaca1.png'
-        },
-        {
-            id_hamaca: 5,
-            nombre_producto: 'Hamaca estándar',
-            precio: 300,
-            urlfoto: '../../../recursos/img/hamaca1.png'
-        },
-        {
-            id_hamaca: 6,
-            nombre_producto: 'Hamaca estándar',
-            precio: 300,
-            urlfoto: '../../../recursos/img/hamaca1.png'
-        },
-        {
-            id_hamaca: 7,
-            nombre_producto: 'Hamaca grande',
-            precio: 400,
-            urlfoto: '../../../recursos/img/hamacaKsK 1.png'
-        },
-        {
-            id_hamaca: 8,
-            nombre_producto: 'Hamaca grande',
-            precio: 400,
-            urlfoto: '../../../recursos/img/hamacaKsK 1.png'
-        },
-        {
-            id_hamaca: 9,
-            nombre_producto: 'Hamaca grande',
-            precio: 400,
-            urlfoto: '../../../recursos/img/hamacaKsK 1.png'
-        }
-    ];
+function mostrarProductos(pagina) {
+    const inicio = (pagina - 1) * productosPorPagina;
+    const fin = inicio + productosPorPagina;
+    const productosPagina = productos.slice(inicio, fin);
 
     const contenedorCartasProductos = document.getElementById('productos-cartas');
-
-    try {
-        contenedorCartasProductos.innerHTML = '';
-        // Petición para obtener los registros disponibles.
-        // Se verifica la acción a realizar.
-        (form) ? action = 'searchRows' : action = 'readAll';
-        const DATA = await fetchData(PRODUCTO_API, action, form);
-        console.log(DATA);
-
-        if (DATA.status) {
-            // Mostrar cartas de productos obtenidos de la API
-            DATA.dataset.forEach(producto => {
-                const cartasHtml = `
-                <div class="col">
-                 <div class="card carta-personalizada"">
+    contenedorCartasProductos.innerHTML = '';
+    productosPagina.forEach(producto => {
+        const cartasHtml = `
+            <div class="col">
+                <div class="card carta-personalizada">
                     <div class="position-relative">
-                    <img src="${SERVER_URL}imagenes/HAMACAS/${producto.IMAGEN}" height="200" class="card-img-top" alt="${producto.NOMBRE}">
-                    <a href="detalle.html?id=${producto.ID}" class="btn btn-outline-light position-absolute top-50 start-50 translate-middle">Ver detalle</a>
+                        <img src="${SERVER_URL}imagenes/HAMACAS/${producto.IMAGEN}" height="200" class="card-img-top" alt="${producto.NOMBRE}">
+                        <a href="detalle.html?id=${producto.ID}" class="btn btn-outline-light position-absolute top-50 start-50 translate-middle">Ver detalle</a>
                     </div>
                     <div class="card-body">
                         <h5 class="card-title">${producto.NOMBRE}</h5>
                         <p class="card-text">$${producto.PRECIO}</p>
                     </div>
-                 </div>
                 </div>
-                `;
-                contenedorCartasProductos.innerHTML += cartasHtml;
-            });
-            // Se muestra un mensaje de acuerdo con el resultado.
-            ROWS_FOUND.textContent = DATA.message;
-        } else {
-            // Se muestra un mensaje de acuerdo con el resultado.
-            ROWS_FOUND.textContent = "Existen 0 coincidencias";
-        }
-    } catch (error) {
-        console.error('Error al obtener datos de la API:', error);
-        // Mostrar cartas de productos de respaldo
-        listahamacas.forEach(producto => {
-            const cartasHtml = `
-                <div class="col">
-                    <div class="card carta-personalizada">
-                    <div class="position-relative">
-                    <img src="${producto.urlfoto}" height="200" class="card-img-top" alt="${producto.nombre_producto}">
-                    <a href="detalle.html?id=${producto.id_hamaca}" class="btn btn-outline-light position-absolute top-50 start-50 translate-middle">Ver detalle</a>
-                    </div>
-                        <div class="card-body">
-                            <h5 class="card-title">${producto.nombre_producto}</h5>
-                            <p class="card-text">$${producto.precio}</p>
-                        </div>
-                    </div>
-                </div>
-            `;
-            contenedorCartasProductos.innerHTML += cartasHtml;
-        });
+            </div>
+        `;
+        contenedorCartasProductos.innerHTML += cartasHtml;
+    });
+
+    actualizarPaginacion();
+}
+
+function actualizarPaginacion() {
+    const paginacion = document.querySelector('.pagination');
+    paginacion.innerHTML = '';
+
+    const totalPaginas = Math.ceil(productos.length / productosPorPagina);
+
+    if (paginaActual > 1) {
+        paginacion.innerHTML += `<li class="page-item"><a class="page-link text-dark" href="#" onclick="cambiarPagina(${paginaActual - 1})">Anterior</a></li>`;
+    }
+
+    for (let i = 1; i <= totalPaginas; i++) {
+        paginacion.innerHTML += `<li class="page-item ${i === paginaActual ? 'active' : ''}"><a class="page-link text-dark" href="#" onclick="cambiarPagina(${i})">${i}</a></li>`;
+    }
+
+    if (paginaActual < totalPaginas) {
+        paginacion.innerHTML += `<li class="page-item"><a class="page-link text-dark" href="#" onclick="cambiarPagina(${paginaActual + 1})">Siguiente</a></li>`;
     }
 }
 
+function cambiarPagina(nuevaPagina) {
+    paginaActual = nuevaPagina;
+    mostrarProductos(paginaActual);
+}
+const lista_categorias = [
+    {
+        nombre: 'Hamaca colgante',
+        id: 1
+    },
+    {
+        nombre: 'Hamaca clásica',
+        id: 2
+    },
+    {
+        nombre: 'Hamaca silla',
+        id: 3
+    },
+    {
+        nombre: 'Hamaca con soporte',
+        id: 4
+    }
+];
+
 async function cargar_categorias() {
-    const lista_categorias = [
-        {
-            nombre: 'Hamaca colgante',
-            id: 1
-        },
-        {
-            nombre: 'Hamaca clásica',
-            id: 2
-        },
-        {
-            nombre: 'Hamaca silla',
-            id: 3
-        },
-        {
-            nombre: 'Hamaca con soporte',
-            id: 4
-        }
-    ];
 
     const cargarListaCategorias = document.getElementById('categorias');
 
@@ -225,25 +232,25 @@ async function cargar_categorias() {
     }
 }
 
+const lista_materiales = [
+    {
+        nombre: 'Lana',
+        id: 1
+    },
+    {
+        nombre: 'Nylon',
+        id: 2
+    },
+    {
+        nombre: 'Poliéster',
+        id: 3
+    },
+    {
+        nombre: 'Tela',
+        id: 4
+    }
+];
 async function cargar_materiales() {
-    const lista_materiales = [
-        {
-            nombre: 'Lana',
-            id: 1
-        },
-        {
-            nombre: 'Nylon',
-            id: 2
-        },
-        {
-            nombre: 'Poliéster',
-            id: 3
-        },
-        {
-            nombre: 'Tela',
-            id: 4
-        }
-    ];
 
     const cargarListaMateriales = document.getElementById('materiales');
 
@@ -306,7 +313,7 @@ async function ordenar_resultados() {
     });
 }
 
-async function recharge(){
+async function recharge() {
     cargar_productos();
     FILTER_FORM.reset();
 }
