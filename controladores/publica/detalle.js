@@ -11,19 +11,9 @@ const PEDIDO_API = 'servicios/publica/pedido.php';
 // Constante tipo objeto para obtener los parámetros disponibles en la URL.
 const PARAMS = new URLSearchParams(location.search);
 
-function bindQuantityButtons() {
-    $("#btnDecrease").click(function () {
-        var currentValue = parseInt($("#quantityInput").val());
-        if (currentValue > 1) {
-            $("#quantityInput").val(currentValue - 1);
-        }
-    });
-
-    $("#btnIncrease").click(function () {
-        var currentValue = parseInt($("#quantityInput").val());
-        $("#quantityInput").val(currentValue + 1);
-    });
-}
+// Constante para establecer el formulario de agregar un producto al carrito de compras.
+let SHOPPING_FORM,
+    CANTIDAD;
 
 function validarCantidad(input) {
     // Obtener el valor ingresado como un número entero
@@ -39,128 +29,6 @@ function validarCantidad(input) {
         input.value = 1;
     }
 }
-
-
-const openAlert = async (id) => {
-    try {
-        // Se define un objeto con los datos del registro seleccionado.
-        const FORM = new FormData();
-        FORM.append('id_pedido', id);
-        // Petición para obtener los datos del registro solicitado.
-        const DATA = await fetchData(PEDIDO_API, 'readOne', FORM);
-        // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
-        if (DATA.status) {
-            // Se muestra la caja de diálogo con su título.
-            SAVE_MODAL.show();
-            MODAL_TITLE.textContent = 'Estas seguro de realizar su compra';
-            // Se prepara el formulario.
-            SAVE_FORM.reset();
-            EXISTENCIAS_PRODUCTO.disabled = true;
-            // Se inicializan los campos con los datos.
-            const ROW = DATA.dataset;
-            ID_ADMINISTRADOR.value = ROW.id_administrado;
-            NOMBRE_ADMINISTRADOR.value = ROW.nombre_administrador;
-            CORREO_ADMINISTRADOR.value = ROW.correo_administrador;
-            TELEFONO_ADMINISTRADOR.value = ROW.telefono_administrador;
-            DUI_ADMINISTRADOR.value = ROW.dui_administrador;
-            NACIMIENTO_ADMINISTRADOR.value = row.fecha_nacimiento_administrador;
-            CLAVE_ADMINISTRADOR.value = ROW.clave_administrador;
-            ALIAS_ADMINISTRADOR.value = ROW.alias_administrador;
-            fillSelect(ROL_API, 'readAll', 'rolAdministrador', ROW.id_rol);
-        } else {
-            sweetAlert(2, DATA.error, false);
-        }
-    } catch (Error) {
-        console.log(Error);
-        confirmUpdateAction("Se agregaran sus productos a su carrito")
-    }
-
-};
-
-const listahamacas = [
-    {
-        id_hamaca: 1,
-        nombre_producto: 'Hamaca ligera',
-        precio: 200,
-        urlfoto: '../../../recursos/img/hamaca 3.jpg',
-        descripcion: '¡Descubre la comodidad y estilo de nuestras hamacas exclusivas! Sumérgete en la suave brisa del verano mientras te relajas en una de nuestras hermosas hamacas tejidas a mano. Desde diseños clásicos hasta modernos, nuestras hamacas están hechas con los mejores materiales para garantizar durabilidad y confort. Ya sea que busques el complemento perfecto para tu jardín, terraza o sala de estar, encontrarás la hamaca perfecta para ti en nuestra colección. ¡Aprovecha nuestras promociones especiales y haz de cada día un día de descanso y relax en una de nuestras hamacas!',
-        Categoria: 'hamaca moderna',
-        calificacion_promedio: 4,
-    },
-    {
-        id_hamaca: 2,
-        nombre_producto: 'Hamaca ligera',
-        precio: 200,
-        urlfoto: '../../../recursos/img/hamaca 3.jpg',
-        descripcion: '¡Descubre la comodidad y estilo de nuestras hamacas exclusivas! Sumérgete en la suave brisa del verano mientras te relajas en una de nuestras hermosas hamacas tejidas a mano. Desde diseños clásicos hasta modernos, nuestras hamacas están hechas con los mejores materiales para garantizar durabilidad y confort. Ya sea que busques el complemento perfecto para tu jardín, terraza o sala de estar, encontrarás la hamaca perfecta para ti en nuestra colección. ¡Aprovecha nuestras promociones especiales y haz de cada día un día de descanso y relax en una de nuestras hamacas!',
-        Categoria: 'hamaca moderna',
-        calificacion_promedio: 4,
-    },
-    {
-        id_hamaca: 3,
-        nombre_producto: 'Hamaca ligera',
-        precio: 200,
-        urlfoto: '../../../recursos/img/hamaca 3.jpg',
-        descripcion: '¡Descubre la comodidad y estilo de nuestras hamacas exclusivas! Sumérgete en la suave brisa del verano mientras te relajas en una de nuestras hermosas hamacas tejidas a mano. Desde diseños clásicos hasta modernos, nuestras hamacas están hechas con los mejores materiales para garantizar durabilidad y confort. Ya sea que busques el complemento perfecto para tu jardín, terraza o sala de estar, encontrarás la hamaca perfecta para ti en nuestra colección. ¡Aprovecha nuestras promociones especiales y haz de cada día un día de descanso y relax en una de nuestras hamacas!',
-        Categoria: 'hamaca moderna',
-        calificacion_promedio: 4,
-    },
-    {
-        id_hamaca: 4,
-        nombre_producto: 'Hamaca estándar',
-        precio: 300,
-        urlfoto: '../../../recursos/img/hamaca_ejemplo.png',
-        descripcion: '¡Descubre la comodidad y estilo de nuestras hamacas exclusivas! Sumérgete en la suave brisa del verano mientras te relajas en una de nuestras hermosas hamacas tejidas a mano. Desde diseños clásicos hasta modernos, nuestras hamacas están hechas con los mejores materiales para garantizar durabilidad y confort. Ya sea que busques el complemento perfecto para tu jardín, terraza o sala de estar, encontrarás la hamaca perfecta para ti en nuestra colección. ¡Aprovecha nuestras promociones especiales y haz de cada día un día de descanso y relax en una de nuestras hamacas!',
-        Categoria: 'hamaca clasica',
-        calificacion_promedio: 3,
-    },
-    {
-        id_hamaca: 5,
-        nombre_producto: 'Hamaca estándar',
-        precio: 300,
-        urlfoto: '../../../recursos/img/hamaca_ejemplo.png',
-        descripcion: '¡Descubre la comodidad y estilo de nuestras hamacas exclusivas! Sumérgete en la suave brisa del verano mientras te relajas en una de nuestras hermosas hamacas tejidas a mano. Desde diseños clásicos hasta modernos, nuestras hamacas están hechas con los mejores materiales para garantizar durabilidad y confort. Ya sea que busques el complemento perfecto para tu jardín, terraza o sala de estar, encontrarás la hamaca perfecta para ti en nuestra colección. ¡Aprovecha nuestras promociones especiales y haz de cada día un día de descanso y relax en una de nuestras hamacas!',
-        Categoria: 'hamaca clasica',
-        calificacion_promedio: 3,
-    },
-    {
-        id_hamaca: 6,
-        nombre_producto: 'Hamaca estándar',
-        precio: 300,
-        urlfoto: '../../../recursos/img/hamaca_ejemplo.png',
-        descripcion: '¡Descubre la comodidad y estilo de nuestras hamacas exclusivas! Sumérgete en la suave brisa del verano mientras te relajas en una de nuestras hermosas hamacas tejidas a mano. Desde diseños clásicos hasta modernos, nuestras hamacas están hechas con los mejores materiales para garantizar durabilidad y confort. Ya sea que busques el complemento perfecto para tu jardín, terraza o sala de estar, encontrarás la hamaca perfecta para ti en nuestra colección. ¡Aprovecha nuestras promociones especiales y haz de cada día un día de descanso y relax en una de nuestras hamacas!',
-        Categoria: 'hamaca clasica',
-        calificacion_promedio: 3,
-    },
-    {
-        id_hamaca: 7,
-        nombre_producto: 'Hamaca grande',
-        precio: 400,
-        urlfoto: '../../../recursos/img/hamacaKsK 1.png',
-        descripcion: '¡Descubre la comodidad y estilo de nuestras hamacas exclusivas! Sumérgete en la suave brisa del verano mientras te relajas en una de nuestras hermosas hamacas tejidas a mano. Desde diseños clásicos hasta modernos, nuestras hamacas están hechas con los mejores materiales para garantizar durabilidad y confort. Ya sea que busques el complemento perfecto para tu jardín, terraza o sala de estar, encontrarás la hamaca perfecta para ti en nuestra colección. ¡Aprovecha nuestras promociones especiales y haz de cada día un día de descanso y relax en una de nuestras hamacas!',
-        Categoria: 'hamaca colgante',
-        calificacion_promedio: 5,
-    },
-    {
-        id_hamaca: 8,
-        nombre_producto: 'Hamaca grande',
-        precio: 400,
-        urlfoto: '../../../recursos/img/hamacaKsK 1.png',
-        descripcion: '¡Descubre la comodidad y estilo de nuestras hamacas exclusivas! Sumérgete en la suave brisa del verano mientras te relajas en una de nuestras hermosas hamacas tejidas a mano. Desde diseños clásicos hasta modernos, nuestras hamacas están hechas con los mejores materiales para garantizar durabilidad y confort. Ya sea que busques el complemento perfecto para tu jardín, terraza o sala de estar, encontrarás la hamaca perfecta para ti en nuestra colección. ¡Aprovecha nuestras promociones especiales y haz de cada día un día de descanso y relax en una de nuestras hamacas!',
-        Categoria: 'hamaca colgante',
-        calificacion_promedio: 5,
-    },
-    {
-        id_hamaca: 9,
-        nombre_producto: 'Hamaca grande',
-        precio: 400,
-        urlfoto: '../../../recursos/img/hamacaKsK 1.png',
-        descripcion: '¡Descubre la comodidad y estilo de nuestras hamacas exclusivas! Sumérgete en la suave brisa del verano mientras te relajas en una de nuestras hermosas hamacas tejidas a mano. Desde diseños clásicos hasta modernos, nuestras hamacas están hechas con los mejores materiales para garantizar durabilidad y confort. Ya sea que busques el complemento perfecto para tu jardín, terraza o sala de estar, encontrarás la hamaca perfecta para ti en nuestra colección. ¡Aprovecha nuestras promociones especiales y haz de cada día un día de descanso y relax en una de nuestras hamacas!',
-        Categoria: 'hamaca colgante',
-        calificacion_promedio: 5,
-    }
-];
-
 
 async function cargarFotos() {
     const carouselInner = document.getElementById('carousel-inner');
@@ -565,5 +433,6 @@ window.onload = async function () {
     cargarFotos();
     cargarComentarios(listacomentarios);
     cargarRecomendaciones();
-
+    SHOPPING_FORM = document.getElementById('shoppingForm'),
+    CANTIDAD = document.getElementById('quantityInputs');
 };
