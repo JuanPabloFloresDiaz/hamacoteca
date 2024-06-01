@@ -28,10 +28,14 @@ window.onload = async function () {
         // Petición para determinar si el cliente se encuentra registrado.
         const DATA = await fetchData(USER_API, 'logIn', FORM);
         // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
-        if (DATA.status) {
-            sweetAlert(1, DATA.message, true, 'index.html');
-        } else {
-            sweetAlert(2, DATA.error, false);
+        try{
+            if (DATA.status) {
+                sweetAlert(1, DATA.message, true, 'index.html');
+            } else {
+                sweetAlert(2, DATA.error, false);
+            }
+        }catch{
+            sweetAlert(2, "No se detecta un usuario", false);
         }
     });
 

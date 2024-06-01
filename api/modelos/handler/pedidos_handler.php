@@ -136,4 +136,16 @@ class PedidosHandler
         $params = array($this->id, $this->estado);
         return Database::executeRow($sql, $params);
     }
+
+    
+    //Verificar que el producto este guardado en favorito
+    public function verifySave()
+    {
+        $sql = 'SELECT COUNT(*) AS CARRITO 
+        FROM pedidos p
+        INNER JOIN detalles_pedidos dp ON p.id_pedido = dp.id_pedido
+        WHERE p.id_cliente = ? AND dp.id_hamaca = ?;';
+        $params = array($_SESSION['idCliente'], $this->id);
+        return Database::getRows($sql, $params);
+    }
 }

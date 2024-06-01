@@ -45,4 +45,13 @@ class FavoritosHandler
         $params = array($_SESSION['idCliente']);
         return Database::getRows($sql, $params);
     }
+
+    //Verificar que el producto este guardado en favorito
+    public function verifySave()
+    {
+        $sql = 'SELECT COUNT(*) AS FAVORITO
+        FROM  favoritos f INNER JOIN clientes c ON f.id_cliente = c.id_cliente WHERE f.id_hamaca = ? AND f.id_cliente = ?;';
+        $params = array($this->id, $_SESSION['idCliente']);
+        return Database::getRows($sql, $params);
+    }
 }

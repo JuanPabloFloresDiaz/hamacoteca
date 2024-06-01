@@ -18,11 +18,11 @@
                         onkeypress="return event.charCode >= 48 && event.charCode <= 57">
                     <button class="btn btn-outline-secondary" type="button" id="btnIncrease">+</button>
                 </div>
-                <button type="button" class="btn btn-outline-success mt-3 ms-3" onclick="openAlert()">
-                    <i class="bi bi-cart-check"></i>
+                <button id="carrito" type="button" class="btn btn-outline-success mt-3 ms-3" onclick="openAlert()">
+                    <i id="icon-cart" class="bi bi-cart-check"></i>
                 </button>
-                <button type="button" class="btn btn-outline-dark mt-3 ms-3" onclick="openSave()">
-                    <i class="bi bi-bookmark"></i>
+                <button id="favorito" type="button" class="btn btn-outline-dark mt-3 ms-3" onclick="openSave()">
+                    <i id="icon-fav" class="bi bi-bookmark"></i>
                 </button>
             </div>
             <p class="mt-3">Categoría: <span id="categoria"></span> </p>
@@ -56,55 +56,4 @@
             </button>
         </div>
     </article>
-    
-    <!-- <article id="carrusel">
-        <div id="carouselExampleControls" class="carousel slide mt-5 imagenes" data-bs-ride="carousel">
-            <div class="carousel-inner">
-                <div class="carousel-item active">
-                    <div class="row">
-                        <div class="col-4">
-                            <img src="../../../recursos/img/hamaca 2.jpg" class="d-block w-100" data-bs-toggle="modal"
-                                data-bs-target="#imageModal" alt="Imagen 1">
-                        </div>
-                        <div class="col-4">
-                            <img src="../../../recursos/img/hamaca 2.jpg" class="d-block w-100" data-bs-toggle="modal"
-                                data-bs-target="#imageModal" alt="Imagen 2">
-                        </div>
-                        <div class="col-4">
-                            <img src="../../../recursos/img/hamaca 2.jpg" class="d-block w-100" data-bs-toggle="modal"
-                                data-bs-target="#imageModal" alt="Imagen 3">
-                        </div>
-                    </div>
-                </div>
-                <div class="carousel-inner">
-                    <div class="carousel-item">
-                        <div class="row">
-                            <div class="col-4">
-                                <img src="../../../recursos/img/hamaca 2.jpg" class="d-block w-100"
-                                    data-bs-toggle="modal" data-bs-target="#imageModal" alt="Imagen 4">
-                            </div>
-                            <div class="col-4">
-                                <img src="../../../recursos/img/hamaca 2.jpg" class="d-block w-100"
-                                    data-bs-toggle="modal" data-bs-target="#imageModal" alt="Imagen 4">
-                            </div>
-                            <div class="col-4">
-                                <img src="../../../recursos/img/hamaca 2.jpg" class="d-block w-100"
-                                    data-bs-toggle="modal" data-bs-target="#imageModal" alt="Imagen 4">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls"
-                data-bs-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Anterior</span>
-            </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls"
-                data-bs-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Siguiente</span>
-            </button>
-        </div>
-    </article> -->
 </section>

@@ -6,6 +6,8 @@ async function loadComponent(path) {
 // Constantes para completar la ruta de la API.
 const PRODUCTO_API = 'servicios/publica/hamaca.php';
 const FOTO_API = 'servicios/publica/foto.php';
+const FAVORITO_API = 'servicios/publica/favorito.php';
+const PEDIDO_API = 'servicios/publica/pedido.php';
 // Constante tipo objeto para obtener los parámetros disponibles en la URL.
 const PARAMS = new URLSearchParams(location.search);
 
@@ -423,6 +425,60 @@ async function cargarRecomendaciones() {
     }
 }
 
+async function verifyFav() {
+    const FORM = new FormData();
+    FORM.append('idProducto', PARAMS.get('id'));
+
+    const DATA = await fetchData(FAVORITO_API, 'verifySave', FORM);
+
+    if (DATA.status) {
+        const dataset = DATA.dataset;
+        if (dataset.length > 0) {
+            const VERIFICAR = parseInt(dataset[0].FAVORITO, 10);
+            console.log("valor de verificar: " + VERIFICAR);
+
+            if (VERIFICAR >= 1) {
+                document.getElementById('icon-fav').classList.remove('bi-bookmark');
+                document.getElementById('icon-fav').classList.add('bi-bookmark-fill');
+            } else {
+                document.getElementById('icon-fav').classList.remove('bi-bookmark-fill');
+                document.getElementById('icon-fav').classList.add('bi-bookmark');
+            }
+        } else {
+            document.getElementById('favorito').textContent = "Fallo en el dataset";
+        }
+    } else {
+        document.getElementById('favorito').textContent = "Error en la verificación";
+    }
+}
+
+async function verifyCart() {
+    const FORM = new FormData();
+    FORM.append('idProducto', PARAMS.get('id'));
+
+    const DATA = await fetchData(PEDIDO_API, 'verifyCart', FORM);
+
+    if (DATA.status) {
+        const dataset = DATA.dataset;
+        if (dataset.length > 0) {
+            const VERIFICAR = parseInt(dataset[0].CARRITO, 10);
+            console.log("valor de verificar: " + VERIFICAR);
+
+            if (VERIFICAR >= 1) {
+                document.getElementById('icon-cart').classList.remove('bi-cart-check');
+                document.getElementById('icon-cart').classList.add('bi-cart-check-fill');
+            } else {
+                document.getElementById('icon-cart').classList.remove('bi-cart-check-fill');
+                document.getElementById('icon-cart').classList.add('bi-cart-check');
+            }
+        } else {
+            document.getElementById('carrito').textContent = "Fallo en el dataset";
+        }
+    } else {
+        document.getElementById('carrito').textContent = "Error en la verificación";
+    }
+}
+
 async function openDetail() {
     // Constante tipo objeto con los datos del producto seleccionado.
     const FORM = new FormData();
@@ -504,6 +560,8 @@ window.onload = async function () {
     appContainer.innerHTML += `${recomendacionesHtml}`;
 
     openDetail();
+    verifyFav();
+    verifyCart();
     cargarFotos();
     cargarComentarios(listacomentarios);
     cargarRecomendaciones();
