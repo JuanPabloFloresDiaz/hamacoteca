@@ -348,31 +348,21 @@ CREATE PROCEDURE actualizar_cliente_validado(
    IN p_id_cliente INT,
    IN p_nombre_cliente VARCHAR(50),
    IN p_apellido_cliente VARCHAR(50),
-   IN p_clave_cliente VARCHAR(100),
    IN p_correo_cliente VARCHAR(50),
    IN p_telefono_cliente VARCHAR(15),
    IN p_dui_cliente VARCHAR(10),
    IN p_fecha_nacimiento_cliente DATE,
    IN p_genero_cliente ENUM('Masculino', 'Femenino', 'No definido'),
-   IN p_estado_cliente BOOLEAN,
    IN p_foto_cliente VARCHAR(50),
    IN p_direccion_cliente VARCHAR(100)
 )
 BEGIN
     IF p_correo_cliente REGEXP '^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$' THEN
-        IF LENGTH(p_clave_cliente) >= 8
-           AND p_clave_cliente REGEXP '[A-Z]'
-           AND p_clave_cliente REGEXP '[a-z]'
-           AND p_clave_cliente REGEXP '[0-9]'
-           AND p_clave_cliente REGEXP '[^a-zA-Z0-9]' THEN
               UPDATE clientes SET nombre_cliente = p_nombre_cliente, apellido_cliente = p_apellido_cliente, 
-              clave_cliente = p_clave_cliente, correo_cliente = p_correo_cliente,
+              correo_cliente = p_correo_cliente,
               telefono_cliente = p_telefono_cliente, dui_cliente = p_dui_cliente, fecha_nacimiento_cliente = p_fecha_nacimiento_cliente,
-              genero_cliente = p_genero_cliente, estado_cliente = p_estado_cliente, foto_cliente = p_foto_cliente, direccion_cliente = p_direccion_cliente
+              genero_cliente = p_genero_cliente, foto_cliente = p_foto_cliente, direccion_cliente = p_direccion_cliente
               WHERE id_cliente = p_id_cliente;
-        ELSE
-            SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'La contraseña no cumple con los requisitos mínimos';
-        END IF;
     ELSE
         SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Formato de correo electrónico no válido';
     END IF;
