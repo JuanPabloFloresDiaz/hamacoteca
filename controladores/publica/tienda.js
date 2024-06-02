@@ -287,32 +287,6 @@ async function cargar_materiales() {
     }
 }
 
-async function ordenar_resultados() {
-    const lista_filtros = [
-        {
-            nombre: 'Orden alfabético'
-        },
-        {
-            nombre: 'Mayor precio'
-        },
-        {
-            nombre: 'Menor precio'
-        },
-        {
-            nombre: 'Compra reciente'
-        }
-    ];
-
-    const ordenarFiltros = document.getElementById('Ordenar-resultados');
-    // Mostrar datos de la lista de respaldo
-    lista_filtros.forEach(filter => {
-        const elementHtml = `
-            <li><a class="dropdown-item objetos" href="#">${filter.nombre}</a></li>
-            `;
-        ordenarFiltros.innerHTML += elementHtml;
-    });
-}
-
 async function recharge() {
     cargar_productos();
     FILTER_FORM.reset();
@@ -341,7 +315,6 @@ window.onload = async function () {
     cargar_productos();
     cargar_categorias();
     cargar_materiales();
-    ordenar_resultados();
 
     // Constante para establecer el formulario de buscar.
     SEARCH_FORM = document.getElementById('searchForm');
