@@ -14,7 +14,6 @@ const PARAMS = new URLSearchParams(location.search);
 // Constante para establecer el formulario de agregar un producto al carrito de compras.
 let SHOPPING_FORM,
     CANTIDAD;
-
 function validarCantidad(input) {
     // Obtener el valor ingresado como un número entero
     var valor = parseInt(input.value);
@@ -305,9 +304,13 @@ async function verifyFav() {
             const VERIFICAR = parseInt(dataset[0].FAVORITO, 10);
             console.log("valor de verificar: " + VERIFICAR);
 
+            const favButton = document.getElementById('favorito');
             if (VERIFICAR >= 1) {
+
                 document.getElementById('icon-fav').classList.remove('bi-bookmark');
                 document.getElementById('icon-fav').classList.add('bi-bookmark-fill');
+                // Eliminar el método onclick del botón
+                favButton.removeAttribute('onclick');
             } else {
                 document.getElementById('icon-fav').classList.remove('bi-bookmark-fill');
                 document.getElementById('icon-fav').classList.add('bi-bookmark');
@@ -331,7 +334,6 @@ async function verifyCart() {
         if (dataset.length > 0) {
             const VERIFICAR = parseInt(dataset[0].CARRITO, 10);
             console.log("valor de verificar: " + VERIFICAR);
-
             if (VERIFICAR >= 1) {
                 document.getElementById('icon-cart').classList.remove('bi-cart-check');
                 document.getElementById('icon-cart').classList.add('bi-cart-check-fill');
@@ -408,6 +410,37 @@ async function openDetail() {
 }
 
 
+/*
+*   Función asíncrona para cambiar el estado de un registro.
+*   Parámetros: id (identificador del registro seleccionado).
+*   Retorno: ninguno.
+*/
+const saveFavs = async () => {
+    // Llamada a la función para mostrar un mensaje de confirmación, capturando la respuesta en una constante.
+    const RESPONSE = await confirmUpdateAction('¿Desea guardar el producto en favoritos?');
+    // Se verifica la respuesta del mensaje.
+    if (RESPONSE) {
+        // Se define una constante tipo objeto con los datos del registro seleccionado.
+        const FORM = new FormData();
+        FORM.append('idProducto', PARAMS.get('id'));
+        // Petición para eliminar el registro seleccionado.
+        const DATA = await fetchData(FAVORITO_API, 'favoriteSave', FORM);
+        console.log(DATA.status);
+        // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
+        if (DATA.status) {
+            // Se muestra un mensaje de éxito.
+            await sweetAlert(1, DATA.message, true);
+            // Se carga nuevamente la tabla para visualizar los cambios.
+            verifyFav();
+        } else {
+            sweetAlert(2, DATA.error, false);
+        }
+    }else{
+        console.error("ocurrio un error")
+    }
+
+}
+
 // Constantes para completar la ruta de la API.
 const DETALLES_API = '';
 const VALORACIONES_API = '';
@@ -434,5 +467,5 @@ window.onload = async function () {
     cargarComentarios(listacomentarios);
     cargarRecomendaciones();
     SHOPPING_FORM = document.getElementById('shoppingForm'),
-    CANTIDAD = document.getElementById('quantityInputs');
+        CANTIDAD = document.getElementById('quantityInputs');
 };

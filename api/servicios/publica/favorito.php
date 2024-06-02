@@ -21,8 +21,8 @@ if (isset($_GET['action'])) {
                 } else {
                     $result['error'] = 'No existen favoritos para mostrar';
                 }
-                break; 
-            // Leer favoritos
+                break;
+                // Leer favoritos
             case 'verifySave':
                 if (!$favorito->setId($_POST['idProducto'])) {
                     $result['error'] = 'Hamaca incorrecta';
@@ -30,6 +30,23 @@ if (isset($_GET['action'])) {
                     $result['status'] = 1;
                 } else {
                     $result['error'] = 'Favoritos inexistente';
+                }
+                break;
+                // Crear
+            case 'favoriteSave':
+                $_POST = Validator::validateForm($_POST);
+                if (!$favorito->setId($_POST['idProducto'])) {
+                    $result['error'] = $favorito->getDataError();
+                } else {
+                    $duplicateCheck = $favorito->checkDuplicate();
+                    if ($duplicateCheck['VERIFICAR'] > 0) {
+                        $result['error'] = 'El producto ya está en favoritos';
+                    } elseif ($favorito->createRow()) {
+                        $result['status'] = 1;
+                        $result['message'] = 'Producto agregado a favoritos correctamente';
+                    } else {
+                        $result['error'] = 'Ocurrió un problema al agregar el producto a favoritos';
+                    }
                 }
                 break;
             default:

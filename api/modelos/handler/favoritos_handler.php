@@ -54,4 +54,22 @@ class FavoritosHandler
         $params = array($this->id, $_SESSION['idCliente']);
         return Database::getRows($sql, $params);
     }
+
+    //Función para chequear si el producto ya esta en el carrito.
+    public function checkDuplicate()
+    {
+        $sql = 'SELECT COUNT(*) AS VERIFICAR
+                   FROM favoritos
+                   WHERE id_hamaca = ? AND id_cliente = ?';
+        $params = array($this->id, $_SESSION['idCliente']);
+        return Database::getRow($sql, $params);
+    }
+
+    //Función para guardar en favoritos
+    public function createRow()
+    {
+        $sql = 'INSERT INTO favoritos (id_hamaca, id_cliente) VALUES (?, ?);';
+        $params = array($this->id, $_SESSION['idCliente']);
+        return Database::executeRow($sql, $params);
+    }
 }
