@@ -40,6 +40,16 @@ if (isset($_GET['action'])) {
                 $result['error'] = 'Producto inexistente';
             }
             break;
+            //Leer uno
+        case 'readRecommended':
+            if (!$producto->setId($_POST['idProducto'])) {
+                $result['error'] = $producto->getDataError();
+            } elseif ($result['dataset'] = $producto->readRecommended()) {
+                $result['status'] = 1;
+            } else {
+                $result['error'] = 'Producto inexistente';
+            }
+            break;
             //Leer mas vendidos
         case 'readMostSell':
             if ($result['dataset'] = $producto->readMostSell()) {

@@ -189,59 +189,29 @@ async function cargarComentarios(listacomentarios = null) {
     }
 }
 
-
-
 async function cargarRecomendaciones() {
-    const listahamacas = [
-        {
-            id_hamaca: 1,
-            nombre_producto: 'Hamaca ligera',
-            descripcion: '¡Descubre la comodidad y estilo de nuestras hamacas exclusivas! Sumérgete en la suave brisa del verano mientras te relajas en una de nuestras hermosas hamacas tejidas a mano. Desde diseños clásicos hasta modernos, nuestras hamacas están hechas con los mejores materiales para garantizar durabilidad y confort. Ya sea que busques el complemento perfecto para tu jardín, terraza o sala de estar, encontrarás la hamaca perfecta para ti en nuestra colección. ¡Aprovecha nuestras promociones especiales y haz de cada día un día de descanso y relax en una de nuestras hamacas!',
-            urlfoto: '../../../recursos/img/hamaca 3.jpg',
-            precio: 200
-        },
-        {
-            id_hamaca: 3,
-            nombre_producto: 'Hamaca ligera',
-            descripcion: '¡Descubre la comodidad y estilo de nuestras hamacas exclusivas! Sumérgete en la suave brisa del verano mientras te relajas en una de nuestras hermosas hamacas tejidas a mano. Desde diseños clásicos hasta modernos, nuestras hamacas están hechas con los mejores materiales para garantizar durabilidad y confort. Ya sea que busques el complemento perfecto para tu jardín, terraza o sala de estar, encontrarás la hamaca perfecta para ti en nuestra colección. ¡Aprovecha nuestras promociones especiales y haz de cada día un día de descanso y relax en una de nuestras hamacas!',
-            urlfoto: '../../../recursos/img/hamaca 3.jpg',
-            precio: 200
-        },
-        {
-            id_hamaca: 4,
-            nombre_producto: 'Hamaca estándar',
-            descripcion: '¡Descubre la comodidad y estilo de nuestras hamacas exclusivas! Sumérgete en la suave brisa del verano mientras te relajas en una de nuestras hermosas hamacas tejidas a mano. Desde diseños clásicos hasta modernos, nuestras hamacas están hechas con los mejores materiales para garantizar durabilidad y confort. Ya sea que busques el complemento perfecto para tu jardín, terraza o sala de estar, encontrarás la hamaca perfecta para ti en nuestra colección. ¡Aprovecha nuestras promociones especiales y haz de cada día un día de descanso y relax en una de nuestras hamacas!',
-            urlfoto: '../../../recursos/img/hamaca1.png',
-            precio: 300
-        },
-        {
-            id_hamaca: 7,
-            nombre_producto: 'Hamaca grande',
-            descripcion: '¡Descubre la comodidad y estilo de nuestras hamacas exclusivas! Sumérgete en la suave brisa del verano mientras te relajas en una de nuestras hermosas hamacas tejidas a mano. Desde diseños clásicos hasta modernos, nuestras hamacas están hechas con los mejores materiales para garantizar durabilidad y confort. Ya sea que busques el complemento perfecto para tu jardín, terraza o sala de estar, encontrarás la hamaca perfecta para ti en nuestra colección. ¡Aprovecha nuestras promociones especiales y haz de cada día un día de descanso y relax en una de nuestras hamacas!',
-            urlfoto: '../../../recursos/img/hamacaKsK 1.png',
-            precio: 400
-        }
-    ];
-
     const productCardsContainer = document.getElementById('product-cards');
     try {
-        const response = await fetch(PRODUCTOS_API);
-        if (!response.ok) {
-            throw new Error('Error al obtener los datos de la API');
-        }
-        const data = await response.json();
+        
+        productCardsContainer.innerHTML = '';
+        // Constante tipo objeto con los datos del producto seleccionado.
+        const FORM = new FormData();
+        FORM.append('idProducto', PARAMS.get('id'));
+        // Petición para obtener los registros disponibles.
+        const DATA = await fetchData(PRODUCTO_API, "readRecommended", FORM);
+        console.log(DATA);
 
-        if (data && Array.isArray(data) && data.length > 0) {
+        if (DATA.status) {
             // Mostrar cartas de productos obtenidos de la API
-            data.forEach(product => {
+            DATA.dataset.forEach(product => {
                 const cardHtml = `
-                    <div class="col-lg-3 col-md-3} col-sm-12  text-center ">
+                    <div class="col-lg-4 col-md-4 col-sm-12 text-center">
                         <div class="card carta">
-                            <img src="${product.url}" class="card-img-top correccion" alt="${product.nombre_hamaca} ">
-                            <a href="detalle.html?id=${producto.id_producto}" class="btn btn-outline-light position-absolute top-50 start-50 translate-middle">Ver detalle</a>
+                            <img src="${SERVER_URL}imagenes/hamacas/${product.IMAGEN}" class="card-img-top correccion" alt="${product.NOMBRE} ">
+                            <a href="detalle.html?id=${product.ID}" class="btn btn-outline-light position-absolute top-50 start-50 translate-middle">Ver detalle</a>
                             <div class="card-body">
-                                <h5 class="card-title">${product.nombre_hamaca}</h5>
-                                <p class="card-text">${product.precio}</p>
+                                <h5 class="card-title">${product.NOMBRE}</h5>
+                                <p class="card-text">$${product.PRECIO}</p>
                             </div>
                         </div>
                     </div>
@@ -249,14 +219,14 @@ async function cargarRecomendaciones() {
                 productCardsContainer.innerHTML += cardHtml;
             });
         } else {
-            throw new Error('La respuesta de la API no contiene datos válidos');
+            console.log("Error al obtener datos");
         }
     } catch (error) {
         console.error('Error al obtener datos de la API:', error);
         // Mostrar cartas de productos de respaldo
         listahamacas.forEach(product => {
             const cardHtml = `
-                <div class="col-lg-3 col-md-3 col-sm-12 text-center">
+                <div class="col-lg-4 col-md-4 col-sm-12 text-center">
                     <div class="card carta">
                         <img src="${product.urlfoto}" class="card-img-top correccion" alt="${product.nombre_producto}">
                         <a href="detalle.html?id=${product.id_hamaca}" class="btn btn-outline-light position-absolute top-50 start-50 translate-middle">Ver detalle</a>
@@ -286,7 +256,6 @@ async function verifyFav() {
 
             const favButton = document.getElementById('favorito');
             if (VERIFICAR >= 1) {
-
                 document.getElementById('icon-fav').classList.remove('bi-bookmark');
                 document.getElementById('icon-fav').classList.add('bi-bookmark-fill');
             } else {
@@ -297,7 +266,7 @@ async function verifyFav() {
             document.getElementById('favorito').textContent = "Fallo en el dataset";
         }
     } else {
-        document.getElementById('favorito').textContent = "Error en la verificación";
+        document.getElementById('icon-fav').classList.add('bi-bookmark');
     }
 }
 
@@ -323,7 +292,7 @@ async function verifyCart() {
             document.getElementById('carrito').textContent = "Fallo en el dataset";
         }
     } else {
-        document.getElementById('carrito').textContent = "Error en la verificación";
+        document.getElementById('icon-cart').classList.remove('bi-cart-check');
     }
 }
 

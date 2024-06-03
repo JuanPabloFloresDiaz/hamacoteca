@@ -152,6 +152,18 @@ class HamacasHandler
         return Database::getRows($sql, $params);
     }
     
+    public function readRecommended()
+    {
+        $sql = 'SELECT id_hamaca AS ID, foto_principal AS IMAGEN, nombre_hamaca AS NOMBRE, 
+        descripcion_hamaca AS DESCRIPCION, precio AS PRECIO, cantidad_hamaca AS CANTIDAD
+        FROM hamacas INNER JOIN categorias USING(id_categoria) WHERE 
+        (id_categoria = (SELECT id_categoria FROM hamacas WHERE id_hamaca = ?) 
+        OR id_material = (SELECT id_material FROM hamacas WHERE id_hamaca = ?)) 
+        AND id_hamaca <> ? ORDER BY PRECIO ASC LIMIT 5;';
+        $params = array($this->id, $this->id, $this->id);
+        return Database::getRows($sql, $params);
+    }
+
     //Función para mostrar una de las hamacas
     public function readDetail()
     {

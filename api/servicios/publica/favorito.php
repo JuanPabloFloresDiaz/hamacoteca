@@ -32,8 +32,7 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'Favoritos inexistente';
                 }
                 break;
-                // Crear
-                // Crear
+                // Guardar
             case 'favoriteSave':
                 $_POST = Validator::validateForm($_POST);
                 if (
@@ -51,7 +50,15 @@ if (isset($_GET['action'])) {
                 $result['error'] = 'Acción no disponible dentro de la sesión';
         }
     } else {
-        print(json_encode('Acceso denegado'));
+        // Se compara la acción a realizar cuando un cliente ha iniciado sesión.
+        switch ($_GET['action']) {
+                // Guardar
+            case 'favoriteSave':
+                $result['error'] = 'Debe iniciar sesión para agregar el producto a favoritos';
+                break;
+            default:
+                $result['error'] = 'Acción no disponible dentro de la sesión';
+        }
     }
     // Se obtiene la excepción del servidor de base de datos por si ocurrió un problema.
     $result['exception'] = Database::getException();
