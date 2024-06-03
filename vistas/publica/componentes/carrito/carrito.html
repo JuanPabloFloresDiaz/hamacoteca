@@ -2,16 +2,6 @@
     <div class="container-fluid d-flex justify-content-between mt-3 align-items-center">
         <!-- Encabezado -->
         <h3 class="me-auto">Tus pedidos</h3>
-
-        <!-- Buscador -->
-        <div class="mx-auto">
-            <form class="d-flex">
-                <input class="form-control me-2 borde-transparente" type="search" placeholder="Buscar"
-                    aria-label="Buscar">
-                <button class="btn btn-outline-dark borde-transparente" type="submit"><i
-                        class="bi bi-search"></i></button>
-            </form>
-        </div>
     </div>
     <!-- Tabla para mostrar los registros existentes -->
     <table class="table table-striped">
@@ -24,7 +14,7 @@
                 <th>IMAGEN</th>
                 <th>NOMBRE</th>
                 <th>CANTIDAD</th>
-                <th>PRECIO</th>
+                <th>PRECIO UNITARIO($)</th>
                 <th>TOTAL</th>
             </tr>
         </thead>
@@ -47,8 +37,8 @@
                     <!-- Campo oculto para asignar el id del registro al momento de modificar -->
                     <input type="hidden" id="idPedido" name="idPedido">
                     <div class="col-sm-12 col-md-6">
-                        <label for="cantidadPedido" class="form-label">Cantidad</label>
-                        <input id="cantidadPedido" type="number" name="cantidadPedido" min="1" step="1"
+                        <label for="cantidad" class="form-label">Cantidad</label>
+                        <input id="cantidad" type="number" name="cantidad" min="1" step="1"
                             class="form-control" placeholder="Ingresa la cantidad del producto" required>
                     </div>
                 </div>
@@ -66,11 +56,14 @@
         <h3 class="text-center">Resumen de tu pedido</h3>
     </div>
     <div class="mt-5">
-        <p class="text-start">Sub-Total: $219.0</p>
         <hr>
-        <p class="text-start">Total: $219.0</p>
-    </div>
+        <p class="text-start">TOTAL A PAGAR (US$) <b id="pago"></b></p>
+    </div>  
     <!-- Botón Agregar -->
-    <button class="btn btn-dark ms-auto borde" type="submit" onclick="openAlert()">Realizar pedido</button>
-
+    <button class="btn btn-dark ms-auto borde" type="submit" onclick="finishOrder()">
+        <i class="bi bi-credit-card-fill"></i> Realizar pedido</button>
+    
+    <a href="tienda.html" class="btn btn-success ms-auto borde">
+        <i class="bi bi-cart-fill"></i> Seguir comprando
+    </a>
 </section>

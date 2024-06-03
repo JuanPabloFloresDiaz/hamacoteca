@@ -15,11 +15,23 @@ if (isset($_GET['action'])) {
         $result['session'] = 1;
         // Se compara la acción a realizar cuando un cliente ha iniciado sesión.
         switch ($_GET['action']) {
-            case 'readAll':
-                if ($result['dataset'] = $pedido->readAll()) {
+            // Acción para obtener los productos agregados en el carrito de compras.
+            case 'readDetail':
+                if ($result['dataset'] = $pedido->readDetail()) {
                     $result['status'] = 1;
                 } else {
                     $result['error'] = 'No existen favoritos para mostrar';
+                }
+                break;
+                // Buscar historial
+            case 'searchRows':
+                if (!Validator::validateSearch($_POST['search'])) {
+                    $result['error'] = Validator::getSearchError();
+                } elseif ($result['dataset'] = $pedido->searchRows()) {
+                    $result['status'] = 1;
+                    $result['message'] = 'Existen ' . count($result['dataset']) . ' coincidencias';
+                } else {
+                    $result['error'] = 'No hay coincidencias';
                 }
                 break;
                 // Verificar que este guardado en el carrito
@@ -45,6 +57,41 @@ if (isset($_GET['action'])) {
                     $result['message'] = 'Producto agregado correctamente';
                 } else {
                     $result['error'] = 'Ocurrió un problema al agregar el producto';
+                }
+                break;
+                // Acción para actualizar la cantidad de un producto en el carrito de compras.
+            case 'updateDetail':
+                $_POST = Validator::validateForm($_POST);
+                if (
+                    !$pedido->setIdDetalle($_POST['idPedido']) or
+                    !$pedido->setCantidad($_POST['cantidad'])
+                ) {
+                    $result['error'] = $pedido->getDataError();
+                } elseif ($pedido->updateDetail()) {
+                    $result['status'] = 1;
+                    $result['message'] = 'Cantidad modificada correctamente';
+                } else {
+                    $result['error'] = 'Ocurrió un problema al modificar la cantidad';
+                }
+                break;
+                // Acción para remover un producto del carrito de compras.
+            case 'deleteDetail':
+                if (!$pedido->setIdDetalle($_POST['idPedido'])) {
+                    $result['error'] = $pedido->getDataError();
+                } elseif ($pedido->deleteDetail()) {
+                    $result['status'] = 1;
+                    $result['message'] = 'Producto removido correctamente';
+                } else {
+                    $result['error'] = 'Ocurrió un problema al remover el producto';
+                }
+                break;
+                // Acción para finalizar el carrito de compras.
+            case 'finishOrder':
+                if ($pedido->finishOrder()) {
+                    $result['status'] = 1;
+                    $result['message'] = 'Pedido finalizado correctamente';
+                } else {
+                    $result['error'] = 'Ocurrió un problema al finalizar el pedido';
                 }
                 break;
             default:

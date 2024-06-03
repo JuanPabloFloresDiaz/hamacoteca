@@ -6,45 +6,31 @@ async function loadComponent(path) {
 
 
 let SAVE_MODAL;
-let SAVE_FORM;
+let SAVE_FORM,
+    ID_PEDIDO,
+    CANTIDAD_PEDIDO;
 // Constantes para completar las rutas de la API.
-const PEDIDO_API = '';
+const PEDIDO_API = 'servicios/publica/pedido.php';
+
+let ROWS_FOUND;
+
+/*
+*   Función para abrir la caja de diálogo con el formulario de cambiar cantidad de producto.
+*   Parámetros: id (identificador del producto) y quantity (cantidad actual del producto).
+*   Retorno: ninguno.
+*/
+const openUpdate = async (id, quantity) => {
+    // Se abre la caja de diálogo que contiene el formulario.
+    SAVE_MODAL.show();
+    MODAL_TITLE.textContent = 'Actualizar pedido'
+    // Se inicializan los campos del formulario con los datos del registro seleccionado.
+    document.getElementById('idPedido').value = id;
+    document.getElementById('cantidad').value = quantity;
+}
+
 
 
 /*
-*   Función asíncrona para preparar el formulario al momento de actualizar un registro.
-*   Parámetros: id (identificador del registro seleccionado).
-*   Retorno: ninguno.
-*/
-const openUpdate = async (id) => {
-    try {
-        // Se define un objeto con los datos del registro seleccionado.
-        const FORM = new FormData();
-        FORM.append('id_pedido', id);
-        // Petición para obtener los datos del registro solicitado.
-        const DATA = await fetchData(PRODUCTO_API, 'readOne', FORM);
-        // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
-        if (DATA.status) {
-            // Se muestra la caja de diálogo con su título.
-            SAVE_MODAL.show();
-            MODAL_TITLE.textContent = 'Actualizar pedido';
-            // Se prepara el formulario.
-            SAVE_FORM.reset();
-            EXISTENCIAS_PRODUCTO.disabled = true;
-            // Se inicializan los campos con los datos.
-            const ROW = DATA.dataset;
-            ID_ADMINISTRADOR.value = ROW.id_administrado;
-            CANTIDAD_PEDIDO.value = ROW.cantidad_pedido;
-        } else {
-            sweetAlert(2, DATA.error, false);
-        }
-    } catch (Error) {
-        console.log(Error);
-        SAVE_MODAL.show();
-        MODAL_TITLE.textContent = 'Actualizar pedido';
-    }
-
-}
 
 const openAlert = async (id) => {
     try {
@@ -81,6 +67,28 @@ const openAlert = async (id) => {
     }
 
 };
+*/
+
+/*
+*   Función asíncrona para mostrar un mensaje de confirmación al momento de finalizar el pedido.
+*   Parámetros: ninguno.
+*   Retorno: ninguno.
+*/
+async function finishOrder() {
+    // Llamada a la función para mostrar un mensaje de confirmación, capturando la respuesta en una constante.
+    const RESPONSE = await confirmAction('¿Está seguro de finalizar el pedido?');
+    // Se verifica la respuesta del mensaje.
+    if (RESPONSE) {
+        // Petición para finalizar el pedido en proceso.
+        const DATA = await fetchData(PEDIDO_API, 'finishOrder');
+        // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
+        if (DATA.status) {
+            sweetAlert(1, DATA.message, true, 'index.html');
+        } else {
+            sweetAlert(2, DATA.error, false);
+        }
+    }
+}
 
 
 /*
@@ -96,9 +104,9 @@ const openDelete = async (id) => {
         if (RESPONSE) {
             // Se define una constante tipo objeto con los datos del registro seleccionado.
             const FORM = new FormData();
-            FORM.append('id_pedido', id);
+            FORM.append('idPedido', id);
             // Petición para eliminar el registro seleccionado.
-            const DATA = await fetchData(PEDIDO_API, 'deleteRow', FORM);
+            const DATA = await fetchData(PEDIDO_API, 'deleteDetail', FORM);
             // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
             if (DATA.status) {
                 // Se muestra un mensaje de éxito.
@@ -112,13 +120,12 @@ const openDelete = async (id) => {
     }
     catch (Error) {
         console.log(Error + ' Error al cargar el mensaje');
-        confirmAction('¿Desea eliminar el pedido de forma permanente?');
     }
 
 }
 
 
-async function cargarTabla() {
+async function cargarTabla(form = null) {
     const listapedido = [
         {
             nombre_producto: 'Hamaca ligera',
@@ -148,36 +155,55 @@ async function cargarTabla() {
     const cargarTabla = document.getElementById('tabla_pedido');
 
     try {
-        const response = await fetch(DATOS_TABLA_API);
-        if (!response.ok) {
-            throw new Error('Error al obtener los datos de la API');
-        }
-        const data = await response.json();
+        cargarTabla.innerHTML = '';
+        // Se verifica la acción a realizar.
+        (form) ? action = 'searchRows' : action = 'readDetail';
+        console.log(form);
+        // Petición para obtener los registros disponibles.
+        const DATA = await fetchData(PEDIDO_API, action, form);
+        console.log(DATA);
 
-        if (data && Array.isArray(data) && data.length > 0) {
+        if (DATA.status) {
+
+            // Se declara e inicializa una variable para calcular el importe por cada producto.
+            let subtotal = 0;
+            // Se declara e inicializa una variable para sumar cada subtotal y obtener el monto final a pagar.
+            let total = 0;
             // Mostrar elementos de la lista de materiales obtenidos de la API
-            data.forEach(row => {
+            DATA.dataset.forEach(row => {
+                subtotal = row.precio_producto * row.cantidad_comprada;
+                total += subtotal;
                 const tablaHtml = `
                 <tr>
-                    <td><img src="${SERVER_URL}images/categorias/${row.imagen_pedido}" height="50" width="50" class="circulo"></td>
-                    <td>${row.nombre_pedido}</td>
-                    <td>${row.cantidad_pedido}</td>
-                    <td>${row.precio_pedido}</td>
-                    <td>${row.total_pedido}</td>
+                    <td><img src="${SERVER_URL}imagenes/hamacas/${row.IMAGEN}" height="50" width="50" class="circulo"></td>
+                    <td>${row.NOMBRE}</td>
+                    <td>${row.CANTIDAD}</td>
+                    <td>${row.PRECIO}</td>
+                    <td>${row.TOTAL}</td>
                     <td>
-                        <button type="button" class="btn btn-outline-success borde-transparente" onclick="openUpdate(${row.id_pedido})">
-                            <i class="bi bi-pencil-fill"></i>
+                        <button type="button" class="btn btn-outline-success borde-transparente" onclick="openUpdate(${row.id_detalles_pedidos}, ${row.CANTIDAD})">
+                            <i class="bi bi-plus-slash-minus"></i>
                         </button>
-                        <button type="button" class="btn btn-outline-danger borde-transparente" onclick="openDelete(${row.id_pedido})">
+                        <button type="button" class="btn btn-outline-danger borde-transparente" onclick="openDelete(${row.id_detalles_pedidos})">
                             <i class="bi bi-trash-fill"></i>
                         </button>
                     </td>
                 </tr>
                 `;
                 cargarTabla.innerHTML += tablaHtml;
+                // Se muestra un mensaje de acuerdo con el resultado.
+                ROWS_FOUND.textContent = DATA.message;
+                document.getElementById('pago').textContent = total.toFixed(2);
             });
         } else {
-            throw new Error('La respuesta de la API no contiene datos válidos');
+            const tablaHtml = `
+            <tr class="border-danger">
+                <td class="text-danger">${DATA.error}</td>
+            </tr>
+            `;
+            cargarTabla.innerHTML += tablaHtml;
+            // Se muestra un mensaje de acuerdo con el resultado.
+            ROWS_FOUND.textContent = "Existen 0 coincidencias";
         }
     } catch (error) {
         console.error('Error al obtener datos de la API:', error);
@@ -192,7 +218,7 @@ async function cargarTabla() {
                 <td>${row.total}</td>
                 <td>
                     <button type="button" class="btn btn-outline-success borde-transparente" onclick="openUpdate(${row.id})">
-                        <i class="bi bi-pencil-fill"></i>
+                        <i class="bi bi-plus-slash-minus"></i>
                     </button>
                     <button type="button" class="btn btn-outline-danger borde-transparente" onclick="openDelete(${row.id})">
                         <i class="bi bi-trash-fill"></i>
@@ -221,6 +247,33 @@ window.onload = async function () {
     // Constantes para establecer los elementos del componente Modal.
     SAVE_MODAL = new bootstrap.Modal('#saveModal'),
         MODAL_TITLE = document.getElementById('modalTitle');
+
+        // Constantes para establecer los elementos del formulario de guardar.
+    SAVE_FORM = document.getElementById('saveForm'),
+        ID_PEDIDO = document.getElementById('idPedido'),
+        CANTIDAD_PEDIDO = document.getElementById('cantidad');
+    
+    ROWS_FOUND = document.getElementById('rowsFound');
+
+    SAVE_FORM.addEventListener('submit', async (event) => {
+        // Se evita recargar la página web después de enviar el formulario.
+        event.preventDefault();
+        // Constante tipo objeto con los datos del formulario.
+        const FORM = new FormData(SAVE_FORM);
+        // Petición para actualizar la cantidad de producto.
+        const DATA = await fetchData(PEDIDO_API, 'updateDetail', FORM);
+        // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
+        if (DATA.status) {
+            // Se actualiza la tabla para visualizar los cambios.
+            readDetail();
+            // Se cierra la caja de diálogo del formulario.
+            ITEM_MODAL.hide();
+            // Se muestra un mensaje de éxito.
+            sweetAlert(1, DATA.message, true);
+        } else {
+            sweetAlert(2, DATA.error, false);
+        }
+    });
 
 };
 

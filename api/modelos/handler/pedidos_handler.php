@@ -181,7 +181,7 @@ class PedidosHandler
     {
         $sql = 'SELECT dp.id_detalles_pedidos AS ID,
         h.foto_principal AS IMAGEN, h.nombre_hamaca AS NOMBRE,
-        dp.cantidad_comprada AS CANTIDAD, ROUND(dp.precio_producto / dp.cantidad_comprada, 2),
+        dp.cantidad_comprada AS CANTIDAD, ROUND(dp.precio_producto / dp.cantidad_comprada, 2)  AS PRECIO,
         dp.precio_producto AS TOTAL FROM  detalles_pedidos dp JOIN  hamacas h ON dp.id_hamaca = h.id_hamaca
         WHERE dp.id_pedido = (SELECT id_pedido FROM pedidos WHERE id_cliente = ? AND estado_pedido = "Pendiente" LIMIT 1);';
         $params = array($_SESSION['idCliente']);
