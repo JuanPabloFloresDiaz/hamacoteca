@@ -6,6 +6,7 @@ async function loadComponent(path) {
 
 // Constantes para completar la ruta de la API.
 const PRODUCTOS_API = '';
+const FAVORITOS_API = 'servicios/publica/favorito.php';
 
 
 let DETAIL_MODAL,
@@ -256,31 +257,35 @@ async function cargarFavoritos() {
 
     const productCardsContainer = document.getElementById('favorites-cards');
     try {
-        const response = await fetch(PRODUCTOS_API);
-        if (!response.ok) {
-            throw new Error('Error al obtener los datos de la API');
-        }
-        const data = await response.json();
+        productCardsContainer.innerHTML = '';
+        // Petición para obtener los registros disponibles.
+        const DATA = await fetchData(FAVORITOS_API, "readAll");
+        console.log(DATA);
 
-        if (data && Array.isArray(data) && data.length > 0) {
+        if (DATA.status) {
             // Mostrar cartas de productos obtenidos de la API
-            data.forEach(product => {
+            DATA.dataset.forEach(product => {
                 const cardHtml = `
                     <div class="col text-center ">
-                        <div class="card carta">
-                            <img src="${product.url}" height="400" class="card-img-top" alt="${product.nombre_hamaca} ">
-                            <a href="detalle.html?id=${producto.id_producto}" class="btn btn-outline-light position-absolute top-50 start-50 translate-middle">Ver detalle</a>
-                            <div class="card-body">
-                                <h5 class="card-title">${product.nombre_hamaca}</h5>
-                                <p class="card-text">${product.precio}</p>
-                            </div>
-                        </div>
+                    <div class="card carta">
+                    <img src="${SERVER_URL}imagenes/hamacas/${product.IMAGEN}" class="card-img-top correccion" alt="${product.NOMBRE} ">
+                    <a href="detalle.html?id=${product.ID}" class="btn btn-outline-light position-absolute top-50 start-50 translate-middle">Ver detalle</a>
+                    <div class="card-body">
+                        <h5 class="card-title">${product.NOMBRE}</h5>
+                        <p class="card-text">$${product.PRECIO}</p>
+                    </div>
+                    </div>
                     </div>
                 `;
                 productCardsContainer.innerHTML += cardHtml;
             });
         } else {
-            throw new Error('La respuesta de la API no contiene datos válidos');
+            const cardHtml = `
+                    <div class="col text-center ">
+                    <p class="card-text">No hay favoritos guardados</p>
+                    </div>
+                `;
+                productCardsContainer.innerHTML += cardHtml;
         }
     } catch (error) {
         console.error('Error al obtener datos de la API:', error);
