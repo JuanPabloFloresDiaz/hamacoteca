@@ -42,6 +42,65 @@ class PedidosData extends PedidosHandler
         }
     }
 
+    
+    /*
+    *   Métodos para validar y establecer los datos.
+    */
+    public function setIdPedido($value)
+    {
+        if (Validator::validateNaturalNumber($value)) {
+            $this->id_pedido = $value;
+            return true;
+        } else {
+            $this->data_error = 'El identificador del pedido es incorrecto';
+            return false;
+        }
+    }
+
+    public function setIdDetalle($value)
+    {
+        if (Validator::validateNaturalNumber($value)) {
+            $this->id_detalle = $value;
+            return true;
+        } else {
+            $this->data_error = 'El identificador del detalle pedido es incorrecto';
+            return false;
+        }
+    }
+
+    public function setCliente($value)
+    {
+        if (Validator::validateNaturalNumber($value)) {
+            $this->cliente = $value;
+            return true;
+        } else {
+            $this->data_error = 'El identificador del cliente es incorrecto';
+            return false;
+        }
+    }
+
+    public function setProducto($value)
+    {
+        if (Validator::validateNaturalNumber($value)) {
+            $this->producto = $value;
+            return true;
+        } else {
+            $this->data_error = 'El identificador del producto es incorrecto';
+            return false;
+        }
+    }
+
+    public function setCantidad($value)
+    {
+        if (Validator::validateNaturalNumber($value)) {
+            $this->cantidad = $value;
+            return true;
+        } else {
+            $this->data_error = 'La cantidad del producto debe ser mayor o igual a 1';
+            return false;
+        }
+    }
+
     // Asignación del nombre del archivo de imagen del material.
     public function setFilename()
     {

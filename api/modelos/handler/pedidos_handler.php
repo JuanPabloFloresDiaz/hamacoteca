@@ -211,6 +211,14 @@ class PedidosHandler
         return Database::executeRow($sql, $params);
     }
 
+    // Método en procedimiento, para manipular el detalle de pedido y simplificar el paso a paso
+    public function manipulateDetail(){
+        // Se realiza una subconsulta para obtener el precio del producto.
+        $sql = 'CALL insertar_orden_validado(?, ?, ?)';
+        $params = array($_SESSION['idCliente'], $this->cantidad, $this->producto);
+        return Database::executeRow($sql, $params);
+    }
+
     // Método para obtener los productos que se encuentran en el carrito de compras.
     public function readDetail()
     {

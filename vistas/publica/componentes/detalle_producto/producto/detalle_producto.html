@@ -5,13 +5,13 @@
             <img src="" class="img-fluid w-100 h-100 mt-3 imagen-principal" id="imagenProducto" alt="Imagen principal">
         </div>
         <div class="col-lg-3 order-lg-last m-4 contenido">
-            <!-- Campo oculto para asignar el id del registro al momento de modificar -->
-            <input type="number" id="idProducto" name="idProducto" class="d-none">
             <h1 id="nombreProducto"></h1>
             <h5>$ <span id="precioProducto"></span></h5>
             <p id="descripcionProducto"></p>
             <form id="shoppingForm">
                 <div class="d-flex">
+                    <!-- Campo oculto para asignar el id del producto -->
+                    <input type="number" class="d-none" id="idProducto" name="idProducto">
                     <div class="input-group mt-3 me-3">
                         <input type="number" class="form-control text-center" value="1" min="1" step="1"
                             id="quantityInput" name="cantidad" oninput="validarCantidad(this)"

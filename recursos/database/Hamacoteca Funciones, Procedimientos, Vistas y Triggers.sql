@@ -889,7 +889,28 @@ END //
 
 DELIMITER ;
 
-CALL filtrar_hamacas('1,2,3,4', '1,2,3,4', 10.00, 1000.00);
+
+DELIMITER //
+
+CREATE PROCEDURE manipular_favoritos(IN p_id_cliente INT, IN p_id_hamaca INT)
+BEGIN
+    DECLARE v_favorito_id INT;
+
+    -- Verificar si la hamaca ya está en favoritos para el cliente
+    SELECT id_favorito INTO v_favorito_id
+    FROM favoritos
+    WHERE id_cliente = p_id_cliente AND id_hamaca = p_id_hamaca;
+
+    -- Si se encuentra un registro, eliminarlo
+    IF v_favorito_id IS NOT NULL THEN
+        DELETE FROM favoritos WHERE id_favorito = v_favorito_id;
+    ELSE
+        -- Si no se encuentra un registro, insertarlo
+        INSERT INTO favoritos (id_cliente, id_hamaca) VALUES (p_id_cliente, p_id_hamaca);
+    END IF;
+END //
+
+DELIMITER ;
 
 SELECT ROUTINE_NAME
 FROM information_schema.ROUTINES

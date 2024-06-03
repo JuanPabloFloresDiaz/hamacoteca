@@ -8,6 +8,7 @@ const PRODUCTO_API = 'servicios/publica/hamaca.php';
 const FOTO_API = 'servicios/publica/foto.php';
 const FAVORITO_API = 'servicios/publica/favorito.php';
 const PEDIDO_API = 'servicios/publica/pedido.php';
+const VALORACIONES_API = 'servicios/publica/valoracion.php';
 // Constante tipo objeto para obtener los parámetros disponibles en la URL.
 const PARAMS = new URLSearchParams(location.search);
 
@@ -109,14 +110,14 @@ const listacomentarios = [
         nota: 3
     },
 ];
-async function cargarComentarios(listacomentarios) {
+
+async function cargarComentarios() {
     const contenedorComentarios = document.getElementById('comentarios');
     try {
-        const response = await fetch(VALORACIONES_API);
-        if (!response.ok) {
-            throw new Error('Error al obtener los datos de la API');
-        }
-        const data = await response.json();
+        // Constante tipo objeto con los datos del producto seleccionado.
+        const FORM = new FormData();
+        FORM.append('idProducto', PARAMS.get('id'));
+        const data = await fetchData(VALORACIONES_API, 'readAll', FORM); // Asumiendo que el método `readAll` obtiene todos los comentarios
 
         // Mostrar cartas de productos obtenidos de la API
         listacomentarios.forEach((valoracion, index) => {
@@ -124,91 +125,69 @@ async function cargarComentarios(listacomentarios) {
             if (comentario) {
                 const valoracionHtml = `
                 <div class="row g-0 carta-comentario">
-                <div class="col-md-2 d-flex align-items-start">
-                 <img src="${valoracion.urlfoto}" class="img-fluid circulo mt-3 ms-5 me-3" width="50px" height="50px" alt="${valoracion.nombre_usuario}">
-                 <h5 class="card-title">${valoracion.nombre_usuario}</h5>
-                 </div>
-                 <div class="col-md-10">
-                  <div class="card-body d-flex align-items-start">
-                     <div class="ms-5">
-                        <p class="card-text">${valoracion.valoracion}</p>
-                         <p class="text-white" id="ratingValue">${valoracion.nota}</p>
-                         <div class="rating">
-                             <input type="radio" id="star5_${index}" name="rating_${index}" value="5"><label for="star5_${index}"></label>
-                             <input type="radio" id="star4_${index}" name="rating_${index}" value="4"><label for="star4_${index}"></label>
-                             <input type="radio" id="star3_${index}" name="rating_${index}" value="3"><label for="star3_${index}"></label>
-                             <input type="radio" id="star2_${index}" name="rating_${index}" value="2"><label for="star2_${index}"></label>
-                             <input type="radio" id="star1_${index}" name="rating_${index}" value="1"><label for="star1_${index}"></label>
-                         </div>
-                  </div>
-                 </div>
-                 </div>
-             </div>
-                `;
-                contenedorComentarios.innerHTML += valoracionHtml;
-            }
-        });
-    } catch (error) {
-        console.error('Error al obtener datos de la API:', error);
-        // Mostrar cartas de productos de respaldo
-        listacomentarios.forEach((valoracion, index) => {
-            const comentario = listacomentarios[index]; // Obtener el comentario correspondiente
-            if (comentario) {
-                const valoracionHtml = `
-                <div class="row g-0 carta-comentario">
-                   <div class="col-md-2 d-flex align-items-start">
-                    <img src="${valoracion.urlfoto}" class="img-fluid circulo mt-3 ms-5 me-3" width="50px" height="50px" alt="${valoracion.nombre_usuario}">
-                    <h5 class="card-title">${valoracion.nombre_usuario}</h5>
+                    <div class="col-md-2 d-flex align-items-start">
+                        <img src="${valoracion.urlfoto}" class="img-fluid circulo mt-3 ms-5 me-3" width="50px" height="50px" alt="${valoracion.nombre_usuario}">
+                        <h5 class="card-title">${valoracion.nombre_usuario}</h5>
                     </div>
                     <div class="col-md-10">
-                     <div class="card-body d-flex align-items-start">
-                        <div class="ms-5">
-                            
-                            <p class="card-text">${valoracion.valoracion}</p>
-                            <p class="text-white" id="ratingValue">${valoracion.nota}</p>
-                            <div class="rating">
-                                <input type="radio" id="star5_${index}" name="rating_${index}" value="5"><label for="star5_${index}"></label>
-                                <input type="radio" id="star4_${index}" name="rating_${index}" value="4"><label for="star4_${index}"></label>
-                                <input type="radio" id="star3_${index}" name="rating_${index}" value="3"><label for="star3_${index}"></label>
-                                <input type="radio" id="star2_${index}" name="rating_${index}" value="2"><label for="star2_${index}"></label>
-                                <input type="radio" id="star1_${index}" name="rating_${index}" value="1"><label for="star1_${index}"></label>
+                        <div class="card-body d-flex align-items-start">
+                            <div class="ms-5">
+                                <p class="card-text">${valoracion.valoracion}</p>
+                                <p class="text-white" id="ratingValue">${valoracion.nota}</p>
+                                <div class="rating">
+                                    <input type="radio" id="star5_${index}" name="rating_${index}" value="5"><label for="star5_${index}"></label>
+                                    <input type="radio" id="star4_${index}" name="rating_${index}" value="4"><label for="star4_${index}"></label>
+                                    <input type="radio" id="star3_${index}" name="rating_${index}" value="3"><label for="star3_${index}"></label>
+                                    <input type="radio" id="star2_${index}" name="rating_${index}" value="2"><label for="star2_${index}"></label>
+                                    <input type="radio" id="star1_${index}" name="rating_${index}" value="1"><label for="star1_${index}"></label>
+                                </div>
                             </div>
-                     </div>
+                        </div>
                     </div>
-                    </div>
+                </div>
+                `;
+                contenedorComentarios.innerHTML += valoracionHtml;
+            } else {
+                const valoracionHtml = `
+                <div class="row g-0 carta-comentario">
+                    <h5>No hay comentarios para este producto</h5>
                 </div>
                 `;
                 contenedorComentarios.innerHTML += valoracionHtml;
             }
         });
-    }
 
-    // Captura todas las estrellas
-    var stars = document.querySelectorAll('.rating input');
+        // Captura todas las estrellas
+        var stars = document.querySelectorAll('.rating input');
 
-    // Marca las estrellas según la nota de cada comentario y desactiva la interactividad
-    stars.forEach(function (star, index) {
-        var comentario = listacomentarios[index];
-        if (comentario && comentario.nota) {
-            var nota = comentario.nota; // Obtener la nota del comentario actual
-            // Marca las estrellas según la nota del comentario
-            for (var i = 0; i < nota; i++) {
-                document.getElementById(`star${nota}_${index}`).checked = true;
+        // Marca las estrellas según la nota de cada comentario y desactiva la interactividad
+        stars.forEach(function (star, index) {
+            var comentario = listacomentarios[index];
+            if (comentario && comentario.nota) {
+                var nota = comentario.nota; // Obtener la nota del comentario actual
+                // Marca las estrellas según la nota del comentario
+                for (var i = 0; i < nota; i++) {
+                    document.getElementById(`star${nota}_${index}`).checked = true;
+                }
+                // Desactiva la interactividad de las estrellas después de marcarlas
+                for (var j = 1; j <= 5; j++) {
+                    document.getElementById(`star${j}_${index}`).disabled = true;
+                }
             }
-            // Desactiva la interactividad de las estrellas después de marcarlas
-            for (var j = 1; j <= 5; j++) {
-                document.getElementById(`star${j}_${index}`).disabled = true;
-            }
-        }
-    });
-    // Evento para las estrellas
-    stars.forEach(function (star, index) {
-        star.addEventListener('click', function () {
-            console.log('Comentario:', listacomentarios[index]);
-            console.log('Nota:', listacomentarios[index].nota);
         });
-    });
+
+        // Evento para las estrellas
+        stars.forEach(function (star, index) {
+            star.addEventListener('click', function () {
+                console.log('Comentario:', listacomentarios[index]);
+                console.log('Nota:', listacomentarios[index].nota);
+            });
+        });
+    } catch (error) {
+        console.error('Error al obtener datos de la API:', error);
+    }
 }
+
 
 
 async function cargarRecomendaciones() {
@@ -309,8 +288,6 @@ async function verifyFav() {
 
                 document.getElementById('icon-fav').classList.remove('bi-bookmark');
                 document.getElementById('icon-fav').classList.add('bi-bookmark-fill');
-                // Eliminar el método onclick del botón
-                favButton.removeAttribute('onclick');
             } else {
                 document.getElementById('icon-fav').classList.remove('bi-bookmark-fill');
                 document.getElementById('icon-fav').classList.add('bi-bookmark');
@@ -417,7 +394,7 @@ async function openDetail() {
 */
 const saveFavs = async () => {
     // Llamada a la función para mostrar un mensaje de confirmación, capturando la respuesta en una constante.
-    const RESPONSE = await confirmUpdateAction('¿Desea guardar el producto en favoritos?');
+    const RESPONSE = await confirmUpdateAction('¿Desea manipular el estado del favorito?');
     // Se verifica la respuesta del mensaje.
     if (RESPONSE) {
         // Se define una constante tipo objeto con los datos del registro seleccionado.
@@ -435,15 +412,11 @@ const saveFavs = async () => {
         } else {
             sweetAlert(2, DATA.error, false);
         }
-    }else{
+    } else {
         console.error("ocurrio un error")
     }
 
 }
-
-// Constantes para completar la ruta de la API.
-const DETALLES_API = '';
-const VALORACIONES_API = '';
 
 // window.onload
 window.onload = async function () {
@@ -464,8 +437,26 @@ window.onload = async function () {
     verifyFav();
     verifyCart();
     cargarFotos();
-    cargarComentarios(listacomentarios);
+    cargarComentarios();
     cargarRecomendaciones();
     SHOPPING_FORM = document.getElementById('shoppingForm'),
         CANTIDAD = document.getElementById('quantityInputs');
+
+    // Método del evento para cuando se envía el formulario de agregar un producto al carrito.
+    SHOPPING_FORM.addEventListener('submit', async (event) => {
+        // Se evita recargar la página web después de enviar el formulario.
+        event.preventDefault();
+        // Constante tipo objeto con los datos del formulario.
+        const FORM = new FormData(SHOPPING_FORM);
+        // Petición para guardar los datos del formulario.
+        const DATA = await fetchData(PEDIDO_API, 'manipulateDetail', FORM);
+        // Se comprueba si la respuesta es satisfactoria, de lo contrario se constata si el cliente ha iniciado sesión.
+        if (DATA.status) {
+            sweetAlert(1, DATA.message, false, 'carrito.html');
+        } else if (DATA.session) {
+            sweetAlert(2, DATA.error, false);
+        } else {
+            sweetAlert(3, DATA.error, true, 'inicio_sesion.html');
+        }
+    });
 };

@@ -144,7 +144,7 @@ class HamacasHandler
     //Función para mostrar una de las hamacas
     public function readDetail()
     {
-        $sql = 'SELECT h.nombre_hamaca AS NOMBRE, h.descripcion_hamaca AS DESCRIPCIÓN, h.precio AS PRECIO,
+        $sql = 'SELECT h.id_hamaca AS ID, h.nombre_hamaca AS NOMBRE, h.descripcion_hamaca AS DESCRIPCIÓN, h.precio AS PRECIO,
         h.cantidad_hamaca AS CANTIDAD, IFNULL(ROUND(AVG(v.calificacion_producto),2), 0) AS PROMEDIO, h.foto_principal AS IMAGEN,
         c.nombre_categoria AS CATEGORIA, nombre_material AS MATERIAL FROM hamacas h
         INNER JOIN categorias c USING(id_categoria)

@@ -66,10 +66,10 @@ class FavoritosHandler
     }
 
     //Función para guardar en favoritos
-    public function createRow()
+    public function toggleFavorite()
     {
-        $sql = 'INSERT INTO favoritos (id_hamaca, id_cliente) VALUES (?, ?);';
-        $params = array($this->id, $_SESSION['idCliente']);
+        $sql = 'CALL manipular_favoritos(?,?)';
+        $params = array($_SESSION['idCliente'], $this->id);
         return Database::executeRow($sql, $params);
     }
 }

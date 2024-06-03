@@ -8,8 +8,6 @@ async function loadComponent(path) {
 const PRODUCTOS_API = 'servicios/publica/hamaca.php';
 const CATEGORIAS_API = 'servicios/publica/categoria.php';
 
-
-async function cargar_productos_semanales() {
     const listahamacas = [
         {
             id_hamaca: 1,
@@ -33,6 +31,9 @@ async function cargar_productos_semanales() {
             precio: 400
         }
     ];
+    
+async function cargar_productos_semanales() {
+
 
     const productCardsContainer = document.getElementById('product-cards');
     try {

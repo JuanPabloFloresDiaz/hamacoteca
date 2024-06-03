@@ -21,8 +21,8 @@ if (isset($_GET['action'])) {
                 } else {
                     $result['error'] = 'No existen favoritos para mostrar';
                 }
-                break; 
-            // Verificar que este guardado en el carrito
+                break;
+                // Verificar que este guardado en el carrito
             case 'verifyCart':
                 if (!$pedido->setId($_POST['idProducto'])) {
                     $result['error'] = 'Hamaca incorrecta';
@@ -30,6 +30,21 @@ if (isset($_GET['action'])) {
                     $result['status'] = 1;
                 } else {
                     $result['error'] = 'Favoritos inexistente';
+                }
+                break;
+                // Acción para agregar un producto al carrito de compras.
+            case 'manipulateDetail':
+                $_POST = Validator::validateForm($_POST);
+                if (
+                    !$pedido->setProducto($_POST['idProducto']) or
+                    !$pedido->setCantidad($_POST['cantidad'])
+                ) {
+                    $result['error'] = $pedido->getDataError();
+                } elseif ($pedido->manipulateDetail()) {
+                    $result['status'] = 1;
+                    $result['message'] = 'Producto agregado correctamente';
+                } else {
+                    $result['error'] = 'Ocurrió un problema al agregar el producto';
                 }
                 break;
             default:
