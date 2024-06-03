@@ -142,7 +142,7 @@ class HamacasHandler
     
     public function readProductosCategoria()
     {
-        $sql = 'SELECT id_hamaca AS ID, foto_principal AS FOTO, nombre_hamaca AS NOMBRE, 
+        $sql = 'SELECT id_hamaca AS ID, foto_principal AS IMAGEN, nombre_hamaca AS NOMBRE, 
                 descripcion_hamaca AS DESCRIPCION, precio AS PRECIO, cantidad_hamaca AS CANTIDAD
                 FROM hamacas
                 INNER JOIN categorias USING(id_categoria)

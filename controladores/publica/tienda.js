@@ -16,6 +16,9 @@ const PRODUCTO_API = 'servicios/publica/hamaca.php';
 const MATERIALES_API = 'servicios/publica/material.php';
 const CATEGORIAS_API = 'servicios/publica/categoria.php';
 
+// Constante tipo objeto para obtener los parámetros disponibles en la URL.
+const PARAMS = new URLSearchParams(location.search);
+
 const listahamacas = [
     {
         id_hamaca: 1,
@@ -102,7 +105,7 @@ async function cargar_productos(form = null) {
     }
 }
 
-async function mostrarProductosPorCategoria(form = null) {
+async function mostrarProductosPorCategoria() {
     const contenedorCartasProductos = document.getElementById('productos-cartas');
     contenedorCartasProductos.innerHTML = '';
     try {
@@ -337,8 +340,8 @@ window.onload = async function () {
 
     ROWS_FOUND = document.getElementById('rowsFound');
 
-    if(){
-        
+    if(PARAMS.get('idCategoria')){
+        mostrarProductosPorCategoria();
     }else{
         cargar_productos();
     }
