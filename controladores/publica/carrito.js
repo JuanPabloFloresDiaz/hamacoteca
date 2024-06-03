@@ -29,46 +29,6 @@ const openUpdate = async (id, quantity) => {
 }
 
 
-
-/*
-
-const openAlert = async (id) => {
-    try {
-        // Se define un objeto con los datos del registro seleccionado.
-        const FORM = new FormData();
-        FORM.append('id_pedido', id);
-        // Petición para obtener los datos del registro solicitado.
-        const DATA = await fetchData(PEDIDO_API, 'readOne', FORM);
-        // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
-        if (DATA.status) {
-            // Se muestra la caja de diálogo con su título.
-            SAVE_MODAL.show();
-            MODAL_TITLE.textContent = 'Estas seguro de realizar su compra';
-            // Se prepara el formulario.
-            SAVE_FORM.reset();
-            EXISTENCIAS_PRODUCTO.disabled = true;
-            // Se inicializan los campos con los datos.
-            const ROW = DATA.dataset;
-            ID_ADMINISTRADOR.value = ROW.id_administrado;
-            NOMBRE_ADMINISTRADOR.value = ROW.nombre_administrador;
-            CORREO_ADMINISTRADOR.value = ROW.correo_administrador;
-            TELEFONO_ADMINISTRADOR.value = ROW.telefono_administrador;
-            DUI_ADMINISTRADOR.value = ROW.dui_administrador;
-            NACIMIENTO_ADMINISTRADOR.value = row.fecha_nacimiento_administrador;
-            CLAVE_ADMINISTRADOR.value = ROW.clave_administrador;
-            ALIAS_ADMINISTRADOR.value = ROW.alias_administrador;
-            fillSelect(ROL_API, 'readAll', 'rolAdministrador', ROW.id_rol);
-        } else {
-            sweetAlert(2, DATA.error, false);
-        }
-    } catch (Error) {
-        console.log(Error);
-        confirmUpdateAction('Estas seguro de realizar su compra')
-    }
-
-};
-*/
-
 /*
 *   Función asíncrona para mostrar un mensaje de confirmación al momento de finalizar el pedido.
 *   Parámetros: ninguno.
@@ -112,7 +72,7 @@ const openDelete = async (id) => {
                 // Se muestra un mensaje de éxito.
                 await sweetAlert(1, DATA.message, true);
                 // Se carga nuevamente la tabla para visualizar los cambios.
-                fillTable();
+                cargarTabla();
             } else {
                 sweetAlert(2, DATA.error, false);
             }
@@ -156,11 +116,8 @@ async function cargarTabla(form = null) {
 
     try {
         cargarTabla.innerHTML = '';
-        // Se verifica la acción a realizar.
-        (form) ? action = 'searchRows' : action = 'readDetail';
-        console.log(form);
         // Petición para obtener los registros disponibles.
-        const DATA = await fetchData(PEDIDO_API, action, form);
+        const DATA = await fetchData(PEDIDO_API, 'readDetail', form);
         console.log(DATA);
 
         if (DATA.status) {
@@ -171,7 +128,7 @@ async function cargarTabla(form = null) {
             let total = 0;
             // Mostrar elementos de la lista de materiales obtenidos de la API
             DATA.dataset.forEach(row => {
-                subtotal = row.precio_producto * row.cantidad_comprada;
+                subtotal = row.PRECIO * row.CANTIDAD;
                 total += subtotal;
                 const tablaHtml = `
                 <tr>
@@ -181,10 +138,10 @@ async function cargarTabla(form = null) {
                     <td>${row.PRECIO}</td>
                     <td>${row.TOTAL}</td>
                     <td>
-                        <button type="button" class="btn btn-outline-success borde-transparente" onclick="openUpdate(${row.id_detalles_pedidos}, ${row.CANTIDAD})">
+                        <button type="button" class="btn btn-outline-success borde-transparente" onclick="openUpdate(${row.ID}, ${row.CANTIDAD})">
                             <i class="bi bi-plus-slash-minus"></i>
                         </button>
-                        <button type="button" class="btn btn-outline-danger borde-transparente" onclick="openDelete(${row.id_detalles_pedidos})">
+                        <button type="button" class="btn btn-outline-danger borde-transparente" onclick="openDelete(${row.ID})">
                             <i class="bi bi-trash-fill"></i>
                         </button>
                     </td>
@@ -265,15 +222,17 @@ window.onload = async function () {
         // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
         if (DATA.status) {
             // Se actualiza la tabla para visualizar los cambios.
-            readDetail();
+            cargarTabla();
             // Se cierra la caja de diálogo del formulario.
-            ITEM_MODAL.hide();
+            SAVE_MODAL.hide();
             // Se muestra un mensaje de éxito.
             sweetAlert(1, DATA.message, true);
+            
         } else {
             sweetAlert(2, DATA.error, false);
         }
     });
+
 
 };
 
