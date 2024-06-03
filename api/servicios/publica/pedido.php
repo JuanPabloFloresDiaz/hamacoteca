@@ -51,6 +51,14 @@ if (isset($_GET['action'])) {
                 $result['error'] = 'Acción no disponible dentro de la sesión';
         }
     } else {
+         // Se compara la acción a realizar cuando un cliente no ha iniciado sesión.
+         switch ($_GET['action']) {
+            case 'manipulateDetail':
+                $result['error'] = 'Debe iniciar sesión para agregar el producto al carrito';
+                break;
+            default:
+                $result['error'] = 'Acción no disponible fuera de la sesión';
+        }
         print(json_encode('Acceso denegado'));
     }
     // Se obtiene la excepción del servidor de base de datos por si ocurrió un problema.

@@ -52,7 +52,8 @@ if (isset($_GET['action'])) {
             //Filtrar productos
         case 'filterRows':
             $_POST = Validator::validateForm($_POST);
-            if (!$producto->setCategorias($_POST['categorias']) or
+            if (
+                !$producto->setCategorias($_POST['categorias']) or
                 !$producto->setMateriales($_POST['materiales']) or
                 !$producto->setMinimo($_POST['minimo']) or
                 !$producto->setMaximo($_POST['maximo'])
@@ -63,6 +64,16 @@ if (isset($_GET['action'])) {
                 $result['message'] = 'Filtrando ' . count($result['dataset']) . ' productos';
             } else {
                 $result['error'] = 'Producto inexistente';
+            }
+            break;
+            // Leer productos por categoría 
+        case 'readProductosCategoria':
+            if (!$producto->setCategoria($_POST['idCategoria'])) {
+                $result['error'] = $producto->getDataError();
+            } elseif ($result['dataset'] = $producto->readProductosCategoria()) {
+                $result['status'] = 1;
+            } else {
+                $result['error'] = 'No existen productos para mostrar';
             }
             break;
         default:

@@ -102,6 +102,31 @@ async function cargar_productos(form = null) {
     }
 }
 
+async function mostrarProductosPorCategoria(form = null) {
+    const contenedorCartasProductos = document.getElementById('productos-cartas');
+    contenedorCartasProductos.innerHTML = '';
+    try {
+        // Se define un objeto con los datos de la categoría seleccionada.
+        const FORM = new FormData();
+        FORM.append('idCategoria', PARAMS.get('idCategoria'));
+        // Se verifica la acción a realizar.
+        const DATA = await fetchData(PRODUCTO_API, "readProductosCategoria", FORM);
+        console.log(DATA);
+
+        if (DATA.status) {
+            productos = DATA.dataset;
+            mostrarProductos(paginaActual);
+            // Se muestra un mensaje de acuerdo con el resultado.
+            ROWS_FOUND.textContent = DATA.message;
+        } else {
+            // Se muestra un mensaje de acuerdo con el resultado.
+            ROWS_FOUND.textContent = "Existen 0 coincidencias";
+        }
+    } catch (error) {
+        console.error('Error al obtener datos de la API:', error);
+    }
+}
+
 
 async function filtrarProductos(form) {
     const contenedorCartasProductos = document.getElementById('productos-cartas');
@@ -312,7 +337,11 @@ window.onload = async function () {
 
     ROWS_FOUND = document.getElementById('rowsFound');
 
-    cargar_productos();
+    if(){
+        
+    }else{
+        cargar_productos();
+    }
     cargar_categorias();
     cargar_materiales();
 

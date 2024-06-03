@@ -152,7 +152,7 @@ class PedidosHandler
         return Database::executeRow($sql, $params);
     }
 
-    
+
     //Verificar que el producto este guardado en favorito
     public function verifySave()
     {
@@ -167,52 +167,9 @@ class PedidosHandler
     /*
     *   Métodos para realizar las operaciones SCRUD (search, create, read, update, and delete).
     */
-    // Método para verificar si existe un pedido en proceso con el fin de iniciar o continuar una compra.
-    public function getOrder()
-    {
-        $this->estado = 'Pendiente';
-        $sql = 'SELECT id_pedido
-                FROM pedidos
-                WHERE estado_pedido = ? AND id_cliente = ?';
-        $params = array($this->estado, $_SESSION['idCliente']);
-        if ($data = Database::getRow($sql, $params)) {
-            $_SESSION['idPedido'] = $data['id_pedido'];
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    // Método para iniciar un pedido en proceso.
-    public function startOrder()
-    {
-        if ($this->getOrder()) {
-            return true;
-        } else {
-            $sql = 'INSERT INTO pedidos(direccion_pedido, id_cliente)
-                    VALUES((SELECT direccion_cliente FROM clientes WHERE id_cliente = ?), ?)';
-            $params = array($_SESSION['idCliente'], $_SESSION['idCliente']);
-            // Se obtiene el ultimo valor insertado de la llave primaria en la tabla pedido.
-            if ($_SESSION['idPedido'] = Database::getLastRow($sql, $params)) {
-                return true;
-            } else {
-                return false;
-            }
-        }
-    }
-
-    // Método para agregar un producto al carrito de compras.
-    public function createDetail()
-    {
-        // Se realiza una subconsulta para obtener el precio del producto.
-        $sql = 'INSERT INTO detalles_pedidos(id_hamaca, precio_producto, cantidad_comprada, id_pedido)
-                VALUES(?, (SELECT precio FROM hamacas WHERE id_hamaca = ?), ?, ?)';
-        $params = array($this->producto, $this->producto, $this->cantidad, $_SESSION['idPedido']);
-        return Database::executeRow($sql, $params);
-    }
-
     // Método en procedimiento, para manipular el detalle de pedido y simplificar el paso a paso
-    public function manipulateDetail(){
+    public function manipulateDetail()
+    {
         // Se realiza una subconsulta para obtener el precio del producto.
         $sql = 'CALL insertar_orden_validado(?, ?, ?)';
         $params = array($_SESSION['idCliente'], $this->cantidad, $this->producto);
@@ -222,12 +179,12 @@ class PedidosHandler
     // Método para obtener los productos que se encuentran en el carrito de compras.
     public function readDetail()
     {
-        $sql = 'SELECT id_detalle, nombre_hamaca, precio_producto, cantidad_comprada
-                FROM detalles_pedidos
-                INNER JOIN pedidos USING(id_pedido)
-                INNER JOIN hamacas USING(id_hamaca)
-                WHERE id_pedido = ?';
-        $params = array($_SESSION['idPedido']);
+        $sql = 'SELECT dp.id_detalles_pedidos AS ID,
+        h.foto_principal AS IMAGEN, h.nombre_hamaca AS NOMBRE,
+        dp.cantidad_comprada AS CANTIDAD, ROUND(dp.precio_producto / dp.cantidad_comprada, 2),
+        dp.precio_producto AS TOTAL FROM  detalles_pedidos dp JOIN  hamacas h ON dp.id_hamaca = h.id_hamaca
+        WHERE dp.id_pedido = (SELECT id_pedido FROM pedidos WHERE id_cliente = ? AND estado_pedido = "Pendiente" LIMIT 1);';
+        $params = array($_SESSION['idCliente']);
         return Database::getRows($sql, $params);
     }
 
@@ -237,8 +194,8 @@ class PedidosHandler
         $this->estado = 'En camino';
         $sql = 'UPDATE pedidos
                 SET estado_pedido = ?
-                WHERE id_pedido = ?';
-        $params = array($this->estado, $_SESSION['idPedido']);
+                WHERE id_pedido = (SELECT id_pedido FROM pedidos WHERE id_cliente = ? AND estado_pedido = "Pendiente" LIMIT 1);';
+        $params = array($this->estado, $_SESSION['idCliente']);
         return Database::executeRow($sql, $params);
     }
 
@@ -247,8 +204,8 @@ class PedidosHandler
     {
         $sql = 'UPDATE detalles_pedidos
                 SET cantidad_comprada = ?
-                WHERE id_detalles_pedidos = ? AND id_pedido = ?';
-        $params = array($this->cantidad, $this->id_detalle, $_SESSION['idPedido']);
+                WHERE id_detalles_pedidos = ? AND id_pedido = (SELECT id_pedido FROM pedidos WHERE id_cliente = ? AND estado_pedido = "Pendiente" LIMIT 1);';
+        $params = array($this->cantidad, $this->id_detalle, $_SESSION['idCliente']);
         return Database::executeRow($sql, $params);
     }
 
@@ -256,8 +213,8 @@ class PedidosHandler
     public function deleteDetail()
     {
         $sql = 'DELETE FROM detalles_pedidos
-                WHERE id_detalles_pedidos = ? AND id_pedido = ?';
-        $params = array($this->id_detalle, $_SESSION['idPedido']);
+                WHERE id_detalles_pedidos = ? AND id_pedido = (SELECT id_pedido FROM pedidos WHERE id_cliente = ? AND estado_pedido = "Pendiente" LIMIT 1);';
+        $params = array($this->id_detalle, $_SESSION['idCliente']);
         return Database::executeRow($sql, $params);
     }
 }
