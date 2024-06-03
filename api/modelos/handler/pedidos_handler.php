@@ -217,4 +217,40 @@ class PedidosHandler
         $params = array($this->id_detalle, $_SESSION['idCliente']);
         return Database::executeRow($sql, $params);
     }
+
+    //Función para leer un pedido del historial de compras.
+    public function readAllHistory()
+    {
+        $sql = 'SELECT p.id_pedido AS ID, p.estado_pedido AS ESTADO, p.fecha_pedido AS FECHA, 
+        p.direccion_pedido AS DIRECCION, CONCAT(c.nombre_cliente, " ", c.apellido_cliente) AS CLIENTE
+        FROM pedidos p
+        INNER JOIN clientes c ON p.id_cliente = c.id_cliente
+        WHERE (estado_pedido = "En camino" OR estado_pedido = "Entregado" OR estado_pedido = "Cancelado") AND c.id_cliente = ?
+        ORDER BY CLIENTE;';
+        $params = array($_SESSION['idCliente']);
+        return Database::getRows($sql, $params);
+    }
+
+    //Función para leer un pedido del historial de compras.
+    public function readOneHistory()
+    {
+        $sql = 'SELECT p.id_pedido AS ID, p.estado_pedido AS ESTADO, p.fecha_pedido AS FECHA, 
+        p.direccion_pedido AS DIRECCION, CONCAT(c.nombre_cliente, " ", c.apellido_cliente) AS CLIENTE
+        FROM pedidos p
+        INNER JOIN clientes c ON p.id_cliente = c.id_cliente
+        WHERE (estado_pedido = "En camino" OR estado_pedido = "Entregado" OR estado_pedido = "Cancelado") AND c.id_cliente = ?  AND p.id_pedido = ?
+        ORDER BY CLIENTE;';
+        $params = array($_SESSION['idCliente'], $this->id_pedido);
+        return Database::getRow($sql, $params);
+    }
+
+    //Función para cambiar el estado de un pedido.
+    public function changeStateCancel()
+    {
+        $sql = 'UPDATE pedidos
+        SET estado_pedido = "Cancelado"
+        WHERE id_pedido = ?;';
+        $params = array($this->id);
+        return Database::executeRow($sql, $params);
+    }
 }

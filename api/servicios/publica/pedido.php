@@ -94,6 +94,28 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'Ocurrió un problema al finalizar el pedido';
                 }
                 break;
+                // Leer todos historial
+            case 'readAll':
+                if ($result['dataset'] = $pedido->readAllHistory()) {
+                    $result['status'] = 1;
+                    $result['message'] = 'Existen ' . count($result['dataset']) . ' registros';
+                } else {
+                    $result['error'] = 'No hay pedidos registrados';
+                }
+                break;
+                // Estado
+            case 'changeState':
+                if (
+                    !$pedido->setId($_POST['idPedido'])
+                ) {
+                    $result['error'] = $pedido->getDataError();
+                } elseif ($pedido->changeStateCancel()) {
+                    $result['status'] = 1;
+                    $result['message'] = 'Estado del cliente cambiado correctamente';
+                } else {
+                    $result['error'] = 'Ocurrió un problema al alterar el estado del cliente';
+                }
+                break;
             default:
                 $result['error'] = 'Acción no disponible dentro de la sesión';
         }

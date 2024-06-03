@@ -7,6 +7,8 @@ async function loadComponent(path) {
 // Constantes para completar la ruta de la API.
 const PRODUCTOS_API = '';
 const FAVORITOS_API = 'servicios/publica/favorito.php';
+const PEDIDOS_API = 'servicios/publica/pedido.php';
+const DETALLE_PEDIDO_API = 'servicios/publica/detalle_pedido.php';
 
 
 let DETAIL_MODAL,
@@ -136,6 +138,41 @@ async function cargarDetalle(form = null) {
     }
 }
 
+
+/*
+*   Función asíncrona para cambiar el estado de un registro.
+*   Parámetros: id (identificador del registro seleccionado).
+*   Retorno: ninguno.
+*/
+const openState = async (id) => {
+    // Llamada a la función para mostrar un mensaje de confirmación, capturando la respuesta en una constante.
+    const RESPONSE = await confirmUpdateAction('¿Desea cancelar su pedido?');
+    try {
+        // Se verifica la respuesta del mensaje.
+        if (RESPONSE) {
+            // Se define una constante tipo objeto con los datos del registro seleccionado.
+            const FORM = new FormData();
+            FORM.append('idPedido', id);
+            console.log(id);
+            // Petición para eliminar el registro seleccionado.
+            const DATA = await fetchData(PEDIDOS_API, 'changeState', FORM);
+            console.log(DATA.status);
+            // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
+            if (DATA.status) {
+                // Se muestra un mensaje de éxito.
+                await sweetAlert(1, DATA.message, true);
+                // Se carga nuevamente la tabla para visualizar los cambios.
+                cargarTabla();
+            } else {
+                sweetAlert(2, DATA.error, false);
+            }
+        }
+    }
+    catch (Error) {
+        console.log(Error + ' Error al cargar el mensaje');
+    }
+}
+
 async function cargarTabla(form = null) {
     const cargarTabla = document.getElementById('tabla_pedidos');
 
@@ -152,12 +189,14 @@ async function cargarTabla(form = null) {
             DATA.dataset.forEach(row => {
                 const tablaHtml = `
                 <tr class="${getRowBackgroundColor(row.ESTADO)}">
-                    <td><img src="${SERVER_URL}imagenes/clientes/${row.FOTO}" height="50" width="50" class="circulo"></td>
                     <td>${row.CLIENTE}</td>
                     <td>${row.DIRECCION}</td>
                     <td>${row.FECHA}</td>
                     <td class="${getRowColor(row.ESTADO)}">${row.ESTADO}</td>
                 <td>
+                        <button type="button" class="btn btn-outline-danger" onclick="openState(${row.ID})">
+                            <i class="bi bi-exclamation-octagon"></i>
+                        </button>
                         <button type="button" class="btn btn-outline-info" onclick="openDetail(${row.ID})">
                             <i class="bi bi-card-list"></i>
                         </button>
@@ -190,8 +229,8 @@ async function cargarTabla(form = null) {
                     <td>${row.fecha}</td>
                     <td class="${getRowColor(row.estado)}">${row.estado}</td>
                     <td>
-                    <button type="button" class="btn btn-outline-info" onclick="openDetail(${row.id})">
-                    <i class="bi bi-card-list"></i>
+                    <button type="button" class="btn btn-outline-danger" onclick="openState(${row.id})">
+                    <i class="bi bi-exclamation-octagon"></i>
                     </button>
                     <button type="button" class="btn btn-outline-info" onclick="openDetail(${row.id})">
                     <i class="bi bi-card-list"></i>
@@ -206,7 +245,7 @@ async function cargarTabla(form = null) {
 
 function getRowColor(estado) {
     switch (estado) {
-        case 'Pendiente':
+        case 'En camino':
             return 'text-warning';
         case 'Cancelado':
             return 'text-danger';
@@ -219,7 +258,7 @@ function getRowColor(estado) {
 
 function getRowBackgroundColor(estado) {
     switch (estado) {
-        case 'Pendiente':
+        case 'En camino':
             return 'border-warning';
         case 'Cancelado':
             return 'border-danger';
