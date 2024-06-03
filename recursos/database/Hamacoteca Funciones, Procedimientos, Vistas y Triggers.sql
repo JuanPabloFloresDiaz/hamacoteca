@@ -912,6 +912,75 @@ END //
 
 DELIMITER ;
 
+
+DROP PROCEDURE IF EXISTS insertar_orden_validado;
+DELIMITER $$
+
+CREATE PROCEDURE insertar_orden_validado(
+    IN p_id_cliente INT,
+    IN p_cantidad_comprada INT,
+    IN p_id_hamaca INT
+)
+BEGIN
+    DECLARE p_precio_producto DECIMAL(10,2);
+    DECLARE p_direccion_pedido VARCHAR(200);
+    DECLARE p_id_pedido INT;
+    DECLARE pedido_existente INT;
+    DECLARE detalle_existente INT;
+    DECLARE mensaje VARCHAR(255);
+    
+    -- Traer la dirección del cliente
+    SELECT direccion_cliente INTO p_direccion_pedido 
+    FROM clientes 
+    WHERE id_cliente = p_id_cliente;
+    
+    -- Calcular el precio del producto multiplicado por la cantidad
+    SELECT precio INTO p_precio_producto 
+    FROM hamacas 
+    WHERE id_hamaca = p_id_hamaca;
+    SET p_precio_producto = p_precio_producto * p_cantidad_comprada;
+    
+    -- Verificar si hay un pedido pendiente para el cliente
+    SELECT id_pedido INTO pedido_existente 
+    FROM pedidos 
+    WHERE id_cliente = p_id_cliente AND estado_pedido = 'Pendiente'
+    LIMIT 1;
+
+    IF pedido_existente IS NOT NULL THEN
+        -- Si hay un pedido pendiente, usar ese ID de pedido
+        SET p_id_pedido = pedido_existente;
+    ELSE
+        -- Si no hay un pedido pendiente, insertar un nuevo pedido
+        INSERT INTO pedidos (direccion_pedido, id_cliente)
+        VALUES (p_direccion_pedido, p_id_cliente);
+        
+        -- Obtener el ID del nuevo pedido
+        SET p_id_pedido = LAST_INSERT_ID();
+    END IF;
+
+    -- Verificar si el detalle del pedido ya existe para la misma hamaca en el mismo pedido
+    SELECT id_detalles_pedidos INTO detalle_existente
+    FROM detalles_pedidos
+    WHERE id_pedido = p_id_pedido AND id_hamaca = p_id_hamaca
+    LIMIT 1;
+
+    IF detalle_existente IS NOT NULL THEN
+        -- Si ya existe, actualizar la cantidad y el precio
+        UPDATE detalles_pedidos 
+        SET cantidad_comprada = cantidad_comprada + p_cantidad_comprada,
+            precio_producto = precio_producto + p_precio_producto
+        WHERE id_detalles_pedidos = detalle_existente;
+        SET mensaje = 'Producto actualizado en el carrito correctamente.';
+    ELSE
+        -- Si no existe, insertar el detalle del pedido
+        INSERT INTO detalles_pedidos (id_pedido, precio_producto, cantidad_comprada, id_hamaca)
+        VALUES (p_id_pedido, p_precio_producto, p_cantidad_comprada, p_id_hamaca);
+        SET mensaje = 'Hamaca agregada al carrito correctamente.';
+    END IF;
+    
+END $$
+DELIMITER ;
+
 SELECT ROUTINE_NAME
 FROM information_schema.ROUTINES
 WHERE ROUTINE_TYPE = 'PROCEDURE' AND ROUTINE_SCHEMA = 'hamacoteca';
