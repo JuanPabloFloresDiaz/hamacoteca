@@ -120,71 +120,57 @@ async function cargarTabla(form = null) {
         const DATA = await fetchData(PEDIDO_API, 'readDetail', form);
         console.log(DATA);
 
-        if (DATA.status) {
+        if(DATA.session) {
+            if (DATA.status) {
 
-            // Se declara e inicializa una variable para calcular el importe por cada producto.
-            let subtotal = 0;
-            // Se declara e inicializa una variable para sumar cada subtotal y obtener el monto final a pagar.
-            let total = 0;
-            // Mostrar elementos de la lista de materiales obtenidos de la API
-            DATA.dataset.forEach(row => {
-                subtotal = row.PRECIO * row.CANTIDAD;
-                total += subtotal;
+                // Se declara e inicializa una variable para calcular el importe por cada producto.
+                let subtotal = 0;
+                // Se declara e inicializa una variable para sumar cada subtotal y obtener el monto final a pagar.
+                let total = 0;
+                // Mostrar elementos de la lista de materiales obtenidos de la API
+                DATA.dataset.forEach(row => {
+                    subtotal = row.PRECIO * row.CANTIDAD;
+                    total += subtotal;
+                    const tablaHtml = `
+                    <tr>
+                        <td><img src="${SERVER_URL}imagenes/hamacas/${row.IMAGEN}" height="50" width="50" class="circulo"></td>
+                        <td>${row.NOMBRE}</td>
+                        <td>${row.CANTIDAD}</td>
+                        <td>${row.PRECIO}</td>
+                        <td>${row.TOTAL}</td>
+                        <td>
+                            <button type="button" class="btn btn-outline-success borde-transparente" onclick="openUpdate(${row.ID}, ${row.CANTIDAD})">
+                                <i class="bi bi-plus-slash-minus"></i>
+                            </button>
+                            <button type="button" class="btn btn-outline-danger borde-transparente" onclick="openDelete(${row.ID})">
+                                <i class="bi bi-trash-fill"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    `;
+                    cargarTabla.innerHTML += tablaHtml;
+                    // Se muestra un mensaje de acuerdo con el resultado.
+                    ROWS_FOUND.textContent = DATA.message;
+                    document.getElementById('pago').textContent = total.toFixed(2);
+                });
+            } else {
                 const tablaHtml = `
-                <tr>
-                    <td><img src="${SERVER_URL}imagenes/hamacas/${row.IMAGEN}" height="50" width="50" class="circulo"></td>
-                    <td>${row.NOMBRE}</td>
-                    <td>${row.CANTIDAD}</td>
-                    <td>${row.PRECIO}</td>
-                    <td>${row.TOTAL}</td>
-                    <td>
-                        <button type="button" class="btn btn-outline-success borde-transparente" onclick="openUpdate(${row.ID}, ${row.CANTIDAD})">
-                            <i class="bi bi-plus-slash-minus"></i>
-                        </button>
-                        <button type="button" class="btn btn-outline-danger borde-transparente" onclick="openDelete(${row.ID})">
-                            <i class="bi bi-trash-fill"></i>
-                        </button>
-                    </td>
+                <tr class="border-danger">
+                    <td class="text-danger">${DATA.error}</td>
                 </tr>
                 `;
                 cargarTabla.innerHTML += tablaHtml;
                 // Se muestra un mensaje de acuerdo con el resultado.
-                ROWS_FOUND.textContent = DATA.message;
-                document.getElementById('pago').textContent = total.toFixed(2);
-            });
-        } else {
-            const tablaHtml = `
-            <tr class="border-danger">
-                <td class="text-danger">${DATA.error}</td>
-            </tr>
-            `;
-            cargarTabla.innerHTML += tablaHtml;
-            // Se muestra un mensaje de acuerdo con el resultado.
-            ROWS_FOUND.textContent = "Existen 0 coincidencias";
+                ROWS_FOUND.textContent = "Existen 0 coincidencias";
+            }
         }
+        else{
+            sweetAlert(3, DATA.error, true, 'inicio_sesion.html');
+        }
+
+       
     } catch (error) {
-        console.error('Error al obtener datos de la API:', error);
-        // Mostrar materiales de respaldo
-        listapedido.forEach(row => {
-            const tablaHtml = `
-            <tr>
-                <td><img src="${row.urlfoto}" height="50" width="50" class="circulo"></td>
-                <td>${row.nombre_producto}</td>
-                <td>${row.cantidad}</td>
-                <td>${row.precio}</td>
-                <td>${row.total}</td>
-                <td>
-                    <button type="button" class="btn btn-outline-success borde-transparente" onclick="openUpdate(${row.id})">
-                        <i class="bi bi-plus-slash-minus"></i>
-                    </button>
-                    <button type="button" class="btn btn-outline-danger borde-transparente" onclick="openDelete(${row.id})">
-                        <i class="bi bi-trash-fill"></i>
-                    </button>
-                </td>
-            </tr>
-            `;
-            cargarTabla.innerHTML += tablaHtml;
-        });
+        sweetAlert(3, "Debe iniciar sesión para ver el carrito", true, 'inicio_sesion.html');
     }
 }
 
