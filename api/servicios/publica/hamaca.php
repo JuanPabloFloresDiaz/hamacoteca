@@ -72,6 +72,7 @@ if (isset($_GET['action'])) {
                 $result['error'] = $producto->getDataError();
             } elseif ($result['dataset'] = $producto->readProductosCategoria()) {
                 $result['status'] = 1;
+                $result['message'] = 'Mostrando ' . count($result['dataset']) . ' productos';
             } else {
                 $result['error'] = 'No existen productos para mostrar';
             }
