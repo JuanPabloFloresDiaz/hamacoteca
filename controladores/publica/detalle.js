@@ -111,29 +111,30 @@ const listacomentarios = [
     },
 ];
 
-async function cargarComentarios() {
+async function cargarComentarios(listacomentarios = null) {
     const contenedorComentarios = document.getElementById('comentarios');
     try {
         // Constante tipo objeto con los datos del producto seleccionado.
         const FORM = new FormData();
         FORM.append('idProducto', PARAMS.get('id'));
-        const data = await fetchData(VALORACIONES_API, 'readAll', FORM); // Asumiendo que el método `readAll` obtiene todos los comentarios
-
+        const data = await fetchData(VALORACIONES_API, 'readOne', FORM); // Asumiendo que el método `readAll` obtiene todos los comentarios
+        listacomentarios = data.dataset; 
+        console.log(listacomentarios);
         // Mostrar cartas de productos obtenidos de la API
         listacomentarios.forEach((valoracion, index) => {
-            const comentario = data[index]; // Obtener el comentario correspondiente
+            const comentario = listacomentarios[index]; // Obtener el comentario correspondiente
             if (comentario) {
                 const valoracionHtml = `
                 <div class="row g-0 carta-comentario">
                     <div class="col-md-2 d-flex align-items-start">
-                        <img src="${valoracion.urlfoto}" class="img-fluid circulo mt-3 ms-5 me-3" width="50px" height="50px" alt="${valoracion.nombre_usuario}">
-                        <h5 class="card-title">${valoracion.nombre_usuario}</h5>
+                        <img src="${SERVER_URL}imagenes/clientes/${valoracion.IMAGEN}" class="img-fluid circulo mt-3 ms-5 me-3" width="50px" height="50px" alt="${valoracion.nombre_usuario}">
+                        <h5 class="card-title">${valoracion.NOMBRE}</h5>
                     </div>
                     <div class="col-md-10">
                         <div class="card-body d-flex align-items-start">
                             <div class="ms-5">
-                                <p class="card-text">${valoracion.valoracion}</p>
-                                <p class="text-white" id="ratingValue">${valoracion.nota}</p>
+                                <p class="card-text">${valoracion.COMENTARIO}</p>
+                                <p class="text-white" id="ratingValue">${valoracion.CALIFICACIÓN}</p>
                                 <div class="rating">
                                     <input type="radio" id="star5_${index}" name="rating_${index}" value="5"><label for="star5_${index}"></label>
                                     <input type="radio" id="star4_${index}" name="rating_${index}" value="4"><label for="star4_${index}"></label>
@@ -434,11 +435,11 @@ window.onload = async function () {
     appContainer.innerHTML += `${recomendacionesHtml}`;
 
     openDetail();
-    verifyFav();
-    verifyCart();
     cargarFotos();
     cargarComentarios();
     cargarRecomendaciones();
+    verifyFav();
+    verifyCart();
     SHOPPING_FORM = document.getElementById('shoppingForm'),
         CANTIDAD = document.getElementById('quantityInputs');
 
@@ -450,6 +451,7 @@ window.onload = async function () {
         const FORM = new FormData(SHOPPING_FORM);
         // Petición para guardar los datos del formulario.
         const DATA = await fetchData(PEDIDO_API, 'manipulateDetail', FORM);
+        try{
         // Se comprueba si la respuesta es satisfactoria, de lo contrario se constata si el cliente ha iniciado sesión.
         if (DATA.status) {
             sweetAlert(1, DATA.message, false, 'carrito.html');
@@ -457,6 +459,9 @@ window.onload = async function () {
             sweetAlert(2, DATA.error, false);
         } else {
             sweetAlert(3, DATA.error, true, 'inicio_sesion.html');
+        }
+        }catch(error){
+            sweetAlert(3, "Debe iniciar sesión para agregar el producto al carrito", true, 'inicio_sesion.html');
         }
     });
 };

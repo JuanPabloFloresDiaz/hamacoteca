@@ -15,16 +15,32 @@ if (isset($_GET['action'])) {
         $result['session'] = 1;
         // Se compara la acción a realizar cuando un cliente ha iniciado sesión.
         switch ($_GET['action']) {
-            case 'readAll':
-                if ($result['dataset'] = $valoracion->readAll()) {
+            case 'readOne':
+                if (!$valoracion->setProducto($_POST['idProducto'])) {
+                    $result['error'] = $valoracion->getDataError();
+                } elseif ($result['dataset'] = $valoracion->readOne()) {
                     $result['status'] = 1;
                 } else {
-                    $result['error'] = 'No existen favoritos para mostrar';
+                    $result['error'] = 'No existen comentarios para mostrar';
                 }
                 break;
+            default:
+                $result['error'] = 'Acción no disponible dentro de la sesión';
         }
     } else {
-        print(json_encode('Acceso denegado'));
+        switch ($_GET['action']) {
+            case 'readOne':
+                if (!$valoracion->setProducto($_POST['idProducto'])) {
+                    $result['error'] = $valoracion->getDataError();
+                } elseif ($result['dataset'] = $valoracion->readOne()) {
+                    $result['status'] = 1;
+                } else {
+                    $result['error'] = 'No existen comentarios para mostrar';
+                }
+                break;
+            default:
+                $result['error'] = 'Acción no disponible dentro de la sesión';
+        }
     }
     // Se obtiene la excepción del servidor de base de datos por si ocurrió un problema.
     $result['exception'] = Database::getException();

@@ -10,6 +10,7 @@ class ValoracionesHandler
      *  Declaración de atributos para el manejo de datos.
      */
     protected $id = null;
+    protected $producto = null;
 
     protected $estado = null;
 
@@ -41,5 +42,29 @@ class ValoracionesHandler
         $sql = 'CALL cambiar_estado_valoracion(?);';
         $params = array($this->id);
         return Database::executeRow($sql, $params);
+    }
+
+    //Función para leer los comentarios de un producto
+    public function readOne()
+    {
+        $sql = 'SELECT V.id_valoracion AS "ID",
+        foto_cliente AS "IMAGEN",
+        CONCAT(nombre_cliente, " ", apellido_cliente) AS "NOMBRE",
+        nombre_hamaca AS "PRODUCTO",
+        comentario_producto AS "COMENTARIO", 
+        calificacion_producto AS "CALIFICACIÓN",
+        fecha_valoracion AS "FECHA",
+            CASE 
+                WHEN estado_comentario = 1 THEN "Activo"
+                WHEN estado_comentario = 0 THEN "Bloqueado"
+            END AS "ESTADO"
+        FROM valoraciones v
+        INNER JOIN detalles_pedidos dp ON dp.id_detalles_pedidos = v.id_detalles_pedidos
+        INNER JOIN hamacas h ON h.id_hamaca = dp.id_hamaca
+        INNER JOIN pedidos p ON p.id_pedido = dp.id_pedido
+        INNER JOIN clientes c ON c.id_cliente = p.id_cliente 
+        WHERE h.id_hamaca = ? AND V.estado_comentario = 1';
+        $params = array($this->producto);
+        return Database::getRows($sql, $params);
     }
 }

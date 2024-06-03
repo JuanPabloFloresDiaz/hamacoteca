@@ -39,6 +39,18 @@ class ValoracionesData extends ValoracionesHandler
         }
     }
 
+     // Validación y asignación del ID de la valoración.
+     public function setProducto($value)
+     {
+         if (Validator::validateNaturalNumber($value)) {
+             $this->producto = $value;
+             return true;
+         } else {
+             $this->data_error = 'El identificador del comentario es incorrecto';
+             return false;
+         }
+     }
+
     // Método para obtener el error de los datos.
     public function getDataError()
     {
