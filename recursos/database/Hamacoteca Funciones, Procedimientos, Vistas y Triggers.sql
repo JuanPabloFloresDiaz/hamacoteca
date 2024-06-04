@@ -981,6 +981,81 @@ BEGIN
 END $$
 DELIMITER ;
 
+
+DROP PROCEDURE IF EXISTS actualizar_orden_validado;
+DELIMITER $$ 
+CREATE PROCEDURE actualizar_orden_validado(
+    IN p_nueva_cantidad INT,
+    IN p_id_detalles_pedidos INT,
+    IN p_id_cliente INT
+)
+BEGIN
+    DECLARE p_cantidad_previa INT;
+    DECLARE p_id_hamaca INT;
+    DECLARE diferencia INT;
+    DECLARE p_id_pedido INT;
+
+    -- Obtener la cantidad previa y el id_hamaca
+    SELECT dp.cantidad_comprada, dp.id_hamaca INTO p_cantidad_previa, p_id_hamaca
+    FROM detalles_pedidos dp
+    JOIN pedidos p ON dp.id_pedido = p.id_pedido
+    WHERE dp.id_detalles_pedidos = p_id_detalles_pedidos
+      AND p.id_cliente = p_id_cliente
+      AND p.estado_pedido = 'Pendiente'
+    LIMIT 1;
+
+    -- Calcular la diferencia
+    SET diferencia = p_cantidad_previa - p_nueva_cantidad;
+
+    -- Actualizar la cantidad comprada en detalles_pedidos
+    UPDATE detalles_pedidos
+    SET cantidad_comprada = p_nueva_cantidad
+    WHERE id_detalles_pedidos = p_id_detalles_pedidos
+      AND id_pedido = (SELECT id_pedido FROM pedidos WHERE id_cliente = p_id_cliente AND estado_pedido = 'Pendiente' LIMIT 1);
+
+    -- Ajustar las existencias en la tabla hamacas
+    UPDATE hamacas
+    SET cantidad_hamaca = cantidad_hamaca + diferencia
+    WHERE id_hamaca = p_id_hamaca;
+
+END $$
+DELIMITER ; 
+
+DROP PROCEDURE IF EXISTS eliminar_orden_validado;
+DELIMITER $$
+
+CREATE PROCEDURE eliminar_orden_validado(
+    IN p_id_detalles_pedidos INT,
+    IN p_id_cliente INT
+)
+BEGIN
+    DECLARE p_cantidad_previa INT;
+    DECLARE p_id_hamaca INT;
+
+    -- Obtener la cantidad previa y el id_hamaca del detalle del pedido a eliminar
+    SELECT dp.cantidad_comprada, dp.id_hamaca INTO p_cantidad_previa, p_id_hamaca
+    FROM detalles_pedidos dp
+    JOIN pedidos p ON dp.id_pedido = p.id_pedido
+    WHERE dp.id_detalles_pedidos = p_id_detalles_pedidos
+      AND p.id_cliente = p_id_cliente
+      AND p.estado_pedido = 'Pendiente'
+    LIMIT 1;
+
+    -- Ajustar las existencias en la tabla hamacas
+    UPDATE hamacas
+    SET cantidad_hamaca = cantidad_hamaca + p_cantidad_previa
+    WHERE id_hamaca = p_id_hamaca;
+
+    -- Eliminar el detalle del pedido
+    DELETE FROM detalles_pedidos
+    WHERE id_detalles_pedidos = p_id_detalles_pedidos
+      AND id_pedido = (SELECT id_pedido FROM pedidos WHERE id_cliente = p_id_cliente AND estado_pedido = 'Pendiente' LIMIT 1);
+      
+    -- Mensaje de confirmación
+    SELECT CONCAT('El detalle del pedido con ID ', p_id_detalles_pedidos, ' ha sido eliminado y ', p_cantidad_previa, ' unidades han sido devueltas al inventario.') AS mensaje;
+END $$
+DELIMITER ;
+
 SELECT ROUTINE_NAME
 FROM information_schema.ROUTINES
 WHERE ROUTINE_TYPE = 'PROCEDURE' AND ROUTINE_SCHEMA = 'hamacoteca';

@@ -126,7 +126,7 @@ async function cargarComentarios(listacomentarios = null) {
         listacomentarios.forEach((valoracion, index) => {
             const valoracionHtml = `
             <div class="row g-0 carta-comentario">
-                <div class="col-md-2 d-flex align-items-start">
+                <div class="col-md-2 d-flex align-items-start p-2">
                     <img src="${SERVER_URL}imagenes/clientes/${valoracion.IMAGEN}" class="img-fluid circulo mt-3 ms-5 me-3" width="50px" height="50px" alt="${valoracion.nombre_usuario}">
                     <h5 class="card-title">${valoracion.NOMBRE}</h5>
                 </div>

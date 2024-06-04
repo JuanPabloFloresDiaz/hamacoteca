@@ -202,9 +202,7 @@ class PedidosHandler
     // Método para actualizar la cantidad de un producto agregado al carrito de compras.
     public function updateDetail()
     {
-        $sql = 'UPDATE detalles_pedidos
-                SET cantidad_comprada = ?
-                WHERE id_detalles_pedidos = ? AND id_pedido = (SELECT id_pedido FROM pedidos WHERE id_cliente = ? AND estado_pedido = "Pendiente" LIMIT 1);';
+        $sql = 'CALL actualizar_orden_validado(?,?,?);';
         $params = array($this->cantidad, $this->id_detalle, $_SESSION['idCliente']);
         return Database::executeRow($sql, $params);
     }
@@ -212,8 +210,7 @@ class PedidosHandler
     // Método para eliminar un producto que se encuentra en el carrito de compras.
     public function deleteDetail()
     {
-        $sql = 'DELETE FROM detalles_pedidos
-                WHERE id_detalles_pedidos = ? AND id_pedido = (SELECT id_pedido FROM pedidos WHERE id_cliente = ? AND estado_pedido = "Pendiente" LIMIT 1);';
+        $sql = 'CALL eliminar_orden_validado(?,?)';
         $params = array($this->id_detalle, $_SESSION['idCliente']);
         return Database::executeRow($sql, $params);
     }
