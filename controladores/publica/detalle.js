@@ -117,77 +117,55 @@ async function cargarComentarios(listacomentarios = null) {
         // Constante tipo objeto con los datos del producto seleccionado.
         const FORM = new FormData();
         FORM.append('idProducto', PARAMS.get('id'));
-        const data = await fetchData(VALORACIONES_API, 'readOne', FORM); // Asumiendo que el método `readAll` obtiene todos los comentarios
+        const data = await fetchData(VALORACIONES_API, 'readOne', FORM); // Asumiendo que el método `readOne` obtiene todos los comentarios
         listacomentarios = data.dataset; 
         console.log(listacomentarios);
+        
         // Mostrar cartas de productos obtenidos de la API
+        contenedorComentarios.innerHTML = ''; // Limpiar contenedor de comentarios
         listacomentarios.forEach((valoracion, index) => {
-            const comentario = listacomentarios[index]; // Obtener el comentario correspondiente
-            if (comentario) {
-                const valoracionHtml = `
-                <div class="row g-0 carta-comentario">
-                    <div class="col-md-2 d-flex align-items-start">
-                        <img src="${SERVER_URL}imagenes/clientes/${valoracion.IMAGEN}" class="img-fluid circulo mt-3 ms-5 me-3" width="50px" height="50px" alt="${valoracion.nombre_usuario}">
-                        <h5 class="card-title">${valoracion.NOMBRE}</h5>
-                    </div>
-                    <div class="col-md-10">
-                        <div class="card-body d-flex align-items-start">
-                            <div class="ms-5">
-                                <p class="card-text">${valoracion.COMENTARIO}</p>
-                                <p class="text-white" id="ratingValue">${valoracion.CALIFICACIÓN}</p>
-                                <div class="rating">
-                                    <input type="radio" id="star5_${index}" name="rating_${index}" value="5"><label for="star5_${index}"></label>
-                                    <input type="radio" id="star4_${index}" name="rating_${index}" value="4"><label for="star4_${index}"></label>
-                                    <input type="radio" id="star3_${index}" name="rating_${index}" value="3"><label for="star3_${index}"></label>
-                                    <input type="radio" id="star2_${index}" name="rating_${index}" value="2"><label for="star2_${index}"></label>
-                                    <input type="radio" id="star1_${index}" name="rating_${index}" value="1"><label for="star1_${index}"></label>
-                                </div>
+            const valoracionHtml = `
+            <div class="row g-0 carta-comentario">
+                <div class="col-md-2 d-flex align-items-start">
+                    <img src="${SERVER_URL}imagenes/clientes/${valoracion.IMAGEN}" class="img-fluid circulo mt-3 ms-5 me-3" width="50px" height="50px" alt="${valoracion.nombre_usuario}">
+                    <h5 class="card-title">${valoracion.NOMBRE}</h5>
+                </div>
+                <div class="col-md-10">
+                    <div class="card-body d-flex align-items-start">
+                        <div class="ms-5">
+                            <p class="card-text">${valoracion.COMENTARIO}</p>
+                            <p class="text-white" id="ratingValue">${valoracion.CALIFICACIÓN}</p>
+                            <div class="rating pb-5">
+                                <input type="radio" id="star5_${index}" name="rating_${index}" value="5"><label for="star5_${index}"></label>
+                                <input type="radio" id="star4_${index}" name="rating_${index}" value="4"><label for="star4_${index}"></label>
+                                <input type="radio" id="star3_${index}" name="rating_${index}" value="3"><label for="star3_${index}"></label>
+                                <input type="radio" id="star2_${index}" name="rating_${index}" value="2"><label for="star2_${index}"></label>
+                                <input type="radio" id="star1_${index}" name="rating_${index}" value="1"><label for="star1_${index}"></label>
                             </div>
                         </div>
                     </div>
                 </div>
-                `;
-                contenedorComentarios.innerHTML += valoracionHtml;
-            } else {
-                const valoracionHtml = `
-                <div class="row g-0 carta-comentario">
-                    <h5>No hay comentarios para este producto</h5>
-                </div>
-                `;
-                contenedorComentarios.innerHTML += valoracionHtml;
-            }
+            </div>
+            `;
+            contenedorComentarios.innerHTML += valoracionHtml;
         });
 
-        // Captura todas las estrellas
-        var stars = document.querySelectorAll('.rating input');
-
-        // Marca las estrellas según la nota de cada comentario y desactiva la interactividad
-        stars.forEach(function (star, index) {
-            var comentario = listacomentarios[index];
-            if (comentario && comentario.nota) {
-                var nota = comentario.nota; // Obtener la nota del comentario actual
-                // Marca las estrellas según la nota del comentario
-                for (var i = 0; i < nota; i++) {
-                    document.getElementById(`star${nota}_${index}`).checked = true;
-                }
-                // Desactiva la interactividad de las estrellas después de marcarlas
-                for (var j = 1; j <= 5; j++) {
-                    document.getElementById(`star${j}_${index}`).disabled = true;
+        // Marcar las estrellas según la calificación
+        listacomentarios.forEach((valoracion, index) => {
+            const nota = valoracion.CALIFICACIÓN;
+            if (nota) {
+                document.getElementById(`star${nota}_${index}`).checked = true;
+                // Desactivar las estrellas para que no sean interactivas
+                for (let i = 1; i <= 5; i++) {
+                    document.getElementById(`star${i}_${index}`).disabled = true;
                 }
             }
-        });
-
-        // Evento para las estrellas
-        stars.forEach(function (star, index) {
-            star.addEventListener('click', function () {
-                console.log('Comentario:', listacomentarios[index]);
-                console.log('Nota:', listacomentarios[index].nota);
-            });
         });
     } catch (error) {
         console.error('Error al obtener datos de la API:', error);
     }
 }
+
 
 async function cargarRecomendaciones() {
     const productCardsContainer = document.getElementById('product-cards');
@@ -314,38 +292,31 @@ async function openDetail() {
         document.getElementById('material').textContent = DATA.dataset.MATERIAL;
         document.getElementById('idProducto').value = DATA.dataset.ID;
         if (DATA.dataset.PROMEDIO > 0) {
-            document.getElementById('ratingValue').textContent = DATA.dataset.PROMEDIO;
+            const ratingValue = parseFloat(DATA.dataset.PROMEDIO);
+            document.getElementById('ratingValue').textContent = ratingValue.toFixed(2);
 
-            // Captura el valor del rating del h3
-            let ratingValue = parseFloat(document.getElementById('ratingValue').textContent);
-            console.log("Valor del rating obtenido:", ratingValue);
+            const wholeStars = Math.floor(ratingValue);
+            const fractionalPart = ratingValue - wholeStars;
 
-            // Intenta imprimir un mensaje después de obtener el ratingValue
-            console.log("Este mensaje se imprime después de obtener el ratingValue:", ratingValue);
+            const starContainer = document.createElement('div');
+            starContainer.classList.add('star-container');
 
-            // Captura todas las estrellas
-            let stars = document.querySelectorAll('.rating input');
-
-            // Marca las estrellas según el rating
-            stars.forEach(function (star, index) {
-                if (index + 0 <= 5 - ratingValue) { // Ajustar la condición
-                    star.checked = true;
-                    console.log("Estrella marcada:", index + 1);
-                    // Desactiva la interactividad de las estrellas
-                    star.disabled = true;
+            for (let i = 1; i <= 5; i++) {
+                const star = document.createElement('div');
+                star.classList.add('star');
+                if (i <= wholeStars) {
+                    star.classList.add('full');
+                } else if (i === wholeStars + 1 && fractionalPart > 0) {
+                    star.classList.add('half');
                 }
-                star.disabled = true;
-            });
+                starContainer.appendChild(star);
+            }
 
-            // Colorea las estrellas marcadas de naranja
-            let checkedStars = document.querySelectorAll('.rating input:checked');
-            checkedStars.forEach(function (star) {
-                star.nextElementSibling.style.color = 'orange';
-                console.log("Estrella coloreada de naranja:", star.id);
-                star.disabled = true;
-            });
+            const ratingElement = document.getElementById('rating');
+            ratingElement.innerHTML = ''; // Limpiar cualquier contenido previo
+            ratingElement.appendChild(starContainer);
         } else {
-            document.getElementById('ratingValue').textContent = "No existen calificaciones aun para este producto"
+            document.getElementById('ratingValue').textContent = "No existen calificaciones aún para este producto";
             document.getElementById('rating').remove();
         }
     } else {
