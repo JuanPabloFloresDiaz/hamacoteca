@@ -164,7 +164,7 @@ const openState = async (id) => {
                 // Se carga nuevamente la tabla para visualizar los cambios.
                 cargarTabla();
             } else {
-                sweetAlert(2, DATA.error, false);
+                sweetAlert(2, DATA.exception, false);
             }
         }
     }

@@ -244,9 +244,7 @@ class PedidosHandler
     //Función para cambiar el estado de un pedido.
     public function changeStateCancel()
     {
-        $sql = 'UPDATE pedidos
-        SET estado_pedido = "Cancelado"
-        WHERE id_pedido = ?;';
+        $sql = 'CALL cambiar_estado_pedido_cancelado_validado(?)';
         $params = array($this->id);
         return Database::executeRow($sql, $params);
     }

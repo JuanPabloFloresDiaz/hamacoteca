@@ -1056,6 +1056,38 @@ BEGIN
 END $$
 DELIMITER ;
 
+DELIMITER $$
+CREATE PROCEDURE cambiar_estado_pedido_cancelado_validado(
+    IN p_id_pedido INT
+)
+BEGIN
+    -- Variable que encapsula el estado del pedido
+    DECLARE estado_pedido_previo ENUM('Pendiente', 'En camino', 'Entregado', 'Cancelado');
+    -- Obtener el estado previo del pedido
+    SELECT estado_pedido INTO estado_pedido_previo
+    FROM pedidos
+    WHERE id_pedido = p_id_pedido;
+    -- Verificaciones y cambio del estado del pedido por cada caso
+    -- En caso de que el pedido sea pendiente
+    IF estado_pedido_previo = 'Pendiente' THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'No se puede cancelar un pedido pendiente.';
+    -- En caso de que el pedido sea en camino
+    ELSEIF estado_pedido_previo = 'En camino' THEN
+        UPDATE pedidos
+        SET estado_pedido = 'Cancelado'
+        WHERE id_pedido = p_id_pedido;
+    -- En caso de que el pedido sea cancelado
+    ELSEIF estado_pedido_previo = 'Cancelado' THEN
+		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'No se puede cancelar un pedido que ya ha sido cancelado';
+    -- En caso de que el pedido sea entregado
+    ELSEIF estado_pedido_previo = 'Entregado' THEN
+		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'No se puede cancelar un pedido que ya ha sido entregado';
+    END IF;
+END $$
+
+DELIMITER ;
+
+
 SELECT ROUTINE_NAME
 FROM information_schema.ROUTINES
 WHERE ROUTINE_TYPE = 'PROCEDURE' AND ROUTINE_SCHEMA = 'hamacoteca';
