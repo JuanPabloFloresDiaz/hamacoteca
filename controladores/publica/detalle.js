@@ -134,7 +134,7 @@ async function cargarComentarios(listacomentarios = null) {
                     <div class="card-body d-flex align-items-start">
                         <div class="ms-5">
                             <p class="card-text">${valoracion.COMENTARIO}</p>
-                            <p class="text-white" id="ratingValue">${valoracion.CALIFICACIÓN}</p>
+                            <p class="d-none" id="ratingValue">${valoracion.CALIFICACIÓN}</p>
                             <div class="rating pb-5">
                                 <input type="radio" id="star5_${index}" name="rating_${index}" value="5"><label for="star5_${index}"></label>
                                 <input type="radio" id="star4_${index}" name="rating_${index}" value="4"><label for="star4_${index}"></label>
