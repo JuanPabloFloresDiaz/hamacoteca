@@ -7,31 +7,32 @@
     <div class="card mb-3 mt-3" id="comentarios">
         <!-- Aquí iran las valoraciones -->
     </div>
-    <form id="saveForm">
+    <form id="comentarioForm">
         <div>
-            <input type="checkbox" id="star1" name="valoración" class="form-check-input">
-            <label for="star1" class="star-label">1&#9733;</label>
-
-            <input type="checkbox" id="star2" name="valoración" class="form-check-input">
-            <label for="star2" class="star-label">2&#9733;</label>
-
-            <input type="checkbox" id="star3" name="valoración" class="form-check-input">
-            <label for="star3" class="star-label">3&#9733;</label>
-
-            <input type="checkbox" id="star4" name="valoración" class="form-check-input">
-            <label for="star4" class="star-label">4&#9733;</label>
-
-            <input type="checkbox" id="star5" name="valoración" class="form-check-inputs">
-            <label for="star5" class="star-label">5&#9733;</label>
+            <div class="form-floating borde">
+                <select class="form-select" name="valoracion">
+                    <div class="col-sm-6 col-md-6 col-lg-6 col-12 mb-3">
+                        <option selected>Selecciona la nota de tu valoración</option>
+                        <option value="1">1 &#9733;</option>
+                        <option value="2">2 &#9733;</option>
+                        <option value="3">3 &#9733;</option>
+                        <option value="4">4 &#9733;</option>
+                        <option value="5">5 &#9733;</option>
+                    </div>
+                </select>
+            </div>
         </div>
         <div class="mt-3">
             <div class="card-body">
                 <div class="row">
+                    <!-- Campo oculto para asignar el id del producto -->
+                    <input type="number" class="d-none" id="producto" name="producto">
                     <div class="col">
-                        <textarea class="form-control" placeholder="Escribe tu valoración aquí..." rows="3"></textarea>
+                        <textarea class="form-control" name="comentario" placeholder="Escribe tu valoración aquí..."
+                            rows="3"></textarea>
                     </div>
                     <div class="col-auto">
-                        <button type="button" class="btn btn-dark borde"><i class="bi bi-send"></i></button>
+                        <button type="submit" class="btn btn-dark borde"><i class="bi bi-send"></i></button>
                     </div>
                 </div>
             </div>

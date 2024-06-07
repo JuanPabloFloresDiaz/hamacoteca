@@ -11,6 +11,9 @@ class ValoracionesHandler
      */
     protected $id = null;
     protected $producto = null;
+    protected $comentario = null;
+    protected $calificacion = null;
+
 
     protected $estado = null;
 
@@ -66,5 +69,17 @@ class ValoracionesHandler
         WHERE h.id_hamaca = ? AND V.estado_comentario = 1';
         $params = array($this->producto);
         return Database::getRows($sql, $params);
+    }
+
+    /*
+    *   Métodos para realizar las operaciones SCRUD (search, create, read, update, and delete).
+    */
+    // Método en procedimiento, para manipular el detalle de pedido y simplificar el paso a paso
+    public function createRow()
+    {
+        // Se realiza una subconsulta para obtener el precio del producto.
+        $sql = 'CALL insertar_comentario(?, ?, ?, ?)';
+        $params = array($_SESSION['idCliente'],$this->calificacion,$this->comentario,$this->producto);
+        return Database::executeRow($sql, $params);
     }
 }

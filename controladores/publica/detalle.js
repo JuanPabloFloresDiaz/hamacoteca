@@ -15,6 +15,10 @@ const PARAMS = new URLSearchParams(location.search);
 // Constante para establecer el formulario de agregar un producto al carrito de compras.
 let SHOPPING_FORM,
     CANTIDAD;
+let COMENTARIO_FORM,
+    COMENTARIO,
+    CALIFICACIÓN,
+    PRODUCTO;
 function validarCantidad(input) {
     // Obtener el valor ingresado como un número entero
     var valor = parseInt(input.value);
@@ -118,9 +122,9 @@ async function cargarComentarios(listacomentarios = null) {
         const FORM = new FormData();
         FORM.append('idProducto', PARAMS.get('id'));
         const data = await fetchData(VALORACIONES_API, 'readOne', FORM); // Asumiendo que el método `readOne` obtiene todos los comentarios
-        listacomentarios = data.dataset; 
+        listacomentarios = data.dataset;
         console.log(listacomentarios);
-        
+
         // Mostrar cartas de productos obtenidos de la API
         contenedorComentarios.innerHTML = ''; // Limpiar contenedor de comentarios
         listacomentarios.forEach((valoracion, index) => {
@@ -170,7 +174,7 @@ async function cargarComentarios(listacomentarios = null) {
 async function cargarRecomendaciones() {
     const productCardsContainer = document.getElementById('product-cards');
     try {
-        
+
         productCardsContainer.innerHTML = '';
         // Constante tipo objeto con los datos del producto seleccionado.
         const FORM = new FormData();
@@ -291,6 +295,7 @@ async function openDetail() {
         document.getElementById('categoria').textContent = DATA.dataset.CATEGORIA;
         document.getElementById('material').textContent = DATA.dataset.MATERIAL;
         document.getElementById('idProducto').value = DATA.dataset.ID;
+        document.getElementById('producto').value = DATA.dataset.ID;
         if (DATA.dataset.PROMEDIO > 0) {
             const ratingValue = parseFloat(DATA.dataset.PROMEDIO);
             document.getElementById('ratingValue').textContent = ratingValue.toFixed(2);
@@ -391,17 +396,41 @@ window.onload = async function () {
         const FORM = new FormData(SHOPPING_FORM);
         // Petición para guardar los datos del formulario.
         const DATA = await fetchData(PEDIDO_API, 'manipulateDetail', FORM);
-        try{
-        // Se comprueba si la respuesta es satisfactoria, de lo contrario se constata si el cliente ha iniciado sesión.
-        if (DATA.status) {
-            sweetAlert(1, DATA.message, false, 'carrito.html');
-        } else if (DATA.session) {
-            sweetAlert(2, DATA.error, false);
-        } else {
-            sweetAlert(3, DATA.error, true, 'inicio_sesion.html');
-        }
-        }catch(error){
+        try {
+            // Se comprueba si la respuesta es satisfactoria, de lo contrario se constata si el cliente ha iniciado sesión.
+            if (DATA.status) {
+                sweetAlert(1, DATA.message, false, 'carrito.html');
+            } else if (DATA.session) {
+                sweetAlert(2, DATA.error, false);
+            } else {
+                sweetAlert(3, DATA.error, true, 'inicio_sesion.html');
+            }
+        } catch (error) {
             sweetAlert(3, "Debe iniciar sesión para agregar el producto al carrito", true, 'inicio_sesion.html');
+        }
+    });
+
+    COMENTARIO_FORM = document.getElementById('comentarioForm');
+
+    // Método del evento para cuando se envía el formulario de agregar un producto al carrito.
+    COMENTARIO_FORM.addEventListener('submit', async (event) => {
+        // Se evita recargar la página web después de enviar el formulario.
+        event.preventDefault();
+        // Constante tipo objeto con los datos del formulario.
+        const FORM = new FormData(COMENTARIO_FORM);
+        // Petición para guardar los datos del formulario.
+        const DATA = await fetchData(VALORACIONES_API, 'createRow', FORM);
+        try {
+            // Se comprueba si la respuesta es satisfactoria, de lo contrario se constata si el cliente ha iniciado sesión.
+            if (DATA.status) {
+                sweetAlert(1, DATA.message, false);
+                cargarComentarios();
+                COMENTARIO_FORM.reset();
+            } else {
+                sweetAlert(3, DATA.exception, true);
+            }
+        } catch (error) {
+            sweetAlert(3, "Debe iniciar sesión para hacer un comentario al producto", true);
         }
     });
 };

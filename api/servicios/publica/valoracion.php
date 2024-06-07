@@ -24,6 +24,22 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'No existen comentarios para mostrar';
                 }
                 break;
+                // Acción para agregar un producto al carrito de compras.
+            case 'createRow':
+                $_POST = Validator::validateForm($_POST);
+                if (
+                    !$valoracion->setCalificacion($_POST['valoracion']) or
+                    !$valoracion->setComentario($_POST['comentario']) or
+                    !$valoracion->setProducto($_POST['producto'])
+                ) {
+                    $result['error'] = $valoracion->getDataError();
+                } elseif ($valoracion->createRow()) {
+                    $result['status'] = 1;
+                    $result['message'] = 'Comentario agregado correctamente';
+                } else {
+                    $result['error'] = 'Ocurrió un problema al agregar el comentario';
+                }
+                break;
             default:
                 $result['error'] = 'Acción no disponible dentro de la sesión';
         }
