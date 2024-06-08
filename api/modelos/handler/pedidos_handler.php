@@ -159,7 +159,7 @@ class PedidosHandler
         $sql = 'SELECT COUNT(*) AS CARRITO 
         FROM pedidos p
         INNER JOIN detalles_pedidos dp ON p.id_pedido = dp.id_pedido
-        WHERE p.id_cliente = ? AND dp.id_hamaca = ?;';
+        WHERE p.id_cliente = ? AND dp.id_hamaca = ? AND p.estado_pedido = "Pendiente";';
         $params = array($_SESSION['idCliente'], $this->id);
         return Database::getRows($sql, $params);
     }

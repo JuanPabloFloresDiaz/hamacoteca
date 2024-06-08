@@ -73,7 +73,7 @@ class ValoracionesData extends ValoracionesHandler
              $this->producto = $value;
              return true;
          } else {
-             $this->data_error = 'El identificador del comentario es incorrecto';
+             $this->data_error = 'El identificador del producto es incorrecto';
              return false;
          }
      }

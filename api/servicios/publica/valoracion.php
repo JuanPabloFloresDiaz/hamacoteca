@@ -9,7 +9,7 @@ if (isset($_GET['action'])) {
     // Se instancia la clase correspondiente.
     $valoracion = new ValoracionesData;
     // Se declara e inicializa un arreglo para guardar el resultado que retorna la API.
-    $result = array('status' => 0, 'session' => 0, 'recaptcha' => 0, 'message' => null, 'error' => null, 'exception' => null, 'username' => null);
+    $result = array('status' => 0, 'session' => 0, 'recaptcha' => 0, 'cliente' => 0, 'message' => null, 'error' => null, 'exception' => null, 'username' => null);
     // Se verifica si existe una sesión iniciada como cliente para realizar las acciones correspondientes.
     if (isset($_SESSION['idCliente'])) {
         $result['session'] = 1;
@@ -20,11 +20,21 @@ if (isset($_GET['action'])) {
                     $result['error'] = $valoracion->getDataError();
                 } elseif ($result['dataset'] = $valoracion->readOne()) {
                     $result['status'] = 1;
+                    $result['cliente'] = $_SESSION['idCliente'];
                 } else {
                     $result['error'] = 'No existen comentarios para mostrar';
                 }
                 break;
-                // Acción para agregar un producto al carrito de compras.
+            case 'readOneComment':
+                if (!$valoracion->setId($_POST['idValoracion'])) {
+                    $result['error'] = $valoracion->getDataError();
+                } elseif ($result['dataset'] = $valoracion->readOneComment()) {
+                    $result['status'] = 1;
+                } else {
+                    $result['error'] = 'No existen comentarios para mostrar';
+                }
+                break;
+                // Acción para agregar un comentario al producto.
             case 'createRow':
                 $_POST = Validator::validateForm($_POST);
                 if (
@@ -36,6 +46,38 @@ if (isset($_GET['action'])) {
                 } elseif ($valoracion->createRow()) {
                     $result['status'] = 1;
                     $result['message'] = 'Comentario agregado correctamente';
+                } else {
+                    $result['error'] = 'Ocurrió un problema al agregar el comentario';
+                }
+                break;
+                // Acción para actualizar un comentario del producto.
+            case 'updateRow':
+                $_POST = Validator::validateForm($_POST);
+                if (
+                    !$valoracion->setCalificacion($_POST['valoracion']) or
+                    !$valoracion->setComentario($_POST['comentario']) or
+                    !$valoracion->setProducto($_POST['producto']) or
+                    !$valoracion->setId($_POST['idComentario'])
+                ) {
+                    $result['error'] = $valoracion->getDataError();
+                } elseif ($valoracion->updateRow()) {
+                    $result['status'] = 1;
+                    $result['message'] = 'Comentario actualizado correctamente';
+                } else {
+                    $result['error'] = 'Ocurrió un problema al agregar el comentario';
+                }
+                break;
+                // Acción para eliminar un comentario del producto.
+            case 'deleteRow':
+                $_POST = Validator::validateForm($_POST);
+                if (
+                    !$valoracion->setProducto($_POST['producto']) or
+                    !$valoracion->setId($_POST['idComentario'])
+                ) {
+                    $result['error'] = $valoracion->getDataError();
+                } elseif ($valoracion->deleteRow()) {
+                    $result['status'] = 1;
+                    $result['message'] = 'Comentario eliminado correctamente';
                 } else {
                     $result['error'] = 'Ocurrió un problema al agregar el comentario';
                 }

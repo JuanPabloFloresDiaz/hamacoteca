@@ -229,6 +229,11 @@ async function cargar_categorias() {
 
     try {
         cargarListaCategorias.innerHTML = "";
+        cargarListaCategorias.innerHTML = `
+            <div class="form-check col-md-12 col-sm-4">
+                <input class="form-check-input" type="checkbox" id="selectAllCategorias">Seleccionar todo</input>
+            </div>
+        `;
         // Petición para obtener los registros disponibles.
         const DATA = await fetchData(CATEGORIAS_API, "readAll");
         console.log(DATA);
@@ -242,6 +247,12 @@ async function cargar_categorias() {
                 </div>
                 `;
                 cargarListaCategorias.innerHTML += categoriasHtml;
+            });
+            document.getElementById('selectAllCategorias').addEventListener('change', function () {
+                const checkboxes = document.querySelectorAll('input[name="categorias"]');
+                checkboxes.forEach(checkbox => {
+                    checkbox.checked = this.checked;
+                });
             });
         } else {
             throw new Error('La respuesta de la API no contiene datos válidos');
@@ -284,6 +295,11 @@ async function cargar_materiales() {
 
     try {
         cargarListaMateriales.innerHTML = "";
+        cargarListaMateriales.innerHTML = `
+        <div class="form-check col-md-12 col-sm-4">
+            <input class="form-check-input" type="checkbox" id="selectAllMateriales">Seleccionar todo</input>
+        </div>
+    `;
         // Petición para obtener los registros disponibles.
         const DATA = await fetchData(MATERIALES_API, "readAll");
         console.log(DATA);
@@ -297,6 +313,12 @@ async function cargar_materiales() {
                 </div>
                 `;
                 cargarListaMateriales.innerHTML += materialesHtml;
+            });
+            document.getElementById('selectAllMateriales').addEventListener('change', function() {
+                const checkboxes = document.querySelectorAll('input[name="materiales"]');
+                checkboxes.forEach(checkbox => {
+                    checkbox.checked = this.checked;
+                });
             });
         } else {
             throw new Error('La respuesta de la API no contiene datos válidos');
@@ -340,9 +362,9 @@ window.onload = async function () {
 
     ROWS_FOUND = document.getElementById('rowsFound');
 
-    if(PARAMS.get('idCategoria')){
+    if (PARAMS.get('idCategoria')) {
         mostrarProductosPorCategoria();
-    }else{
+    } else {
         cargar_productos();
     }
     cargar_categorias();

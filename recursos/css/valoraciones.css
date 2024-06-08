@@ -5,6 +5,32 @@
 
 .carta-comentario {
     border-bottom: 1px solid #ccc;
+    background-color: white;
+    padding: 20px;
+    margin: 10px;
+    border-radius: 10px;
+    display: flex;
+    align-items: flex-start;
+}
+
+.comentario-imagen {
+    flex-shrink: 0;
+}
+
+.comentario-contenido {
+    flex: 1;
+    margin-left: 20px;
+}
+
+.d-flex.align-items-center.mb-2 {
+    display: flex;
+    align-items: center;
+    margin-bottom: 2px;
+}
+
+.rating-container {
+    display: flex;
+    align-items: center;
 }
 
 .rating {
@@ -12,7 +38,7 @@
     unicode-bidi: bidi-override;
     display: inline-block;
     position: relative;
-    font-size: 2em;
+    font-size: 1.5em;
 }
 
 .rating > label {
@@ -20,11 +46,11 @@
     position: relative;
     width: 1.1em;
     cursor: pointer;
+    margin-right: 2px; /* Ajuste de espacio entre estrellas */
 }
 
 .rating > label::before {
     content: "\2605";
-    position: absolute;
 }
 
 .rating > input {

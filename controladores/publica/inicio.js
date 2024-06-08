@@ -217,7 +217,7 @@ async function cargarProductosPorCategoria() {
                     for (let j = i; j < i + 3 && j < products.length; j++) {
                         const product = products[j];
                         innerHTML += `
-                    <div class="col-lg-4 col-md-4 col-sm-4  text-center ">
+                    <div class="col-lg-4 col-md-4 col-sm-12  text-center ">
                         <div class="card carta">
                             <img src="${SERVER_URL}imagenes/hamacas/${product.IMAGEN}" class="card-img-top correccion" alt="${product.NOMBRE} ">
                             <a href="detalle.html?id=${product.ID}" class="btn btn-outline-light position-absolute top-50 start-50 translate-middle">Ver detalle</a>
@@ -236,11 +236,11 @@ async function cargarProductosPorCategoria() {
                 }
                 innerHTML += `
                     </div>
-                    <button class="carousel-control-prev bg-dark redondo" type="button" data-bs-target="#${carouselId}" data-bs-slide="prev">
+                    <button class="carousel-control-prev" type="button" data-bs-target="#${carouselId}" data-bs-slide="prev">
                         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                         <span class="visually-hidden">Anterior</span>
                     </button>
-                    <button class="carousel-control-next bg-dark redondo" type="button" data-bs-target="#${carouselId}" data-bs-slide="next">
+                    <button class="carousel-control-next" type="button" data-bs-target="#${carouselId}" data-bs-slide="next">
                         <span class="carousel-control-next-icon" aria-hidden="true"></span>
                         <span class="visually-hidden">Siguiente</span>
                     </button>

@@ -3,36 +3,48 @@
     <div class="text-center mt-5">
         <p class="titulo"> Reseñas </p>
     </div>
-
-    <div class="card mb-3 mt-3" id="comentarios">
-        <!-- Aquí iran las valoraciones -->
+    <div id="comentariosCarousel" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner" id="comentarios">
+            <!-- Los comentarios se cargarán aquí -->
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#comentariosCarousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#comentariosCarousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
     </div>
     <form id="comentarioForm">
-        <div>
-            <div class="form-floating borde">
-                <select class="form-select" name="valoracion">
-                    <div class="col-sm-6 col-md-6 col-lg-6 col-12 mb-3">
-                        <option selected>Selecciona la nota de tu valoración</option>
-                        <option value="1">1 &#9733;</option>
-                        <option value="2">2 &#9733;</option>
-                        <option value="3">3 &#9733;</option>
-                        <option value="4">4 &#9733;</option>
-                        <option value="5">5 &#9733;</option>
-                    </div>
-                </select>
-            </div>
-        </div>
         <div class="mt-3">
             <div class="card-body">
                 <div class="row">
                     <!-- Campo oculto para asignar el id del producto -->
                     <input type="number" class="d-none" id="producto" name="producto">
+                    <!-- Campo oculto para asignar el id del comentario -->
+                    <input type="number" class="d-none" id="idComentario" name="idComentario">
+                    <div>
+                        <div class="borde-transparente col-sm-3 col-md-3 col-lg-3 col-3 mb-3">
+                            <select class="form-select" id="valoracion" name="valoracion">
+                                <div class="mb-3">
+                                    <option selected>Selecciona la nota de tu valoración</option>
+                                    <option value="1">&#9733;</option>
+                                    <option value="2">&#9733;&#9733;</option>
+                                    <option value="3">&#9733;&#9733;&#9733;</option>
+                                    <option value="4">&#9733;&#9733;&#9733;&#9733;</option>
+                                    <option value="5">&#9733;&#9733;&#9733;&#9733;&#9733;</option>
+                                </div>
+                            </select>
+                        </div>
+                    </div>
                     <div class="col">
-                        <textarea class="form-control" name="comentario" placeholder="Escribe tu valoración aquí..."
-                            rows="3"></textarea>
+                        <textarea class="form-control borde-transparente" id="comentario" name="comentario"
+                            placeholder="Escribe tu valoración aquí..." rows="3"></textarea>
                     </div>
                     <div class="col-auto">
-                        <button type="submit" class="btn btn-dark borde"><i class="bi bi-send"></i></button>
+                        <button type="submit" class="btn btn-dark borde-transparente"><i
+                                class="bi bi-send"></i></button>
                     </div>
                 </div>
             </div>

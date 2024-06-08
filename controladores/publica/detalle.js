@@ -18,6 +18,7 @@ let SHOPPING_FORM,
 let COMENTARIO_FORM,
     COMENTARIO,
     CALIFICACIÓN,
+    ID_COMENTARIO,
     PRODUCTO;
 function validarCantidad(input) {
     // Obtener el valor ingresado como un número entero
@@ -114,7 +115,6 @@ const listacomentarios = [
         nota: 3
     },
 ];
-
 async function cargarComentarios(listacomentarios = null) {
     const contenedorComentarios = document.getElementById('comentarios');
     try {
@@ -123,29 +123,50 @@ async function cargarComentarios(listacomentarios = null) {
         FORM.append('idProducto', PARAMS.get('id'));
         const data = await fetchData(VALORACIONES_API, 'readOne', FORM); // Asumiendo que el método `readOne` obtiene todos los comentarios
         listacomentarios = data.dataset;
+        const clienteId = data.cliente; // Asumimos que este es el identificador del cliente actual
         console.log(listacomentarios);
 
         // Mostrar cartas de productos obtenidos de la API
         contenedorComentarios.innerHTML = ''; // Limpiar contenedor de comentarios
         listacomentarios.forEach((valoracion, index) => {
-            const valoracionHtml = `
-            <div class="row g-0 carta-comentario">
-                <div class="col-md-2 d-flex align-items-start p-2">
-                    <img src="${SERVER_URL}imagenes/clientes/${valoracion.IMAGEN}" class="img-fluid circulo mt-3 ms-5 me-3" width="50px" height="50px" alt="${valoracion.nombre_usuario}">
-                    <h5 class="card-title">${valoracion.NOMBRE}</h5>
+            const isActive = index === 0 ? 'active' : '';
+            let buttonsHtml = '';
+            
+            // Verificar si el identificador coincide con el cliente actual
+            if (valoracion.IDENTIFICADOR == clienteId) {
+                buttonsHtml = `
+                <div class="comentario-botones ms-5 mt-2">
+                    <button class="btn btn-outline-success btn-sm me-2" onclick="editarComentario(${valoracion.ID})">
+                    <i class="bi bi-pencil-fill"></i>
+                    </button>
+                    <button class="btn btn-outline-danger btn-sm" onclick="eliminarComentario(${valoracion.ID})">
+                    <i class="bi bi-trash-fill"></i>
+                    </button>
                 </div>
-                <div class="col-md-10">
-                    <div class="card-body d-flex align-items-start">
-                        <div class="ms-5">
-                            <p class="card-text">${valoracion.COMENTARIO}</p>
-                            <p class="d-none" id="ratingValue">${valoracion.CALIFICACIÓN}</p>
-                            <div class="rating pb-5">
+                `;
+            }
+
+            const valoracionHtml = `
+            <div class="carousel-item ${isActive}">
+                <div class="carta-comentario d-flex align-items-start">
+                    <div class="comentario-imagen">
+                        <img src="${SERVER_URL}imagenes/clientes/${valoracion.IMAGEN}" class="img-fluid circulo" width="50px" height="50px" alt="${valoracion.nombre_usuario}">
+                    </div>
+                    <div class="comentario-contenido ms-3">
+                        <div class="d-flex align-items-center mb-2">
+                            <p class="d-none">${valoracion.IDENTIFICADOR}</p>
+                            <h5 class="card-title mb-0 me-3">${valoracion.NOMBRE}</h5>
+                            <div class="rating">
                                 <input type="radio" id="star5_${index}" name="rating_${index}" value="5"><label for="star5_${index}"></label>
                                 <input type="radio" id="star4_${index}" name="rating_${index}" value="4"><label for="star4_${index}"></label>
                                 <input type="radio" id="star3_${index}" name="rating_${index}" value="3"><label for="star3_${index}"></label>
                                 <input type="radio" id="star2_${index}" name="rating_${index}" value="2"><label for="star2_${index}"></label>
                                 <input type="radio" id="star1_${index}" name="rating_${index}" value="1"><label for="star1_${index}"></label>
                             </div>
+                        </div>
+                        <p class="card-text">${valoracion.COMENTARIO}</p>
+                        <div class="ms-5">
+                            ${buttonsHtml}
                         </div>
                     </div>
                 </div>
@@ -170,6 +191,64 @@ async function cargarComentarios(listacomentarios = null) {
     }
 }
 
+const editarComentario = async (id) => {
+    try {
+        // Se define un objeto con los datos del registro seleccionado.
+        const FORM = new FormData();
+        FORM.append('idValoracion', id);
+        // Petición para obtener los datos del registro solicitado.
+        const DATA = await fetchData(VALORACIONES_API, 'readOneComment', FORM);
+        // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
+        if (DATA.status) {
+            COMENTARIO_FORM.reset();
+            // Se inicializan los campos con los datos.
+            const ROW = DATA.dataset;
+            ID_COMENTARIO.value = id;
+            PRODUCTO.value = PARAMS.get('id'),
+            CALIFICACIÓN.value = ROW.CALIFICACIÓN;
+            COMENTARIO.value = ROW.COMENTARIO;
+        } else {
+            sweetAlert(2, DATA.error, false);
+        }
+    } catch (Error) {
+        console.log(Error);
+    }
+}
+
+/*
+*   Función asíncrona para eliminar un registro.
+*   Parámetros: id (identificador del registro seleccionado).
+*   Retorno: ninguno.
+*/
+const eliminarComentario = async (id) => {
+    // Llamada a la función para mostrar un mensaje de confirmación, capturando la respuesta en una constante.
+    const RESPONSE = await confirmAction('¿Desea eliminar el comentario de forma permanente?');
+    try {
+        // Se verifica la respuesta del mensaje.
+        if (RESPONSE) {
+            // Se define una constante tipo objeto con los datos del registro seleccionado.
+            const FORM = new FormData();
+            FORM.append('idComentario', id);
+            FORM.append('producto', PARAMS.get('id'))
+            // Petición para eliminar el registro seleccionado.
+            const DATA = await fetchData(VALORACIONES_API, 'deleteRow', FORM);
+            // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
+            if (DATA.status) {
+                // Se muestra un mensaje de éxito.
+                await sweetAlert(1, DATA.message, true);
+                sweetAlert(1, DATA.message, false);
+                openDetail();
+                cargarComentarios();
+            } else {
+                sweetAlert(2, DATA.error, false);
+            }
+        }
+    }
+    catch (Error) {
+        console.log(Error + ' Error al cargar el mensaje');
+    }
+
+}
 
 async function cargarRecomendaciones() {
     const productCardsContainer = document.getElementById('product-cards');
@@ -410,7 +489,11 @@ window.onload = async function () {
         }
     });
 
-    COMENTARIO_FORM = document.getElementById('comentarioForm');
+    COMENTARIO_FORM = document.getElementById('comentarioForm'),
+        ID_COMENTARIO = document.getElementById('idComentario'),
+        COMENTARIO  = document.getElementById('comentario'),
+        CALIFICACIÓN  = document.getElementById('valoracion'),
+        PRODUCTO  = document.getElementById('producto');
 
     // Método del evento para cuando se envía el formulario de agregar un producto al carrito.
     COMENTARIO_FORM.addEventListener('submit', async (event) => {
@@ -418,14 +501,25 @@ window.onload = async function () {
         event.preventDefault();
         // Constante tipo objeto con los datos del formulario.
         const FORM = new FormData(COMENTARIO_FORM);
+        console.log(ID_COMENTARIO.value);
+        // Se verifica la acción a realizar.
+        (ID_COMENTARIO.value) ? action = 'updateRow' : action = 'createRow';
         // Petición para guardar los datos del formulario.
-        const DATA = await fetchData(VALORACIONES_API, 'createRow', FORM);
+        const DATA = await fetchData(VALORACIONES_API, action, FORM);
         try {
             // Se comprueba si la respuesta es satisfactoria, de lo contrario se constata si el cliente ha iniciado sesión.
             if (DATA.status) {
                 sweetAlert(1, DATA.message, false);
+                openDetail();
+                cargarFotos();
                 cargarComentarios();
+                cargarRecomendaciones();
+                verifyFav();
+                verifyCart();
                 COMENTARIO_FORM.reset();
+            }
+            else if(!DATA.exception){
+                sweetAlert(3, DATA.error, true);
             } else {
                 sweetAlert(3, DATA.exception, true);
             }
