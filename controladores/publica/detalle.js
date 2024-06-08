@@ -236,7 +236,6 @@ const eliminarComentario = async (id) => {
             if (DATA.status) {
                 // Se muestra un mensaje de éxito.
                 await sweetAlert(1, DATA.message, true);
-                sweetAlert(1, DATA.message, false);
                 openDetail();
                 cargarComentarios();
             } else {
