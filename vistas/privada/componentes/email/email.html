@@ -1,17 +1,24 @@
 <!-- email_template.html -->
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{subject}}</title>
-    <link href="../../../recursos/css/email.css">
+    <link href="../../../../recursos/css/email.css" rel="stylesheet">
 </head>
 <body>
-    <div class="container">
-        <h1>{{title}}</h1>
-        <p>{{body}}</p>
-        <p>{{message}}</p>
-    </div>
+    <table width="100%" cellspacing="0" cellpadding="0">
+        <tr>
+            <td class="background" style="background-image: url('cid:background'); background-size: cover;" align="center">
+                <div class="container">
+                    <img src="cid:logo" alt="logo" class="logo">
+                    <h1>{{title}}</h1>
+                    <p>{{body}}</p>
+                    <p>{{message}}</p>
+                </div>
+            </td>
+        </tr>
+    </table>
 </body>
 </html>

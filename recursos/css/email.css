@@ -26,3 +26,11 @@ p {
     text-decoration: none;
     border-radius: 3px;
 }
+.logo {
+    display: block;
+    margin: 0 auto 20px;
+}
+.background {
+    background-image: url('cid:background');
+    background-size: cover;
+}

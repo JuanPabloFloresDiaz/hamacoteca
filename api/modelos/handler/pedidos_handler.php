@@ -156,22 +156,25 @@ class PedidosHandler
     //Función que verifica si se actualizo el estado del producto a Entregado
     public function verifyStateAndSendMail()
     {
-        $sql = 'SELECT c.correo_cliente AS CORREO, p.fecha_pedido AS FECHA, direccion_pedido AS DIRECCIÓN
+        $sql = 'SELECT c.correo_cliente AS CORREO, p.fecha_pedido AS FECHA, 
+                p.direccion_pedido AS DIRECCIÓN, p.id_pedido AS ID
                 FROM pedidos p
                 INNER JOIN clientes c ON p.id_cliente = c.id_cliente
                 WHERE p.id_pedido = ? AND p.estado_pedido = "Entregado";';
         $params = array($this->id);
         if ($data = Database::getRow($sql, $params)) {
-            $mensaje = 'Mensaje de confirmación';
+            $titulo = 'Pedido ' . $data['ID'] . ' entregado';
+            $mensaje = 'Ten un buen día y esperamos que vuelvas a compra en hamacoteca';
             $mailSubject = 'Tu pedido ya ha sido entregado';
-            $mailAltBody = '¡Te saludamos de hamacoteca para enviarte la confirmación, de que tu pedido ya ha sido entregado!';
+            $mailAltBody = '¡Te saludamos de hamacoteca para enviarte la confirmación, de que tu pedido hecho el ' . 
+            $data['FECHA'] . ' ya ha sido entregado a la dirección establecida previamente: ' . $data['DIRECCIÓN'] . '!';
             // Cargar plantilla HTML
             $template = file_get_contents('../../../vistas/privada/componentes/email/email.html');
 
             // Reemplazar marcadores de posición con contenido dinámico
             $mailBody = str_replace(
                 ['{{subject}}', '{{title}}', '{{body}}', '{{message}}'],
-                [$mailSubject, 'Mensaje de confirmación', $mailAltBody, $mensaje],
+                [$mailSubject, $titulo, $mailAltBody, $mensaje],
                 $template
             );
             return Props::sendMail($data['CORREO'], $mailSubject, $mailBody);

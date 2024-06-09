@@ -32,7 +32,9 @@ class Props{
           $mail->isHTML(true);
           $mail->Subject = $subject;
           $mail->Body = $message;
-          //$mail->Body = 'Hola, te saluda la asistencia del Colegio Aprendo Contigo, este tu código de verificación: '.$message;
+          // Añadir imágenes embebidas
+          $mail->addEmbeddedImage('../../../recursos/img/logo.png', 'logo');
+          $mail->addEmbeddedImage('../../../recursos/img/background.jpg', 'background');
           $mail->send();
           return true;
 
