@@ -101,9 +101,27 @@ class ValoracionesHandler
     *   Métodos para realizar las operaciones SCRUD (search, create, read, update, and delete).
     */
 
+    public function verificarCompra()
+    {
+        $sql = 'SELECT dp.id_detalles_pedidos AS id_detalle
+        FROM detalles_pedidos dp
+        INNER JOIN pedidos p ON dp.id_pedido = p.id_pedido
+        WHERE p.id_cliente = ?
+        AND dp.id_hamaca = ?
+        AND p.estado_pedido = "Entregado"
+        ORDER BY dp.id_detalles_pedidos DESC
+        LIMIT 1;';
+        $params = array($_SESSION['idCliente'], $this->producto);
+        if ($data = Database::getRow($sql, $params)) {
+            $_SESSION['idDetalle'] = $data['id_detalle'];
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public function createRow()
     {
-        // Se realiza una subconsulta para obtener el precio del producto.
         $sql = 'CALL insertar_comentario(?, ?, ?, ?)';
         $params = array($_SESSION['idCliente'], $this->calificacion, $this->comentario, $this->producto);
         return Database::executeRow($sql, $params);

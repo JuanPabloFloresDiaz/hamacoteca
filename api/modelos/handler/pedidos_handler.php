@@ -1,6 +1,7 @@
 <?php
 // Se incluye la clase para trabajar con la base de datos.
 require_once('../../auxiliares/database.php');
+require_once('../../auxiliares/email.php');
 /*
  *  Clase para manejar el comportamiento de los datos de la tabla administrador.
  */
@@ -152,6 +153,32 @@ class PedidosHandler
         return Database::executeRow($sql, $params);
     }
 
+    //Función que verifica si se actualizo el estado del producto a Entregado
+    public function verifyStateAndSendMail()
+    {
+        $sql = 'SELECT c.correo_cliente AS CORREO, p.fecha_pedido AS FECHA, direccion_pedido AS DIRECCIÓN
+                FROM pedidos p
+                INNER JOIN clientes c ON p.id_cliente = c.id_cliente
+                WHERE p.id_pedido = ? AND p.estado_pedido = "Entregado";';
+        $params = array($this->id);
+        if ($data = Database::getRow($sql, $params)) {
+            $mensaje = 'Mensaje de confirmación';
+            $mailSubject = 'Tu pedido ya ha sido entregado';
+            $mailAltBody = '¡Te saludamos de hamacoteca para enviarte la confirmación, de que tu pedido ya ha sido entregado!';
+            // Cargar plantilla HTML
+            $template = file_get_contents('../../../vistas/privada/componentes/email/email.html');
+
+            // Reemplazar marcadores de posición con contenido dinámico
+            $mailBody = str_replace(
+                ['{{subject}}', '{{title}}', '{{body}}', '{{message}}'],
+                [$mailSubject, 'Mensaje de confirmación', $mailAltBody, $mensaje],
+                $template
+            );
+            return Props::sendMail($data['CORREO'], $mailSubject, $mailBody);
+        } else {
+            return false;
+        }
+    }
 
     //Verificar que el producto este guardado en favorito
     public function verifySave()

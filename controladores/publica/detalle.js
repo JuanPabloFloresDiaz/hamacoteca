@@ -118,23 +118,20 @@ const listacomentarios = [
 async function cargarComentarios(listacomentarios = null) {
     const contenedorComentarios = document.getElementById('comentarios');
     try {
-        // Constante tipo objeto con los datos del producto seleccionado.
         const FORM = new FormData();
         FORM.append('idProducto', PARAMS.get('id'));
-        const data = await fetchData(VALORACIONES_API, 'readOne', FORM); // Asumiendo que el método `readOne` obtiene todos los comentarios
+        const data = await fetchData(VALORACIONES_API, 'readOne', FORM);
         listacomentarios = data.dataset;
-        const clienteId = data.cliente; // Asumimos que este es el identificador del cliente actual
+        const clienteId = data.cliente;
         console.log(listacomentarios);
 
-        // Mostrar cartas de productos obtenidos de la API
-        contenedorComentarios.innerHTML = ''; // Limpiar contenedor de comentarios
+        contenedorComentarios.innerHTML = '';
         listacomentarios.forEach((valoracion, index) => {
             const isActive = index === 0 ? 'active' : '';
-            let buttonsHtml = '';
+            let botonesHtml = '';
             
-            // Verificar si el identificador coincide con el cliente actual
             if (valoracion.IDENTIFICADOR == clienteId) {
-                buttonsHtml = `
+                botonesHtml = `
                 <div class="comentario-botones ms-5 mt-2">
                     <button class="btn btn-outline-success btn-sm me-2" onclick="editarComentario(${valoracion.ID})">
                     <i class="bi bi-pencil-fill"></i>
@@ -166,7 +163,7 @@ async function cargarComentarios(listacomentarios = null) {
                         </div>
                         <p class="card-text">${valoracion.COMENTARIO}</p>
                         <div class="ms-5">
-                            ${buttonsHtml}
+                            ${botonesHtml}
                         </div>
                     </div>
                 </div>
