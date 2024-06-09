@@ -34,7 +34,7 @@ class Props{
           $mail->Body = $message;
           // Añadir imágenes embebidas
           $mail->addEmbeddedImage('../../../recursos/img/logo.png', 'logo');
-          $mail->addEmbeddedImage('../../../recursos/img/background.jpg', 'background');
+          $mail->addEmbeddedImage('../../../recursos/img/background.png', 'background');
           $mail->send();
           return true;
 

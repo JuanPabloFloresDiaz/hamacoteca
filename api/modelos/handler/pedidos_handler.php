@@ -164,17 +164,17 @@ class PedidosHandler
         $params = array($this->id);
         if ($data = Database::getRow($sql, $params)) {
             $titulo = 'Pedido ' . $data['ID'] . ' entregado';
-            $mensaje = 'Ten un buen día y esperamos que vuelvas a compra en hamacoteca';
+            $mensaje = 'Esperamos que vuelvas a compra en hamacoteca';
             $mailSubject = 'Tu pedido ya ha sido entregado';
-            $mailAltBody = '¡Te saludamos de hamacoteca para enviarte la confirmación, de que tu pedido hecho el ' . 
-            $data['FECHA'] . ' ya ha sido entregado a la dirección establecida previamente: ' . $data['DIRECCIÓN'] . '!';
+            $mailAltBody = '¡Te saludamos de hamacoteca para confirmarte, que tu pedido hecho el ' . $data['FECHA'];
+            $mailAltBody2 = ' ya ha sido entregado a ' . $data['DIRECCIÓN'] . '!';
             // Cargar plantilla HTML
             $template = file_get_contents('../../../vistas/privada/componentes/email/email.html');
 
             // Reemplazar marcadores de posición con contenido dinámico
             $mailBody = str_replace(
-                ['{{subject}}', '{{title}}', '{{body}}', '{{message}}'],
-                [$mailSubject, $titulo, $mailAltBody, $mensaje],
+                ['{{subject}}', '{{title}}', '{{body}}', '{{bodytwo}}', '{{message}}'],
+                [$mailSubject, $titulo, $mailAltBody, $mailAltBody2, $mensaje],
                 $template
             );
             return Props::sendMail($data['CORREO'], $mailSubject, $mailBody);
