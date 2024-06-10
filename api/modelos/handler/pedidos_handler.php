@@ -171,7 +171,7 @@ class PedidosHandler
             // Cargar plantilla HTML
             $template = file_get_contents('../../../vistas/privada/componentes/email/email.html');
 
-            // Reemplazar marcadores de posición con contenido dinámico
+            // Reemplazar marcadores de posición con co1ntenido dinámico
             $mailBody = str_replace(
                 ['{{subject}}', '{{title}}', '{{body}}', '{{bodytwo}}', '{{message}}'],
                 [$mailSubject, $titulo, $mailAltBody, $mailAltBody2, $mensaje],

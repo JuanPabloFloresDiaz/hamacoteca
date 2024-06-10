@@ -184,7 +184,7 @@ async function cargarProductosPorCategoria() {
             // Agregar título de la sección
             const sectionTitle = document.createElement('strong');
             sectionTitle.className = 'text-start mb-1 d-block'; // Añadido d-block para que el título ocupe toda la fila
-            sectionTitle.textContent = `Busca tus hamacas ${category.NOMBRE} favoritos aquí`;
+            sectionTitle.textContent = `Busca tus hamacas de categoría ${category.NOMBRE}s aquí`;
 
             // Agregar el título al contenedor principal
             titleContainer.appendChild(sectionTitle);
