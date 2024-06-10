@@ -105,8 +105,6 @@ FROM roles_administradores;
 $$
 
 #Procedimientos almacenados de la tabla administradores - hecho por: Juan Pablo Flores Díaz
--- En el caso de encriptamiento desde la base se puede usar SHA(parametro de la clave, 256), AES_ENCRYPT(parametro de la clave) Y BCRYPT desde el programa
-
 DROP PROCEDURE IF EXISTS insertar_administrador;
 DELIMITER $$
 CREATE PROCEDURE insertar_administrador(
@@ -889,7 +887,6 @@ END //
 
 DELIMITER ;
 
-
 DELIMITER //
 
 CREATE PROCEDURE manipular_favoritos(IN p_id_cliente INT, IN p_id_hamaca INT)
@@ -911,17 +908,15 @@ BEGIN
 END //
 
 DELIMITER ;
-
-
 DROP PROCEDURE IF EXISTS insertar_orden_validado;
 DELIMITER $$
-
 CREATE PROCEDURE insertar_orden_validado(
     IN p_id_cliente INT,
     IN p_cantidad_comprada INT,
     IN p_id_hamaca INT
 )
 BEGIN
+    DECLARE p_cantidad_previa INT;
     DECLARE p_precio_producto DECIMAL(10,2);
     DECLARE p_direccion_pedido VARCHAR(200);
     DECLARE p_id_pedido INT;
@@ -938,7 +933,6 @@ BEGIN
     SELECT precio INTO p_precio_producto 
     FROM hamacas 
     WHERE id_hamaca = p_id_hamaca;
-    SET p_precio_producto = p_precio_producto * p_cantidad_comprada;
     
     -- Verificar si hay un pedido pendiente para el cliente
     SELECT id_pedido INTO pedido_existente 
@@ -971,16 +965,20 @@ BEGIN
             precio_producto = precio_producto + p_precio_producto
         WHERE id_detalles_pedidos = detalle_existente;
         SET mensaje = 'Producto actualizado en el carrito correctamente.';
+        
+        -- Ajustar las existencias en la tabla hamacas
+        UPDATE hamacas
+        SET cantidad_hamaca = cantidad_hamaca - p_cantidad_comprada
+        WHERE id_hamaca = p_id_hamaca;
     ELSE
         -- Si no existe, insertar el detalle del pedido
         INSERT INTO detalles_pedidos (id_pedido, precio_producto, cantidad_comprada, id_hamaca)
         VALUES (p_id_pedido, p_precio_producto, p_cantidad_comprada, p_id_hamaca);
         SET mensaje = 'Hamaca agregada al carrito correctamente.';
     END IF;
-    
+    SELECT mensaje;
 END $$
 DELIMITER ;
-
 
 DROP PROCEDURE IF EXISTS actualizar_orden_validado;
 DELIMITER $$ 
@@ -1056,6 +1054,7 @@ BEGIN
 END $$
 DELIMITER ;
 
+
 DELIMITER $$
 CREATE PROCEDURE cambiar_estado_pedido_cancelado_validado(
     IN p_id_pedido INT
@@ -1084,6 +1083,117 @@ BEGIN
 		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'No se puede cancelar un pedido que ya ha sido entregado';
     END IF;
 END $$
+
+DELIMITER ;
+
+DELIMITER $$
+
+CREATE PROCEDURE insertar_comentario(
+    IN p_id_cliente INT,
+    IN p_calificacion INT,
+    IN p_comentario TEXT,
+    IN p_id_hamaca INT
+)
+BEGIN
+    DECLARE v_id_detalles_pedidos INT;
+    -- Verificar si el cliente ha comprado el producto
+SELECT 
+    dp.id_detalles_pedidos
+INTO v_id_detalles_pedidos FROM
+    detalles_pedidos dp
+        INNER JOIN
+    pedidos p ON dp.id_pedido = p.id_pedido
+WHERE
+    p.id_cliente = p_id_cliente
+        AND dp.id_hamaca = p_id_hamaca
+        AND p.estado_pedido = 'Entregado'
+ORDER BY dp.id_detalles_pedidos DESC
+LIMIT 1;
+    -- Si se encuentra un registro, insertar la calificación y el comentario
+    IF v_id_detalles_pedidos IS NOT NULL THEN
+        INSERT INTO valoraciones (calificacion_producto, comentario_producto, id_detalles_pedidos)
+        VALUES (p_calificacion, p_comentario, v_id_detalles_pedidos);
+	ELSE
+    -- Generar un error si el cliente no ha comprado el producto
+    SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Solo puedes comentar si ya haz comprado el producto y este ya ha sido entregado';
+    END IF;
+END$$
+
+DELIMITER ;
+
+DELIMITER $$
+CREATE PROCEDURE actualizar_comentario(
+    IN p_id_cliente INT,
+    IN p_calificacion INT,
+    IN p_comentario TEXT,
+    IN p_id_hamaca INT,
+    IN p_id_comentario INT
+)
+BEGIN
+    DECLARE v_id_detalles_pedidos INT;
+
+    -- Verificar si el cliente ha comprado el producto
+    SELECT dp.id_detalles_pedidos
+    INTO v_id_detalles_pedidos
+    FROM detalles_pedidos dp
+    INNER JOIN pedidos p ON dp.id_pedido = p.id_pedido
+    WHERE p.id_cliente = p_id_cliente
+      AND dp.id_hamaca = p_id_hamaca
+    ORDER BY dp.id_detalles_pedidos DESC
+    LIMIT 1;
+
+    -- Si se encuentra un registro, actualizar la calificación y el comentario
+    IF v_id_detalles_pedidos IS NOT NULL THEN
+        UPDATE valoraciones
+        SET calificacion_producto = p_calificacion, 
+            comentario_producto = p_comentario,
+            fecha_valoracion = NOW()
+        WHERE id_valoracion = p_id_comentario
+          AND id_detalles_pedidos = v_id_detalles_pedidos;
+    ELSE
+        -- Generar un error si el cliente no ha comprado el producto
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Error: El cliente no ha comprado este producto.';
+    END IF;
+END$$
+
+DELIMITER ;
+
+DELIMITER $$
+
+CREATE PROCEDURE eliminar_comentario(
+    IN p_id_cliente INT,
+    IN p_id_hamaca INT,
+    IN p_id_comentario INT
+)
+BEGIN
+    DECLARE v_id_detalles_pedidos INT;
+
+    -- Verificar si el cliente ha comprado el producto
+    SELECT dp.id_detalles_pedidos
+    INTO v_id_detalles_pedidos
+    FROM detalles_pedidos dp
+    INNER JOIN pedidos p ON dp.id_pedido = p.id_pedido
+    WHERE p.id_cliente = p_id_cliente
+      AND dp.id_hamaca = p_id_hamaca
+    ORDER BY dp.id_detalles_pedidos DESC
+    LIMIT 1;
+
+    -- Verificar si el comentario pertenece al cliente y al producto
+    IF v_id_detalles_pedidos IS NOT NULL THEN
+        IF EXISTS (SELECT 1 FROM valoraciones WHERE id_valoracion = p_id_comentario AND id_detalles_pedidos = v_id_detalles_pedidos) THEN
+            DELETE FROM valoraciones WHERE id_valoracion = p_id_comentario;
+        ELSE
+            -- Generar un error si el comentario no pertenece al cliente o al producto
+            SIGNAL SQLSTATE '45000'
+            SET MESSAGE_TEXT = 'Error: El comentario no pertenece al cliente o al producto especificado.';
+        END IF;
+    ELSE
+        -- Generar un error si el cliente no ha comprado el producto
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Error: El cliente no ha comprado este producto.';
+    END IF;
+END$$
 
 DELIMITER ;
 

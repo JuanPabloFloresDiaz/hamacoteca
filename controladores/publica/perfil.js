@@ -101,6 +101,10 @@ const listapedidos = [
 async function cargarDetalle(form = null) {
     const cargarTabla = document.getElementById('tabla_detalle');
 
+    // Se declara e inicializa una variable para calcular el importe por cada producto.
+    let subtotal = 0;
+    // Se declara e inicializa una variable para sumar cada subtotal y obtener el monto final a pagar.
+    let total = 0;
     try {
         cargarTabla.innerHTML = '';
         // Petición para obtener los registros disponibles.
@@ -108,15 +112,19 @@ async function cargarDetalle(form = null) {
         if (DATA.status) {
             // Mostrar elementos obtenidos de la API
             DATA.dataset.forEach(row => {
+                subtotal = row.PRECIO * row.CANTIDAD;
+                total += subtotal;
                 const tablaHtml = `
             <tr>
                     <td><img src="${SERVER_URL}imagenes/hamacas/${row.FOTO}" height="50" width="50" class="circulo"></td>
                     <td>${row.PRODUCTO}</td>
                     <td>${row.CANTIDAD}</td>
                     <td>${row.PRECIO}</td>
+                    <td>${subtotal.toFixed(2)}</td>
             </tr>
                 `;
                 cargarTabla.innerHTML += tablaHtml;
+                document.getElementById('pago').textContent = total.toFixed(2);
             });
         } else {
             sweetAlert(4, DATA.error, true);
@@ -324,7 +332,7 @@ async function cargarFavoritos() {
                     <p class="card-text">No hay favoritos guardados</p>
                     </div>
                 `;
-                productCardsContainer.innerHTML += cardHtml;
+            productCardsContainer.innerHTML += cardHtml;
         }
     } catch (error) {
         console.error('Error al obtener datos de la API:', error);
@@ -455,7 +463,7 @@ window.onload = async function () {
     cargarFavoritos();
     cargarTabla();
 
-    
+
 
     // Constantes para establecer los elementos del componente Modal.
     SAVE_MODAL = new bootstrap.Modal('#saveModal'),
@@ -490,7 +498,7 @@ window.onload = async function () {
     EDIT_MODAL = new bootstrap.Modal('#editModal'),
         EDIT_TITLE = document.getElementById('modalTitleEdit');
 
-    
+
     // Constantes para establecer los elementos del formulario de guardar.
     EDIT_FORM = document.getElementById('editForm'),
         NOMBRE_PERFIL = document.getElementById('nombrePerfil'),
@@ -533,5 +541,5 @@ window.onload = async function () {
         inputElement: document.getElementById('duiPerfil'),
         mask: [/\d/, /\d/, /\d/, /\d/, /\d/, /\d/, /\d/, /\d/, '-', /\d/]
     });
-    
+
 };
