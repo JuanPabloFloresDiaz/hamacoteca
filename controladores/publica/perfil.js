@@ -5,10 +5,10 @@ async function loadComponent(path) {
 }
 
 // Constantes para completar la ruta de la API.
-const PRODUCTOS_API = '';
-const FAVORITOS_API = 'servicios/publica/favorito.php';
-const PEDIDOS_API = 'servicios/publica/pedido.php';
-const DETALLE_PEDIDO_API = 'servicios/publica/detalle_pedido.php';
+let PRODUCTOS_API = '';
+let FAVORITOS_API = 'servicios/publica/favorito.php';
+let PEDIDOS_API = 'servicios/publica/pedido.php';
+let DETALLE_PEDIDO_API = 'servicios/publica/detalle_pedido.php';
 
 
 let DETAIL_MODAL,

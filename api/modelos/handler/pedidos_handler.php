@@ -169,8 +169,7 @@ class PedidosHandler
             $mailAltBody = '¡Te saludamos de hamacoteca para confirmarte, que tu pedido hecho el ' . $data['FECHA'];
             $mailAltBody2 = ' ya ha sido entregado a ' . $data['DIRECCIÓN'] . '!';
             // Cargar plantilla HTML
-            $template = file_get_contents('../../../vistas/privada/componentes/email/email.html');
-
+            $template = file_get_contents('../../auxiliares/email/email.html');
             // Reemplazar marcadores de posición con co1ntenido dinámico
             $mailBody = str_replace(
                 ['{{subject}}', '{{title}}', '{{body}}', '{{bodytwo}}', '{{message}}'],
@@ -182,6 +181,19 @@ class PedidosHandler
             return false;
         }
     }
+    
+    //Leer el detalle de pedido
+    public function readDetailEmail()
+    {
+        $sql = 'SELECT h.foto_principal AS FOTO, h.nombre_hamaca AS PRODUCTO, 
+        dp.cantidad_comprada AS CANTIDAD, dp.precio_producto AS PRECIO
+        FROM detalles_pedidos dp INNER JOIN hamacas h ON dp.id_hamaca = h.id_hamaca 
+        WHERE id_pedido = ?
+        ORDER BY PRODUCTO;';
+        $params = array($this->id);
+        return Database::getRows($sql, $params);
+    }
+
 
     //Verificar que el producto este guardado en favorito
     public function verifySave()

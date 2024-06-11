@@ -10,7 +10,7 @@ let SAVE_FORM,
     ID_PEDIDO,
     CANTIDAD_PEDIDO;
 // Constantes para completar las rutas de la API.
-const PEDIDO_API = 'servicios/publica/pedido.php';
+let PEDIDO_API = 'servicios/publica/pedido.php';
 
 let ROWS_FOUND;
 

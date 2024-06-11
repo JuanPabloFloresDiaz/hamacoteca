@@ -4,13 +4,13 @@ async function loadComponent(path) {
     return text;
 }
 // Constantes para completar la ruta de la API.
-const PRODUCTO_API = 'servicios/publica/hamaca.php';
-const FOTO_API = 'servicios/publica/foto.php';
-const FAVORITO_API = 'servicios/publica/favorito.php';
-const PEDIDO_API = 'servicios/publica/pedido.php';
-const VALORACIONES_API = 'servicios/publica/valoracion.php';
+let PRODUCTO_API = 'servicios/publica/hamaca.php';
+let FOTO_API = 'servicios/publica/foto.php';
+let FAVORITO_API = 'servicios/publica/favorito.php';
+let PEDIDO_API = 'servicios/publica/pedido.php';
+let VALORACIONES_API = 'servicios/publica/valoracion.php';
 // Constante tipo objeto para obtener los parámetros disponibles en la URL.
-const PARAMS = new URLSearchParams(location.search);
+let PARAMS = new URLSearchParams(location.search);
 
 // Constante para establecer el formulario de agregar un producto al carrito de compras.
 let SHOPPING_FORM,

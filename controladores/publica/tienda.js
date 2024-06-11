@@ -12,12 +12,12 @@ let CATEGORIAS;
 let MATERIALES;
 
 
-const PRODUCTO_API = 'servicios/publica/hamaca.php';
-const MATERIALES_API = 'servicios/publica/material.php';
-const CATEGORIAS_API = 'servicios/publica/categoria.php';
+let PRODUCTO_API = 'servicios/publica/hamaca.php';
+let MATERIALES_API = 'servicios/publica/material.php';
+let CATEGORIAS_API = 'servicios/publica/categoria.php';
 
 // Constante tipo objeto para obtener los parámetros disponibles en la URL.
-const PARAMS = new URLSearchParams(location.search);
+let PARAMS = new URLSearchParams(location.search);
 
 const listahamacas = [
     {

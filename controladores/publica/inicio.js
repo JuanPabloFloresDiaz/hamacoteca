@@ -5,8 +5,8 @@ async function loadComponent(path) {
 }
 
 // Constantes para completar la ruta de la API.
-const PRODUCTOS_API = 'servicios/publica/hamaca.php';
-const CATEGORIAS_API = 'servicios/publica/categoria.php';
+let PRODUCTOS_API = 'servicios/publica/hamaca.php';
+let CATEGORIAS_API = 'servicios/publica/categoria.php';
 
 let dynamicCarousels;
 
