@@ -15,7 +15,7 @@ if (isset($_GET['action'])) {
         $result['session'] = 1;
         // Se compara la acción a realizar cuando un cliente ha iniciado sesión.
         switch ($_GET['action']) {
-            // Actualizar
+                // Actualizar
             case 'updateRow':
                 $_POST = Validator::validateForm($_POST);
                 if (
@@ -49,13 +49,13 @@ if (isset($_GET['action'])) {
                 }
                 break;
             case 'readProfile':
-                    if ($result['dataset'] = $cliente->readProfile()) {
-                        $result['status'] = 1;
-                    } else {
-                        $result['error'] = 'Ocurrió un problema al leer el perfil';
-                    }
-                    break;
-            // Ver uno
+                if ($result['dataset'] = $cliente->readProfile()) {
+                    $result['status'] = 1;
+                } else {
+                    $result['error'] = 'Ocurrió un problema al leer el perfil';
+                }
+                break;
+                // Ver uno
             case 'readOne':
                 if ($result['dataset'] = $cliente->readOne()) {
                     $result['status'] = 1;
@@ -63,7 +63,7 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'Perfil inexistente';
                 }
                 break;
-            // Cambiar contraseña
+                // Cambiar contraseña
             case 'changePassword':
                 $_POST = Validator::validateForm($_POST);
                 if (!$cliente->checkPassword($_POST['claveActual'])) {
@@ -117,7 +117,7 @@ if (isset($_GET['action'])) {
                 if (!$captcha['success']) {
                     $result['recaptcha'] = 1;
                     $result['error'] = 'No eres humano';
-                } elseif(!isset($_POST['condicion'])) {
+                } elseif (!isset($_POST['condicion'])) {
                     $result['error'] = 'Debe marcar la aceptación de términos y condiciones';
                 } elseif (
                     !$cliente->setNombre($_POST['nombreRegistro']) or
@@ -132,11 +132,35 @@ if (isset($_GET['action'])) {
                     !$cliente->setImagen($_FILES['imagenRegistro'])
                 ) {
                     $result['error'] = $cliente->getDataError();
-                }  elseif ($cliente->createRow()) {
+                } elseif ($cliente->createRow()) {
                     $result['status'] = 1;
                     $result['message'] = 'Cuenta registrada correctamente';
-                     // Se asigna el estado del archivo después de insertar.
-                     $result['fileStatus'] = Validator::saveFile($_FILES['imagenRegistro'], $cliente::RUTA_IMAGEN);
+                    // Se asigna el estado del archivo después de insertar.
+                    $result['fileStatus'] = Validator::saveFile($_FILES['imagenRegistro'], $cliente::RUTA_IMAGEN);
+                } else {
+                    $result['error'] = 'Ocurrió un problema al registrar la cuenta';
+                }
+                break;
+            case 'signUpMovli':
+                $_POST = Validator::validateForm($_POST);
+                if (
+                    !$cliente->setNombre($_POST['nombreRegistro']) or
+                    !$cliente->setApellido($_POST['apellidoRegistro']) or
+                    !$cliente->setCorreo($_POST['correoRegistro']) or
+                    !$cliente->setDireccion($_POST['direccionRegistro']) or
+                    !$cliente->setDUI($_POST['duiRegistro']) or
+                    !$cliente->setNacimiento($_POST['fechanacimientoRegistro']) or
+                    !$cliente->setTelefono($_POST['telefonoRegistro']) or
+                    !$cliente->setClave($_POST['claveRegistro']) or
+                    !$cliente->setGenero($_POST['generoRegistro']) or
+                    !$cliente->setImagen($_FILES['imagenRegistro'])
+                ) {
+                    $result['error'] = $cliente->getDataError();
+                } elseif ($cliente->createRow()) {
+                    $result['status'] = 1;
+                    $result['message'] = 'Cuenta registrada correctamente';
+                    // Se asigna el estado del archivo después de insertar.
+                    $result['fileStatus'] = Validator::saveFile($_FILES['imagenRegistro'], $cliente::RUTA_IMAGEN);
                 } else {
                     $result['error'] = 'Ocurrió un problema al registrar la cuenta';
                 }
