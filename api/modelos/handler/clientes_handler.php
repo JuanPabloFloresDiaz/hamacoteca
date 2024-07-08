@@ -69,7 +69,8 @@ class ClientesHandler
         dui_cliente AS DUI,
         fecha_nacimiento_cliente AS NACIMIENTO,
         genero_cliente AS GENERO,
-        direccion_cliente AS DIRECCION
+        direccion_cliente AS DIRECCION,
+        foto_cliente AS FOTO
         FROM clientes
         WHERE id_cliente LIKE ?';
         $params = array($_SESSION['idCliente']);
