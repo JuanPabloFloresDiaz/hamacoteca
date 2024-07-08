@@ -113,7 +113,8 @@ CONSTRAINT fk_favorito_del_cliente FOREIGN KEY (id_cliente)
 REFERENCES clientes(id_cliente),
 id_hamaca INT,
 CONSTRAINT fk_hamacas_favorita FOREIGN KEY (id_hamaca)
-REFERENCES hamacas(id_hamaca)
+REFERENCES hamacas(id_hamaca),
+fecha_registro DATE DEFAULT now()
 );
 
 CREATE TABLE pedidos(

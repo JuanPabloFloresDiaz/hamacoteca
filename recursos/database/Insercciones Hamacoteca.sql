@@ -7,11 +7,11 @@ CALL insertar_rol_administrador('Administrador de usuarios');
 
 CALL actualizar_rol_administrador(3, 'Administrador de usuarios');
 
--- CALL insertar_administrador_validado('Juan Pablo', 'Flores Díaz', 'Clave1@JPFD', 'pablojuanfd@gmail.com', '4568-5678', '12345678-0', '1990-01-01', 1, 'default.jpg');
-CALL insertar_administrador_validado('Xochilt Gabriela', 'López Pineda', 'Clave2@XGLP', 'sochii@gmail.com', '1254-5679', '12345689-1', '1991-01-01', 2, 'default.jpg');
-CALL insertar_administrador_validado('Joel Omar', 'Mena Domínguez', 'Clave3@JOMD', 'torugam@gmail.com', '1434-5670', '12345689-2', '1992-01-01', 3, 'default.jpg');
-CALL insertar_administrador_validado('María', 'González', 'Clave4@MG', 'maria@gmail.com', '5678-1234', '12345678-3', '1993-01-01', 1, 'default.jpg');
-CALL insertar_administrador_validado('José', 'Martínez', 'Clave5@JM', 'jose@gmail.com', '9876-5432', '12345678-4', '1994-01-01', 2, 'default.jpg');
+CALL insertar_administrador_validado('Juan Pablo', 'Flores Díaz', '$2y$10$/8JZKxjAdlo4jTfS7uri7OzhZZ1/yNiw2DCurBt/Tb9h/c7L7P/Y6', 'pablojuanfd@gmail.com', '4568-5678', '12345678-0', '1990-01-01', 1, 'default.jpg');
+CALL insertar_administrador_validado('Xochilt Gabriela', 'López Pineda', '$2y$10$AE/qbXQgc6Ffn21F68sjdOzAbGgoI3Y9lYyG8/nMyRYpwQEIsNQ5q', 'sochii@gmail.com', '1254-5679', '12345689-1', '1991-01-01', 2, 'default.jpg');
+CALL insertar_administrador_validado('Joel Omar', 'Mena Domínguez', '$2y$10$/8JZKxjAdlo4jTfS7uri7OzhZZ1/yNiw2DCurBt/Tb9h/c7L7P/Y6', 'torugam@gmail.com', '1434-5670', '12345689-2', '1992-01-01', 3, 'default.jpg');
+CALL insertar_administrador_validado('María', 'González', '$2y$10$/8JZKxjAdlo4jTfS7uri7OzhZZ1/yNiw2DCurBt/Tb9h/c7L7P/Y6', 'maria@gmail.com', '5678-1234', '12345678-3', '1993-01-01', 1, 'default.jpg');
+CALL insertar_administrador_validado('José', 'Martínez', '$2y$10$/8JZKxjAdlo4jTfS7uri7OzhZZ1/yNiw2DCurBt/Tb9h/c7L7P/Y6', 'jose@gmail.com', '9876-5432', '12345678-4', '1994-01-01', 2, 'default.jpg');
 CALL insertar_administrador_validado('Ana', 'Rodríguez', 'Clave6@AR', 'ana@gmail.com', '4567-8901', '12345678-5', '1995-01-01', 3, 'default.jpg');
 CALL insertar_administrador_validado('Luis', 'Hernández', 'Clave7@LH', 'luis@gmail.com', '3456-7890', '12345678-6', '1996-01-01', 1, 'default.jpg');
 CALL insertar_administrador_validado('Laura', 'Gómez', 'Clave8@LG', 'laura@gmail.com', '6789-2345', '12345678-7', '1997-01-01', 2, 'default.jpg');
