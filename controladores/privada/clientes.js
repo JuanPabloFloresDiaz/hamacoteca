@@ -9,6 +9,20 @@ async function loadComponent(path) {
     return text;
 }
 
+/*
+*   Función para abrir un reporte parametrizado de productos de una categoría.
+*   Parámetros: id (identificador del registro seleccionado).
+*   Retorno: ninguno.
+*/
+const openReport = (id) => {
+    // Se declara una constante tipo objeto con la ruta específica del reporte en el servidor.
+    const PATH = new URL(`${SERVER_URL}reportes/privada/reporte_agregado_cliente_producto_favorito.php`);
+    // Se agrega un parámetro a la ruta con el valor del registro seleccionado.
+    PATH.searchParams.append('idCliente', id);
+    // Se abre el reporte en una nueva pestaña.
+    window.open(PATH.href);
+}
+
 
 /*
 *   Función asíncrona para cambiar el estado de un registro.
@@ -110,6 +124,9 @@ async function cargarTabla(form = null) {
                     <button type="button" class="btn btn-outline-primary" onclick="openState(${row.ID})">
                     <i class="bi bi-exclamation-octagon"></i>
                     </button>
+                    <button type="button" class="btn btn-warning" onclick="openReport(${row.ID})">
+                            <i class="bi bi-filetype-pdf"></i>
+                        </button>
                     </td>
                 </tr>
                 `;
