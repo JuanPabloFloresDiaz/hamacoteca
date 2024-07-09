@@ -101,6 +101,18 @@ class PedidosData extends PedidosHandler
         }
     }
 
+    // Validación y asignación de la fecha de nacimiento del administrador.
+    public function setFecha($value)
+    {
+        if (Validator::validateDate($value)) {
+            $this->fecha = $value;
+            return true;
+        } else {
+            $this->data_error = 'La fecha no es valida';
+            return false;
+        }
+    }
+
     // Asignación del nombre del archivo de imagen del material.
     public function setFilename()
     {

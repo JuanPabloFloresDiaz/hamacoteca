@@ -109,6 +109,16 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'Ocurrió un problema al alterar el estado del cliente';
                 }
                 break;
+                // Leer todos historial
+            case 'readDates':
+                if ($result['dataset'] = $pedido->readDates()) {
+                    $result['status'] = 1;
+                    $result['message'] = 'Existen ' . count($result['dataset']) . ' registros';
+                } else {
+                    $result['error'] = 'No hay pedidos registrados';
+                }
+                break;
+            
             default:
                 $result['error'] = 'Acción no disponible dentro de la sesión';
         }

@@ -4,11 +4,15 @@ const PEDIDOS_API = 'servicios/privada/pedidos.php';
 const DETALLE_PEDIDO_API = 'servicios/privada/detalles_pedidos.php';
 let SAVE_MODAL,
     MODAL_TITLE;
+let REPORT_MODAL,
+    REPORT_MODAL_TITLE;
 let SAVE_FORM,
     ID_PEDIDO,
     ESTADO;
 let DETAIL_MODAL,
     MODAL_TITLE_DETAIL;
+let REPORT_FORM,
+    FECHA_PEDIDO;
 
 async function loadComponent(path) {
     const response = await fetch(path);
@@ -146,6 +150,13 @@ async function totalProfits() {
     } catch (error) {
         console.error('Error al obtener datos de la API: ', error);
     }
+}
+
+async function openModalReport() {
+    // Se muestra la caja de diálogo con su título.
+    REPORT_MODAL.show();
+    REPORT_MODAL_TITLE.textContent = 'Reporte de pedidos entregados por fecha';
+    fillSelect(PEDIDOS_API, 'readDates', 'fecha');
 }
 
 const listapedidos = [
@@ -329,6 +340,21 @@ function recharge() {
     cargarTabla();
 }
 
+/*
+*   Función para abrir un reporte parametrizado de productos de una categoría.
+*   Parámetros: id (identificador del registro seleccionado).
+*   Retorno: ninguno.
+*/
+const openReport = () => {
+    // Se declara una constante tipo objeto con la ruta específica del reporte en el servidor.
+    const PATH = new URL(`${SERVER_URL}reportes/privada/pedidos_entregados_por_fecha.php`);
+    console.log(FECHA_PEDIDO.value);
+    // Se agrega un parámetro a la ruta con el valor del registro seleccionado.
+    PATH.searchParams.append('fecha', FECHA_PEDIDO.value);
+    // Se abre el reporte en una nueva pestaña.
+    window.open(PATH.href);
+}
+
 // window.onload
 window.onload = async function () {
 
@@ -352,6 +378,8 @@ window.onload = async function () {
         MODAL_TITLE_DETAIL = document.getElementById('exampleModalLabel');
     SAVE_MODAL = new bootstrap.Modal('#saveModal'),
         MODAL_TITLE = document.getElementById('modalTitle');
+    REPORT_MODAL = new bootstrap.Modal('#reportModal'),
+        REPORT_MODAL_TITLE = document.getElementById('reportModalTitle');
     recharge();
     // Constante para establecer el formulario de buscar.
     SEARCH_FORM = document.getElementById('searchForm');
@@ -395,4 +423,7 @@ window.onload = async function () {
             console.error(DATA.exception);
         }
     });
+    // Constantes para establecer los elementos del formulario de guardar.
+    REPORT_FORM = document.getElementById('saveForm'),
+        FECHA_PEDIDO = document.getElementById('fecha');
 };

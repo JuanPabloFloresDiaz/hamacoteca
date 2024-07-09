@@ -17,6 +17,7 @@ class PedidosHandler
     protected $producto = null;
     protected $cantidad = null;
     protected $estado = null;
+    protected $fecha = null;
 
 
     /*
@@ -181,7 +182,7 @@ class PedidosHandler
             return false;
         }
     }
-    
+
     //Leer el detalle de pedido
     public function readDetailEmail()
     {
@@ -289,5 +290,31 @@ class PedidosHandler
         $sql = 'CALL cambiar_estado_pedido_cancelado_validado(?)';
         $params = array($this->id);
         return Database::executeRow($sql, $params);
+    }
+    //Leer fechas
+    public function readDates()
+    {
+        $sql = 'SELECT fecha_pedido AS FECHA, fecha_pedido AS FECHAS
+        FROM pedidos
+        WHERE estado_pedido = "Entregado"
+        GROUP BY FECHAS
+        ORDER BY FECHA;';
+        return Database::getRows($sql);
+    }
+
+    /*
+    *   Métodos para generar reportes.
+    */
+    public function pedidosPorFecha()
+    {
+        $sql = 'SELECT p.id_pedido AS ID, p.estado_pedido AS ESTADO, p.fecha_pedido AS FECHA, 
+        p.direccion_pedido AS DIRECCION, CONCAT(c.nombre_cliente, " ", c.apellido_cliente) AS CLIENTE, 
+        c.foto_cliente AS FOTO
+        FROM pedidos p
+        INNER JOIN clientes c ON p.id_cliente = c.id_cliente
+        WHERE estado_pedido = "Entregado" AND fecha_pedido = ?
+        ORDER BY CLIENTE;';
+        $params = array($this->fecha);
+        return Database::getRows($sql, $params);
     }
 }

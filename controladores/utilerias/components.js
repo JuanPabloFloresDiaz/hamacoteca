@@ -165,6 +165,12 @@ const barGraph = (canvas, xAxis, yAxis, legend, title) => {
     });
 }
 
+
+/*
+*   Función para generar un gráfico de lineal. Requiere la librería chart.js para funcionar.
+*   Parámetros: canvas (identificador de la etiqueta canvas), xAxis (datos para el eje X), yAxis (datos para el eje Y), legend (etiqueta para los datos) y title (título del gráfico).
+*   Retorno: ninguno.
+*/
 const lineGraph = (canvas, xAxis, yAxis, legend, title) => {
     // Se declara un arreglo para guardar códigos de colores en formato hexadecimal.
     let colors = [];
