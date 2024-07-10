@@ -88,7 +88,7 @@ class Report extends FPDF
         // Número de página y usuario
         $this->setY(-20);
         $this->setFont('Arial', 'I', 10);
-        $this->cell(0, 10, 'Usuario: ' . $_SESSION['nombreAdministrador'], 0, 1, 'C');
+        $this->cell(0, 10, $this->encodeString('Usuario: ' . $_SESSION['nombreAdministrador']), 0, 1, 'C');
         $this->cell(0, 10, $this->encodeString('Página ') . $this->pageNo() . '/{nb}', 0, 0, 'C');
     }
 }
