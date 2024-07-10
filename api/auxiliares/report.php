@@ -28,10 +28,10 @@ class Report extends FPDF
             $this->title = $title;
             // Se establece el título del documento (true = utf-8).
             $this->setTitle('Hamacoteca - Reporte', true);
-            // Se establecen los margenes del documento (izquierdo, superior y derecho).
+            // Se establecen los márgenes del documento (izquierdo, superior y derecho).
             $this->setMargins(15, 15, 15);
             // Se añade una nueva página al documento con orientación vertical y formato carta, llamando implícitamente al método header()
-            $this->addPage('p', 'letter');
+            $this->addPage('P', 'Letter');
             // Se define un alias para el número total de páginas que se muestra en el pie del documento.
             $this->aliasNbPages();
         } else {
@@ -55,17 +55,21 @@ class Report extends FPDF
     */
     public function header()
     {
-        // Se establece el logo.
-        $this->image('../../imagenes/logo.png', 15, 15, 20);
-        // Se ubica el título.
-        $this->cell(20);
-        $this->setFont('Arial', 'B', 15);
-        $this->cell(166, 10, $this->encodeString($this->title), 0, 1, 'C');
-        // Se ubica la fecha y hora del servidor.
-        $this->cell(20);
-        $this->setFont('Arial', '', 10);
-        $this->cell(166, 10, 'Fecha/Hora: ' . date('d-m-Y H:i:s'), 0, 1, 'C');
-        // Se agrega un salto de línea para mostrar el contenido principal del documento.
+        // Fondo superior derecho
+        $this->image('../../imagenes/fondo_superior_izquierdo.png', 98, 0, 118);
+
+        // Logo
+        $this->image('../../imagenes/fondo_superior_derecho.png', 0, 0, 108);
+        
+        // Título
+        $this->setFont('Arial', 'B', 24);
+        $this->cell(0, 25, $this->encodeString($this->title), 0, 1, 'R');
+        
+        // Fecha y hora
+        $this->setFont('Arial', '', 12);
+        $this->cell(0, 10, 'Fecha/Hora: ' . date('d-m-Y H:i:s'), 0, 1, 'R');
+        
+        // Salto de línea
         $this->ln(10);
     }
 
@@ -75,11 +79,15 @@ class Report extends FPDF
     */
     public function footer()
     {
-        // Se establece la posición para el número de página (a 15 milímetros del final).
-        $this->setY(-15);
-        // Se establece la fuente para el número de página.
-        $this->setFont('Arial', 'I', 8);
-        // Se imprime una celda con el número de página.
+        // Fondo inferior azul más grande
+        $this->setFillColor(30, 144, 255);
+        $this->rect(0, 252, 216, 40, 'F');
+        // Establecer color de texto a blanco
+        $this->setTextColor(255, 255, 255);
+        // Número de página y usuario
+        $this->setY(-25);
+        $this->setFont('Arial', 'I', 10);
+        $this->cell(0, 10, 'Usuario: ' . $_SESSION['nombreAdministrador'], 0, 1, 'C');
         $this->cell(0, 10, $this->encodeString('Página ') . $this->pageNo() . '/{nb}', 0, 0, 'C');
     }
 }

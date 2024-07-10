@@ -28,7 +28,7 @@ if (isset($_GET['fecha'])) {
         $pdf->setFont('Arial', '', 11);
         // Se verifica si la categoría existe, de lo contrario se muestra un mensaje.
         if ($datapedidos = $pedido->pedidosPorFecha()) {
-            $y = 63;
+            $y = 77;
             // Se recorren los registros fila por fila.
             foreach ($datapedidos as $rowpedido) {
                 // Se imprimen las celdas con los datos de los pedidos.
