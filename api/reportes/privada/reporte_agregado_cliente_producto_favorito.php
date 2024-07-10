@@ -21,8 +21,8 @@ if (isset($_GET['idCliente'])) {
         $pdf->setFont('Arial', 'B', 11);
         // Se imprimen las celdas con los encabezados.
         $pdf->cell(62, 10, 'Imagen', 1, 0, 'C', 1);
-        $pdf->cell(72, 10, 'Nombre', 1, 0, 'C', 1);
-        $pdf->cell(52, 10, 'Precio (US$)', 1, 1, 'C', 1);
+        $pdf->cell(84, 10, 'Nombre', 1, 0, 'C', 1);
+        $pdf->cell(40, 10, 'Precio (US$)', 1, 1, 'C', 1);
         // Se establece la fuente para los datos de los productos.
         $pdf->setFont('Arial', '', 11);
         // Se verifica si la categoría existe, de lo contrario se muestra un mensaje.
@@ -32,8 +32,8 @@ if (isset($_GET['idCliente'])) {
             foreach ($dataFavorito as $rowFavorito) {
                 // Se imprimen las celdas con los datos de los productos.
                 $pdf->cell(62, 15, $pdf->image('../../imagenes/hamacas/' . $rowFavorito['IMAGEN'], 41, $y, 10), 1, 0);
-                $pdf->cell(72, 15, $pdf->encodeString($rowFavorito['NOMBRE']), 1, 0, 'C');
-                $pdf->cell(52, 15, $pdf->encodeString($rowFavorito['PRECIO']), 1, 1, 'C');
+                $pdf->cell(84, 15, $pdf->encodeString($rowFavorito['NOMBRE']), 1, 0, 'C');
+                $pdf->cell(40, 15, $pdf->encodeString($rowFavorito['PRECIO']), 1, 1, 'C');
                 $y += 15;
             }
         } else {

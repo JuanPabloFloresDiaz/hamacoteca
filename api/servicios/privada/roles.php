@@ -38,6 +38,14 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'Ocurrió un problema al crear el rol';
                 }
                 break;
+                // Gráfica
+            case 'graphic':
+                 if ($result['dataset'] = $rol->graphic()) {
+                    $result['status'] = 1;
+                } else {
+                    $result['error'] = 'Gráfica inexistente';
+                }
+                break;
                 // Leer todos
             case 'readAll':
                 if ($result['dataset'] = $rol->readAll()) {

@@ -4,6 +4,7 @@ let SAVE_FORM,
     ID_ROL,
     NOMBRE_ROL;
 let SEARCH_FORM;
+let GRAPHIC_MODAL;
 
 // Constantes para completar las rutas de la API.
 const ROL_API = 'servicios/privada/roles.php';
@@ -15,6 +16,7 @@ async function loadComponent(path) {
     const text = await response.text();
     return text;
 }
+let chartInstance = null;   
 
 /*
 *   Función para preparar el formulario al momento de insertar un registro.
@@ -28,6 +30,50 @@ const openCreate = () => {
     // Se prepara el formulario.
     SAVE_FORM.reset();
 }
+
+const openGraphic = () => {
+    // Se muestra la caja de diálogo con su título.
+    GRAPHIC_MODAL.show();
+    MODAL_TITLE2.textContent = 'Gráfica de administradores por roles';
+    graficoBarrasAnalisis();
+}
+
+const graficoBarrasAnalisis = async () => {
+    try {
+        // Petición para obtener los datos del gráfico.
+        let DATA = await fetchData(ROL_API, 'graphic');
+        // Se comprueba si la respuesta es satisfactoria, de lo contrario se remueve la etiqueta canvas.
+        if (DATA.status) {
+            // Se declaran los arreglos para guardar los datos a graficar.
+            let roles = [];
+            let numAdmin = [];
+            // Se recorre el conjunto de registros fila por fila a través del objeto row.
+            DATA.dataset.forEach(row => {
+                // Se agregan los datos a los arreglos.
+                roles.push(row.ROL);
+                numAdmin.push(row.ADMINISTRADOR);
+            });
+
+            // Destruir la instancia existente del gráfico si existe
+            if (chartInstance) {
+                chartInstance.destroy();
+                chartInstance = null; // Asegúrate de restablecer la referencia
+            }
+
+            // Restablecer el canvas en caso de que sea necesario
+            const canvasContainer = document.getElementById('analisis').parentElement;
+            canvasContainer.innerHTML = '<canvas id="analisis"></canvas>';
+
+            // Llamada a la función para generar y mostrar un gráfico de barras. Se encuentra en el archivo components.js
+            chartInstance = barGraph('analisis', roles, numAdmin, 'Administradores roles');
+        } else {
+            console.log(DATA.error);
+        }
+    } catch (error) {
+        console.log(error);
+    }
+}
+
 /*
 *   Función asíncrona para preparar el formulario al momento de actualizar un registro.
 *   Parámetros: id (identificador del registro seleccionado).
@@ -198,6 +244,8 @@ window.onload = async function () {
         document.documentElement.setAttribute('data-bs-theme', 'light');
     }
 
+    GRAPHIC_MODAL = new bootstrap.Modal('#graphicModal'),
+        MODAL_TITLE2 = document.getElementById('modalTitle3')
     // Constantes para establecer los elementos del componente Modal.
     SAVE_MODAL = new bootstrap.Modal('#saveModal'),
         MODAL_TITLE = document.getElementById('modalTitle');

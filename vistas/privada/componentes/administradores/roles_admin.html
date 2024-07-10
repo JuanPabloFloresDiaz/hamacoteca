@@ -14,9 +14,17 @@
             </form>
         </div>
 
+        <div class="col-sm-12 col-md-6 text-end">
+            <!-- Botón para abrir una caja de diálogo al momento de crear un nuevo registro -->
+            <button class="btn btn-dark ms-auto" type="submit" onclick="openCreate()">Agregar
+                rol</button>
+            <!-- Botón para abrir un reporte en formato PDF -->
+            <button type="button" class="btn btn-outline-primary" onclick="openGraphic()">
+                <i class="bi bi-bar-chart-fill"></i>
+            </button>
+        </div>
         <!-- Botón Agregar -->
-        <button class="btn btn-dark ms-auto" type="submit" onclick="openCreate()">Agregar
-            rol</button>
+        
     </div>
     <!-- Tabla para mostrar los registros existentes -->
     <table class="table table-hover">
@@ -34,6 +42,28 @@
         <tbody id="tabla_rol"></tbody>
     </table>
 </div>
+
+<!-- Componente Modal para ver la gráfica de barras -->
+<div class="modal fade" id="graphicModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="modalTitle2" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="modalTitle3"></h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="row justify-content-center">
+                <!-- Contenedor de la gráfica -->
+                <div class="col-md-9 col-sm-9">
+                    <div class="container-fluid">
+                        <canvas id="analisis"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 <!-- Componente Modal para guardar un registro -->
 <div class="modal fade" id="saveModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"

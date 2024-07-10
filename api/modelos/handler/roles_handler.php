@@ -66,4 +66,15 @@ class RolesHandler
         $params = array($this->id);
         return Database::executeRow($sql, $params);
     }
+
+    
+    //Función para la gráfica.
+    public function graphic()
+    {
+        $sql = 'SELECT ra.nombre_rol AS ROL, COUNT(a.id_administrador) AS ADMINISTRADOR
+                FROM roles_administradores ra
+                LEFT JOIN administradores a ON ra.id_rol = a.id_rol
+                GROUP BY ra.nombre_rol;';
+        return Database::getRows($sql);
+    }
 }

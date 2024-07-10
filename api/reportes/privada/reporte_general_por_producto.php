@@ -17,10 +17,10 @@ if ($dataHamacas = $hamacas->readAll()) {
     $pdf->setFont('Arial', 'B', 11);
     // Se imprimen las celdas con los encabezados.
     $pdf->cell(37, 15, 'Imagen', 1, 0, 'C', 1);
-    $pdf->cell(49, 15, 'Nombre', 1, 0, 'C', 1);
+    $pdf->cell(63, 15, 'Nombre', 1, 0, 'C', 1);
     $pdf->cell(25, 15, 'Cantidad', 1, 0, 'C', 1);
-    $pdf->cell(37, 15, 'Precio (US$)', 1, 0, 'C', 1);
-    $pdf->cell(37, 15, 'Estado', 1, 1, 'C', 1);
+    $pdf->cell(30, 15, 'Precio (US$)', 1, 0, 'C', 1);
+    $pdf->cell(30, 15, 'Estado', 1, 1, 'C', 1);
 
     // Se establece un color de relleno para mostrar el nombre de la categoría.
     $pdf->setFillColor(240);
@@ -33,10 +33,10 @@ if ($dataHamacas = $hamacas->readAll()) {
     foreach ($dataHamacas as $rowHamacas) {
         // Se imprimen las celdas con los datos de los pedidos.
         $pdf->cell(37, 15, $pdf->image('../../imagenes/hamacas/' . $rowHamacas['IMAGEN'], 29, $y, 10), 1, 0);
-        $pdf->cell(49, 15, $pdf->encodeString($rowHamacas['NOMBRE']), 1, 0, 'C');
+        $pdf->cell(63, 15, $pdf->encodeString($rowHamacas['NOMBRE']), 1, 0, 'C');
         $pdf->cell(25, 15, $pdf->encodeString($rowHamacas['CANTIDAD']), 1, 0, 'C');
-        $pdf->cell(37, 15, $pdf->encodeString($rowHamacas['PRECIO']), 1, 0,'C');
-        $pdf->cell(37, 15, $pdf->encodeString($rowHamacas['ESTADO']), 1, 1, 'C');
+        $pdf->cell(30, 15, $pdf->encodeString($rowHamacas['PRECIO']), 1, 0,'C');
+        $pdf->cell(30, 15, $pdf->encodeString($rowHamacas['ESTADO']), 1, 1, 'C');
         $y += 15;
     }
 } else {
