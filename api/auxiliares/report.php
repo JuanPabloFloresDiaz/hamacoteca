@@ -81,11 +81,11 @@ class Report extends FPDF
     {
         // Fondo inferior azul más grande
         $this->setFillColor(30, 144, 255);
-        $this->rect(0, 252, 216, 40, 'F');
+        $this->rect(0, 257, 216, 30, 'F');
         // Establecer color de texto a blanco
         $this->setTextColor(255, 255, 255);
         // Número de página y usuario
-        $this->setY(-25);
+        $this->setY(-20);
         $this->setFont('Arial', 'I', 10);
         $this->cell(0, 10, 'Usuario: ' . $_SESSION['nombreAdministrador'], 0, 1, 'C');
         $this->cell(0, 10, $this->encodeString('Página ') . $this->pageNo() . '/{nb}', 0, 0, 'C');
