@@ -34,7 +34,6 @@ class Report extends FPDF
             $this->addPage('P', 'Letter');
             // Se define un alias para el número total de páginas que se muestra en el pie del documento.
             $this->aliasNbPages();
-            $this->image('../../imagenes/logo_semi_transparente.png', 45, 95, 128, 128);
         } else {
             header('location:' . self::CLIENT_URL);
         }
@@ -69,7 +68,8 @@ class Report extends FPDF
         // Fecha y hora
         $this->setFont('Arial', '', 12);
         $this->cell(0, 10, 'Fecha/Hora: ' . date('d-m-Y H:i:s'), 0, 1, 'R');
-        
+        // Se define la imagen del fondo en el centro del reporte
+        $this->image('../../imagenes/logo_semi_transparente.png', 45, 95, 128, 128);
         // Salto de línea
         $this->ln(10);
     }

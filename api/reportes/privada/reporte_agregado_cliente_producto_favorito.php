@@ -15,8 +15,8 @@ if (isset($_GET['idCliente'])) {
     // Se establece el valor de la categoría, de lo contrario se muestra un mensaje.
     if ($favorito->setId($_GET['idCliente'])) {
         // Se establece un color de relleno para los encabezados.
-        $pdf->setFillColor(255, 255, 255);
-        $pdf->setDrawColor(130,196,250);
+        $pdf->setFillColor(154, 173, 233);
+        $pdf->setDrawColor(154, 173, 233);
         // Se establece la fuente para los encabezados.
         $pdf->setFont('Arial', 'B', 11);
         // Se imprimen las celdas con los encabezados.
@@ -24,6 +24,8 @@ if (isset($_GET['idCliente'])) {
         $pdf->cell(84, 10, 'Nombre', 1, 0, 'C', 1);
         $pdf->cell(40, 10, 'Precio (US$)', 1, 1, 'C', 1);
         // Se establece la fuente para los datos de los productos.
+        $pdf->setFillColor(79, 171, 220);
+        $pdf->setDrawColor(130, 196, 250);
         $pdf->setFont('Arial', '', 11);
         // Se verifica si la categoría existe, de lo contrario se muestra un mensaje.
         if ($dataFavorito = $favorito->readAllReport()) {

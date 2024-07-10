@@ -15,9 +15,9 @@ if (isset($_GET['fecha'])) {
     if ($pedido->setFecha($_GET['fecha'])) {
         $pdf->cell(0, 7, $pdf->encodeString('Fecha seleccionada: ' . $_GET['fecha']), 0, 1, 'L');
         // Se establece un color de relleno para los encabezados.
-        $pdf->setFillColor(255, 255, 255);
+        $pdf->setFillColor(154, 173, 233);
         // Se establece el color del borde.
-        $pdf->setDrawColor(130,196,250);
+        $pdf->setDrawColor(154, 173, 233);
         // Se establece la fuente para los encabezados.
         $pdf->setFont('Arial', 'B', 11);
         // Se imprimen las celdas con los encabezados.
