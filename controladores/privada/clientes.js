@@ -124,8 +124,8 @@ async function cargarTabla(form = null) {
                     <button type="button" class="btn btn-outline-primary" onclick="openState(${row.ID})">
                     <i class="bi bi-exclamation-octagon"></i>
                     </button>
-                    <button type="button" class="btn btn-warning" onclick="openReport(${row.ID})">
-                            <i class="bi bi-filetype-pdf"></i>
+                    <button type="button"class="btn btn-outline-warning" onclick="openReport(${row.ID})">
+                            <i class="bi bi-bookmark-star"></i>
                         </button>
                     </td>
                 </tr>
