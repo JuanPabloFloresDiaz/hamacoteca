@@ -34,6 +34,7 @@ class Report extends FPDF
             $this->addPage('P', 'Letter');
             // Se define un alias para el número total de páginas que se muestra en el pie del documento.
             $this->aliasNbPages();
+            $this->image('../../imagenes/logo_semi_transparente.png', 45, 95, 128, 128);
         } else {
             header('location:' . self::CLIENT_URL);
         }
@@ -56,7 +57,7 @@ class Report extends FPDF
     public function header()
     {
         // Fondo superior derecho
-        $this->image('../../imagenes/fondo_superior_izquierdo.png', 98, 0, 118);
+        $this->image('../../imagenes/fondo_superior_izquierdo.png', 98, 0, 128);
 
         // Logo
         $this->image('../../imagenes/fondo_superior_derecho.png', 0, 0, 108);
@@ -80,7 +81,7 @@ class Report extends FPDF
     public function footer()
     {
         // Fondo inferior azul más grande
-        $this->setFillColor(30, 144, 255);
+        $this->setFillColor(38, 78, 202);
         $this->rect(0, 257, 216, 30, 'F');
         // Establecer color de texto a blanco
         $this->setTextColor(255, 255, 255);

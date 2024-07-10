@@ -13,6 +13,7 @@ if (isset($_GET['fecha'])) {
     $pdf->startReport('Pedidos por fecha');
     // Se establece el valor de la categoría, de lo contrario se muestra un mensaje.
     if ($pedido->setFecha($_GET['fecha'])) {
+        $pdf->cell(0, 7, $pdf->encodeString('Fecha seleccionada: ' . $_GET['fecha']), 0, 1, 'L');
         // Se establece un color de relleno para los encabezados.
         $pdf->setFillColor(255, 255, 255);
         // Se establece el color del borde.
@@ -20,22 +21,22 @@ if (isset($_GET['fecha'])) {
         // Se establece la fuente para los encabezados.
         $pdf->setFont('Arial', 'B', 11);
         // Se imprimen las celdas con los encabezados.
-        $pdf->cell(35, 15, 'Foto', 1, 0, 'C', 1);
-        $pdf->cell(58, 15, 'Cliente', 1, 0, 'C', 1);
-        $pdf->cell(58, 15, 'Direccion', 1, 0, 'C', 1);
-        $pdf->cell(35, 15, 'Estado', 1, 1, 'C', 1);
+        $pdf->cell(30, 15, 'Foto', 1, 0, 'C', 1);
+        $pdf->cell(63, 15, 'Cliente', 1, 0, 'C', 1);
+        $pdf->cell(63, 15, 'Direccion', 1, 0, 'C', 1);
+        $pdf->cell(30, 15, 'Estado', 1, 1, 'C', 1);
         // Se establece la fuente para los datos de los pedidos.
         $pdf->setFont('Arial', '', 11);
         // Se verifica si la categoría existe, de lo contrario se muestra un mensaje.
         if ($datapedidos = $pedido->pedidosPorFecha()) {
-            $y = 77;
+            $y = 84;
             // Se recorren los registros fila por fila.
             foreach ($datapedidos as $rowpedido) {
                 // Se imprimen las celdas con los datos de los pedidos.
-                $pdf->cell(35, 15, $pdf->image('../../imagenes/clientes/' . $rowpedido['FOTO'], 27, $y, 10), 1, 0);
-                $pdf->cell(58, 15, $pdf->encodeString($rowpedido['CLIENTE']), 1, 0);
-                $pdf->cell(58, 15, $pdf->encodeString($rowpedido['DIRECCION']), 1, 0);
-                $pdf->cell(35, 15, $pdf->encodeString($rowpedido['ESTADO']), 1, 1);
+                $pdf->cell(30, 15, $pdf->image('../../imagenes/clientes/' . $rowpedido['FOTO'], 25, $y, 10), 1, 0);
+                $pdf->cell(63, 15, $pdf->encodeString($rowpedido['CLIENTE']), 1, 0, 'C');
+                $pdf->cell(63, 15, $pdf->encodeString($rowpedido['DIRECCION']), 1, 0, 'C');
+                $pdf->cell(30, 15, $pdf->encodeString($rowpedido['ESTADO']), 1, 1, 'C');
                 $y += 15;
             }
         } else {
