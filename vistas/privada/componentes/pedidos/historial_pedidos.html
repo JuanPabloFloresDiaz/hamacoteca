@@ -6,7 +6,8 @@
         <!-- Buscador -->
         <div class="mx-auto">
             <form id="searchForm" class="d-flex">
-                <input type="search" class="form-control me-2 rounded-5 border-dark" name="search" placeholder="Buscar por el cliente" required>
+                <input type="search" class="form-control me-2 rounded-5 border-dark" name="search"
+                    placeholder="Buscar por el cliente" required>
                 <button type="submit" class="btn btn-outline-dark me-5 rounded-5"><i class="bi bi-search"></i></button>
                 <button type="reset" class="btn btn-white" onclick="recharge()">
                     <i class="bi bi-arrow-clockwise"></i>
@@ -39,6 +40,13 @@
                 </div>
                 <div class="card-footer bg-transparent border-light text-white">Hamacoteca</div>
             </div>
+        </div>
+
+        <div class="col mb-4">
+            <!-- Botón para abrir un reporte en formato PDF -->
+            <button type="button" class="btn btn-outline-primary" onclick="openGraphic()">
+                <i class="bi bi-graph-up"></i>
+            </button>
         </div>
     </div>
 </div>
@@ -141,8 +149,8 @@
                 </button>
             </div>
             <div class="modal-body">
-                
-            <!-- Formulario para crear o actualizar un registro -->
+
+                <!-- Formulario para crear o actualizar un registro -->
                 <div class="modal-body row g-3">
                     <!-- Campo oculto para asignar el id del registro al momento de modificar -->
                     <input type="number" id="idPedido" name="idPedido" class="d-none">
@@ -156,6 +164,28 @@
                     <button type="submit" class="btn btn-outline-dark" onclick="openReport()">
                         <i class="bi bi-file-earmark-text-fill"></i>
                     </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Componente Modal para ver la gráfica de barras -->
+<div class="modal fade" id="graphicModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="modalTitle2" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="modalTitle3"></h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="row justify-content-center">
+                <!-- Contenedor de la gráfica -->
+                <div class="col-md-9 col-sm-9">
+                    <div class="container-fluid">
+                        <canvas id="ventas"></canvas>
+                    </div>
                 </div>
             </div>
         </div>

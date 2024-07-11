@@ -13,6 +13,7 @@ let DETAIL_MODAL,
     MODAL_TITLE_DETAIL;
 let REPORT_FORM,
     FECHA_PEDIDO;
+let GRAPHIC_MODAL;
 
 async function loadComponent(path) {
     const response = await fetch(path);
@@ -30,6 +31,62 @@ const openDetail = async (id) => {
     DETAIL_MODAL.show();
     MODAL_TITLE_DETAIL.textContent = 'Detalle del pedido ' + id;
     cargarDetalle(FORM);
+}
+
+const openGraphic = () => {
+    // Se muestra la caja de diálogo con su título.
+    GRAPHIC_MODAL.show();
+    MODAL_TITLE_GRAPHIC.textContent = 'Gráfica predictiva de productos mas vendidos del mes';
+    graphicMostSells();
+}
+
+
+async function graphicMostSells() {
+    const datos = [
+        { fecha: 'Enero', ganancias: 5000 },
+        { fecha: 'Febrero', ganancias: 7300 },
+        { fecha: 'Marzo', ganancias: 5500 },
+        { fecha: 'Abril', ganancias: 6500 },
+        { fecha: 'Mayo', ganancias: 5000 },
+        { fecha: 'Junio', ganancias: 8100 },
+        { fecha: 'Julio', ganancias: 6000 },
+        { fecha: 'Agosto', ganancias: 6500 },
+        { fecha: 'Septiembre', ganancias: 5000 },
+        { fecha: 'Octubre', ganancias: 8800 },
+        { fecha: 'Noviembre', ganancias: 7000 },
+        { fecha: 'Diciembre', ganancias: 6500 },
+    ];
+    try {
+        // Petición para obtener los datos del gráfico.
+        const DATA = await fetchData(API, 'profitsForDate');
+        // Se comprueba si la respuesta es satisfactoria, de lo contrario se remueve la etiqueta canvas.
+        if (DATA.status) {
+            // Se declaran los arreglos para guardar los datos a gráficar.
+            let fecha = [];
+            let ganancias = [];
+            // Se recorre el conjunto de registros fila por fila a través del objeto row.
+            DATA.dataset.forEach(row => {
+                // Se agregan los datos a los arreglos.
+                fecha.push(row.FECHA);
+                ganancias.push(row.GANANCIAS);
+            });
+            // Llamada a la función para generar y mostrar un gráfico de pastel. Se encuentra en el archivo components.js
+            lineGraph('ventas', fecha, ganancias, 'Ganancias por mes $', 'Predicción de ganancias para proximos meses');
+        } else {
+            document.getElementById('ventas').remove();
+            console.log(DATA.error);
+        }
+    } catch {
+        let fecha = [];
+        let ganancias = [];
+        datos.forEach(filter => {
+            fecha.push(filter.fecha);
+            ganancias.push(filter.ganancias);
+        });
+        // Si ocurre un error, se utilizan los datos de ejemplo definidos arriba.
+        lineGraph('ventas', fecha, ganancias, 'Ganancias por mes $', 'Predicción de ganancias para proximos meses');
+
+    }
 }
 
 
@@ -374,6 +431,8 @@ window.onload = async function () {
         document.documentElement.setAttribute('data-bs-theme', 'light');
     }
 
+    GRAPHIC_MODAL = new bootstrap.Modal('#graphicModal'),
+        MODAL_TITLE_GRAPHIC = document.getElementById('modalTitle3')
     DETAIL_MODAL = new bootstrap.Modal('#detailModal'),
         MODAL_TITLE_DETAIL = document.getElementById('exampleModalLabel');
     SAVE_MODAL = new bootstrap.Modal('#saveModal'),
