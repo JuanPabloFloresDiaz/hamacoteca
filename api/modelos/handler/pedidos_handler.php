@@ -18,6 +18,8 @@ class PedidosHandler
     protected $cantidad = null;
     protected $estado = null;
     protected $fecha = null;
+    protected $fecha_inicial = null;
+    protected $fecha_final = null;
 
 
     /*
@@ -309,12 +311,11 @@ class PedidosHandler
     {
         $sql = 'SELECT p.id_pedido AS ID, p.estado_pedido AS ESTADO, p.fecha_pedido AS FECHA, 
         p.direccion_pedido AS DIRECCION, CONCAT(c.nombre_cliente, " ", c.apellido_cliente) AS CLIENTE, 
-        c.foto_cliente AS FOTO
-        FROM pedidos p
+        c.foto_cliente AS FOTO FROM pedidos p
         INNER JOIN clientes c ON p.id_cliente = c.id_cliente
-        WHERE estado_pedido = "Entregado" AND fecha_pedido = ?
+        WHERE estado_pedido = "Entregado" AND (fecha_pedido BETWEEN ? AND ?)
         ORDER BY CLIENTE;';
-        $params = array($this->fecha);
+        $params = array($this->fecha_inicial, $this->fecha_final);
         return Database::getRows($sql, $params);
     }
 }

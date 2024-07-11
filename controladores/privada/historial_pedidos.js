@@ -12,7 +12,8 @@ let SAVE_FORM,
 let DETAIL_MODAL,
     MODAL_TITLE_DETAIL;
 let REPORT_FORM,
-    FECHA_PEDIDO;
+    FECHA_PEDIDO,
+    FECHA_PEDIDO_FINAL;
 let GRAPHIC_MODAL;
 
 async function loadComponent(path) {
@@ -58,7 +59,7 @@ async function graphicMostSells() {
     ];
     try {
         // Petición para obtener los datos del gráfico.
-        const DATA = await fetchData(API, 'profitsForDate');
+        const DATA = await fetchData(DETALLE_PEDIDO_API, 'profitsForDate');
         // Se comprueba si la respuesta es satisfactoria, de lo contrario se remueve la etiqueta canvas.
         if (DATA.status) {
             // Se declaran los arreglos para guardar los datos a gráficar.
@@ -67,7 +68,7 @@ async function graphicMostSells() {
             // Se recorre el conjunto de registros fila por fila a través del objeto row.
             DATA.dataset.forEach(row => {
                 // Se agregan los datos a los arreglos.
-                fecha.push(row.FECHA);
+                fecha.push(row.MES);
                 ganancias.push(row.GANANCIAS);
             });
             // Llamada a la función para generar y mostrar un gráfico de pastel. Se encuentra en el archivo components.js
@@ -213,7 +214,6 @@ async function openModalReport() {
     // Se muestra la caja de diálogo con su título.
     REPORT_MODAL.show();
     REPORT_MODAL_TITLE.textContent = 'Reporte de pedidos entregados por fecha';
-    fillSelect(PEDIDOS_API, 'readDates', 'fecha');
 }
 
 const listapedidos = [
@@ -406,8 +406,10 @@ const openReport = () => {
     // Se declara una constante tipo objeto con la ruta específica del reporte en el servidor.
     const PATH = new URL(`${SERVER_URL}reportes/privada/pedidos_entregados_por_fecha.php`);
     console.log(FECHA_PEDIDO.value);
+    console.log(FECHA_PEDIDO_FINAL.value);
     // Se agrega un parámetro a la ruta con el valor del registro seleccionado.
     PATH.searchParams.append('fecha', FECHA_PEDIDO.value);
+    PATH.searchParams.append('fechaFin', FECHA_PEDIDO_FINAL.value);
     // Se abre el reporte en una nueva pestaña.
     window.open(PATH.href);
 }
@@ -484,5 +486,6 @@ window.onload = async function () {
     });
     // Constantes para establecer los elementos del formulario de guardar.
     REPORT_FORM = document.getElementById('saveForm'),
-        FECHA_PEDIDO = document.getElementById('fecha');
+        FECHA_PEDIDO = document.getElementById('fecha'),
+        FECHA_PEDIDO_FINAL = document.getElementById('fechaFinal');
 };

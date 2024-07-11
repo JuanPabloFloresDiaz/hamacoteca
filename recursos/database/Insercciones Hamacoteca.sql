@@ -222,6 +222,52 @@ INSERT INTO favoritos (id_cliente, id_hamaca) VALUES (25, 4);
 SELECT ID, NOMBRE FROM vista_roles_administradores
 ORDER BY NOMBRE;
 
+SELECT CASE 
+           WHEN MONTH(fecha_pedido) = 1 THEN "Enero"
+           WHEN MONTH(fecha_pedido) = 2 THEN "Febrero"
+           WHEN MONTH(fecha_pedido) = 3 THEN "Marzo"
+           WHEN MONTH(fecha_pedido) = 4 THEN "Abril"
+           WHEN MONTH(fecha_pedido) = 5 THEN "Mayo"
+           WHEN MONTH(fecha_pedido) = 6 THEN "Junio"
+           WHEN MONTH(fecha_pedido) = 7 THEN "Julio"
+           WHEN MONTH(fecha_pedido) = 8 THEN "Agosto"
+           WHEN MONTH(fecha_pedido) = 9 THEN "Septiembre"
+           WHEN MONTH(fecha_pedido) = 10 THEN "Octubre"
+           WHEN MONTH(fecha_pedido) = 11 THEN "Noviembre"
+           WHEN MONTH(fecha_pedido) = 12 THEN "Diciembre"
+       END AS MES,
+       YEAR(fecha_pedido) AS AÑO,
+       SUM(precio_producto) AS GANANCIAS
+FROM detalles_pedidos
+INNER JOIN pedidos USING(id_pedido)
+WHERE estado_pedido = "Entregado"
+GROUP BY AÑO, MES
+ORDER BY AÑO ASC, MONTH(fecha_pedido) ASC;
+
+SELECT CONCAT(YEAR(fecha_pedido), ' ', 
+              CASE 
+                  WHEN MONTH(fecha_pedido) = 1 THEN "Enero"
+                  WHEN MONTH(fecha_pedido) = 2 THEN "Febrero"
+                  WHEN MONTH(fecha_pedido) = 3 THEN "Marzo"
+                  WHEN MONTH(fecha_pedido) = 4 THEN "Abril"
+                  WHEN MONTH(fecha_pedido) = 5 THEN "Mayo"
+                  WHEN MONTH(fecha_pedido) = 6 THEN "Junio"
+                  WHEN MONTH(fecha_pedido) = 7 THEN "Julio"
+                  WHEN MONTH(fecha_pedido) = 8 THEN "Agosto"
+                  WHEN MONTH(fecha_pedido) = 9 THEN "Septiembre"
+                  WHEN MONTH(fecha_pedido) = 10 THEN "Octubre"
+                  WHEN MONTH(fecha_pedido) = 11 THEN "Noviembre"
+                  WHEN MONTH(fecha_pedido) = 12 THEN "Diciembre"
+              END) AS MES,
+       SUM(precio_producto) AS GANANCIAS
+FROM detalles_pedidos
+INNER JOIN pedidos USING(id_pedido)
+WHERE estado_pedido = "Entregado"
+GROUP BY YEAR(fecha_pedido), MONTH(fecha_pedido)
+ORDER BY YEAR(fecha_pedido) ASC, MONTH(fecha_pedido) ASC;
+
+
+
 SELECT * FROM administradores;
 SELECT * FROM roles_administradores;
 SELECT * FROM clientes;

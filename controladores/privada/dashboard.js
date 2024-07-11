@@ -167,7 +167,7 @@ const graficoPastelCategorias = async () => {
                 porcentajes.push(row.porcentaje);
             });
             // Llamada a la función para generar y mostrar un gráfico de pastel. Se encuentra en el archivo components.js
-            pieGraph('chart2', categorias, porcentajes, 'Porcentaje de productos por categoría');
+            DoughnutGraph('chart2', categorias, porcentajes, 'Porcentaje de productos por categoría');
         } else {
             document.getElementById('chart2').remove();
             console.log(DATA.error);
@@ -180,7 +180,7 @@ const graficoPastelCategorias = async () => {
             cantidades.push(filter.cantidades);
         });
         // Si ocurre un error, se utilizan los datos de ejemplo definidos arriba.
-        pieGraph('chart2', categorias, cantidades, 'Porcentaje de productos por categoría');
+        DoughnutGraph('chart2', categorias, cantidades, 'Porcentaje de productos por categoría');
 
     }
 
@@ -204,11 +204,11 @@ async function cargarGraficaLineal() {
             // Se recorre el conjunto de registros fila por fila a través del objeto row.
             DATA.dataset.forEach(row => {
                 // Se agregan los datos a los arreglos.
-                fecha.push(row.FECHA);
+                fecha.push(row.MES);
                 ganancias.push(row.GANANCIAS);
             });
             // Llamada a la función para generar y mostrar un gráfico de pastel. Se encuentra en el archivo components.js
-            lineGraph('chart3', fecha, ganancias, 'Ganancias por fecha $', 'Gráfica de ganancias');
+            lineGraph('chart3', fecha, ganancias, 'Ganancias por mes $', 'Gráfica de ganancias');
         } else {
             document.getElementById('chart3').remove();
             console.log(DATA.error);
@@ -221,7 +221,7 @@ async function cargarGraficaLineal() {
             ganancias.push(filter.ganancias);
         });
         // Si ocurre un error, se utilizan los datos de ejemplo definidos arriba.
-        lineGraph('chart3', fecha, ganancias, 'Ganancias por fecha', 'Gráfica de ganancias');
+        lineGraph('chart3', fecha, ganancias, 'Ganancias por mes', 'Gráfica de ganancias');
 
     }
 }
