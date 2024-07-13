@@ -158,6 +158,21 @@ CALL insertar_valoracion(5, 'Muy buena calidad', 2);
 CALL insertar_valoracion(1, '(Censurado por el bien de la trama)************', 3);
 CALL insertar_valoracion(5, 'Me encanto', 4);
 SELECT * FROM pedidos;
+INSERT INTO pedidos (estado_pedido, fecha_pedido, direccion_pedido, id_cliente) VALUES ('Entregado', '2023-01-01', '123 Calle Falsa', 1);
+INSERT INTO pedidos (estado_pedido, fecha_pedido, direccion_pedido, id_cliente) VALUES ('Entregado', '2023-02-05', '456 Avenida Siempreviva', 2);
+INSERT INTO pedidos (estado_pedido, fecha_pedido, direccion_pedido, id_cliente) VALUES ('Entregado', '2023-03-10', '789 Calle Real', 3);
+INSERT INTO pedidos (estado_pedido, fecha_pedido, direccion_pedido, id_cliente) VALUES ('Entregado', '2023-04-15', '1011 Calle Mayor', 4);
+INSERT INTO pedidos (estado_pedido, fecha_pedido, direccion_pedido, id_cliente) VALUES ('Entregado', '2023-05-20', '1213 Avenida del Sol', 5);
+INSERT INTO pedidos (estado_pedido, fecha_pedido, direccion_pedido, id_cliente) VALUES ('Entregado', '2023-06-25', '1415 Calle Luna', 6);
+INSERT INTO pedidos (estado_pedido, fecha_pedido, direccion_pedido, id_cliente) VALUES ('Entregado', '2023-07-01', '1617 Avenida Estrella', 7);
+INSERT INTO pedidos (estado_pedido, fecha_pedido, direccion_pedido, id_cliente) VALUES ('Entregado', '2023-08-05', '1819 Calle Cielo', 8);
+INSERT INTO pedidos (estado_pedido, fecha_pedido, direccion_pedido, id_cliente) VALUES ('Entregado', '2023-09-10', '2021 Avenida Mar', 9);
+INSERT INTO pedidos (estado_pedido, fecha_pedido, direccion_pedido, id_cliente) VALUES ('Entregado', '2023-10-15', '2223 Calle Sol', 10);
+INSERT INTO pedidos (estado_pedido, fecha_pedido, direccion_pedido, id_cliente) VALUES ('Entregado', '2023-11-20', '2425 Avenida Luna', 11);
+INSERT INTO pedidos (estado_pedido, fecha_pedido, direccion_pedido, id_cliente) VALUES ('Entregado', '2023-12-25', '2627 Calle Estrella', 12);
+INSERT INTO pedidos (estado_pedido, fecha_pedido, direccion_pedido, id_cliente) VALUES ('Entregado', '2024-01-01', '2829 Avenida Cielo', 13);
+INSERT INTO pedidos (estado_pedido, fecha_pedido, direccion_pedido, id_cliente) VALUES ('Entregado', '2024-04-05', '3031 Calle Mar', 14);
+INSERT INTO pedidos (estado_pedido, fecha_pedido, direccion_pedido, id_cliente) VALUES ('Entregado', '2024-07-10', '3233 Avenida Sol', 15);
 INSERT INTO pedidos (estado_pedido, fecha_pedido, direccion_pedido, id_cliente) VALUES ('Entregado', '2024-01-01', '123 Calle Falsa', 1);
 INSERT INTO pedidos (estado_pedido, fecha_pedido, direccion_pedido, id_cliente) VALUES ('Entregado', '2024-02-05', '456 Avenida Siempreviva', 2);
 INSERT INTO pedidos (estado_pedido, fecha_pedido, direccion_pedido, id_cliente) VALUES ('Entregado', '2024-03-10', '789 Calle Real', 3);
@@ -206,6 +221,52 @@ INSERT INTO detalles_pedidos (id_pedido, precio_producto, cantidad_comprada, id_
 VALUES (14, calcular_total_producto(4, 2), 1, 4);
 INSERT INTO detalles_pedidos (id_pedido, precio_producto, cantidad_comprada, id_hamaca) 
 VALUES (15, calcular_total_producto(4, 1), 1, 4);
+INSERT INTO detalles_pedidos (id_pedido, precio_producto, cantidad_comprada, id_hamaca) 
+VALUES (26, calcular_total_producto(1, 2), 1, 1);
+INSERT INTO detalles_pedidos (id_pedido, precio_producto, cantidad_comprada, id_hamaca) 
+VALUES (27, calcular_total_producto(2, 1), 1, 2);
+INSERT INTO detalles_pedidos (id_pedido, precio_producto, cantidad_comprada, id_hamaca) 
+VALUES (28, calcular_total_producto(3, 1), 1, 3);
+INSERT INTO detalles_pedidos (id_pedido, precio_producto, cantidad_comprada, id_hamaca) 
+VALUES (29, calcular_total_producto(4, 3), 1, 4);
+INSERT INTO detalles_pedidos (id_pedido, precio_producto, cantidad_comprada, id_hamaca) 
+VALUES (30, calcular_total_producto(1, 1), 1, 1);
+INSERT INTO detalles_pedidos (id_pedido, precio_producto, cantidad_comprada, id_hamaca) 
+VALUES (31, calcular_total_producto(1, 2), 1, 1);
+INSERT INTO detalles_pedidos (id_pedido, precio_producto, cantidad_comprada, id_hamaca) 
+VALUES (32, calcular_total_producto(1, 4), 1, 1);
+INSERT INTO detalles_pedidos (id_pedido, precio_producto, cantidad_comprada, id_hamaca) 
+VALUES (33, calcular_total_producto(1, 2), 1, 1);
+INSERT INTO detalles_pedidos (id_pedido, precio_producto, cantidad_comprada, id_hamaca) 
+VALUES (34, calcular_total_producto(1, 1), 1, 1);
+INSERT INTO detalles_pedidos (id_pedido, precio_producto, cantidad_comprada, id_hamaca) 
+VALUES (35, calcular_total_producto(1, 3), 1, 1);
+INSERT INTO detalles_pedidos (id_pedido, precio_producto, cantidad_comprada, id_hamaca) 
+VALUES (36, calcular_total_producto(1, 2), 1, 1);
+INSERT INTO detalles_pedidos (id_pedido, precio_producto, cantidad_comprada, id_hamaca) 
+VALUES (37, calcular_total_producto(1, 1), 1, 1);
+INSERT INTO detalles_pedidos (id_pedido, precio_producto, cantidad_comprada, id_hamaca) 
+VALUES (38, calcular_total_producto(4, 1), 1, 4);
+INSERT INTO detalles_pedidos (id_pedido, precio_producto, cantidad_comprada, id_hamaca) 
+VALUES (33, calcular_total_producto(5, 2), 1, 5);
+INSERT INTO detalles_pedidos (id_pedido, precio_producto, cantidad_comprada, id_hamaca) 
+VALUES (34, calcular_total_producto(6, 1), 1, 6);
+INSERT INTO detalles_pedidos (id_pedido, precio_producto, cantidad_comprada, id_hamaca) 
+VALUES (35, calcular_total_producto(7, 5), 5, 7);
+INSERT INTO detalles_pedidos (id_pedido, precio_producto, cantidad_comprada, id_hamaca) 
+VALUES (36, calcular_total_producto(8, 2), 2, 8);
+INSERT INTO detalles_pedidos (id_pedido, precio_producto, cantidad_comprada, id_hamaca) 
+VALUES (37, calcular_total_producto(9, 1), 1, 9);
+INSERT INTO detalles_pedidos (id_pedido, precio_producto, cantidad_comprada, id_hamaca) 
+VALUES (38, calcular_total_producto(14, 1), 1, 14);
+INSERT INTO detalles_pedidos (id_pedido, precio_producto, cantidad_comprada, id_hamaca) 
+VALUES (39, calcular_total_producto(1, 3), 1, 1);
+INSERT INTO detalles_pedidos (id_pedido, precio_producto, cantidad_comprada, id_hamaca) 
+VALUES (40, calcular_total_producto(1, 2), 1, 1);
+INSERT INTO detalles_pedidos (id_pedido, precio_producto, cantidad_comprada, id_hamaca) 
+VALUES (41, calcular_total_producto(1, 1), 1, 1);
+INSERT INTO detalles_pedidos (id_pedido, precio_producto, cantidad_comprada, id_hamaca) 
+VALUES (42, calcular_total_producto(4, 1), 1, 4);
 
 INSERT INTO favoritos (id_cliente, id_hamaca) VALUES (1, 1);
 INSERT INTO favoritos (id_cliente, id_hamaca) VALUES (2, 2);

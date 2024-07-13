@@ -38,28 +38,14 @@ const openGraphic = () => {
     // Se muestra la caja de diálogo con su título.
     GRAPHIC_MODAL.show();
     MODAL_TITLE_GRAPHIC.textContent = 'Gráfica predictiva de productos mas vendidos del mes';
-    graphicMostSells();
+    cargarGraficaLineal();
 }
 
-
-async function graphicMostSells() {
-    const datos = [
-        { fecha: 'Enero', ganancias: 5000 },
-        { fecha: 'Febrero', ganancias: 7300 },
-        { fecha: 'Marzo', ganancias: 5500 },
-        { fecha: 'Abril', ganancias: 6500 },
-        { fecha: 'Mayo', ganancias: 5000 },
-        { fecha: 'Junio', ganancias: 8100 },
-        { fecha: 'Julio', ganancias: 6000 },
-        { fecha: 'Agosto', ganancias: 6500 },
-        { fecha: 'Septiembre', ganancias: 5000 },
-        { fecha: 'Octubre', ganancias: 8800 },
-        { fecha: 'Noviembre', ganancias: 7000 },
-        { fecha: 'Diciembre', ganancias: 6500 },
-    ];
+// Función para cargar la gráfica lineal
+async function cargarGraficaLineal() {
     try {
         // Petición para obtener los datos del gráfico.
-        const DATA = await fetchData(DETALLE_PEDIDO_API, 'profitsForDate');
+        const DATA = await fetchData(DETALLE_PEDIDO_API, 'profitsForDatePrediction'); // Asegúrate de que la URL sea correcta
         // Se comprueba si la respuesta es satisfactoria, de lo contrario se remueve la etiqueta canvas.
         if (DATA.status) {
             // Se declaran los arreglos para guardar los datos a gráficar.
@@ -68,27 +54,20 @@ async function graphicMostSells() {
             // Se recorre el conjunto de registros fila por fila a través del objeto row.
             DATA.dataset.forEach(row => {
                 // Se agregan los datos a los arreglos.
-                fecha.push(row.MES);
+                fecha.push(`${row.MES} ${row.AÑO}`);
                 ganancias.push(row.GANANCIAS);
             });
-            // Llamada a la función para generar y mostrar un gráfico de pastel. Se encuentra en el archivo components.js
-            lineGraph('ventas', fecha, ganancias, 'Ganancias por mes $', 'Predicción de ganancias para proximos meses');
+            // Llamada a la función para generar y mostrar un gráfico de líneas. Se encuentra en el archivo components.js
+            lineGraph('ventas', fecha, ganancias, 'Ganancias por mes $', 'Gráfica de ganancias');
         } else {
             document.getElementById('ventas').remove();
             console.log(DATA.error);
         }
-    } catch {
-        let fecha = [];
-        let ganancias = [];
-        datos.forEach(filter => {
-            fecha.push(filter.fecha);
-            ganancias.push(filter.ganancias);
-        });
-        // Si ocurre un error, se utilizan los datos de ejemplo definidos arriba.
-        lineGraph('ventas', fecha, ganancias, 'Ganancias por mes $', 'Predicción de ganancias para proximos meses');
-
+    } catch (error) {
+        console.log('Error:', error);
     }
 }
+
 
 
 const lista_datos = [

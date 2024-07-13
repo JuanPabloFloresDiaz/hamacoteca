@@ -131,27 +131,6 @@ const graficoBarrasCategorias = async () => {
 *   Retorno: ninguno.
 */
 const graficoPastelCategorias = async () => {
-    /*
-*   Lista de datos de ejemplo en caso de error al obtener los datos reales.
-*/
-    const datosEjemplo = [
-        {
-            categorias: 'Hamacas clásicas',
-            cantidades: 26
-        },
-        {
-            categorias: 'Hamacas con soporte',
-            cantidades: 5
-        },
-        {
-            categorias: 'Hamaca silla',
-            cantidades: 7
-        },
-        {
-            categorias: 'Hamaca colgante',
-            cantidades: 24
-        }
-    ];
     try {
         // Petición para obtener los datos del gráfico.
         const DATA = await fetchData(HAMACA_API, 'productsForCategory');
@@ -173,26 +152,12 @@ const graficoPastelCategorias = async () => {
             console.log(DATA.error);
         }
     } catch {
-        let categorias = [];
-        let cantidades = [];
-        datosEjemplo.forEach(filter => {
-            categorias.push(filter.categorias);
-            cantidades.push(filter.cantidades);
-        });
-        // Si ocurre un error, se utilizan los datos de ejemplo definidos arriba.
-        DoughnutGraph('chart2', categorias, cantidades, 'Porcentaje de productos por categoría');
-
+        console.log('error')
     }
 
 }
 
 async function cargarGraficaLineal() {
-    const datos = [
-        { fecha: '2024-01-26', ganancias: 2500 },
-        { fecha: '2024-01-27', ganancias: 8800 },
-        { fecha: '2024-01-29', ganancias: 5000 },
-        { fecha: '2024-02-06', ganancias: 6500 }
-    ];
     try {
         // Petición para obtener los datos del gráfico.
         const DATA = await fetchData(DETALLE_PEDIDO_API, 'profitsForDate');
@@ -204,7 +169,7 @@ async function cargarGraficaLineal() {
             // Se recorre el conjunto de registros fila por fila a través del objeto row.
             DATA.dataset.forEach(row => {
                 // Se agregan los datos a los arreglos.
-                fecha.push(row.MES);
+                fecha.push(`${row.MES} ${row.AÑO}`);
                 ganancias.push(row.GANANCIAS);
             });
             // Llamada a la función para generar y mostrar un gráfico de pastel. Se encuentra en el archivo components.js
@@ -214,15 +179,7 @@ async function cargarGraficaLineal() {
             console.log(DATA.error);
         }
     } catch {
-        let fecha = [];
-        let ganancias = [];
-        datos.forEach(filter => {
-            fecha.push(filter.fecha);
-            ganancias.push(filter.ganancias);
-        });
-        // Si ocurre un error, se utilizan los datos de ejemplo definidos arriba.
-        lineGraph('chart3', fecha, ganancias, 'Ganancias por mes', 'Gráfica de ganancias');
-
+        console.log('error')
     }
 }
 

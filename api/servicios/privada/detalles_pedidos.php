@@ -32,6 +32,14 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'Error en el conteo de ordenes';
                 }
                 break;
+                // Predecir ganancias por mes
+            case 'profitsForDatePrediction':
+                if ($result['dataset'] = $pedido->profitsForDatePrediction()) {
+                    $result['status'] = 1;
+                } else {
+                    $result['error'] = 'Error en el conteo de ordenes';
+                }
+                break;
             default:
                 $result['error'] = 'Acción no disponible dentro de la sesión';
         }
