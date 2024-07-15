@@ -10,6 +10,7 @@ class DetallesPedidosHandler
      *  Declaración de atributos para el manejo de datos.
      */
     protected $id = null;
+    protected $año = null;
 
     /*
      *  Métodos para realizar las operaciones SCRUD (search, create, read, update, and delete).
@@ -24,6 +25,16 @@ class DetallesPedidosHandler
         ORDER BY PRODUCTO;';
         $params = array($this->id);
         return Database::getRows($sql, $params);
+    }
+
+    //Función para cargar los años disponibles para la gráfica del dashboard
+    public function readYears()
+    {
+        $sql = 'SELECT YEAR(fecha_pedido) AS AÑOS ,YEAR(fecha_pedido) AS AÑO
+        FROM detalles_pedidos INNER JOIN pedidos USING(id_pedido) 
+        WHERE estado_pedido = "Entregado" GROUP BY AÑO
+        ORDER BY AÑO ASC;';
+        return Database::getRows($sql);
     }
 
     //Función para cargar gráfica de ganancias por fecha
@@ -54,6 +65,35 @@ class DetallesPedidosHandler
         return Database::getRows($sql);
     }
 
+    //Función para cargar gráfica de ganancias por fecha
+    public function profitsForYear()
+    {
+        $sql = 'SELECT CASE 
+        WHEN MONTH(fecha_pedido) = 1 THEN "Enero"
+        WHEN MONTH(fecha_pedido) = 2 THEN "Febrero"
+        WHEN MONTH(fecha_pedido) = 3 THEN "Marzo"
+        WHEN MONTH(fecha_pedido) = 4 THEN "Abril"
+        WHEN MONTH(fecha_pedido) = 5 THEN "Mayo"
+        WHEN MONTH(fecha_pedido) = 6 THEN "Junio"
+        WHEN MONTH(fecha_pedido) = 7 THEN "Julio"
+        WHEN MONTH(fecha_pedido) = 8 THEN "Agosto"
+        WHEN MONTH(fecha_pedido) = 9 THEN "Septiembre"
+        WHEN MONTH(fecha_pedido) = 10 THEN "Octubre"
+        WHEN MONTH(fecha_pedido) = 11 THEN "Noviembre"
+        WHEN MONTH(fecha_pedido) = 12 THEN "Diciembre"
+        END AS MES,
+        YEAR(fecha_pedido) AS AÑO,
+        SUM(precio_producto) AS GANANCIAS
+        FROM detalles_pedidos
+        INNER JOIN pedidos USING(id_pedido)
+        WHERE estado_pedido = "Entregado" AND YEAR(fecha_pedido) = ?
+        GROUP BY AÑO, MES
+        ORDER BY AÑO ASC, MONTH(fecha_pedido) ASC;
+        ';
+        $params = array($this->año);
+        return Database::getRows($sql, $params);
+    }
+
     //Función para leer la imagen del id desde la base.
     public function readFilename()
     {
@@ -80,27 +120,27 @@ class DetallesPedidosHandler
     {
         // Consulta para traer los datos de la base de datos.
         $sql = 'SELECT 
-        CASE 
-            WHEN MONTH(fecha_pedido) = 1 THEN "Enero"
-            WHEN MONTH(fecha_pedido) = 2 THEN "Febrero"
-            WHEN MONTH(fecha_pedido) = 3 THEN "Marzo"
-            WHEN MONTH(fecha_pedido) = 4 THEN "Abril"
-            WHEN MONTH(fecha_pedido) = 5 THEN "Mayo"
-            WHEN MONTH(fecha_pedido) = 6 THEN "Junio"
-            WHEN MONTH(fecha_pedido) = 7 THEN "Julio"
-            WHEN MONTH(fecha_pedido) = 8 THEN "Agosto"
-            WHEN MONTH(fecha_pedido) = 9 THEN "Septiembre"
-            WHEN MONTH(fecha_pedido) = 10 THEN "Octubre"
-            WHEN MONTH(fecha_pedido) = 11 THEN "Noviembre"
-            WHEN MONTH(fecha_pedido) = 12 THEN "Diciembre"
-        END AS MES,
-        YEAR(fecha_pedido) AS AÑO,
-        SUM(precio_producto) AS GANANCIAS
-        FROM detalles_pedidos
-        INNER JOIN pedidos USING(id_pedido)
-        WHERE estado_pedido = "Entregado"
-        GROUP BY AÑO, MES
-        ORDER BY AÑO ASC, MONTH(fecha_pedido) ASC;';
+    CASE 
+        WHEN MONTH(fecha_pedido) = 1 THEN "Enero"
+        WHEN MONTH(fecha_pedido) = 2 THEN "Febrero"
+        WHEN MONTH(fecha_pedido) = 3 THEN "Marzo"
+        WHEN MONTH(fecha_pedido) = 4 THEN "Abril"
+        WHEN MONTH(fecha_pedido) = 5 THEN "Mayo"
+        WHEN MONTH(fecha_pedido) = 6 THEN "Junio"
+        WHEN MONTH(fecha_pedido) = 7 THEN "Julio"
+        WHEN MONTH(fecha_pedido) = 8 THEN "Agosto"
+        WHEN MONTH(fecha_pedido) = 9 THEN "Septiembre"
+        WHEN MONTH(fecha_pedido) = 10 THEN "Octubre"
+        WHEN MONTH(fecha_pedido) = 11 THEN "Noviembre"
+        WHEN MONTH(fecha_pedido) = 12 THEN "Diciembre"
+    END AS MES,
+    YEAR(fecha_pedido) AS AÑO,
+    SUM(precio_producto) AS GANANCIAS
+    FROM detalles_pedidos
+    INNER JOIN pedidos USING(id_pedido)
+    WHERE estado_pedido = "Entregado"
+    GROUP BY AÑO, MES
+    ORDER BY AÑO ASC, MONTH(fecha_pedido) ASC;';
 
         // Ejecutar la consulta y almacenar los resultados
         $rows = Database::getRows($sql);
@@ -132,6 +172,14 @@ class DetallesPedidosHandler
 
         // Calcular la intersección (b) de la línea de regresión
         $b = ($sumY - $m * $sumX) / $N;
+
+        // Imprimir valores para depuración
+        /* echo "Pendiente (m): $m\n";
+        echo "Intersección (b): $b\n";
+        echo "SumX: $sumX\n";
+        echo "SumY: $sumY\n";
+        echo "SumXY: $sumXY\n";
+        echo "SumX2: $sumX2\n"; */
 
         // Predecir ganancias futuras (por ejemplo, para los próximos 12 meses)
         $predictions = []; // Array para almacenar las predicciones

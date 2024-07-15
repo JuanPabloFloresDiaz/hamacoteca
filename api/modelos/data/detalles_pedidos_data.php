@@ -26,6 +26,18 @@ class DetallesPedidosData extends DetallesPedidosHandler
             return false;
         }
     }
+    
+    // Validación y asignación del ID del detalle de pedido.
+    public function setAño($value)
+    {
+        if (Validator::validateNaturalNumber($value)) {
+            $this->año = $value;
+            return true;
+        } else {
+            $this->data_error = 'El año es incorrecto';
+            return false;
+        }
+    }
 
     // Asignación del nombre del archivo de imagen del producto.
     public function setFilename()

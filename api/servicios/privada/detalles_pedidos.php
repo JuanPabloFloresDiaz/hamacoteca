@@ -24,6 +24,14 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'Pedido inexistente';
                 }
                 break;
+                // Mostrar años disponibles para ver ganancias
+            case 'readYears':
+                if ($result['dataset'] = $pedido->readYears()) {
+                    $result['status'] = 1;
+                } else {
+                    $result['error'] = 'Error en el conteo de ordenes';
+                }
+                break;
                 // Contar ganancias por fecha
             case 'profitsForDate':
                 if ($result['dataset'] = $pedido->profitsForDate()) {
@@ -32,6 +40,16 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'Error en el conteo de ordenes';
                 }
                 break;
+                case 'profitsForYear':
+                    if (!$pedido->setAño($_POST['year'])) {
+                        $result['error'] = 'Pedido incorrecto';
+                    } elseif ($result['dataset'] = $pedido->profitsForYear()) {
+                        $result['status'] = 1;
+                        $result['message'] = 'Existen ' . count($result['dataset']) . ' registros';
+                    } else {
+                        $result['error'] = 'Pedido inexistente';
+                    }
+                    break;
                 // Predecir ganancias por mes
             case 'profitsForDatePrediction':
                 if ($result['dataset'] = $pedido->profitsForDatePrediction()) {

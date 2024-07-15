@@ -157,6 +157,8 @@ const graficoPastelCategorias = async () => {
 
 }
 
+
+let chartInstance = null;
 async function cargarGraficaLineal() {
     try {
         // Petición para obtener los datos del gráfico.
@@ -172,10 +174,57 @@ async function cargarGraficaLineal() {
                 fecha.push(`${row.MES} ${row.AÑO}`);
                 ganancias.push(row.GANANCIAS);
             });
-            // Llamada a la función para generar y mostrar un gráfico de pastel. Se encuentra en el archivo components.js
-            lineGraph('chart3', fecha, ganancias, 'Ganancias por mes $', 'Gráfica de ganancias');
+            
+            // Destruir la instancia existente del gráfico si existe
+            if (chartInstance) {
+                chartInstance.destroy();
+                chartInstance = null; // Asegúrate de restablecer la referencia
+            }
+
+            // Restablecer el canvas en caso de que sea necesario
+            const canvasContainer = document.getElementById('chart3').parentElement;
+            canvasContainer.innerHTML = '<canvas id="chart3"></canvas>';
+
+            // Llamada a la función para generar y mostrar un gráfico de lineas. Se encuentra en el archivo components.js
+            chartInstance = lineGraph('chart3', fecha, ganancias, 'Ganancias por mes $', 'Gráfica de ganancias');
         } else {
-            document.getElementById('chart3').remove();
+            console.log(DATA.error);
+        }
+    } catch {
+        console.log('error')
+    }
+}
+
+async function cargarGraficaLinealPorAño(FORM) {
+    try {
+        // Petición para obtener los datos del gráfico.
+        const DATA = await fetchData(DETALLE_PEDIDO_API, 'profitsForYear', FORM);
+        // Se comprueba si la respuesta es satisfactoria, de lo contrario se remueve la etiqueta canvas.
+        if (DATA.status) {
+            // Se declaran los arreglos para guardar los datos a gráficar.
+            let fecha = [];
+            let ganancias = [];
+            // Se recorre el conjunto de registros fila por fila a través del objeto row.
+            DATA.dataset.forEach(row => {
+                // Se agregan los datos a los arreglos.
+                fecha.push(`${row.MES} ${row.AÑO}`);
+                ganancias.push(row.GANANCIAS);
+            });
+            
+            // Destruir la instancia existente del gráfico si existe
+            if (chartInstance) {
+                chartInstance.destroy();
+                chartInstance = null; // Asegúrate de restablecer la referencia
+            }
+
+            // Restablecer el canvas en caso de que sea necesario
+            const canvasContainer = document.getElementById('chart3').parentElement;
+            canvasContainer.innerHTML = '<canvas id="chart3"></canvas>';
+
+            // Llamada a la función para generar y mostrar un gráfico de lineas. Se encuentra en el archivo components.js
+            chartInstance = lineGraph('chart3', fecha, ganancias, 'Ganancias por mes $', 'Gráfica de ganancias');
+        } else {
+            cargarGraficaLineal();
             console.log(DATA.error);
         }
     } catch {
@@ -227,4 +276,16 @@ window.onload = async function () {
     // Llama a la función para mostrar el gráfico de barras
     cargarGraficaLineal();
     graficoPastelCategorias();
+    fillSelect(DETALLE_PEDIDO_API, 'readYears', 'year');
+
+    // Añade un event listener para el evento 'change'
+    document.getElementById('year').addEventListener('change', function (event) {
+        // Obtiene el valor seleccionado
+        const selectedValue = event.target.value;
+        // Muestra el valor seleccionado en la consola
+        console.log('El valor seleccionado es:', selectedValue);
+        const FORM = new FormData();
+        FORM.append('year', selectedValue);
+        cargarGraficaLinealPorAño(FORM);
+    });
 };

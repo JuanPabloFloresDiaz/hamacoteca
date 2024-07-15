@@ -180,11 +180,11 @@ INSERT INTO pedidos (estado_pedido, fecha_pedido, direccion_pedido, id_cliente) 
 INSERT INTO pedidos (estado_pedido, fecha_pedido, direccion_pedido, id_cliente) VALUES ('Entregado', '2024-05-20', '1213 Avenida del Sol', 5);
 INSERT INTO pedidos (estado_pedido, fecha_pedido, direccion_pedido, id_cliente) VALUES ('Entregado', '2024-06-25', '1415 Calle Luna', 6);
 INSERT INTO pedidos (estado_pedido, fecha_pedido, direccion_pedido, id_cliente) VALUES ('Entregado', '2024-07-01', '1617 Avenida Estrella', 7);
-INSERT INTO pedidos (estado_pedido, fecha_pedido, direccion_pedido, id_cliente) VALUES ('Entregado', '2024-08-05', '1819 Calle Cielo', 8);
-INSERT INTO pedidos (estado_pedido, fecha_pedido, direccion_pedido, id_cliente) VALUES ('Entregado', '2024-09-10', '2021 Avenida Mar', 9);
-INSERT INTO pedidos (estado_pedido, fecha_pedido, direccion_pedido, id_cliente) VALUES ('Entregado', '2024-10-15', '2223 Calle Sol', 10);
-INSERT INTO pedidos (estado_pedido, fecha_pedido, direccion_pedido, id_cliente) VALUES ('Entregado', '2024-11-20', '2425 Avenida Luna', 11);
-INSERT INTO pedidos (estado_pedido, fecha_pedido, direccion_pedido, id_cliente) VALUES ('Entregado', '2024-12-25', '2627 Calle Estrella', 12);
+INSERT INTO pedidos (estado_pedido, fecha_pedido, direccion_pedido, id_cliente) VALUES ('Entregado', '2024-07-05', '1819 Calle Cielo', 8);
+INSERT INTO pedidos (estado_pedido, fecha_pedido, direccion_pedido, id_cliente) VALUES ('Entregado', '2024-07-10', '2021 Avenida Mar', 9);
+INSERT INTO pedidos (estado_pedido, fecha_pedido, direccion_pedido, id_cliente) VALUES ('Entregado', '2024-06-15', '2223 Calle Sol', 10);
+INSERT INTO pedidos (estado_pedido, fecha_pedido, direccion_pedido, id_cliente) VALUES ('Entregado', '2024-01-20', '2425 Avenida Luna', 11);
+INSERT INTO pedidos (estado_pedido, fecha_pedido, direccion_pedido, id_cliente) VALUES ('Entregado', '2024-02-25', '2627 Calle Estrella', 12);
 INSERT INTO pedidos (estado_pedido, fecha_pedido, direccion_pedido, id_cliente) VALUES ('Entregado', '2024-01-01', '2829 Avenida Cielo', 13);
 INSERT INTO pedidos (estado_pedido, fecha_pedido, direccion_pedido, id_cliente) VALUES ('Entregado', '2024-04-05', '3031 Calle Mar', 14);
 INSERT INTO pedidos (estado_pedido, fecha_pedido, direccion_pedido, id_cliente) VALUES ('Entregado', '2024-07-10', '3233 Avenida Sol', 15);
@@ -327,8 +327,6 @@ WHERE estado_pedido = "Entregado"
 GROUP BY YEAR(fecha_pedido), MONTH(fecha_pedido)
 ORDER BY YEAR(fecha_pedido) ASC, MONTH(fecha_pedido) ASC;
 
-
-
 SELECT * FROM administradores;
 SELECT * FROM roles_administradores;
 SELECT * FROM clientes;
@@ -364,22 +362,3 @@ GROUP BY FECHA ORDER BY GANANCIAS ASC;
 
 SELECT CONCAT(c.nombre_cliente, " ", c.apellido_cliente) AS CLIENTE, c.foto_cliente AS FOTO
 FROM  favoritos f INNER JOIN clientes c ON f.id_cliente = c.id_cliente WHERE f.id_hamaca = 4;
-
-SELECT id_hamaca AS ID,
-nombre_hamaca AS NOMBRE, foto_principal AS IMAGEN, descripcion_hamaca AS DESCRIPCIÓN, 
-cantidad_hamaca AS CANTIDAD, precio AS PRECIO,
-CASE WHEN estado_venta = 1 THEN 'Disponible' WHEN estado_venta = 0 THEN 'No disponible'
-END AS ESTADO, id_administrador AS ADMINISTRADOR, c.nombre_categoria AS CATEGORIA, nombre_material AS MATERIAL
-FROM hamacas 
-INNER JOIN categorias c USING(id_categoria)
-INNER JOIN materiales m USING(id_material)
-INNER JOIN valoraciones v USING(id_valoracion);
-
-SELECT h.nombre_hamaca AS NOMBRE, h.descripcion_hamaca AS DESCRIPCIÓN, h.precio AS PRECIO,
-h.cantidad_hamaca AS CANTIDAD, IFNULL(AVG(v.calificacion_producto), 0) AS PROMEDIO, h.foto_principal AS FOTO,
-c.nombre_categoria AS CATEGORIA, nombre_material AS MATERIAL FROM hamacas h
-INNER JOIN categorias c USING(id_categoria)
-INNER JOIN materiales m USING(id_material)
-LEFT JOIN detalles_pedidos dp ON h.id_hamaca = dp.id_hamaca
-LEFT JOIN valoraciones v ON dp.id_detalles_pedidos = v.id_detalles_pedidos
-WHERE h.id_hamaca = 1 GROUP BY h.id_hamaca;

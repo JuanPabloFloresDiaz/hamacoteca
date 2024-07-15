@@ -10,14 +10,6 @@ nombre_rol VARCHAR(60),
 CONSTRAINT uq_nombre_rol_unico UNIQUE(nombre_rol)
 );
 
-SELECT p.id_pedido AS ID, p.estado_pedido AS ESTADO, p.fecha_pedido AS FECHA, 
-p.direccion_pedido AS DIRECCION, CONCAT(c.nombre_cliente, " ", c.apellido_cliente) AS CLIENTE, 
-c.foto_cliente AS FOTO
-FROM pedidos p
-INNER JOIN clientes c ON p.id_cliente = c.id_cliente
-WHERE estado_pedido = "Entregado" AND fecha_pedido = '2024-07-08'
-ORDER BY CLIENTE;
-
 CREATE TABLE administradores(
 id_administrador INT AUTO_INCREMENT PRIMARY KEY,
 nombre_administrador VARCHAR(50) NOT NULL,
