@@ -96,6 +96,18 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'Ocurrió un problema al eliminar el material';
                 }
                 break;
+              // Gráfica
+              case 'graphic':
+                if (
+                    !$material->setId($_POST['idMaterial'])
+                ) {
+                    $result['error'] = $material->getDataError();
+                } elseif ($result['dataset'] = $material->graphic()) {
+                    $result['status'] = 1;
+                } else {
+                    $result['error'] = 'Gráfica inexistente';
+                }
+                break;
             default:
                 $result['error'] = 'Acción no disponible dentro de la sesión';
         }

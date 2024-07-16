@@ -85,4 +85,12 @@ class MaterialesHandler
         $params = array($this->id);
         return Database::executeRow($sql, $params);
     }
+
+    public function graphic()
+    {
+        $sql = 'SELECT SUM(cantidad_hamaca) AS TOTAL, nombre_hamaca AS HAMACA FROM hamacas
+        WHERE id_material = ?;';
+        $params = array($this->id);
+        return Database::getRows($sql, $params);
+    }
 }

@@ -5,6 +5,8 @@ let SAVE_FORM,
     DESCRIPCION_MATERIAL,
     IMAGEN_MATERIAL;
 let SEARCH_FORM;
+let GRAPHIC_MODAL,
+    MODAL_TITLE2;
 // Constantes para completar las rutas de la API.
 const MATERIAL_API = 'servicios/privada/materiales.php';
 
@@ -137,6 +139,64 @@ async function cargarTabla(form = null) {
     }
 }
 
+let chartInstance = null;
+
+/*
+*   Función para abrir la gráfica al momento.
+*   Parámetros: ninguno.
+*   Retorno: ninguno.
+*/
+const openGraphic = (id) => {
+    // Se muestra la caja de diálogo con su título.
+    GRAPHIC_MODAL.show();
+    MODAL_TITLE2.textContent = 'Gráfica de productos por material';
+    const FORM = new FormData();
+    FORM.append('idMaterial', id);
+    graficoBarrasAnalisis(FORM);
+}
+
+/*
+*   Función asíncrona para mostrar un gráfico de barras con la cantidad de productos por categoría.
+*   Parámetros: ninguno.
+*   Retorno: ninguno.
+*/
+const graficoBarrasAnalisis = async (FORM) => {
+    try {
+        // Petición para obtener los datos del gráfico.
+        let DATA = await fetchData(MATERIAL_API, 'graphic', FORM);
+        // Se comprueba si la respuesta es satisfactoria, de lo contrario se remueve la etiqueta canvas.
+        if (DATA.status) {
+            // Se declaran los arreglos para guardar los datos a graficar.
+            let hamaca = [];
+            let total = [];
+            // Se recorre el conjunto de registros fila por fila a través del objeto row.
+            DATA.dataset.forEach(row => {
+                // Se agregan los datos a los arreglos.
+                hamaca.push(row.HAMACA);
+                total.push(row.TOTAL);
+            });
+
+            // Destruir la instancia existente del gráfico si existe
+            if (chartInstance) {
+                chartInstance.destroy();
+                chartInstance = null; // Asegúrate de restablecer la referencia
+            }
+
+            // Restablecer el canvas en caso de que sea necesario
+            const canvasContainer = document.getElementById('material').parentElement;
+            canvasContainer.innerHTML = '<canvas id="material"></canvas>';
+
+            // Llamada a la función para generar y mostrar un gráfico de barras. Se encuentra en el archivo components.js
+            chartInstance = barGraph('material', hamaca, total, 'Análisis de productos por material');
+        } else {
+            console.log(DATA.error);
+        }
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+
 // Función para mostrar técnicos en una página específica
 function mostrarmateriales(pagina) {
     const inicio = (pagina - 1) * materialesPorPagina;
@@ -157,6 +217,9 @@ function mostrarmateriales(pagina) {
                         </button>
                         <button type="button" class="btn btn-outline-danger" onclick="openDelete(${row.ID})">
                             <i class="bi bi-trash-fill"></i>
+                        </button>
+                        <button type="button" class="btn transparente" onclick="openGraphic(${row.ID})">
+                            <i class="bi bi-bar-chart-fill"></i>
                         </button>
                     </td>
                 </tr>
@@ -217,7 +280,8 @@ window.onload = async function () {
     SAVE_MODAL = new bootstrap.Modal('#saveModal'),
         MODAL_TITLE = document.getElementById('modalTitle');
 
-
+    GRAPHIC_MODAL = new bootstrap.Modal('#graphicModal'),
+        MODAL_TITLE2 = document.getElementById('modalTitle3');
     // Constantes para establecer los elementos del formulario de guardar.
     SAVE_FORM = document.getElementById('saveForm'),
         ID_MATERIAL = document.getElementById('idMaterial'),
