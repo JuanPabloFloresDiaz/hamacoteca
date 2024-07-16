@@ -95,11 +95,23 @@ class ClientesHandler
     // Función para leer todos los clientes
     public function readAll()
     {
-        $sql = 'SELECT id_cliente AS ID, nombre_cliente AS NOMBRE, correo_cliente AS CORREO,
+        $sql = 'SELECT id_cliente AS ID, nombre_cliente AS NOMBRE, correo_cliente AS CORREO, apellido_cliente AS APELLIDO, fecha_registro AS FECHA,
          telefono_cliente AS TELEFONO, dui_cliente AS DUI, CASE 
         WHEN estado_cliente = 1 THEN "Activo"
         WHEN estado_cliente = 0 THEN "Bloqueado"
-        END AS ESTADO, foto_cliente AS FOTO FROM clientes
+        END AS ESTADO, foto_cliente AS FOTO, CONCAT(nombre_cliente," ",apellido_cliente) AS NOMBRE_COMPLETO
+        FROM clientes
+                ORDER BY NOMBRE;';
+        return Database::getRows($sql);
+    }
+
+    public function readAllBlocks()
+    {
+        $sql = 'SELECT id_cliente AS ID, nombre_cliente AS NOMBRE, correo_cliente AS CORREO, apellido_cliente AS APELLIDO, fecha_registro AS FECHA,
+         telefono_cliente AS TELEFONO, dui_cliente AS DUI, CASE 
+        WHEN estado_cliente = 1 THEN "Activo"
+        WHEN estado_cliente = 0 THEN "Bloqueado"
+        END AS ESTADO, foto_cliente AS FOTO FROM clientes WHERE estado_cliente = 0
                 ORDER BY NOMBRE;';
         return Database::getRows($sql);
     }
