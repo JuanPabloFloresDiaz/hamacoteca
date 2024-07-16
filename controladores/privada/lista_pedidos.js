@@ -191,21 +191,53 @@ async function cargarDetalle(form = null) {
     }
 }
 
+// Variables y constantes para la paginación
+const pedidosPorPagina = 10;
+let paginaActual = 1;
+let pedidos = [];
+
+// Función para cargar tabla de técnicos con paginación
 async function cargarTabla(form = null) {
     const cargarTabla = document.getElementById('tabla_lista_pedidos');
-
     try {
         cargarTabla.innerHTML = '';
-        // Se verifica la acción a realizar.
-        (form) ? action = 'searchList' : action = 'readAllList';
         // Petición para obtener los registros disponibles.
+        let action;
+        form ? action = 'searchList' : action = 'readAllList';
+        console.log(form);
         const DATA = await fetchData(PEDIDOS_API, action, form);
         console.log(DATA);
 
         if (DATA.status) {
-            // Mostrar elementos obtenidos de la API
-            DATA.dataset.forEach(row => {
-                const tablaHtml = `
+            pedidos = DATA.dataset;
+            mostrarpedidos(paginaActual);
+            // Se muestra un mensaje de acuerdo con el resultado.
+            ROWS_FOUND.textContent = DATA.message;
+        } else {
+            const tablaHtml = `
+            <tr class="border-danger">
+                <td class="text-danger">${DATA.error}</td>
+            </tr>
+            `;
+            cargarTabla.innerHTML += tablaHtml;
+            // Se muestra un mensaje de acuerdo con el resultado.
+            ROWS_FOUND.textContent = "Existen 0 coincidencias";
+        }
+    } catch (error) {
+        console.error('Error al obtener datos de la API:', error);
+    }
+}
+
+// Función para mostrar técnicos en una página específica
+function mostrarpedidos(pagina) {
+    const inicio = (pagina - 1) * pedidosPorPagina;
+    const fin = inicio + pedidosPorPagina;
+    const pedidosPagina = pedidos.slice(inicio, fin);
+
+    const cargarTabla = document.getElementById('tabla_lista_pedidos');
+    cargarTabla.innerHTML = '';
+    pedidosPagina.forEach(row => {
+        const tablaHtml = `
                 <tr class="${getRowBackgroundColor(row.ESTADO)}">
                     <td><img src="${SERVER_URL}imagenes/clientes/${row.FOTO}" height="50" width="50" class="circulo"></td>
                     <td>${row.CLIENTE}</td>
@@ -220,44 +252,38 @@ async function cargarTabla(form = null) {
                         <i class="bi bi-exclamation-octagon"></i>
                         </button>
                 </td>
-            </tr>
-                `;
-                cargarTabla.innerHTML += tablaHtml;
-                // Se muestra un mensaje de acuerdo con el resultado.
-                ROWS_FOUND.textContent = DATA.message;
-            });
-        } else {
-            const tablaHtml = `
-            <tr class="border-danger">
-                <td class="text-danger">${DATA.error}</td>
-            </tr>
-            `;
-            cargarTabla.innerHTML += tablaHtml;
-            // Se muestra un mensaje de acuerdo con el resultado.
-            ROWS_FOUND.textContent = "Existen 0 coincidencias";
-        }
-    } catch (error) {
-        // Mostrar materiales de respaldo
-        listapedidos.forEach(row => {
-            const tablaHtml = `
-            <tr class="${getRowBackgroundColor(row.estado)}">
-                    <td>${row.cliente}</td>
-                    <td>${row.direccion}</td>
-                    <td>${row.fecha}</td>
-                    <td class="${getRowColor(row.estado)}">${row.estado}</td>
-                    <td>
-                    <button type="button" class="btn btn-outline-info" onclick="openDetail(${row.id})">
-                    <i class="bi bi-card-list"></i>
-                    </button>
-                    <button type="button" class="btn btn-outline-primary" onclick="openState(${row.id})">
-                    <i class="bi bi-exclamation-octagon"></i>
-                    </button>
-                    </td>
-            </tr>
-            `;
-            cargarTabla.innerHTML += tablaHtml;
-        });
+                </tr>
+        `;
+        cargarTabla.innerHTML += tablaHtml;
+    });
+
+    actualizarPaginacion();
+}
+
+// Función para actualizar los controles de paginación
+function actualizarPaginacion() {
+    const paginacion = document.querySelector('.pagination');
+    paginacion.innerHTML = '';
+
+    const totalPaginas = Math.ceil(pedidos.length / pedidosPorPagina);
+
+    if (paginaActual > 1) {
+        paginacion.innerHTML += `<li class="page-item"><a class="page-link text-dark" href="#" onclick="cambiarPagina(${paginaActual - 1})">Anterior</a></li>`;
     }
+
+    for (let i = 1; i <= totalPaginas; i++) {
+        paginacion.innerHTML += `<li class="page-item ${i === paginaActual ? 'active' : ''}"><a class="page-link text-dark" href="#" onclick="cambiarPagina(${i})">${i}</a></li>`;
+    }
+
+    if (paginaActual < totalPaginas) {
+        paginacion.innerHTML += `<li class="page-item"><a class="page-link text-dark" href="#" onclick="cambiarPagina(${paginaActual + 1})">Siguiente</a></li>`;
+    }
+}
+
+// Función para cambiar de página
+function cambiarPagina(nuevaPagina) {
+    paginaActual = nuevaPagina;
+    mostrarpedidos(paginaActual);
 }
 
 function getRowColor(estado) {
