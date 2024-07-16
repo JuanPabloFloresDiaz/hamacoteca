@@ -502,6 +502,24 @@ function getRowBackgroundColor(estado) {
     }
 }
 
+async function totalProducts() {
+    try {
+        // Petición para obtener los registros disponibles.
+        const DATA = await fetchData(HAMACA_API, 'totalProducts');
+        console.log(DATA);
+
+        if (DATA.status) {
+            // Accede al primer elemento del array dataset y luego obtén el valor TOTAL
+            const totalProductos = DATA.dataset[0].TOTAL;
+            document.getElementById('productos').textContent = totalProductos;
+        } else {
+            sweetAlert(4, DATA.error, true);
+        }
+    } catch (error) {
+        console.error('Error al obtener datos de la API: ', error);
+    }
+}
+
 // window.onload
 window.onload = async function () {
 
@@ -514,6 +532,7 @@ window.onload = async function () {
     // Agrega el HTML del encabezado
     appContainer.innerHTML = adminHtml;
     cargarTabla();
+    totalProducts();
     const theme = localStorage.getItem('theme'); // Obtener el tema desde localStorage
 
     if (theme === 'dark') {

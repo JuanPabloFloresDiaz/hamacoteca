@@ -6,12 +6,29 @@
         <!-- Buscador -->
         <div class="mx-auto">
             <form id="searchForm" class="d-flex">
-                <input type="search" class="form-control me-2 rounded-5 border-dark" name="search" placeholder="Buscar por el nombre" required>
+                <input type="search" class="form-control me-2 rounded-5 border-dark" name="search"
+                    placeholder="Buscar por el nombre" required>
                 <button type="submit" class="btn btn-outline-dark me-5 rounded-5"><i class="bi bi-search"></i></button>
                 <button type="reset" class="btn btn-white" onclick="cargarTabla()">
                     <i class="bi bi-arrow-clockwise"></i>
                 </button>
             </form>
+        </div>
+    </div>
+    <!-- Cartas-->
+    <div class="container col-md-12 mt-4">
+        <div class="row row-cols-1 row-cols-md-3 gx-4 gy-4">
+            <!-- Pedidos entregados-->
+            <div class="col mb-4">
+                <div class="card bg-dark border-dark">
+                    <div class="card-header bg-transparent border-light text-white">Productos mejor calificados ⭐⭐⭐⭐⭐</div>
+                    <div class="card-body text-white" onclick="openModalReport()">
+                        <h5 class="card-title">Ver productos mejor calificados</h5>
+                        <p class="card-text" id="numero"></p>
+                    </div>
+                    <div class="card-footer bg-transparent border-light text-white">Hamacoteca</div>
+                </div>
+            </div>
         </div>
     </div>
     <!-- Tabla para mostrar los registros existentes -->
@@ -54,9 +71,33 @@
                 <div class="modal-body row g-3">
                     <!-- Campo oculto para asignar el id del registro al momento de modificar -->
                     <input type="number" id="idValoracion" name="idValoracion" class="d-none">
-                    
                 </div>
             </form>
+        </div>
+    </div>
+</div>
+
+<!-- Modal de reporte de pedidos por fechas -->
+<div class="modal fade" id="reportModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="reportModalTitle"></span></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- Formulario para crear o actualizar un registro -->
+                <div class="modal-body row g-3">
+                    <h4>Top 5 de productos mejor calificados</h4>
+                </div>
+                <div class="modal-footer col-sm-12 col-md-12 col-lg-12 text-center">
+                    <button type="submit" class="btn btn-outline-dark" onclick="openReport()">
+                        <i class="bi bi-file-earmark-text-fill"></i>
+                    </button>
+                </div>
+            </div>
         </div>
     </div>
 </div>

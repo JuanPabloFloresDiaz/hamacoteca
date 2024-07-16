@@ -4,6 +4,9 @@ const VALORACIONES_API = 'servicios/privada/valoraciones.php';
 
 let ROWS_FOUND;
 
+let REPORT_MODAL,
+    REPORT_MODAL_TITLE;
+
 async function loadComponent(path) {
     const response = await fetch(path);
     const text = await response.text();
@@ -162,6 +165,11 @@ function getRowBackgroundColor(estado) {
     }
 }
 
+async function openModalReport() {
+    // Se muestra la caja de diálogo con su título.
+    REPORT_MODAL.show();
+    REPORT_MODAL_TITLE.textContent = 'Reporte de pedidos entregados por fecha';
+}
 // window.onload
 window.onload = async function () {
     // Obtiene el contenedor principal
@@ -177,6 +185,9 @@ window.onload = async function () {
     SEARCH_FORM = document.getElementById('searchForm');
     // Verificar si SEARCH_FORM está seleccionado correctamente
     console.log(SEARCH_FORM)
+    // Modal del reporte
+    REPORT_MODAL = new bootstrap.Modal('#reportModal'),
+        REPORT_MODAL_TITLE = document.getElementById('reportModalTitle');
     // Método del evento para cuando se envía el formulario de buscar.
     SEARCH_FORM.addEventListener('submit', (event) => {
         // Se evita recargar la página web después de enviar el formulario.
