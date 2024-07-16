@@ -152,47 +152,28 @@ const openDelete = async (id) => {
 *   Parámetros: form (objeto opcional con los datos de búsqueda).
 *   Retorno: ninguno.
 */
+// Variables y constantes para la paginación
+const rolesPorPagina = 10;
+let paginaActual = 1;
+let roles = [];
+
+// Función para cargar tabla de técnicos con paginación
 async function cargarTabla(form = null) {
-    const listacategoria = [
-        {
-            nombre: 'Root',
-            id: 1
-        },
-        {
-            nombre: 'Administrador de usuarios',
-            id: 2
-        },
-    ];
     const cargarTabla = document.getElementById('tabla_rol');
     try {
         cargarTabla.innerHTML = '';
-        // Se verifica la acción a realizar.
-        (form) ? action = 'searchRows' : action = 'readAll';
-        console.log(form);
         // Petición para obtener los registros disponibles.
+        let action;
+        form ? action = 'searchRows' : action = 'readAll';
+        console.log(form);
         const DATA = await fetchData(ROL_API, action, form);
         console.log(DATA);
 
         if (DATA.status) {
-            // Mostrar elementos de la lista obtenidos de la API
-            DATA.dataset.forEach(row => {
-                const tablaHtml = `
-                <tr>
-                <td>${row.NOMBRE}</td>
-                <td>
-                    <button type="button" class="btn btn-outline-success" onclick="openUpdate(${row.ID})">
-                        <i class="bi bi-pencil-fill"></i>
-                    </button>
-                    <button type="button" class="btn btn-outline-danger" onclick="openDelete(${row.ID})">
-                        <i class="bi bi-trash-fill"></i>
-                    </button>
-                </td>
-                </tr>
-                `;
-                cargarTabla.innerHTML += tablaHtml;
-                // Se muestra un mensaje de acuerdo con el resultado.
-                ROWS_FOUND.textContent = DATA.message;
-            });
+            roles = DATA.dataset;
+            mostrarroles(paginaActual);
+            // Se muestra un mensaje de acuerdo con el resultado.
+            ROWS_FOUND.textContent = DATA.message;
         } else {
             const tablaHtml = `
             <tr class="border-danger">
@@ -205,24 +186,61 @@ async function cargarTabla(form = null) {
         }
     } catch (error) {
         console.error('Error al obtener datos de la API:', error);
-        // Mostrar materiales de respaldo
-        listacategoria.forEach(row => {
-            const tablaHtml = `
-            <tr>
-                <td>${row.nombre}</td>
+    }
+}
+
+// Función para mostrar técnicos en una página específica
+function mostrarroles(pagina) {
+    const inicio = (pagina - 1) * rolesPorPagina;
+    const fin = inicio + rolesPorPagina;
+    const rolesPagina = roles.slice(inicio, fin);
+
+    const cargarTabla = document.getElementById('tabla_rol');
+    cargarTabla.innerHTML = '';
+    rolesPagina.forEach(row => {
+        const tablaHtml = `
+                <tr>
+                <td>${row.NOMBRE}</td>
                 <td>
-                    <button type="button" class="btn btn-outline-success" onclick="openUpdate(${row.id})">
+                    <button type="button" class="btn btn-outline-success" onclick="openUpdate(${row.ID})">
                         <i class="bi bi-pencil-fill"></i>
                     </button>
-                    <button type="button" class="btn btn-outline-danger" onclick="openDelete(${row.id})">
+                    <button type="button" class="btn btn-outline-danger" onclick="openDelete(${row.ID})">
                         <i class="bi bi-trash-fill"></i>
                     </button>
                 </td>
-            </tr>
-            `;
-            cargarTabla.innerHTML += tablaHtml;
-        });
+                </tr>
+        `;
+        cargarTabla.innerHTML += tablaHtml;
+    });
+
+    actualizarPaginacion();
+}
+
+// Función para actualizar los controles de paginación
+function actualizarPaginacion() {
+    const paginacion = document.querySelector('.pagination');
+    paginacion.innerHTML = '';
+
+    const totalPaginas = Math.ceil(roles.length / rolesPorPagina);
+
+    if (paginaActual > 1) {
+        paginacion.innerHTML += `<li class="page-item"><a class="page-link text-dark" href="#" onclick="cambiarPagina(${paginaActual - 1})">Anterior</a></li>`;
     }
+
+    for (let i = 1; i <= totalPaginas; i++) {
+        paginacion.innerHTML += `<li class="page-item ${i === paginaActual ? 'active' : ''}"><a class="page-link text-dark" href="#" onclick="cambiarPagina(${i})">${i}</a></li>`;
+    }
+
+    if (paginaActual < totalPaginas) {
+        paginacion.innerHTML += `<li class="page-item"><a class="page-link text-dark" href="#" onclick="cambiarPagina(${paginaActual + 1})">Siguiente</a></li>`;
+    }
+}
+
+// Función para cambiar de página
+function cambiarPagina(nuevaPagina) {
+    paginaActual = nuevaPagina;
+    mostrarroles(paginaActual);
 }
 
 

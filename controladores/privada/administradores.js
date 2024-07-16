@@ -148,58 +148,53 @@ const openState = async (id) => {
 
 }
 
-async function cargarTabla(form = null) {
-    const lista_datos = [
-        {
-            imagen: '../../../recursos/img/foto.png',
-            nombre: 'Joel',
-            correo: 'joel@gmail.com',
-            telefono: '1234-5678',
-            dui: '12345678-9',
-            fecha: '1994-02-09',
-            id: 1,
-        },
-        {
-            imagen: '../../../recursos/img/foto.png',
-            nombre: 'Joel',
-            correo: 'joel@gmail.com',
-            telefono: '1234-5678',
-            dui: '12345678-9',
-            fecha: '1994-02-09',
-            id: 2,
-        },
-        {
-            imagen: '../../../recursos/img/foto.png',
-            nombre: 'Joel',
-            correo: 'joel@gmail.com',
-            telefono: '1234-5678',
-            dui: '12345678-9',
-            fecha: '1994-02-09',
-            id: 3,
-        },
-        {
-            imagen: '../../../recursos/img/foto.png',
-            nombre: 'Joel',
-            correo: 'joel@gmail.com',
-            telefono: '1234-5678',
-            dui: '12345678-9',
-            fecha: '1994-02-09',
-            id: 4,
-        }
-    ];
-    const cargarTabla = document.getElementById('tabla_administradores');
+// Variables y constantes para la paginación
+const administradoresPorPagina = 10;
+let paginaActual = 1;
+let administradores = [];
 
+// Función para cargar tabla de técnicos con paginación
+async function cargarTabla(form = null) {
+    const cargarTabla = document.getElementById('tabla_administradores');
     try {
         cargarTabla.innerHTML = '';
-        // Se verifica la acción a realizar.
-        (form) ? action = 'searchRows' : action = 'readAll';
         // Petición para obtener los registros disponibles.
+        let action;
+        form ? action = 'searchRows' : action = 'readAll';
+        console.log(form);
         const DATA = await fetchData(ADMINISTRADOR_API, action, form);
+        console.log(DATA);
 
         if (DATA.status) {
-            // Mostrar elementos obtenidos de la API
-            DATA.dataset.forEach(row => {
-                const tablaHtml = `
+            administradores = DATA.dataset;
+            mostraradministradores(paginaActual);
+            // Se muestra un mensaje de acuerdo con el resultado.
+            ROWS_FOUND.textContent = DATA.message;
+        } else {
+            const tablaHtml = `
+            <tr class="border-danger">
+                <td class="text-danger">${DATA.error}</td>
+            </tr>
+            `;
+            cargarTabla.innerHTML += tablaHtml;
+            // Se muestra un mensaje de acuerdo con el resultado.
+            ROWS_FOUND.textContent = "Existen 0 coincidencias";
+        }
+    } catch (error) {
+        console.error('Error al obtener datos de la API:', error);
+    }
+}
+
+// Función para mostrar técnicos en una página específica
+function mostraradministradores(pagina) {
+    const inicio = (pagina - 1) * administradoresPorPagina;
+    const fin = inicio + administradoresPorPagina;
+    const administradoresPagina = administradores.slice(inicio, fin);
+
+    const cargarTabla = document.getElementById('tabla_administradores');
+    cargarTabla.innerHTML = '';
+    administradoresPagina.forEach(row => {
+        const tablaHtml = `
                 <tr class="${getRowBackgroundColor(row.ESTADO)}">
                     <td><img src="${SERVER_URL}imagenes/administradores/${row.IMAGEN}" height="50" width="50" class="circulo"></td>
                     <td>${row.NOMBRE}</td>
@@ -219,49 +214,37 @@ async function cargarTabla(form = null) {
                         </button>
                     </td>
                 </tr>
-                `;
-                cargarTabla.innerHTML += tablaHtml;
-                // Se muestra un mensaje de acuerdo con el resultado.
-                ROWS_FOUND.textContent = DATA.message;
-            });
-        } else {
-            const tablaHtml = `
-            <tr class="border-danger">
-                <td class="text-danger">${DATA.error}</td>
-            </tr>
-            `;
-            cargarTabla.innerHTML += tablaHtml;
-            // Se muestra un mensaje de acuerdo con el resultado.
-            ROWS_FOUND.textContent = "Existen 0 coincidencias";
-        }
-    } catch (error) {
-        console.error('Error al obtener datos de la API:', error);
-        // Mostrar materiales de respaldo
-        lista_datos.forEach(row => {
-            const tablaHtml = `
-            <tr>
-                <td><img src="${row.imagen}" height="50" width="50" class="circulo"></td>
-                <td>${row.nombre}</td>
-                <td>${row.correo}</td>
-                <td>${row.telefono}</td>
-                <td>${row.dui}</td>
-                <td>${row.fecha}</td>
-                <td>
-                    <button type="button" class="btn btn-outline-primary" onclick="openState(${row.id})">
-                        <i class="bi bi-exclamation-octagon"></i>
-                    </button>
-                    <button type="button" class="btn btn-outline-success" onclick="openUpdate(${row.id})">
-                        <i class="bi bi-pencil-fill"></i>
-                    </button>
-                    <button type="button" class="btn btn-outline-danger" onclick="openDelete(${row.id})">
-                        <i class="bi bi-trash-fill"></i>
-                    </button>
-                </td>
-            </tr>
-            `;
-            cargarTabla.innerHTML += tablaHtml;
-        });
+        `;
+        cargarTabla.innerHTML += tablaHtml;
+    });
+
+    actualizarPaginacion();
+}
+
+// Función para actualizar los controles de paginación
+function actualizarPaginacion() {
+    const paginacion = document.querySelector('.pagination');
+    paginacion.innerHTML = '';
+
+    const totalPaginas = Math.ceil(administradores.length / administradoresPorPagina);
+
+    if (paginaActual > 1) {
+        paginacion.innerHTML += `<li class="page-item"><a class="page-link text-dark" href="#" onclick="cambiarPagina(${paginaActual - 1})">Anterior</a></li>`;
     }
+
+    for (let i = 1; i <= totalPaginas; i++) {
+        paginacion.innerHTML += `<li class="page-item ${i === paginaActual ? 'active' : ''}"><a class="page-link text-dark" href="#" onclick="cambiarPagina(${i})">${i}</a></li>`;
+    }
+
+    if (paginaActual < totalPaginas) {
+        paginacion.innerHTML += `<li class="page-item"><a class="page-link text-dark" href="#" onclick="cambiarPagina(${paginaActual + 1})">Siguiente</a></li>`;
+    }
+}
+
+// Función para cambiar de página
+function cambiarPagina(nuevaPagina) {
+    paginaActual = nuevaPagina;
+    mostraradministradores(paginaActual);
 }
 
 

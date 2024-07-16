@@ -58,61 +58,53 @@ const openState = async (id) => {
     }
 }
 
+// Variables y constantes para la paginación
+const clientesPorPagina = 10;
+let paginaActual = 1;
+let clientes = [];
 
+// Función para cargar tabla de técnicos con paginación
 async function cargarTabla(form = null) {
-    const lista_datos = [
-        {
-            imagen: '../../../recursos/img/mujer.jpg',
-            nombre: 'Roxana',
-            correo: 'roxy@gmail.com',
-            telefono: '1234-5678',
-            dui: '87654321-0',
-            estado: '1980-01-27',
-            id: 1,
-        },
-        {
-            imagen: '../../../recursos/img/lisa.jpg',
-            nombre: 'Lisa',
-            correo: 'lalisa@gmail.com',
-            telefono: '7549-3974',
-            dui: '92848195-4',
-            estado: '2004-09-09',
-            id: 2,
-        },
-        {
-            imagen: '../../../recursos/img/mujer.jpg',
-            nombre: 'Patricia',
-            correo: 'Paty@gmail.com',
-            telefono: '3832-0584',
-            dui: '82649264-5',
-            estado: '1999-08-24',
-            id: 3,
-        },
-        {
-            imagen: '../../../recursos/img/lisa.jpg',
-            nombre: 'Rumberta',
-            correo: 'rumbi@gmail.com',
-            telefono: '1963-7484',
-            dui: '21846285-4',
-            estado: '2006-12-31',
-            id: 4,
-        }
-    ];
     const cargarTabla = document.getElementById('tabla_clientes');
-
     try {
         cargarTabla.innerHTML = '';
-        // Se verifica la acción a realizar.
-        (form) ? action = 'searchRows' : action = 'readAll';
-        console.log(form);
         // Petición para obtener los registros disponibles.
+        let action;
+        form ? action = 'searchRows' : action = 'readAll';
+        console.log(form);
         const DATA = await fetchData(CLIENTES_API, action, form);
         console.log(DATA);
 
         if (DATA.status) {
-            // Mostrar elementos obtenidos de la API
-            DATA.dataset.forEach(row => {
-                const tablaHtml = `
+            clientes = DATA.dataset;
+            mostrarclientes(paginaActual);
+            // Se muestra un mensaje de acuerdo con el resultado.
+            ROWS_FOUND.textContent = DATA.message;
+        } else {
+            const tablaHtml = `
+            <tr class="border-danger">
+                <td class="text-danger">${DATA.error}</td>
+            </tr>
+            `;
+            cargarTabla.innerHTML += tablaHtml;
+            // Se muestra un mensaje de acuerdo con el resultado.
+            ROWS_FOUND.textContent = "Existen 0 coincidencias";
+        }
+    } catch (error) {
+        console.error('Error al obtener datos de la API:', error);
+    }
+}
+
+// Función para mostrar técnicos en una página específica
+function mostrarclientes(pagina) {
+    const inicio = (pagina - 1) * clientesPorPagina;
+    const fin = inicio + clientesPorPagina;
+    const clientesPagina = clientes.slice(inicio, fin);
+
+    const cargarTabla = document.getElementById('tabla_clientes');
+    cargarTabla.innerHTML = '';
+    clientesPagina.forEach(row => {
+        const tablaHtml = `
                 <tr class="${getRowBackgroundColor(row.ESTADO)}">
                     <td><img src="${SERVER_URL}imagenes/clientes/${row.FOTO}" height="50" width="50" class="circulo"></td>
                     <td>${row.NOMBRE}</td>
@@ -129,43 +121,37 @@ async function cargarTabla(form = null) {
                         </button>
                     </td>
                 </tr>
-                `;
-                cargarTabla.innerHTML += tablaHtml;
-                // Se muestra un mensaje de acuerdo con el resultado.
-                ROWS_FOUND.textContent = DATA.message;
-            });
-        } else {
-            const tablaHtml = `
-            <tr class="border-danger">
-                <td class="text-danger">${DATA.error}</td>
-            </tr>
-            `;
-            cargarTabla.innerHTML += tablaHtml;
-            // Se muestra un mensaje de acuerdo con el resultado.
-            ROWS_FOUND.textContent = "Existen 0 coincidencias";
-        }
-    } catch (error) {
-        console.error('Error al obtener datos de la API:', error);
-        // Mostrar materiales de respaldo
-        lista_datos.forEach(row => {
-            const tablaHtml = `
-            <tr>
-                <td><img src="${row.imagen}" height="50" width="50" class="circulo"></td>
-                <td>${row.nombre}</td>
-                <td>${row.correo}</td>
-                <td>${row.telefono}</td>
-                <td>${row.dui}</td>
-                <td>${row.estado}</td>
-                <td>
-                <button type="button" class="btn btn-outline-primary" onclick="openUpdate(${row.id})">
-                <i class="bi bi-exclamation-octagon"></i>
-                </button>
-                </td>
-            </tr>
-            `;
-            cargarTabla.innerHTML += tablaHtml;
-        });
+        `;
+        cargarTabla.innerHTML += tablaHtml;
+    });
+
+    actualizarPaginacion();
+}
+
+// Función para actualizar los controles de paginación
+function actualizarPaginacion() {
+    const paginacion = document.querySelector('.pagination');
+    paginacion.innerHTML = '';
+
+    const totalPaginas = Math.ceil(clientes.length / clientesPorPagina);
+
+    if (paginaActual > 1) {
+        paginacion.innerHTML += `<li class="page-item"><a class="page-link text-dark" href="#" onclick="cambiarPagina(${paginaActual - 1})">Anterior</a></li>`;
     }
+
+    for (let i = 1; i <= totalPaginas; i++) {
+        paginacion.innerHTML += `<li class="page-item ${i === paginaActual ? 'active' : ''}"><a class="page-link text-dark" href="#" onclick="cambiarPagina(${i})">${i}</a></li>`;
+    }
+
+    if (paginaActual < totalPaginas) {
+        paginacion.innerHTML += `<li class="page-item"><a class="page-link text-dark" href="#" onclick="cambiarPagina(${paginaActual + 1})">Siguiente</a></li>`;
+    }
+}
+
+// Función para cambiar de página
+function cambiarPagina(nuevaPagina) {
+    paginaActual = nuevaPagina;
+    mostrarclientes(paginaActual);
 }
 
 
