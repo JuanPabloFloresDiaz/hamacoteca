@@ -111,7 +111,7 @@ class ClientesHandler
          telefono_cliente AS TELEFONO, dui_cliente AS DUI, CASE 
         WHEN estado_cliente = 1 THEN "Activo"
         WHEN estado_cliente = 0 THEN "Bloqueado"
-        END AS ESTADO, foto_cliente AS FOTO FROM clientes WHERE estado_cliente = 0
+        END AS ESTADO, foto_cliente AS FOTO, CONCAT(nombre_cliente," ",apellido_cliente) AS NOMBRE_COMPLETO FROM clientes WHERE estado_cliente = 0
                 ORDER BY NOMBRE;';
         return Database::getRows($sql);
     }
