@@ -60,7 +60,7 @@ if (isset($_GET['action'])) {
                     $result['status'] = 1;
                     $result['message'] = 'Existen ' . count($result['dataset']) . ' registros';
                 } else {
-                    $result['error'] = 'No hay clientes registrados';
+                    $result['error'] = 'No hay pedidos registrados';
                 }
                 break;
                 // Ver uno lista
