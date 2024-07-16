@@ -23,6 +23,19 @@ async function loadComponent(path) {
     const text = await response.text();
     return text;
 }
+
+/*
+*   Función para abrir un reporte automático de productos por categoría.
+*   Parámetros: ninguno.
+*   Retorno: ninguno.
+*/
+const openReport = () => {
+    // Se declara una constante tipo objeto con la ruta específica del reporte en el servidor.
+    const PATH = new URL(`${SERVER_URL}reportes/privada/reporte_general_administradores.php`);
+    // Se abre el reporte en una nueva pestaña.
+    window.open(PATH.href);
+}
+
 /*
 *   Función para preparar el formulario al momento de insertar un registro.
 *   Parámetros: ninguno.
