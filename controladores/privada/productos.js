@@ -319,7 +319,7 @@ async function cargarFotos(form = null) {
         sweetAlert(4, error, true);
     }
 }
-
+/* 
 async function cargarTabla(form = null) {
     const listahamacas = [
         {
@@ -436,6 +436,106 @@ async function cargarTabla(form = null) {
             cargarTabla.innerHTML += tablaHtml;
         });
     }
+} */
+
+
+// Variables y constantes para la paginación
+const hamacasPorPagina = 10;
+let paginaActual = 1;
+let hamacas = [];
+
+// Función para cargar tabla de técnicos con paginación
+async function cargarTabla(form = null) {
+    const cargarTabla = document.getElementById('tabla_hamacas');
+    try {
+        cargarTabla.innerHTML = '';
+        // Petición para obtener los registros disponibles.
+        let action;
+        form ? action = 'searchRows' : action = 'readAll';
+        console.log(form);
+        const DATA = await fetchData(HAMACA_API, action, form);
+        console.log(DATA);
+
+        if (DATA.status) {
+            hamacas = DATA.dataset;
+            mostrarhamacas(paginaActual);
+            // Se muestra un mensaje de acuerdo con el resultado.
+            ROWS_FOUND.textContent = DATA.message;
+        } else {
+            // Se muestra un mensaje de acuerdo con el resultado.
+            ROWS_FOUND.textContent = "Existen 0 coincidencias";
+        }
+    } catch (error) {
+        console.error('Error al obtener datos de la API:', error);
+    }
+}
+
+// Función para mostrar técnicos en una página específica
+function mostrarhamacas(pagina) {
+    const inicio = (pagina - 1) * hamacasPorPagina;
+    const fin = inicio + hamacasPorPagina;
+    const hamacasPagina = hamacas.slice(inicio, fin);
+
+    const cargarTabla = document.getElementById('tabla_hamacas');
+    cargarTabla.innerHTML = '';
+    hamacasPagina.forEach(row => {
+        const tablaHtml = `
+                <tr class="${getRowBackgroundColor(row.ESTADO)}">
+                    <td><img src="${SERVER_URL}imagenes/hamacas/${row.IMAGEN}" height="50" width="50" class="circulo"></td>
+                    <td>${row.NOMBRE}</td>
+                    <td>${row.DESCRIPCIÓN}</td>
+                    <td>${row.CANTIDAD}</td>
+                    <td>${row.PRECIO}</td>
+                    <td class="${getRowColor(row.ESTADO)}">${row.ESTADO}</td>
+                    <td>
+                        <button type="button" class="btn btn-outline-primary" onclick="openState(${row.ID})">
+                            <i class="bi bi-exclamation-octagon"></i>
+                        </button>
+                        <button type="button" class="btn btn-outline-success" onclick="openUpdate(${row.ID})">
+                            <i class="bi bi-pencil-fill"></i>
+                        </button>
+                        <button type="button" class="btn btn-outline-danger" onclick="openDelete(${row.ID})">
+                            <i class="bi bi-trash-fill"></i>
+                        </button>
+                        <button type="button" class="btn btn-outline-primary" onclick="openImage(${row.ID})">
+                        <i class="bi bi-card-image"></i>
+                        </button>
+                        <button type="button" class="btn btn-outline-warning" onclick="openFavs(${row.ID})">
+                        <i class="bi bi-bookmark-star"></i>
+                        </button>
+                    </td>
+                </tr>
+        `;
+        cargarTabla.innerHTML += tablaHtml;
+    });
+
+    actualizarPaginacion();
+}
+
+// Función para actualizar los controles de paginación
+function actualizarPaginacion() {
+    const paginacion = document.querySelector('.pagination');
+    paginacion.innerHTML = '';
+
+    const totalPaginas = Math.ceil(hamacas.length / hamacasPorPagina);
+
+    if (paginaActual > 1) {
+        paginacion.innerHTML += `<li class="page-item"><a class="page-link text-dark" href="#" onclick="cambiarPagina(${paginaActual - 1})">Anterior</a></li>`;
+    }
+
+    for (let i = 1; i <= totalPaginas; i++) {
+        paginacion.innerHTML += `<li class="page-item ${i === paginaActual ? 'active' : ''}"><a class="page-link text-dark" href="#" onclick="cambiarPagina(${i})">${i}</a></li>`;
+    }
+
+    if (paginaActual < totalPaginas) {
+        paginacion.innerHTML += `<li class="page-item"><a class="page-link text-dark" href="#" onclick="cambiarPagina(${paginaActual + 1})">Siguiente</a></li>`;
+    }
+}
+
+// Función para cambiar de página
+function cambiarPagina(nuevaPagina) {
+    paginaActual = nuevaPagina;
+    mostrarhamacas(paginaActual);
 }
 
 const listafavs = [

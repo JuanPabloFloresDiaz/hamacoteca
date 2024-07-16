@@ -100,7 +100,7 @@ const openDelete = async (id) => {
 
 }
 
-
+/* 
 async function cargarTabla(form = null) {
     const listamaterial = [
         {
@@ -181,6 +181,94 @@ async function cargarTabla(form = null) {
             cargarTabla.innerHTML += tablaHtml;
         });
     }
+}
+ */
+
+// Variables y constantes para la paginación
+const materialesPorPagina = 10;
+let paginaActual = 1;
+let materiales = [];
+
+// Función para cargar tabla de técnicos con paginación
+async function cargarTabla(form = null) {
+    const cargarTabla = document.getElementById('tabla_materiales');
+    try {
+        cargarTabla.innerHTML = '';
+        // Petición para obtener los registros disponibles.
+        let action;
+        form ? action = 'searchRows' : action = 'readAll';
+        console.log(form);
+        const DATA = await fetchData(MATERIAL_API, action, form);
+        console.log(DATA);
+
+        if (DATA.status) {
+            materiales = DATA.dataset;
+            mostrarmateriales(paginaActual);
+            // Se muestra un mensaje de acuerdo con el resultado.
+            ROWS_FOUND.textContent = DATA.message;
+        } else {
+            // Se muestra un mensaje de acuerdo con el resultado.
+            ROWS_FOUND.textContent = "Existen 0 coincidencias";
+        }
+    } catch (error) {
+        console.error('Error al obtener datos de la API:', error);
+    }
+}
+
+// Función para mostrar técnicos en una página específica
+function mostrarmateriales(pagina) {
+    const inicio = (pagina - 1) * materialesPorPagina;
+    const fin = inicio + materialesPorPagina;
+    const materialesPagina = materiales.slice(inicio, fin);
+
+    const cargarTabla = document.getElementById('tabla_materiales');
+    cargarTabla.innerHTML = '';
+    materialesPagina.forEach(row => {
+        const tablaHtml = `
+                <tr>
+                    <td><img src="${SERVER_URL}imagenes/materiales/${row.IMAGEN}" height="50" width="50" class="circulo"></td>
+                    <td>${row.NOMBRE}</td>
+                    <td>${row.DESCRIPCION}</td>
+                    <td>
+                        <button type="button" class="btn btn-outline-success" onclick="openUpdate(${row.ID})">
+                            <i class="bi bi-pencil-fill"></i>
+                        </button>
+                        <button type="button" class="btn btn-outline-danger" onclick="openDelete(${row.ID})">
+                            <i class="bi bi-trash-fill"></i>
+                        </button>
+                    </td>
+                </tr>
+        `;
+        cargarTabla.innerHTML += tablaHtml;
+    });
+
+    actualizarPaginacion();
+}
+
+// Función para actualizar los controles de paginación
+function actualizarPaginacion() {
+    const paginacion = document.querySelector('.pagination');
+    paginacion.innerHTML = '';
+
+    const totalPaginas = Math.ceil(materiales.length / materialesPorPagina);
+
+    if (paginaActual > 1) {
+        paginacion.innerHTML += `<li class="page-item"><a class="page-link text-dark" href="#" onclick="cambiarPagina(${paginaActual - 1})">Anterior</a></li>`;
+    }
+
+    for (let i = 1; i <= totalPaginas; i++) {
+        paginacion.innerHTML += `<li class="page-item ${i === paginaActual ? 'active' : ''}"><a class="page-link text-dark" href="#" onclick="cambiarPagina(${i})">${i}</a></li>`;
+    }
+
+    if (paginaActual < totalPaginas) {
+        paginacion.innerHTML += `<li class="page-item"><a class="page-link text-dark" href="#" onclick="cambiarPagina(${paginaActual + 1})">Siguiente</a></li>`;
+    }
+}
+
+// Función para cambiar de página
+function cambiarPagina(nuevaPagina) {
+    paginaActual = nuevaPagina;
+    mostrarmateriales(paginaActual);
 }
 
 
