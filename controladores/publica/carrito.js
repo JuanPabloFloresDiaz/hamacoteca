@@ -43,6 +43,10 @@ async function finishOrder() {
         const DATA = await fetchData(PEDIDO_API, 'finishOrder');
         // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
         if (DATA.status) {
+            // Se declara una constante tipo objeto con la ruta específica del reporte en el servidor.
+            const PATH = new URL(`${SERVER_URL}reportes/publica/factura_de_comprobante_de_compra.php`);
+            // Se abre el reporte en una nueva pestaña.
+            window.open(PATH.href);
             sweetAlert(1, DATA.message, true, 'index.html');
         } else {
             sweetAlert(2, DATA.error, false);
@@ -120,7 +124,7 @@ async function cargarTabla(form = null) {
         const DATA = await fetchData(PEDIDO_API, 'readDetail', form);
         console.log(DATA);
 
-        if(DATA.session) {
+        if (DATA.session) {
             if (DATA.status) {
 
                 // Se declara e inicializa una variable para calcular el importe por cada producto.
@@ -164,11 +168,11 @@ async function cargarTabla(form = null) {
                 ROWS_FOUND.textContent = "Existen 0 coincidencias";
             }
         }
-        else{
+        else {
             sweetAlert(3, DATA.error, true, 'inicio_sesion.html');
         }
 
-       
+
     } catch (error) {
         sweetAlert(3, "Debe iniciar sesión para ver el carrito", true, 'inicio_sesion.html');
     }
@@ -191,11 +195,11 @@ window.onload = async function () {
     SAVE_MODAL = new bootstrap.Modal('#saveModal'),
         MODAL_TITLE = document.getElementById('modalTitle');
 
-        // Constantes para establecer los elementos del formulario de guardar.
+    // Constantes para establecer los elementos del formulario de guardar.
     SAVE_FORM = document.getElementById('saveForm'),
         ID_PEDIDO = document.getElementById('idPedido'),
         CANTIDAD_PEDIDO = document.getElementById('cantidad');
-    
+
     ROWS_FOUND = document.getElementById('rowsFound');
 
     SAVE_FORM.addEventListener('submit', async (event) => {
@@ -213,7 +217,7 @@ window.onload = async function () {
             SAVE_MODAL.hide();
             // Se muestra un mensaje de éxito.
             sweetAlert(1, DATA.message, true);
-            
+
         } else {
             sweetAlert(2, DATA.error, false);
         }

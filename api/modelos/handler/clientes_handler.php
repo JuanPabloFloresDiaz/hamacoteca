@@ -162,7 +162,7 @@ class ClientesHandler
 
     public function checkUser($mail, $password)
     {
-        $sql = 'SELECT id_cliente, correo_cliente, clave_cliente, estado_cliente, foto_cliente, CONCAT(nombre_cliente," ",apellido_cliente) AS nombre_completo
+        $sql = 'SELECT id_cliente, correo_cliente, dui_cliente, clave_cliente, estado_cliente, foto_cliente, CONCAT(nombre_cliente," ",apellido_cliente) AS nombre_completo
                 FROM clientes
                 WHERE correo_cliente = ?';
         $params = array($mail);
@@ -170,6 +170,7 @@ class ClientesHandler
         if (password_verify($password, $data['clave_cliente'])) {
             $this->id = $data['id_cliente'];
             $this->correo = $data['correo_cliente'];
+            $this->dui = $data['dui_cliente'];
             $this->estado = $data['estado_cliente'];
             $this->imagen = $data['foto_cliente'];
             $this->nombre_completo = $data['nombre_completo'];
@@ -184,6 +185,7 @@ class ClientesHandler
         if ($this->estado) {
             $_SESSION['idCliente'] = $this->id;
             $_SESSION['correoCliente'] = $this->correo;
+            $_SESSION['duiCliente'] = $this->dui;
             $_SESSION['fotoCliente'] = $this->imagen;
             $_SESSION['USERNAME'] = $this->nombre_completo;
             return true;
