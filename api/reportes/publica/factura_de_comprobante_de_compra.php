@@ -52,7 +52,7 @@ if ($datapedidos = $pedidos->readDetailReport()) {
     $pdf->setFillColor(255);
     $pdf->cell(125, 10, 'Factura a nombre de: '. $pdf->encodeString($_SESSION['USERNAME']), 1, 0, 'C' , 1);
     $pdf->cell(60, 10, 'Total: $'.$total, 1, 1, 'C', 1);
-    $pdf->cell(125, 10, 'Correo asociado: '. $pdf->encodeString($_SESSION['correoCliente']), 1, 0, 'C' , 1);
+    $pdf->cell(125, 10, $pdf->encodeString('Dirección: '. $_SESSION['direccionCliente']), 1, 0, 'C' , 1);
     $pdf->cell(60, 10, 'DUI: '. $pdf->encodeString($_SESSION['duiCliente']), 1, 1, 'C' , 1);
 } else {
     $pdf->cell(0, 15, $pdf->encodeString('No hay productos para mostrar'), 1, 1);

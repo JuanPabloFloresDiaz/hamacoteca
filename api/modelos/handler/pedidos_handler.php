@@ -259,7 +259,7 @@ class PedidosHandler
                 SELECT id_pedido
                 FROM pedidos
                 WHERE id_cliente = ? AND estado_pedido = "En camino"
-                ORDER BY fecha_pedido DESC
+                ORDER BY id_pedido DESC
                 LIMIT 1
                 );';
         $params = array($_SESSION['idCliente']);

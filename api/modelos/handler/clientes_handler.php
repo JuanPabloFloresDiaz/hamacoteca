@@ -162,7 +162,7 @@ class ClientesHandler
 
     public function checkUser($mail, $password)
     {
-        $sql = 'SELECT id_cliente, correo_cliente, dui_cliente, clave_cliente, estado_cliente, foto_cliente, CONCAT(nombre_cliente," ",apellido_cliente) AS nombre_completo
+        $sql = 'SELECT id_cliente, correo_cliente, dui_cliente, clave_cliente, direccion_cliente ,estado_cliente, foto_cliente, CONCAT(nombre_cliente," ",apellido_cliente) AS nombre_completo
                 FROM clientes
                 WHERE correo_cliente = ?';
         $params = array($mail);
@@ -174,6 +174,7 @@ class ClientesHandler
             $this->estado = $data['estado_cliente'];
             $this->imagen = $data['foto_cliente'];
             $this->nombre_completo = $data['nombre_completo'];
+            $this->direccion = $data['direccion_cliente'];
             return true;
         } else {
             return false;
@@ -187,6 +188,7 @@ class ClientesHandler
             $_SESSION['correoCliente'] = $this->correo;
             $_SESSION['duiCliente'] = $this->dui;
             $_SESSION['fotoCliente'] = $this->imagen;
+            $_SESSION['direccionCliente'] = $this->direccion;
             $_SESSION['USERNAME'] = $this->nombre_completo;
             return true;
         } else {

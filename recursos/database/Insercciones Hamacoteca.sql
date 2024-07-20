@@ -383,3 +383,15 @@ GROUP BY h.id_hamaca, h.nombre_hamaca
 HAVING NÚMERO > 0
 ORDER BY PROMEDIO DESC
 LIMIT 5;
+
+SELECT * FROM clientes;
+
+SELECT dp.id_detalles_pedidos AS ID,
+h.foto_principal AS IMAGEN,
+h.nombre_hamaca AS NOMBRE,
+dp.cantidad_comprada AS CANTIDAD,
+dp.precio_producto AS PRECIO,
+ROUND(dp.precio_producto * dp.cantidad_comprada, 2) AS TOTAL  
+FROM detalles_pedidos dp JOIN hamacas h ON dp.id_hamaca = h.id_hamaca 
+WHERE dp.id_pedido = 
+(SELECT id_pedido FROM pedidos WHERE id_cliente = 1 AND estado_pedido = "En camino" ORDER BY id_pedido DESC LIMIT 1);
