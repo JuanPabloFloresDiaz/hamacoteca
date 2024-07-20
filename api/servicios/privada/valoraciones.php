@@ -49,6 +49,14 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'Ocurrió un problema al alterar el estado del comentario';
                 }
                 break;
+                // Gráfica
+            case 'graphic':
+                if ($result['dataset'] = $valoracion->graphic()) {
+                    $result['status'] = 1;
+                } else {
+                    $result['error'] = 'Gráfica inexistente';
+                }
+                break;
             default:
                 $result['error'] = 'Acción no disponible dentro de la sesión';
         }

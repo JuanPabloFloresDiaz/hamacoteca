@@ -86,6 +86,7 @@ class MaterialesHandler
         return Database::executeRow($sql, $params);
     }
 
+    //Función para generar una gráfica de productos por material
     public function graphic()
     {
         $sql = 'SELECT SUM(cantidad_hamaca) AS TOTAL, nombre_hamaca AS HAMACA FROM hamacas

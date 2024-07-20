@@ -140,4 +140,19 @@ class ValoracionesHandler
         $params = array($_SESSION['idCliente'], $this->producto, $this->id);
         return Database::executeRow($sql, $params);
     }
+
+    //Función para generar una gráfica de los productos mejor calificados
+    public function graphic()
+    {
+        $sql = 'SELECT h.nombre_hamaca AS HAMACA,
+        AVG(v.calificacion_producto) AS PROMEDIO, COUNT(v.id_valoracion) AS NÚMERO  
+        FROM hamacas h
+        JOIN detalles_pedidos dp ON h.id_hamaca = dp.id_hamaca
+        JOIN valoraciones v ON dp.id_detalles_pedidos = v.id_detalles_pedidos
+        GROUP BY h.id_hamaca, h.nombre_hamaca
+        HAVING NÚMERO > 0
+        ORDER BY PROMEDIO DESC
+        LIMIT 5;';
+        return Database::getRows($sql);
+    }
 }

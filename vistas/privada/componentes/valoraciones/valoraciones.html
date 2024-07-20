@@ -14,8 +14,8 @@
                 </button>
             </form>
         </div>
-        <button type="submit" class="btn btn-outline-dark" onclick="openReport()">
-            <i class="bi bi-file-earmark-text-fill"></i>
+        <button type="submit" class="btn btn-outline-dark" onclick="openModalReport()">
+            <i class="bi bi-bar-chart-fill"></i>
         </button>
     </div>
     <!-- Tabla para mostrar los registros existentes -->
@@ -67,7 +67,7 @@
 <!-- Modal de reporte de pedidos por fechas -->
 <div class="modal fade" id="reportModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
-    <div class="modal-dialog modal-sm" role="document">
+    <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="reportModalTitle"></span></h5>
@@ -79,10 +79,8 @@
                 <div class="modal-body row g-3">
                     <h4>Top 5 de productos mejor calificados</h4>
                 </div>
+                <canvas id="chart3"></canvas>
                 <div class="modal-footer col-sm-12 col-md-12 col-lg-12 text-center">
-                    <button type="submit" class="btn btn-outline-dark" onclick="openReport()">
-                        <i class="bi bi-file-earmark-text-fill"></i>
-                    </button>
                 </div>
             </div>
         </div>

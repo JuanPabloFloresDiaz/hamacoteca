@@ -121,17 +121,17 @@ function actualizarPaginacion() {
     const paginacion = document.querySelector('.pagination');
     paginacion.innerHTML = '';
 
-    const totalPaginas = Math.ceil(valoraciones.length / valoracionesPorPagina);
+    const promedioPaginas = Math.ceil(valoraciones.length / valoracionesPorPagina);
 
     if (paginaActual > 1) {
         paginacion.innerHTML += `<li class="page-item"><a class="page-link text-dark" href="#" onclick="cambiarPagina(${paginaActual - 1})">Anterior</a></li>`;
     }
 
-    for (let i = 1; i <= totalPaginas; i++) {
+    for (let i = 1; i <= promedioPaginas; i++) {
         paginacion.innerHTML += `<li class="page-item ${i === paginaActual ? 'active' : ''}"><a class="page-link text-dark" href="#" onclick="cambiarPagina(${i})">${i}</a></li>`;
     }
 
-    if (paginaActual < totalPaginas) {
+    if (paginaActual < promedioPaginas) {
         paginacion.innerHTML += `<li class="page-item"><a class="page-link text-dark" href="#" onclick="cambiarPagina(${paginaActual + 1})">Siguiente</a></li>`;
     }
 }
@@ -165,10 +165,44 @@ function getRowBackgroundColor(estado) {
     }
 }
 
+let chartInstance = null;
 async function openModalReport() {
     // Se muestra la caja de diálogo con su título.
     REPORT_MODAL.show();
-    REPORT_MODAL_TITLE.textContent = 'Reporte de pedidos entregados por fecha';
+    REPORT_MODAL_TITLE.textContent = 'Top 5 productos mejor calificados';
+    try {
+        // Petición para obtener los datos del gráfico.
+        let DATA = await fetchData(VALORACIONES_API, 'graphic');
+        // Se comprueba si la respuesta es satisfactoria, de lo contrario se remueve la etiqueta canvas.
+        if (DATA.status) {
+            // Se declaran los arreglos para guardar los datos a graficar.
+            let hamaca = [];
+            let promedio = [];
+            // Se recorre el conjunto de registros fila por fila a través del objeto row.
+            DATA.dataset.forEach(row => {
+                // Se agregan los datos a los arreglos.
+                hamaca.push(row.HAMACA);
+                promedio.push(row.PROMEDIO);
+            });
+
+            // Destruir la instancia existente del gráfico si existe
+            if (chartInstance) {
+                chartInstance.destroy();
+                chartInstance = null; // Asegúrate de restablecer la referencia
+            }
+
+            // Restablecer el canvas en caso de que sea necesario
+            const canvasContainer = document.getElementById('chart3').parentElement;
+            canvasContainer.innerHTML = '<canvas id="chart3"></canvas>';
+
+            // Llamada a la función para generar y mostrar un gráfico de barras. Se encuentra en el archivo components.js
+            chartInstance = barGraph('chart3', hamaca, promedio, 'Top 5 productos mejor calificados');
+        } else {
+            console.log(DATA.error);
+        }
+    } catch (error) {
+        console.log(error);
+    }
 }
 // window.onload
 window.onload = async function () {

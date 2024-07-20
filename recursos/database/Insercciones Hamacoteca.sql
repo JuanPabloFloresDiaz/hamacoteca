@@ -157,7 +157,12 @@ CALL insertar_valoracion(1, 'Horrible compra nunca vuelvo a comprar aquí', 2);
 CALL insertar_valoracion(5, 'Muy buena calidad', 2);
 CALL insertar_valoracion(1, '(Censurado por el bien de la trama)************', 3);
 CALL insertar_valoracion(5, 'Me encanto', 4);
-SELECT * FROM pedidos;
+CALL insertar_valoracion(5, 'Muy buena calidad', 7);
+CALL insertar_valoracion(5, 'Muy buen producto', 9);
+CALL insertar_valoracion(5, 'Muy buena la hamaca', 12);
+CALL insertar_valoracion(4, 'Muy bien todo del producto, pero le falta algo', 22);
+CALL insertar_valoracion(3, 'Pudo mejorar pero esta bien', 32);
+
 INSERT INTO pedidos (estado_pedido, fecha_pedido, direccion_pedido, id_cliente) VALUES ('Entregado', '2023-01-01', '123 Calle Falsa', 1);
 INSERT INTO pedidos (estado_pedido, fecha_pedido, direccion_pedido, id_cliente) VALUES ('Entregado', '2023-02-05', '456 Avenida Siempreviva', 2);
 INSERT INTO pedidos (estado_pedido, fecha_pedido, direccion_pedido, id_cliente) VALUES ('Entregado', '2023-03-10', '789 Calle Real', 3);
@@ -368,3 +373,13 @@ WHERE id_material = 1;
 
 SELECT nombre_hamaca AS HAMACA, SUM(cantidad_hamaca) AS TOTAL FROM hamacas
 WHERE id_material = 1 GROUP BY HAMACA;
+
+SELECT h.nombre_hamaca AS HAMACA,
+AVG(v.calificacion_producto) AS PROMEDIO, COUNT(v.id_valoracion) AS NÚMERO
+FROM hamacas h
+JOIN detalles_pedidos dp ON h.id_hamaca = dp.id_hamaca
+JOIN valoraciones v ON dp.id_detalles_pedidos = v.id_detalles_pedidos
+GROUP BY h.id_hamaca, h.nombre_hamaca
+HAVING NÚMERO > 0
+ORDER BY PROMEDIO DESC
+LIMIT 5;
