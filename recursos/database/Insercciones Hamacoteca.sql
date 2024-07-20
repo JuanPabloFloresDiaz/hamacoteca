@@ -10,29 +10,29 @@ CALL actualizar_rol_administrador(3, 'Administrador de usuarios');
 CALL insertar_administrador_validado('Juan Pablo', 'Flores Díaz', '$2y$10$/8JZKxjAdlo4jTfS7uri7OzhZZ1/yNiw2DCurBt/Tb9h/c7L7P/Y6', 'pablojuanfd@gmail.com', '4568-5678', '12345678-0', '1990-01-01', 1, 'default.jpg');
 CALL insertar_administrador_validado('Xochilt Gabriela', 'López Pineda', '$2y$10$AE/qbXQgc6Ffn21F68sjdOzAbGgoI3Y9lYyG8/nMyRYpwQEIsNQ5q', 'sochii@gmail.com', '1254-5679', '12345689-1', '1991-01-01', 2, 'default.jpg');
 CALL insertar_administrador_validado('Joel Omar', 'Mena Domínguez', '$2y$10$/8JZKxjAdlo4jTfS7uri7OzhZZ1/yNiw2DCurBt/Tb9h/c7L7P/Y6', 'torugam@gmail.com', '1434-5670', '12345689-2', '1992-01-01', 3, 'default.jpg');
-CALL insertar_administrador_validado('María', 'González', '$2y$10$/8JZKxjAdlo4jTfS7uri7OzhZZ1/yNiw2DCurBt/Tb9h/c7L7P/Y6', 'maria@gmail.com', '5678-1234', '12345678-3', '1993-01-01', 1, 'default.jpg');
+CALL insertar_administrador_validado('María', 'González', '$2y$10$/8JZKxjAdlo4jTfS7uri7OzhZZ1/yNiw2DCurBt/Tb9h/c7L7P/Y6', 'maria@gmail.com', '5678-1234', '12345678-3', '1993-01-01', 2, 'default.jpg');
 CALL insertar_administrador_validado('José', 'Martínez', '$2y$10$/8JZKxjAdlo4jTfS7uri7OzhZZ1/yNiw2DCurBt/Tb9h/c7L7P/Y6', 'jose@gmail.com', '9876-5432', '12345678-4', '1994-01-01', 2, 'default.jpg');
 CALL insertar_administrador_validado('Ana', 'Rodríguez', 'Clave6@AR', 'ana@gmail.com', '4567-8901', '12345678-5', '1995-01-01', 3, 'default.jpg');
-CALL insertar_administrador_validado('Luis', 'Hernández', 'Clave7@LH', 'luis@gmail.com', '3456-7890', '12345678-6', '1996-01-01', 1, 'default.jpg');
+CALL insertar_administrador_validado('Luis', 'Hernández', 'Clave7@LH', 'luis@gmail.com', '3456-7890', '12345678-6', '1996-01-01', 2, 'default.jpg');
 CALL insertar_administrador_validado('Laura', 'Gómez', 'Clave8@LG', 'laura@gmail.com', '6789-2345', '12345678-7', '1997-01-01', 2, 'default.jpg');
 CALL insertar_administrador_validado('Daniel', 'Pérez', 'Clave9@DP', 'daniel@gmail.com', '2345-6789', '12345678-8', '1998-01-01', 3, 'default.jpg');
-CALL insertar_administrador_validado('Sofía', 'Sánchez', 'Clave10@SS', 'sofia@gmail.com', '7890-3456', '12345678-9', '1999-01-01', 1, 'default.jpg');
+CALL insertar_administrador_validado('Sofía', 'Sánchez', 'Clave10@SS', 'sofia@gmail.com', '7890-3456', '12345678-9', '1999-01-01', 2, 'default.jpg');
 CALL insertar_administrador_validado('Diego', 'Ramírez', 'Clave11@DR', 'diego@gmail.com', '3219-8765', '12345468-0', '2000-01-01', 2, 'default.jpg');
 CALL insertar_administrador_validado('Valentina', 'Torres', 'Clave12@VT', 'valentina@gmail.com', '9876-1234', '24345678-1', '2001-01-01', 3, 'default.jpg');
-CALL insertar_administrador_validado('Carlos', 'García', 'Clave13@CG', 'carlos@gmail.com', '4321-9876', '12344568-2', '2002-01-01', 1, 'default.jpg');
+CALL insertar_administrador_validado('Carlos', 'García', 'Clave13@CG', 'carlos@gmail.com', '4321-9876', '12344568-2', '2002-01-01', 2, 'default.jpg');
 CALL insertar_administrador_validado('Martina', 'López', 'Clave14@ML', 'martina@gmail.com', '8765-4321', '45545678-3', '2003-01-01', 2, 'default.jpg');
 CALL insertar_administrador_validado('David', 'Herrera', 'Clave15@DH', 'david@gmail.com', '1234-5678', '12355678-4', '2004-01-01', 3, 'default.jpg');
-CALL insertar_administrador_validado('Ana', 'Martínez', 'Clave16@AM', 'ana2@gmail.com', '8765-4321', '13445678-5', '2005-01-01', 1, 'default.jpg');
+CALL insertar_administrador_validado('Ana', 'Martínez', 'Clave16@AM', 'ana2@gmail.com', '8765-4321', '13445678-5', '2005-01-01', 2, 'default.jpg');
 CALL insertar_administrador_validado('Pedro', 'Pérez', 'Clave17@PP', 'pedro@gmail.com', '4321-9876', '12645678-6', '2006-01-01', 2, 'default.jpg');
 CALL insertar_administrador_validado('Gabriela', 'Rodríguez', 'Clave18@GR', 'gabriela@gmail.com', '1234-5678', '12545678-7', '2007-01-01', 3, 'default.jpg');
-CALL insertar_administrador_validado('Javier', 'Sánchez', 'Clave19@JS', 'javier@gmail.com', '8765-4321', '12345658-8', '2008-01-01', 1, 'default.jpg');
+CALL insertar_administrador_validado('Javier', 'Sánchez', 'Clave19@JS', 'javier@gmail.com', '8765-4321', '12345658-8', '2008-01-01', 2, 'default.jpg');
 CALL insertar_administrador_validado('Lorena', 'Torres', 'Clave20@LT', 'lorena@gmail.com', '4321-9876', '12345671-9', '2009-01-01', 2, 'default.jpg');
 CALL insertar_administrador_validado('Andrés', 'García', 'Clave21@AG', 'andres@gmail.com', '1234-5678', '12345658-0', '2010-01-01', 3, 'default.jpg');
-CALL insertar_administrador_validado('Carla', 'López', 'Clave22@CL', 'carla@gmail.com', '8765-4321', '12345358-1', '2011-01-01', 1, 'default.jpg');
+CALL insertar_administrador_validado('Carla', 'López', 'Clave22@CL', 'carla@gmail.com', '8765-4321', '12345358-1', '2011-01-01', 2, 'default.jpg');
 CALL insertar_administrador_validado('Fernando', 'Herrera', 'Clave23@FH', 'fernando@gmail.com', '4321-9876', '12005678-2', '2012-01-01', 2, 'default.jpg');
 CALL insertar_administrador_validado('Sara', 'Martínez', 'Clave24@SM', 'sara@gmail.com', '1234-5678', '12345000-3', '2013-01-01', 3, 'default.jpg');
-CALL insertar_administrador_validado('Manuel', 'Pérez', 'Clave25@MP', 'manuel@gmail.com', '8765-4321', '12300038-4', '2014-01-01', 1, 'default.jpg');
-CALL insertar_administrador_validado('Marcos', 'Lopéz', 'Clave26@ML', 'marcos@gmail.com', '6565-4321', '12340038-4', '2004-01-01', 1, 'default.jpg');
+CALL insertar_administrador_validado('Manuel', 'Pérez', 'Clave25@MP', 'manuel@gmail.com', '8765-4321', '12300038-4', '2014-01-01', 3, 'default.jpg');
+CALL insertar_administrador_validado('Marcos', 'Lopéz', 'Clave26@ML', 'marcos@gmail.com', '6565-4321', '12340038-4', '2004-01-01', 3, 'default.jpg');
 
 CALL insertar_cliente_validado('Carlos', 'Alvarez', '$2y$10$/8JZKxjAdlo4jTfS7uri7OzhZZ1/yNiw2DCurBt/Tb9h/c7L7P/Y6', 'carlos@gmail.com', '1234-5678', '12345678-0', '1990-01-01', 'Masculino', 'default.jpg', 'Dirección 1');
 CALL insertar_cliente_validado('Mario', 'Almeria', '$2y$10$/8JZKxjAdlo4jTfS7uri7OzhZZ1/yNiw2DCurBt/Tb9h/c7L7P/Y6', 'mario@gmail.com', '2345-6789', '12345689-1', '1991-01-01', 'Femenino', 'default.jpg', 'Dirección 2');
@@ -362,3 +362,9 @@ GROUP BY FECHA ORDER BY GANANCIAS ASC;
 
 SELECT CONCAT(c.nombre_cliente, " ", c.apellido_cliente) AS CLIENTE, c.foto_cliente AS FOTO
 FROM  favoritos f INNER JOIN clientes c ON f.id_cliente = c.id_cliente WHERE f.id_hamaca = 4;
+
+SELECT SUM(cantidad_hamaca) AS TOTAL, nombre_hamaca AS HAMACA FROM hamacas
+WHERE id_material = 1;
+
+SELECT nombre_hamaca AS HAMACA, SUM(cantidad_hamaca) AS TOTAL FROM hamacas
+WHERE id_material = 1 GROUP BY HAMACA;

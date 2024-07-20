@@ -89,7 +89,7 @@ class MaterialesHandler
     public function graphic()
     {
         $sql = 'SELECT SUM(cantidad_hamaca) AS TOTAL, nombre_hamaca AS HAMACA FROM hamacas
-        WHERE id_material = ?;';
+        WHERE id_material = ? GROUP BY HAMACA;';
         $params = array($this->id);
         return Database::getRows($sql, $params);
     }

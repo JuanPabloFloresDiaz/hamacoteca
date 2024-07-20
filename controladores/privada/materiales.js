@@ -218,7 +218,7 @@ function mostrarmateriales(pagina) {
                         <button type="button" class="btn btn-outline-danger" onclick="openDelete(${row.ID})">
                             <i class="bi bi-trash-fill"></i>
                         </button>
-                        <button type="button" class="btn transparente" onclick="openGraphic(${row.ID})">
+                        <button type="button" class="btn btn-outline-dark" onclick="openGraphic(${row.ID})">
                             <i class="bi bi-bar-chart-fill"></i>
                         </button>
                     </td>

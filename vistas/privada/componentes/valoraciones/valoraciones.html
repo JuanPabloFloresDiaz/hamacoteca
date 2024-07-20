@@ -14,22 +14,9 @@
                 </button>
             </form>
         </div>
-    </div>
-    <!-- Cartas-->
-    <div class="container col-md-12 mt-4">
-        <div class="row row-cols-1 row-cols-md-3 gx-4 gy-4">
-            <!-- Pedidos entregados-->
-            <div class="col mb-4">
-                <div class="card bg-dark border-dark">
-                    <div class="card-header bg-transparent border-light text-white">Productos mejor calificados ⭐⭐⭐⭐⭐</div>
-                    <div class="card-body text-white" onclick="openModalReport()">
-                        <h5 class="card-title">Ver productos mejor calificados</h5>
-                        <p class="card-text" id="numero"></p>
-                    </div>
-                    <div class="card-footer bg-transparent border-light text-white">Hamacoteca</div>
-                </div>
-            </div>
-        </div>
+        <button type="submit" class="btn btn-outline-dark" onclick="openReport()">
+            <i class="bi bi-file-earmark-text-fill"></i>
+        </button>
     </div>
     <!-- Tabla para mostrar los registros existentes -->
     <table class="table table-hover">

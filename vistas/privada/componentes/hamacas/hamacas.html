@@ -19,22 +19,9 @@
             <!-- Botón para abrir una caja de diálogo al momento de crear un nuevo registro -->
             <button class="btn btn-dark" type="submit" onclick="openCreate()">Agregar
                 hamaca</button>
-        </div>
-    </div>
-    <!-- Cartas-->
-    <div class="container col-md-12 mt-4">
-        <div class="row row-cols-1 row-cols-md-3 gx-4 gy-4">
-            <!-- Total de productos-->
-            <div class="col-md-4 col-sm-12 mb-4" onclick="openReport()">
-                <div class="card bg-success border-dark">
-                    <div class="card-header bg-transparent border-light text-white">Productos en la tienda 🛒</div>
-                    <div class="card-body text-white">
-                        <h5 class="card-title">Total de productos:</h5>
-                        <p class="card-text" id="productos"></p>
-                    </div>
-                    <div class="card-footer bg-transparent border-light text-white">Hamacoteca</div>
-                </div>
-            </div>
+            <button type="submit" class="btn btn-outline-dark" onclick="openReport()">
+                <i class="bi bi-file-earmark-text-fill"></i>
+            </button>
         </div>
     </div>
     <!-- Tabla para mostrar los registros existentes -->
