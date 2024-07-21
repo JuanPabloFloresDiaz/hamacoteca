@@ -58,7 +58,7 @@ const cargarGraficaLinealPredicticion = async () => {
                 ganancias.push(row.GANANCIAS);
             });
             lineGraph('prediccion', fecha, ganancias, 'Ganancias por mes $', 'Predicción de ganancias del siguiente año');
-            await delay(100);
+            await delay(500);
             const canvas = document.getElementById('prediccion');
             if (canvas) {
                 // Verificar que el canvas tiene contenido

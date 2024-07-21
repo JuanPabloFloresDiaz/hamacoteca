@@ -39,10 +39,11 @@ $pdf->startReport('Reporte con Gráficas');
 
 // Añadir las imágenes de las gráficas si están disponibles
 if (isset($data['ventas'])) {
-    addBase64Image($pdf, $data['ventas'], 15, 60, 180, 100);
+    addBase64Image($pdf, $data['ventas'], 15, 60, 180, 140);
 }
+$pdf->addPage();
 if (isset($data['prediccion'])) {
-    addBase64Image($pdf, $data['prediccion'], 85, 180, 180, 100);
+    addBase64Image($pdf, $data['prediccion'], 15, 60, 180, 140);
 }
 
 // Resto del reporte
