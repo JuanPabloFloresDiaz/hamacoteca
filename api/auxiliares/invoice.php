@@ -87,13 +87,14 @@ class Invoice extends FPDF
         // Mensaje de agradecimiento
         $this->setY(-20);
         $this->setFont('Arial', 'B', 12);
-        $this->cell(0, 10, $this->encodeString('¡Gracias por su compra!'), 0, 1, 'L');
+        $this->cell(0, 10, $this->encodeString('¡Gracias por su compra!'), 0, 0, 'L');
         // Establecer color de texto a negro
         $this->setTextColor(0, 0, 0);
         // Número de página y usuario
-        $this->setY(-10);
         $this->setFont('Arial', 'I', 10);
-        $this->cell(0, 10, $this->encodeString('Página ') . $this->pageNo() . '/{nb}', 0, 0, 'C');
+        $this->cell(0, 10, $this->encodeString('Factura generada por: ' . $_SESSION['USERNAME']), 0, 1, 'R');
+        $this->setY(-10);
+        $this->cell(0, 10, $this->encodeString('Página ') . $this->pageNo() . '/{nb}', 0, 1, 'C');
     }
 }
 ?>

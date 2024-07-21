@@ -38,27 +38,75 @@ const openGraphic = () => {
     // Se muestra la caja de diálogo con su título.
     GRAPHIC_MODAL.show();
     MODAL_TITLE_GRAPHIC.textContent = 'Gráfica predictiva de productos mas vendidos del mes';
+    cargarGraficaLinealPredicticion();
     cargarGraficaLineal();
+    console.log(localStorage.getItem('graficaPrediccion'));
+    console.log(localStorage.getItem('graficaVentas'));
 }
 
-// Función para cargar la gráfica lineal
-async function cargarGraficaLineal() {
+const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
+
+// Función para cargar la gráfica lineal predictiva
+const cargarGraficaLinealPredicticion = async () => {
     try {
-        // Petición para obtener los datos del gráfico.
-        const DATA = await fetchData(DETALLE_PEDIDO_API, 'profitsForDatePrediction'); // Asegúrate de que la URL sea correcta
-        // Se comprueba si la respuesta es satisfactoria, de lo contrario se remueve la etiqueta canvas.
+        const DATA = await fetchData(DETALLE_PEDIDO_API, 'profitsForDatePrediction');
         if (DATA.status) {
-            // Se declaran los arreglos para guardar los datos a gráficar.
             let fecha = [];
             let ganancias = [];
-            // Se recorre el conjunto de registros fila por fila a través del objeto row.
             DATA.dataset.forEach(row => {
-                // Se agregan los datos a los arreglos.
                 fecha.push(`${row.MES} ${row.AÑO}`);
                 ganancias.push(row.GANANCIAS);
             });
-            // Llamada a la función para generar y mostrar un gráfico de líneas. Se encuentra en el archivo components.js
-            lineGraph('ventas', fecha, ganancias, 'Ganancias por mes $', 'Gráfica de ganancias');
+            lineGraph('prediccion', fecha, ganancias, 'Ganancias por mes $', 'Predicción de ganancias del siguiente año');
+            await delay(100);
+            const canvas = document.getElementById('prediccion');
+            if (canvas) {
+                // Verificar que el canvas tiene contenido
+                console.log(canvas.toDataURL('image/png')); // Esto debería mostrar una cadena de base64
+                const imgURL = canvas.toDataURL('image/png');
+                localStorage.setItem('graficaPrediccion', imgURL);
+                console.log(`graficaPrediccion:`, imgURL);
+            } else {
+                console.log(`Canvas con ID ${canvas} no encontrado.`);
+            }
+            /* const imgURL = canvas.toDataURL('image/png');
+            localStorage.setItem('graficaPrediccion', imgURL);
+            console.log('Grafica Prediccion:', imgURL); */
+        } else {
+            document.getElementById('prediccion').remove();
+            console.log(DATA.error);
+        }
+    } catch (error) {
+        console.log('Error:', error);
+    }
+}
+
+// Función para cargar la gráfica lineal
+const cargarGraficaLineal = async () => {
+    try {
+        const DATA = await fetchData(DETALLE_PEDIDO_API, 'profitsForDate');
+        if (DATA.status) {
+            let fecha = [];
+            let ganancias = [];
+            DATA.dataset.forEach(row => {
+                fecha.push(`${row.MES} ${row.AÑO}`);
+                ganancias.push(row.GANANCIAS);
+            });
+            lineGraph('ventas', fecha, ganancias, 'Ganancias por mes $', 'Gráfica de ganancias historicas');
+            await delay(500);
+            const canvas = document.getElementById('ventas');
+            if (canvas) {
+                // Verificar que el canvas tiene contenido
+                console.log(canvas.toDataURL('image/png')); // Esto debería mostrar una cadena de base64
+                const imgURL = canvas.toDataURL('image/png');
+                localStorage.setItem('graficaVentas', imgURL);
+                console.log(`graficaVentas:`, imgURL);
+            } else {
+                console.log(`Canvas con ID ${canvas} no encontrado.`);
+            }
+            /* const imgURL = canvas.toDataURL('image/png');
+            localStorage.setItem('graficaVentas', imgURL);
+            console.log('Grafica Ventas:', imgURL); */
         } else {
             document.getElementById('ventas').remove();
             console.log(DATA.error);
@@ -67,6 +115,41 @@ async function cargarGraficaLineal() {
         console.log('Error:', error);
     }
 }
+
+
+const saveReport = async () => {
+    const graficaVentas = localStorage.getItem('graficaVentas');
+    const graficaPrediccion = localStorage.getItem('graficaPrediccion');
+
+    if (graficaVentas && graficaPrediccion) {
+        try {
+            const response = await fetch(`${SERVER_URL}reportes/privada/reporte_con_graficas.php`, {
+                method: 'POST',
+                body: JSON.stringify({
+                    ventas: graficaVentas,
+                    prediccion: graficaPrediccion
+                }),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            if (response.ok) {
+                const blob = await response.blob();
+                const url = window.URL.createObjectURL(blob);
+                window.open(url);
+            } else {
+                const errorData = await response.json();
+                console.log('Error:', errorData);
+            }
+        } catch (error) {
+            console.log('Error:', error);
+        }
+    } else {
+        console.log('No se encontraron las gráficas en localStorage');
+    }
+}
+
 
 
 

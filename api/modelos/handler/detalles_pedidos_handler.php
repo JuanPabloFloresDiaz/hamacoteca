@@ -200,7 +200,7 @@ class DetallesPedidosHandler
         }
 
         // Retornar el array de predicciones
-        return array_merge($rows, $predictions);
+        return array_merge($predictions);
     }
 
     // Función para calcular el promedio móvil
