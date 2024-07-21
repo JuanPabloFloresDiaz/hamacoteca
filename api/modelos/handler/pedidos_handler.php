@@ -266,6 +266,21 @@ class PedidosHandler
         return Database::getRows($sql, $params);
     }
 
+    // Método para obtener los productos que se encuentran el pedido elegido desde el historial.
+    public function readDetailReportHistory()
+    {
+        $sql = 'SELECT dp.id_detalles_pedidos AS ID,
+                h.foto_principal AS IMAGEN,
+                h.nombre_hamaca AS NOMBRE,
+                dp.cantidad_comprada AS CANTIDAD,
+                dp.precio_producto AS PRECIO,
+                ROUND(dp.precio_producto * dp.cantidad_comprada, 2) AS TOTAL
+                FROM detalles_pedidos dp
+                JOIN hamacas h ON dp.id_hamaca = h.id_hamaca
+                WHERE id_pedido = ?;';
+        $params = array($this->id_pedido);
+        return Database::getRows($sql, $params);
+    }
 
     // Método para actualizar la cantidad de un producto agregado al carrito de compras.
     public function updateDetail()
