@@ -22,7 +22,7 @@ if ($dataHamacas = $hamacas->readAll()) {
     foreach ($dataHamacas as $rowHamacas) {
         // Verifica si se ha creado una nueva página
         if ($pdf->getY() + 15 > 279 - 30) { // Ajusta este valor según el tamaño de tus celdas y la altura de la página
-            $pdf->addPage('P', [216, 279]); // Añade una nueva página
+            $pdf->addPage('P', 'Letter'); // Añade una nueva página y con letter se define de tamaño carta
             $pdf->setFillColor(154, 173, 233);
             $pdf->setDrawColor(154, 173, 233);
             $pdf->setFont('Arial', 'B', 11);
