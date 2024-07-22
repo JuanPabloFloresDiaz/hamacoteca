@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
@@ -7,43 +7,46 @@ require '../../librerias/phpmailer651/src/Exception.php';
 require '../../librerias/phpmailer651/src/PHPMailer.php';
 require '../../librerias/phpmailer651/src/SMTP.php';
 
-class Props{
-    public static function sendMail($address, $subject, $message)
-  {
+class Props
+{
+    public static function sendMail($address, $subject, $message, $attachmentPath = null)
+    {
 
-      $mail = new PHPMailer(true);
+        $mail = new PHPMailer(true);
 
-      try {
+        try {
 
-          // Configuración del servidor
+            // Configuración del servidor
 
-          // $mail->SMTPDebug = SMTP::DEBUG_SERVER;                      // Habilitar salida de depuración detallada
-          $mail->isSMTP();                                            // Enviar usando SMTP
-         $mail->Host       = 'smtp.gmail.com';                     // Configurar el servidor SMTP para enviar a través de Gmail
-          $mail->SMTPAuth   = true;                                   // Habilitar autenticación SMTP
-          $mail->Username   = 'hamacotecaoficial.sv@gmail.com';                     // Nombre de usuario SMTP
-          $mail->Password   = 'exhzbnhlhnxdldgs';                               // Contraseña SMTP
-          $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;            // Habilitar cifrado TLS implícito
-          $mail->Port       = 465;                                    // Puerto TCP para conectarse; usa 587 si has configurado `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
-          // Destinatarios
-          $mail->setFrom('hamacotecaoficial.sv@gmail.com', 'hamacoteca'); // Quien lo envía
-          $mail->addAddress($address);     // Agregar un destinatario
-          $mail->CharSet = 'UTF-8'; //caracteres especiales
-          $mail->isHTML(true);
-          $mail->Subject = $subject;
-          $mail->Body = $message;
-          // Añadir imágenes embebidas
-          $mail->addEmbeddedImage('../../../recursos/img/logo.png', 'logo');
-          $mail->addEmbeddedImage('../../../recursos/img/background.png', 'background');
-          $mail->send();
-          return true;
+            // $mail->SMTPDebug = SMTP::DEBUG_SERVER;                      // Habilitar salida de depuración detallada
+            $mail->isSMTP();                                            // Enviar usando SMTP
+            $mail->Host       = 'smtp.gmail.com';                     // Configurar el servidor SMTP para enviar a través de Gmail
+            $mail->SMTPAuth   = true;                                   // Habilitar autenticación SMTP
+            $mail->Username   = 'hamacotecaoficial.sv@gmail.com';                     // Nombre de usuario SMTP
+            $mail->Password   = 'exhzbnhlhnxdldgs';                               // Contraseña SMTP
+            $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;            // Habilitar cifrado TLS implícito
+            $mail->Port       = 465;                                    // Puerto TCP para conectarse; usa 587 si has configurado `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
+            // Destinatarios
+            $mail->setFrom('hamacotecaoficial.sv@gmail.com', 'hamacoteca'); // Quien lo envía
+            $mail->addAddress($address);     // Agregar un destinatario
+            $mail->CharSet = 'UTF-8'; //caracteres especiales
+            $mail->isHTML(true);
+            $mail->Subject = $subject;
+            $mail->Body = $message;
+            // Añadir imágenes embebidas
+            $mail->addEmbeddedImage('../../../recursos/img/logo.png', 'logo');
+            $mail->addEmbeddedImage('../../../recursos/img/background.png', 'background');
 
-      } catch (Exception $e) {
+            // Añadir adjunto
+            if ($attachmentPath) {
+                $mail->addAttachment($attachmentPath);
+            }
 
-          return false;
+            $mail->send();
+            return true;
+        } catch (Exception $e) {
 
-      }
-
-  }
-
+            return false;
+        }
+    }
 }

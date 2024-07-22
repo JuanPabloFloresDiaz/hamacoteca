@@ -192,7 +192,13 @@ class PedidosHandler
                 p.direccion_pedido AS DIRECCIÓN, p.id_pedido AS ID
                 FROM pedidos p
                 INNER JOIN clientes c ON p.id_cliente = c.id_cliente
-                WHERE p.id_pedido = ?;';
+                WHERE p.id_pedido = (
+                SELECT id_pedido
+                FROM pedidos
+                WHERE id_cliente = ? AND estado_pedido = "En camino"
+                ORDER BY id_pedido DESC
+                LIMIT 1
+                );';
         $params = array($_SESSION['idCliente']);
         if ($data = Database::getRow($sql, $params)) {
             $titulo = 'Número de pedido ' . $data['ID'];
@@ -208,7 +214,20 @@ class PedidosHandler
                 [$mailSubject, $titulo, $mailAltBody, $mailAltBody2, $mensaje],
                 $template
             );
-            return Props::sendMail($data['CORREO'], $mailSubject, $mailBody);
+            // Ruta del servidor
+            $SERVER_URL = 'http://localhost/hamacoteca/api/';
+            // Descargar el reporte generado desde la URL y guardarlo temporalmente
+            $reportUrl = $SERVER_URL."/reportes/publica/factura_de_comprobante_de_compra.php";
+            $tempFilePath = tempnam(sys_get_temp_dir(), 'factura_') . '.pdf';
+            file_put_contents($tempFilePath, file_get_contents($reportUrl));
+    
+            // Enviar el correo con el archivo adjunto
+            $result = Props::sendMail($data['CORREO'], $mailSubject, $mailBody, $tempFilePath);
+    
+            // Eliminar el archivo temporal después de enviarlo
+            unlink($tempFilePath);
+    
+            return $result;
         } else {
             return false;
         }

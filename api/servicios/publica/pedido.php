@@ -94,6 +94,15 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'Ocurrió un problema al finalizar el pedido';
                 }
                 break;
+                // Envío de datos al correo electronico
+            case 'invoiceSendEmail':
+                if ($result['dataset'] = $pedido->invoiceSendEmail()) {
+                    $result['envio'] = 1;
+                    $result['verificar'] = 'Envío de correo con exito';
+                } else {
+                    $result['error'] = "No se envío el correo";
+                }
+                break;
                 // Leer todos historial
             case 'readAll':
                 if ($result['dataset'] = $pedido->readAllHistory()) {
