@@ -186,4 +186,16 @@ class HamacasHandler
         $params = array($this->categorias, $this->materiales, $this->minimo, $this->maximo);
         return Database::getRows($sql, $params);
     }
+    
+    //Función para generar el reporte de productos por categoría
+    public function productosCategoria()
+    {
+        $sql = 'SELECT foto_principal ,nombre_hamaca, precio, estado_venta
+                FROM hamacas
+                INNER JOIN categorias USING(id_categoria)
+                WHERE id_categoria = ?
+                ORDER BY nombre_hamaca';
+        $params = array($this->categoria);
+        return Database::getRows($sql, $params);
+    }
 }

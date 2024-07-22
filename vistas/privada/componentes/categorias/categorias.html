@@ -14,9 +14,14 @@
             </form>
         </div>
 
-        <!-- Botón Agregar -->
-        <button class="btn btn-dark ms-auto" type="submit" onclick="openCreate()">Agregar
-            categorías</button>
+        <div class="col-sm-12 col-md-6 text-end">
+            <!-- Botón para abrir una caja de diálogo al momento de crear un nuevo registro -->
+            <button class="btn btn-dark" type="submit" onclick="openCreate()">Agregar
+                hamaca</button>
+            <button type="submit" class="btn btn-outline-dark" onclick="openReport()">
+                <i class="bi bi-file-earmark-text-fill"></i>
+            </button>
+        </div>
     </div>
     <!-- Tabla para mostrar los registros existentes -->
     <table class="table table-hover">

@@ -191,6 +191,20 @@ function cambiarPagina(nuevaPagina) {
     mostrarcategorias(paginaActual);
 }
 
+
+/*
+*   Función para abrir un reporte automático de productos por categoría.
+*   Parámetros: ninguno.
+*   Retorno: ninguno.
+*/
+const openReport = () => {
+    // Se declara una constante tipo objeto con la ruta específica del reporte en el servidor.
+    const PATH = new URL(`${SERVER_URL}reportes/privada/reporte_productos_por_categoria.php`);
+    // Se abre el reporte en una nueva pestaña.
+    window.open(PATH.href);
+}
+
+
 // window.onload
 window.onload = async function () {
 
