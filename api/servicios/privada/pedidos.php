@@ -8,7 +8,7 @@ if (isset($_GET['action'])) {
     // Se instancia la clase correspondiente.
     $pedido = new PedidosData;
     // Se declara e inicializa un arreglo para guardar el resultado que retorna la API.
-    $result = array('status' => 0, 'envio'=>0, 'verificar'=>null, 'message' => null, 'dataset' => null, 'error' => null, 'exception' => null, 'fileStatus' => null);
+    $result = array('status' => 0, 'envio' => 0, 'verificar' => null, 'message' => null, 'dataset' => null, 'error' => null, 'exception' => null, 'fileStatus' => null);
     // Se verifica si existe una sesión iniciada como administrador, de lo contrario se finaliza el script con un mensaje de error.
     if (isset($_SESSION['idAdministrador']) and Validator::validateSessionTime()) {
         // Se compara la acción a realizar cuando un administrador ha iniciado sesión.
@@ -99,14 +99,32 @@ if (isset($_GET['action'])) {
                 } elseif ($pedido->changeState()) {
                     $result['status'] = 1;
                     $result['message'] = 'Estado del cliente cambiado correctamente';
-                    if($pedido->verifyStateAndSendMail()){
-                        $result['envio']=1;
+                    if ($pedido->verifyStateAndSendMail()) {
+                        $result['envio'] = 1;
                         $result['verificar'] = 'Verificación y envío de correo con exito';
-                    }else{
-                        $result['error']="No se envío el correo";
+                    } else {
+                        $result['error'] = "No se envío el correo";
                     }
                 } else {
                     $result['error'] = 'Ocurrió un problema al alterar el estado del cliente';
+                }
+                break;
+                // Optimización de envío de correo electronico una vez entregar el pedido
+            case 'verifyStateAndSendMail':
+                if ($result['dataset'] = $pedido->verifyStateAndSendMail()) {
+                    $result['envio'] = 1;
+                    $result['verificar'] = 'Verificación y envío de correo con exito';
+                } else {
+                    $result['error'] = "No se envío el correo";
+                }
+                break;
+                // Envío de datos al correo electronico
+            case 'invoiceSendEmail':
+                if ($result['dataset'] = $pedido->invoiceSendEmail()) {
+                    $result['envio'] = 1;
+                    $result['verificar'] = 'Envío de correo con exito';
+                } else {
+                    $result['error'] = "No se envío el correo";
                 }
                 break;
                 // Leer todos historial
@@ -118,7 +136,7 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'No hay pedidos registrados';
                 }
                 break;
-            
+
             default:
                 $result['error'] = 'Acción no disponible dentro de la sesión';
         }

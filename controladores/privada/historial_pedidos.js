@@ -116,39 +116,39 @@ const cargarGraficaLineal = async () => {
     }
 }
 
+// Ejemplo de reporte con gráfica (corregir el fetch y usar fetchData)
+// const saveReport = async () => {
+//     const graficaVentas = localStorage.getItem('graficaVentas');
+//     const graficaPrediccion = localStorage.getItem('graficaPrediccion');
 
-const saveReport = async () => {
-    const graficaVentas = localStorage.getItem('graficaVentas');
-    const graficaPrediccion = localStorage.getItem('graficaPrediccion');
+//     if (graficaVentas && graficaPrediccion) {
+//         try {
+//             const response = await fetch(`${SERVER_URL}reportes/privada/reporte_con_graficas.php`, {
+//                 method: 'POST',
+//                 body: JSON.stringify({
+//                     ventas: graficaVentas,
+//                     prediccion: graficaPrediccion
+//                 }),
+//                 headers: {
+//                     'Content-Type': 'application/json'
+//                 }
+//             });
 
-    if (graficaVentas && graficaPrediccion) {
-        try {
-            const response = await fetch(`${SERVER_URL}reportes/privada/reporte_con_graficas.php`, {
-                method: 'POST',
-                body: JSON.stringify({
-                    ventas: graficaVentas,
-                    prediccion: graficaPrediccion
-                }),
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            });
-
-            if (response.ok) {
-                const blob = await response.blob();
-                const url = window.URL.createObjectURL(blob);
-                window.open(url);
-            } else {
-                const errorData = await response.json();
-                console.log('Error:', errorData);
-            }
-        } catch (error) {
-            console.log('Error:', error);
-        }
-    } else {
-        console.log('No se encontraron las gráficas en localStorage');
-    }
-}
+//             if (response.ok) {
+//                 const blob = await response.blob();
+//                 const url = window.URL.createObjectURL(blob);
+//                 window.open(url);
+//             } else {
+//                 const errorData = await response.json();
+//                 console.log('Error:', errorData);
+//             }
+//         } catch (error) {
+//             console.log('Error:', error);
+//         }
+//     } else {
+//         console.log('No se encontraron las gráficas en localStorage');
+//     }
+// }
 
 
 

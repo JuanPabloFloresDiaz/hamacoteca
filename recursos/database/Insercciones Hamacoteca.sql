@@ -34,6 +34,8 @@ CALL insertar_administrador_validado('Sara', 'Martínez', 'Clave24@SM', 'sara@gm
 CALL insertar_administrador_validado('Manuel', 'Pérez', 'Clave25@MP', 'manuel@gmail.com', '8765-4321', '12300038-4', '2014-01-01', 3, 'default.jpg');
 CALL insertar_administrador_validado('Marcos', 'Lopéz', 'Clave26@ML', 'marcos@gmail.com', '6565-4321', '12340038-4', '2004-01-01', 3, 'default.jpg');
 
+CALL insertar_cliente_validado('Juan Pablo', 'Flores Díaz', '$2y$10$/8JZKxjAdlo4jTfS7uri7OzhZZ1/yNiw2DCurBt/Tb9h/c7L7P/Y6', 'pablojuanfd@gmail.com', '6012-6129', '17453575-0', '1990-01-01', 'Masculino', 'default.jpg', 'Dirección 1');
+CALL insertar_cliente_validado('Xochilt Gabriela', 'López Pineda', '$2y$10$AE/qbXQgc6Ffn21F68sjdOzAbGgoI3Y9lYyG8/nMyRYpwQEIsNQ5q', 'xochiltgaby@gmail.com', '7443-0148', '00394824-4', '1991-01-01', 'Femenino', 'default.jpg', 'Dirección 2');
 CALL insertar_cliente_validado('Carlos', 'Alvarez', '$2y$10$/8JZKxjAdlo4jTfS7uri7OzhZZ1/yNiw2DCurBt/Tb9h/c7L7P/Y6', 'carlos@gmail.com', '1234-5678', '12345678-0', '1990-01-01', 'Masculino', 'default.jpg', 'Dirección 1');
 CALL insertar_cliente_validado('Mario', 'Almeria', '$2y$10$/8JZKxjAdlo4jTfS7uri7OzhZZ1/yNiw2DCurBt/Tb9h/c7L7P/Y6', 'mario@gmail.com', '2345-6789', '12345689-1', '1991-01-01', 'Femenino', 'default.jpg', 'Dirección 2');
 CALL insertar_cliente_validado('Claudio', 'Angelo', '$2y$10$/8JZKxjAdlo4jTfS7uri7OzhZZ1/yNiw2DCurBt/Tb9h/c7L7P/Y6', 'claudio@gmail.com', '3456-7890', '12345689-2', '1992-01-01', 'No definido', 'default.jpg', 'Dirección 3');

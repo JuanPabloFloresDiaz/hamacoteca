@@ -185,6 +185,35 @@ class PedidosHandler
         }
     }
 
+    // Función para enviar la factura al correo electronico
+    public function invoiceSendEmail(){
+        // Traer el ultimo pedido finalizado por el cliente (en la base Finalizado = En camino)
+        $sql = 'SELECT c.correo_cliente AS CORREO, p.fecha_pedido AS FECHA, 
+                p.direccion_pedido AS DIRECCIÓN, p.id_pedido AS ID
+                FROM pedidos p
+                INNER JOIN clientes c ON p.id_cliente = c.id_cliente
+                WHERE p.id_pedido = ?;';
+        $params = array($_SESSION['idCliente']);
+        if ($data = Database::getRow($sql, $params)) {
+            $titulo = 'Número de pedido ' . $data['ID'];
+            $mensaje = 'Aquí puedes ver a detalle la factura';
+            $mailSubject = 'Tu pedido ha sido finalizado';
+            $mailAltBody = '¡Te saludamos de hamacoteca para confirmarte, que tu pedido hecho el ' . $data['FECHA'];
+            $mailAltBody2 = ' ya ha sido finaliazo a ' . $data['DIRECCIÓN'] . '!';
+            // Cargar plantilla HTML
+            $template = file_get_contents('../../auxiliares/email/email.html');
+            // Reemplazar marcadores de posición con co1ntenido dinámico
+            $mailBody = str_replace(
+                ['{{subject}}', '{{title}}', '{{body}}', '{{bodytwo}}', '{{message}}'],
+                [$mailSubject, $titulo, $mailAltBody, $mailAltBody2, $mensaje],
+                $template
+            );
+            return Props::sendMail($data['CORREO'], $mailSubject, $mailBody);
+        } else {
+            return false;
+        }
+    }
+
     //Leer el detalle de pedido
     public function readDetailEmail()
     {
