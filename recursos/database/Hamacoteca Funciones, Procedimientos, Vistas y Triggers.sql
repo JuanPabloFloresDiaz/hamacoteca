@@ -56,7 +56,7 @@ BEGIN
     
     SET total = precio_producto * p_cantidad;
     
-    RETURN total;
+    RETURN precio_producto;
 END
 
 $$
@@ -677,7 +677,7 @@ BEGIN
  DECLARE p_precio_producto DECIMAL(10,2);
  DECLARE p_id_pedido INT;
 		-- Calcular el precio utilizando la función
-		SET p_precio_producto = calcular_total_producto(p_id_hamaca, p_cantidad_comprada);
+		SET p_precio_producto = (SELECT precio FROM hamacas WHERE id_hamaca = p_id_hamaca);
     -- Insertar el nuevo registro en la tabla
     INSERT INTO pedidos (estado_pedido, direccion_pedido, id_cliente)
     VALUES (p_estado_pedido, p_direccion_pedido, p_id_cliente);
@@ -1196,6 +1196,7 @@ BEGIN
 END$$
 
 DELIMITER ;
+
 
 
 SELECT ROUTINE_NAME

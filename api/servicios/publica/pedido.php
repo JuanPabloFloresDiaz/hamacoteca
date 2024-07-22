@@ -20,7 +20,7 @@ if (isset($_GET['action'])) {
                 if ($result['dataset'] = $pedido->readDetail()) {
                     $result['status'] = 1;
                 } else {
-                    $result['error'] = 'No existen favoritos para mostrar';
+                    $result['error'] = 'No existen productos agregados al carrito';
                 }
                 break;
                 // Buscar historial

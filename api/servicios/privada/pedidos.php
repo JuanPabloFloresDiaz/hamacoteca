@@ -99,12 +99,6 @@ if (isset($_GET['action'])) {
                 } elseif ($pedido->changeState()) {
                     $result['status'] = 1;
                     $result['message'] = 'Estado del cliente cambiado correctamente';
-                    if ($pedido->verifyStateAndSendMail()) {
-                        $result['envio'] = 1;
-                        $result['verificar'] = 'Verificación y envío de correo con exito';
-                    } else {
-                        $result['error'] = "No se envío el correo";
-                    }
                 } else {
                     $result['error'] = 'Ocurrió un problema al alterar el estado del cliente';
                 }

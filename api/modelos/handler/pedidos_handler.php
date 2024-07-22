@@ -128,10 +128,10 @@ class PedidosHandler
     //Función para contar las ganancias
     public function totalProfits()
     {
-        $sql = 'SELECT SUM(dp.precio_producto) AS TOTAL
+        $sql = 'SELECT SUM(dp.precio_producto * dp.cantidad_comprada) AS TOTAL
         FROM pedidos p
         INNER JOIN detalles_pedidos dp ON p.id_pedido = dp.id_pedido
-        WHERE p.estado_pedido = "Entregado";     
+        WHERE p.estado_pedido = "Entregado";    
         ';
         return Database::getRows($sql);
     }
@@ -185,49 +185,44 @@ class PedidosHandler
         }
     }
 
-    // Función para enviar la factura al correo electronico
-    public function invoiceSendEmail(){
-        // Traer el ultimo pedido finalizado por el cliente (en la base Finalizado = En camino)
+    // Función para enviar la factura al correo electrónico
+    public function invoiceSendEmail()
+    {
+        // Traer el último pedido finalizado por el cliente (en la base Finalizado = En camino)
         $sql = 'SELECT c.correo_cliente AS CORREO, p.fecha_pedido AS FECHA, 
-                p.direccion_pedido AS DIRECCIÓN, p.id_pedido AS ID
-                FROM pedidos p
-                INNER JOIN clientes c ON p.id_cliente = c.id_cliente
-                WHERE p.id_pedido = (
-                SELECT id_pedido
-                FROM pedidos
-                WHERE id_cliente = ? AND estado_pedido = "En camino"
-                ORDER BY id_pedido DESC
-                LIMIT 1
-                );';
+            p.direccion_pedido AS DIRECCIÓN, p.id_pedido AS ID
+            FROM pedidos p
+            INNER JOIN clientes c ON p.id_cliente = c.id_cliente
+            WHERE p.id_pedido = (
+            SELECT id_pedido
+            FROM pedidos
+            WHERE id_cliente = ? AND estado_pedido = "En camino"
+            ORDER BY id_pedido DESC
+            LIMIT 1
+            );';
         $params = array($_SESSION['idCliente']);
         if ($data = Database::getRow($sql, $params)) {
-            $titulo = 'Número de pedido ' . $data['ID'];
+            $titulo = 'Cliente ' . $_SESSION['USERNAME'];
             $mensaje = 'Aquí puedes ver a detalle la factura';
             $mailSubject = 'Tu pedido ha sido finalizado';
-            $mailAltBody = '¡Te saludamos de hamacoteca para confirmarte, que tu pedido hecho el ' . $data['FECHA'];
-            $mailAltBody2 = ' ya ha sido finaliazo a ' . $data['DIRECCIÓN'] . '!';
+            $mailAltBody = '¡Te saludamos de hamacoteca para confirmarte, que tu pedido';
+            $mailAltBody2 = ' ya ha sido finalizado y se te enviara a ' .$_SESSION['direccionCliente'] . '!';
+
             // Cargar plantilla HTML
             $template = file_get_contents('../../auxiliares/email/email.html');
-            // Reemplazar marcadores de posición con co1ntenido dinámico
+            // Reemplazar marcadores de posición con contenido dinámico
             $mailBody = str_replace(
                 ['{{subject}}', '{{title}}', '{{body}}', '{{bodytwo}}', '{{message}}'],
                 [$mailSubject, $titulo, $mailAltBody, $mailAltBody2, $mensaje],
                 $template
             );
-            // Ruta del servidor
-            $SERVER_URL = 'http://localhost/hamacoteca/api/';
-            // Descargar el reporte generado desde la URL y guardarlo temporalmente
-            $reportUrl = $SERVER_URL."/reportes/publica/factura_de_comprobante_de_compra.php";
-            $tempFilePath = tempnam(sys_get_temp_dir(), 'factura_') . '.pdf';
-            file_put_contents($tempFilePath, file_get_contents($reportUrl));
-    
+            // Descargar el reporte generado desde la URL y guardarlo temporalmente usando cURL
+            $reportUrl = 'http://localhost/hamacoteca/api/reportes/publica/factura_de_comprobante_de_compra.php';
+            // Generar el reporte PDF
+            $pdfBuffer = $reportUrl;
             // Enviar el correo con el archivo adjunto
-            $result = Props::sendMail($data['CORREO'], $mailSubject, $mailBody, $tempFilePath);
-    
-            // Eliminar el archivo temporal después de enviarlo
-            unlink($tempFilePath);
-    
-            return $result;
+            return Props::sendMail($_SESSION['correoCliente'], $mailSubject, $mailBody, $pdfBuffer);
+            
         } else {
             return false;
         }

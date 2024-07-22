@@ -50,12 +50,42 @@ if ($datapedidos = $pedidos->readDetailReport()) {
     }
     $pdf->setFont('Arial', 'B', 11);
     $pdf->setFillColor(255);
-    $pdf->cell(125, 10, 'Factura a nombre de: '. $pdf->encodeString($_SESSION['USERNAME']), 1, 0, 'C' , 1);
-    $pdf->cell(60, 10, 'Total: $'.$total, 1, 1, 'C', 1);
-    $pdf->cell(125, 10, $pdf->encodeString('Dirección: '. $_SESSION['direccionCliente']), 1, 0, 'C' , 1);
-    $pdf->cell(60, 10, 'DUI: '. $pdf->encodeString($_SESSION['duiCliente']), 1, 1, 'C' , 1);
+    $pdf->cell(125, 10, 'Factura a nombre de: ' . $pdf->encodeString($_SESSION['USERNAME']), 1, 0, 'C', 1);
+    $pdf->cell(60, 10, 'Total: $' . $total, 1, 1, 'C', 1);
+    $pdf->cell(125, 10, $pdf->encodeString('Dirección: ' . $_SESSION['direccionCliente']), 1, 0, 'C', 1);
+    $pdf->cell(60, 10, 'DUI: ' . $pdf->encodeString($_SESSION['duiCliente']), 1, 1, 'C', 1);
 } else {
     $pdf->cell(0, 15, $pdf->encodeString('No hay productos para mostrar'), 1, 1);
 }
 
 $pdf->output('I', 'factura.pdf');
+// Guarda el PDF en un archivo temporal
+$tempFile = tempnam(sys_get_temp_dir(), 'factura_') . '.pdf';
+$pdf->output('F', $tempFile);
+
+$titulo = 'Cliente ' . $_SESSION['USERNAME'];
+$mensaje = 'Aquí puedes ver a detalle la factura';
+$mailSubject = 'Tu pedido ha sido finalizado';
+$mailAltBody = '¡Te saludamos de hamacoteca para confirmarte, que tu pedido';
+$mailAltBody2 = ' ya ha sido finalizado y se te enviara a ' . $_SESSION['direccionCliente'] . '!';
+
+// Cargar plantilla HTML
+$template = file_get_contents('../../auxiliares/email/email.html');
+// Reemplazar marcadores de posición con contenido dinámico
+$mailBody = str_replace(
+    ['{{subject}}', '{{title}}', '{{body}}', '{{bodytwo}}', '{{message}}'],
+    [$mailSubject, $titulo, $mailAltBody, $mailAltBody2, $mensaje],
+    $template
+);
+
+// Enviar el correo con el archivo adjunto
+$mailSent = false;
+try {
+    $mailSent = Props::sendMail($_SESSION['correoCliente'], $mailSubject, $mailBody, $tempFile);
+    return $mailSent;
+} catch (Exception $e) {
+    error_log('Error al enviar el correo: ' . $e->getMessage());
+} finally {
+    // Elimina el archivo temporal
+    unlink($tempFile);
+}

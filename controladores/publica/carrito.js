@@ -28,7 +28,7 @@ const openUpdate = async (id, quantity) => {
     document.getElementById('cantidad').value = quantity;
 }
 
-
+//const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
 /*
 *   Función asíncrona para mostrar un mensaje de confirmación al momento de finalizar el pedido.
 *   Parámetros: ninguno.
@@ -47,7 +47,7 @@ async function finishOrder() {
             const PATH = new URL(`${SERVER_URL}reportes/publica/factura_de_comprobante_de_compra.php`);
             // Se abre el reporte en una nueva pestaña.
             window.open(PATH.href);
-            sweetAlert(1, DATA.message, true, 'index.html');
+            sweetAlert(1, DATA.message, false, 'index.html');
         } else {
             sweetAlert(2, DATA.error, false);
         }

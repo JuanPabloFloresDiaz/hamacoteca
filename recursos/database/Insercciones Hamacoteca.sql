@@ -154,17 +154,6 @@ CALL insertar_pedido_y_detalle_pedido('En camino', 'San Salvador', 1, 4, 4);
 CALL insertar_pedido_y_detalle_pedido('En camino', 'San Salvador', 2, 4, 4);
 CALL insertar_pedido_y_detalle_pedido('En camino', 'San Salvador', 3, 4, 4);
 
-
-CALL insertar_valoracion(1, 'Horrible compra nunca vuelvo a comprar aquí', 2);
-CALL insertar_valoracion(5, 'Muy buena calidad', 2);
-CALL insertar_valoracion(1, '(Censurado por el bien de la trama)************', 3);
-CALL insertar_valoracion(5, 'Me encanto', 4);
-CALL insertar_valoracion(5, 'Muy buena calidad', 7);
-CALL insertar_valoracion(5, 'Muy buen producto', 9);
-CALL insertar_valoracion(5, 'Muy buena la hamaca', 12);
-CALL insertar_valoracion(4, 'Muy bien todo del producto, pero le falta algo', 22);
-CALL insertar_valoracion(3, 'Pudo mejorar pero esta bien', 32);
-
 INSERT INTO pedidos (estado_pedido, fecha_pedido, direccion_pedido, id_cliente) VALUES ('Entregado', '2023-01-01', '123 Calle Falsa', 1);
 INSERT INTO pedidos (estado_pedido, fecha_pedido, direccion_pedido, id_cliente) VALUES ('Entregado', '2023-02-05', '456 Avenida Siempreviva', 2);
 INSERT INTO pedidos (estado_pedido, fecha_pedido, direccion_pedido, id_cliente) VALUES ('Entregado', '2023-03-10', '789 Calle Real', 3);
@@ -274,6 +263,16 @@ INSERT INTO detalles_pedidos (id_pedido, precio_producto, cantidad_comprada, id_
 VALUES (41, calcular_total_producto(1, 1), 1, 1);
 INSERT INTO detalles_pedidos (id_pedido, precio_producto, cantidad_comprada, id_hamaca) 
 VALUES (42, calcular_total_producto(4, 1), 1, 4);
+
+CALL insertar_valoracion(1, 'Horrible compra nunca vuelvo a comprar aquí', 2);
+CALL insertar_valoracion(5, 'Muy buena calidad', 2);
+CALL insertar_valoracion(1, '(Censurado por el bien de la trama)************', 3);
+CALL insertar_valoracion(5, 'Me encanto', 4);
+CALL insertar_valoracion(5, 'Muy buena calidad', 7);
+CALL insertar_valoracion(5, 'Muy buen producto', 9);
+CALL insertar_valoracion(5, 'Muy buena la hamaca', 12);
+CALL insertar_valoracion(4, 'Muy bien todo del producto, pero le falta algo', 22);
+CALL insertar_valoracion(3, 'Pudo mejorar pero esta bien', 32);
 
 INSERT INTO favoritos (id_cliente, id_hamaca) VALUES (1, 1);
 INSERT INTO favoritos (id_cliente, id_hamaca) VALUES (2, 2);
