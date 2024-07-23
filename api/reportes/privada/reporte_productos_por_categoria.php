@@ -23,6 +23,7 @@ if ($dataCategorias = $categoria->readAll()) {
     // Se establece la fuente para los encabezados.
     $pdf->setFont('Arial', 'B', 11);
     // Se imprimen las celdas con los encabezados.
+    // Explicación de celdas (Ancho, Alto, Texto, Borde, Salto de linea, Alineación (Centrado = C, Izquierda = L, Derecha = R), Fondo, Link (Opcional))
     $pdf->cell(30, 10, 'Imagen', 1, 0, 'C', 1); // Nueva columna para imagen
     $pdf->cell(90, 10, 'Nombre', 1, 0, 'C', 1);
     $pdf->cell(30, 10, 'Precio (US$)', 1, 0, 'C', 1);

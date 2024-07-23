@@ -65,6 +65,18 @@ class DetallesPedidosHandler
         return Database::getRows($sql);
     }
 
+    //Función para cargar gráfica de pentas por categoría y precio promedio
+    public function salesByCategoryAndAveragePrice()
+    {
+        $sql = 'SELECT categorias.nombre_categoria, SUM(detalles_pedidos.cantidad_comprada) AS cantidad_vendida, COUNT(hamacas.id_hamaca) AS cantidad_hamacas, ROUND(AVG(hamacas.precio), 2) AS precio_promedio
+        FROM detalles_pedidos
+        JOIN hamacas ON detalles_pedidos.id_hamaca = hamacas.id_hamaca
+        JOIN categorias ON hamacas.id_categoria = categorias.id_categoria
+        GROUP BY categorias.nombre_categoria;
+        ';
+        return Database::getRows($sql);
+    }
+
     //Función para cargar gráfica de ganancias por fecha
     public function profitsForYear()
     {

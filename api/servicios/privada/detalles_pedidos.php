@@ -40,6 +40,14 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'Error en el conteo de ordenes';
                 }
                 break;
+                // Gráfica de ganancias por categoría
+            case 'salesByCategoryAndAveragePrice':
+                if ($result['dataset'] = $pedido->salesByCategoryAndAveragePrice()) {
+                    $result['status'] = 1;
+                } else {
+                    $result['error'] = 'Error en el conteo de ordenes';
+                }
+                break;
             case 'profitsForYear':
                 if (!$pedido->setAño($_POST['year'])) {
                     $result['error'] = 'Pedido incorrecto';

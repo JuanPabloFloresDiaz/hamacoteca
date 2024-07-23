@@ -6,13 +6,17 @@
         <!-- Buscador -->
         <div class="mx-auto">
             <form id="searchForm" class="d-flex">
-                <input type="search" class="form-control me-2 rounded-5 border-dark" name="search" placeholder="Buscar por el cliente" required>
+                <input type="search" class="form-control me-2 rounded-5 border-dark" name="search"
+                    placeholder="Buscar por el cliente" required>
                 <button type="submit" class="btn btn-outline-dark me-5 rounded-5"><i class="bi bi-search"></i></button>
                 <button type="reset" class="btn btn-white" onclick="cargarTabla()">
                     <i class="bi bi-arrow-clockwise"></i>
                 </button>
             </form>
         </div>
+        <button type="submit" class="btn btn-outline-dark" onclick="openModalReport()">
+            <i class="bi bi-diagram-2"></i>
+        </button>
     </div>
     <!-- Tabla para mostrar los registros existentes -->
     <table class="table table-hover">
@@ -99,6 +103,25 @@
                         <!-- Cuerpo de la tabla para mostrar un registro por fila -->
                         <tbody id="tabla_detalle"></tbody>
                     </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal de gráfica de burbujas de ventas por categoría y su precio promedio-->
+<div class="modal fade" id="reportModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="reportModalTitle"></span></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="col-sm-12 col-md-12 col-lg-12">
+                    <canvas id="chart3"></canvas>
                 </div>
             </div>
         </div>

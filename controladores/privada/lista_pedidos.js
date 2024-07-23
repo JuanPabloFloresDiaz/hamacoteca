@@ -9,6 +9,8 @@ let SAVE_FORM,
     ESTADO;
 let DETAIL_MODAL,
     MODAL_TITLE_DETAIL;
+let REPORT_MODAL,
+    REPORT_MODAL_TITLE;
 
 async function loadComponent(path) {
     const response = await fetch(path);
@@ -317,6 +319,99 @@ function recharge() {
     totalProfits();
     cargarTabla();
 }
+let chartInstance = null;
+
+async function openModalReport() {
+    // Se muestra la caja de diálogo con su título.
+    REPORT_MODAL.show();
+    REPORT_MODAL_TITLE.textContent = 'Ventas por Categoría y Precio Promedio';
+    try {
+        // Petición para obtener los datos del gráfico.
+        let DATA = await fetchData(DETALLE_PEDIDO_API, 'salesByCategoryAndAveragePrice');
+        // Se comprueba si la respuesta es satisfactoria, de lo contrario se remueve la etiqueta canvas.
+        if (DATA.status) {
+            // Se declaran los arreglos para guardar los datos a graficar.
+            let data = [];
+            let categorias = [];
+
+            // Se recorre el conjunto de registros fila por fila a través del objeto row.
+            DATA.dataset.forEach(row => {
+                // Se agregan los datos a los arreglos.
+                categorias.push(row.nombre_categoria);
+                data.push({
+                    x: row.cantidad_vendida,
+                    y: row.cantidad_hamacas,
+                    r: row.precio_promedio
+                });
+            });
+
+            // Imprime los datos en la consola para depuración
+            console.log(data);
+            console.log(categorias);
+
+            // Destruir la instancia existente del gráfico si existe
+            if (chartInstance) {
+                chartInstance.destroy();
+                chartInstance = null; // Asegúrate de restablecer la referencia
+            }
+
+            // Restablecer el canvas en caso de que sea necesario
+            const canvasContainer = document.getElementById('chart3').parentElement;
+            canvasContainer.innerHTML = '<canvas id="chart3"></canvas>';
+
+            // Llamada a la función para generar y mostrar un gráfico de burbujas. Se encuentra en el archivo components.js
+            chartInstance = bubbleGraph('chart3', data, categorias, 'Ventas por Categoría y Precio Promedio', {
+                options: {
+                    plugins: {
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    // Modifica el tooltip para mostrar información detallada.
+                                    const datasetLabel = context.dataset.label || '';
+                                    const dataPoint = context.raw;
+                                    return `${datasetLabel}: ${context.label} - Cantidad Vendida: ${dataPoint.x}, Cantidad de Hamacas: ${dataPoint.y}, Precio Promedio: $${dataPoint.r}`;
+                                }
+                            }
+                        },
+                        title: {
+                            display: true,
+                            text: 'Ventas por Categoría y Precio Promedio'
+                        }
+                    },
+                    layout: {
+                        padding: {
+                            top: 20,
+                            bottom: 20,
+                            left: 20,
+                            right: 20
+                        }
+                    },
+                    scales: {
+                        x: {
+                            title: {
+                                text: 'Cantidad Vendida'
+                            },
+                            suggestedMin: 0, // Ajusta el mínimo sugerido del eje X
+                            suggestedMax: Math.max(...data.map(d => d.x)) * 1.1 // Ajusta el máximo sugerido del eje X
+                        },
+                        y: {
+                            title: {
+                                text: 'Cantidad de Hamacas'
+                            },
+                            suggestedMin: 0, // Ajusta el mínimo sugerido del eje Y
+                            suggestedMax: Math.max(...data.map(d => d.y)) * 1.1 // Ajusta el máximo sugerido del eje Y
+                        }
+                    }
+                }
+            });
+        } else {
+            console.log(DATA.error);
+        }
+    } catch (error) {
+        console.log(error);
+    }
+}
+
 
 // window.onload
 window.onload = async function () {
@@ -341,6 +436,9 @@ window.onload = async function () {
         MODAL_TITLE_DETAIL = document.getElementById('exampleModalLabel');
     SAVE_MODAL = new bootstrap.Modal('#saveModal'),
         MODAL_TITLE = document.getElementById('modalTitle');
+    // Modal del reporte
+    REPORT_MODAL = new bootstrap.Modal('#reportModal'),
+        REPORT_MODAL_TITLE = document.getElementById('reportModalTitle');
     ROWS_FOUND = document.getElementById('rowsFound');
     cargarTabla();
     // Constante para establecer el formulario de buscar.

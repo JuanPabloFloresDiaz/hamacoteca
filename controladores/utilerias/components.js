@@ -277,6 +277,206 @@ const DoughnutGraph = (canvas, legends, values, title) => {
         }
     });
 }
+/*
+*   Función para generar un gráfico de burbujas. Requiere la librería chart.js para funcionar.
+*   Parámetros: canvas (identificador de la etiqueta canvas), data (datos para el gráfico), labels (etiquetas de categorías), title (título del gráfico), options (opciones adicionales para la configuración del gráfico).
+*   Retorno: instancia del gráfico.
+*/
+const bubbleGraph = (canvas, data, labels, title, options = {}) => {
+    // Crear datasets separados para cada categoría
+    const datasets = data.map((dataPoint, index) => ({
+        label: labels[index],
+        data: [dataPoint],
+        backgroundColor: '#' + (Math.random().toString(16)).substring(2, 8)
+    }));
+
+    // Configuración por defecto para el gráfico de burbujas.
+    const defaultOptions = {
+        type: 'bubble',
+        data: {
+            datasets: datasets
+        },
+        options: {
+            plugins: {
+                title: {
+                    display: true,
+                    text: title
+                }
+            },
+            scales: {
+                x: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: 'Eje X'
+                    }
+                },
+                y: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: 'Eje Y'
+                    }
+                }
+            }
+        }
+    };
+
+    // Fusiona las opciones por defecto con las opciones adicionales.
+    const config = {
+        ...defaultOptions,
+        ...options,
+        options: {
+            ...defaultOptions.options,
+            ...options.options
+        }
+    };
+
+    // Crea y retorna la instancia del gráfico.
+    return new Chart(document.getElementById(canvas), config);
+}
+
+/*
+*   Función para generar un gráfico de dispersión. Requiere la librería chart.js para funcionar.
+*   Parámetros: canvas (identificador de la etiqueta canvas), data (pares de coordenadas para el gráfico), legend (etiqueta para los datos), title (título del gráfico), options (opciones adicionales para la configuración del gráfico).
+*   Retorno: instancia del gráfico.
+*/
+const scatterGraph = (canvas, data, legend, title, options = {}) => {
+    // Configuración por defecto para el gráfico de dispersión.
+    const defaultOptions = {
+        type: 'scatter',
+        data: {
+            datasets: [{
+                label: legend,
+                data: data,
+                backgroundColor: '#' + (Math.random().toString(16)).substring(2, 8)
+            }]
+        },
+        options: {
+            plugins: {
+                title: {
+                    display: true,
+                    text: title
+                }
+            },
+            scales: {
+                x: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: 'Eje X'
+                    }
+                },
+                y: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: 'Eje Y'
+                    }
+                }
+            }
+        }
+    };
+
+    // Fusiona las opciones por defecto con las opciones adicionales.
+    const config = {
+        ...defaultOptions,
+        ...options,
+        options: {
+            ...defaultOptions.options,
+            ...options.options
+        }
+    };
+
+    // Crea y retorna la instancia del gráfico.
+    return new Chart(document.getElementById(canvas), config);
+}
+
+/*
+*   Función para generar un gráfico de área polar. Requiere la librería chart.js para funcionar.
+*   Parámetros: canvas (identificador de la etiqueta canvas), labels (etiquetas para el gráfico), data (valores de los datos), title (título del gráfico), options (opciones adicionales para la configuración del gráfico).
+*   Retorno: instancia del gráfico.
+*/
+const polarAreaGraph = (canvas, labels, data, title, options = {}) => {
+    // Configuración por defecto para el gráfico de área polar.
+    const defaultOptions = {
+        type: 'polarArea',
+        data: {
+            labels: labels,
+            datasets: [{
+                data: data,
+                backgroundColor: data.map(() => '#' + (Math.random().toString(16)).substring(2, 8))
+            }]
+        },
+        options: {
+            plugins: {
+                title: {
+                    display: true,
+                    text: title
+                }
+            }
+        }
+    };
+
+    // Fusiona las opciones por defecto con las opciones adicionales.
+    const config = {
+        ...defaultOptions,
+        ...options,
+        options: {
+            ...defaultOptions.options,
+            ...options.options
+        }
+    };
+
+    // Crea y retorna la instancia del gráfico.
+    return new Chart(document.getElementById(canvas), config);
+}
+
+/*
+*   Función para generar un gráfico de radar. Requiere la librería chart.js para funcionar.
+*   Parámetros: canvas (identificador de la etiqueta canvas), labels (etiquetas para el gráfico), data (valores de los datos), legend (etiqueta para los datos), title (título del gráfico), options (opciones adicionales para la configuración del gráfico).
+*   Retorno: instancia del gráfico.
+*/
+const radarGraph = (canvas, labels, data, legend, title, options = {}) => {
+    // Configuración por defecto para el gráfico de radar.
+    const defaultOptions = {
+        type: 'radar',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: legend,
+                data: data,
+                backgroundColor: '#' + (Math.random().toString(16)).substring(2, 8)
+            }]
+        },
+        options: {
+            plugins: {
+                title: {
+                    display: true,
+                    text: title
+                },
+                legend: {
+                    display: true
+                }
+            }
+        }
+    };
+
+    // Fusiona las opciones por defecto con las opciones adicionales.
+    const config = {
+        ...defaultOptions,
+        ...options,
+        options: {
+            ...defaultOptions.options,
+            ...options.options
+        }
+    };
+
+    // Crea y retorna la instancia del gráfico.
+    return new Chart(document.getElementById(canvas), config);
+}
+
+
 
 /*
 *   Función asíncrona para cerrar la sesión del usuario.
