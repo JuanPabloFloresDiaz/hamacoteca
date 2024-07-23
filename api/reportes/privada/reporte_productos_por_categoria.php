@@ -23,7 +23,8 @@ if ($dataCategorias = $categoria->readAll()) {
     // Se establece la fuente para los encabezados.
     $pdf->setFont('Arial', 'B', 11);
     // Se imprimen las celdas con los encabezados.
-    // Explicación de celdas (Ancho, Alto, Texto, Borde, Salto de linea, Alineación (Centrado = C, Izquierda = L, Derecha = R), Fondo, Link (Opcional))
+    // Explicación de funcionamiento de los valores de las celdas: 
+    // (Ancho, Alto, Texto, Borde, Salto de linea, Alineación (Centrado = C, Izquierda = L, Derecha = R), Fondo, Link)
     $pdf->cell(30, 10, 'Imagen', 1, 0, 'C', 1); // Nueva columna para imagen
     $pdf->cell(90, 10, 'Nombre', 1, 0, 'C', 1);
     $pdf->cell(30, 10, 'Precio (US$)', 1, 0, 'C', 1);
@@ -77,14 +78,14 @@ if ($dataCategorias = $categoria->readAll()) {
                     }
 
                     $currentY = $pdf->getY(); // Obtén la coordenada Y actual
+                    // Se establacen los colores de las celdas
                     $pdf->setDrawColor(130, 196, 250);
                     $pdf->setFont('Arial', 'B', 11);
-                    // Imprime las celdas con los datos y la imagen
                     $pdf->setFillColor(255, 255, 255);
-                    // Imprime la celda con la imagen del producto.
+                    // Imprime las celdas con los datos y la imagen
                     $pdf->cell(30, 15, $pdf->image('../../imagenes/hamacas/' . $rowProducto['foto_principal'], $pdf->getX() + 10, $currentY + 2, 10), 1, 0);
                     // Imprime las celdas con los datos del producto.
-                    $pdf->cell(90, 15, $pdf->encodeString($rowProducto['nombre_hamaca']), 1, 0);
+                    $pdf->cell(90, 15, $pdf->encodeString($rowProducto['nombre_hamaca']), 1, 0, 'C', false, 'http://localhost/hamacoteca/vistas/publica/paginas/detalle.html?id=' . $rowProducto['ID']);
                     $pdf->cell(30, 15, $rowProducto['precio'], 1, 0);
                     $pdf->cell(30, 15, $estado, 1, 1);
                 }

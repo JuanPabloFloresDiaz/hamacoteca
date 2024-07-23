@@ -33,6 +33,7 @@ if ($dataclientes = $clientes->readAllBlocks()) {
         }
 
         $currentY = $pdf->getY(); // Obtén la coordenada Y actual
+        // Se establacen los colores de las celdas
         $pdf->setFillColor(79, 171, 220);
         $pdf->setDrawColor(130, 196, 250);
         $pdf->setFont('Arial', 'B', 11);

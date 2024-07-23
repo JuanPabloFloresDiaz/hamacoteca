@@ -190,7 +190,7 @@ class HamacasHandler
     //Función para generar el reporte de productos por categoría
     public function productosCategoria()
     {
-        $sql = 'SELECT foto_principal ,nombre_hamaca, precio, estado_venta
+        $sql = 'SELECT foto_principal ,nombre_hamaca, precio, estado_venta, id_hamaca AS ID
                 FROM hamacas
                 INNER JOIN categorias USING(id_categoria)
                 WHERE id_categoria = ?

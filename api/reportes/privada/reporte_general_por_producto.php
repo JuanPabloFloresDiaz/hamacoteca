@@ -35,13 +35,14 @@ if ($dataHamacas = $hamacas->readAll()) {
         }
 
         $currentY = $pdf->getY(); // Obtén la coordenada Y actual
+        // Se establacen los colores de las celdas
         $pdf->setFillColor(79, 171, 220);
         $pdf->setDrawColor(130, 196, 250);
         $pdf->setFont('Arial', 'B', 11);
         // Imprime las celdas con los datos y la imagen
         $pdf->setFillColor(255, 255, 255);
         $pdf->cell(37, 15, $pdf->image('../../imagenes/hamacas/' . $rowHamacas['IMAGEN'], $pdf->getX() + 10, $currentY + 2, 10), 1, 0);
-        $pdf->cell(63, 15, $pdf->encodeString($rowHamacas['NOMBRE']), 1, 0, 'C');
+        $pdf->cell(63, 15, $pdf->encodeString($rowHamacas['NOMBRE']), 1, 0, 'C', false, 'http://localhost/hamacoteca/vistas/publica/paginas/detalle.html?id=' . $rowHamacas['ID']);
         $pdf->cell(25, 15, $pdf->encodeString($rowHamacas['CANTIDAD']), 1, 0, 'C');
         $pdf->cell(30, 15, $pdf->encodeString($rowHamacas['PRECIO']), 1, 0, 'C');
         $pdf->cell(30, 15, $pdf->encodeString($rowHamacas['ESTADO']), 1, 1, 'C');

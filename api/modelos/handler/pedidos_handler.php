@@ -291,6 +291,7 @@ class PedidosHandler
     public function readDetailReport()
     {
         $sql = 'SELECT dp.id_detalles_pedidos AS ID,
+                h.id_hamaca AS IDP,
                 h.foto_principal AS IMAGEN,
                 h.nombre_hamaca AS NOMBRE,
                 dp.cantidad_comprada AS CANTIDAD,
@@ -313,6 +314,7 @@ class PedidosHandler
     public function readDetailReportHistory()
     {
         $sql = 'SELECT dp.id_detalles_pedidos AS ID,
+                h.id_hamaca AS IDP,
                 h.foto_principal AS IMAGEN,
                 h.nombre_hamaca AS NOMBRE,
                 dp.cantidad_comprada AS CANTIDAD,

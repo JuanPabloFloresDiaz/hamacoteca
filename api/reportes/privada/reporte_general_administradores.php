@@ -1,9 +1,14 @@
 <?php
+// Se incluye la clase con las plantillas para generar reportes.
 require_once ('../../auxiliares/report.php');
+// Se incluye la clase con la que se asignaran los datos para generar reportes.
 require_once ('../../modelos/data/administradores_data.php');
 
+// Se instancia la clase para crear el reporte.
 $pdf = new Report;
+// Se inicia el reporte con el encabezado del documento.
 $pdf->startReport('Administradores registrados');
+// Se instancia el módelo AdministradoresData para obtener los datos.
 $admin = new AdministradoresData;
 
 if ($dataadmin = $admin->readAll()) {
@@ -33,6 +38,7 @@ if ($dataadmin = $admin->readAll()) {
         }
 
         $currentY = $pdf->getY(); // Obtén la coordenada Y actual
+        // Se establacen los colores de las celdas
         $pdf->setFillColor(79, 171, 220);
         $pdf->setDrawColor(130, 196, 250);
         $pdf->setFont('Arial', 'B', 11);
