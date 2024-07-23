@@ -338,11 +338,7 @@ async function openModalReport() {
             DATA.dataset.forEach(row => {
                 // Se agregan los datos a los arreglos.
                 categorias.push(row.nombre_categoria);
-                data.push({
-                    x: row.cantidad_vendida,
-                    y: row.cantidad_hamacas,
-                    r: row.precio_promedio
-                });
+                data.push(row.precio_promedio);
             });
 
             // Imprime los datos en la consola para depuración
@@ -358,52 +354,8 @@ async function openModalReport() {
             // Restablecer el canvas en caso de que sea necesario
             const canvasContainer = document.getElementById('chart3').parentElement;
             canvasContainer.innerHTML = '<canvas id="chart3"></canvas>';
-
-            // Llamada a la función para generar y mostrar un gráfico de burbujas. Se encuentra en el archivo components.js
-            chartInstance = bubbleGraph('chart3', data, categorias, 'Ventas por Categoría y Precio Promedio', {
-                options: {
-                    plugins: {
-                        tooltip: {
-                            callbacks: {
-                                label: function(context) {
-                                    // Modifica el tooltip para mostrar información detallada.
-                                    const datasetLabel = context.dataset.label || '';
-                                    const dataPoint = context.raw;
-                                    return `${datasetLabel}: ${context.label} - Cantidad Vendida: ${dataPoint.x}, Cantidad de Hamacas: ${dataPoint.y}, Precio Promedio: $${dataPoint.r}`;
-                                }
-                            }
-                        },
-                        title: {
-                            display: true,
-                            text: 'Ventas por Categoría y Precio Promedio'
-                        }
-                    },
-                    layout: {
-                        padding: {
-                            top: 20,
-                            bottom: 20,
-                            left: 20,
-                            right: 20
-                        }
-                    },
-                    scales: {
-                        x: {
-                            title: {
-                                text: 'Cantidad Vendida'
-                            },
-                            suggestedMin: 0, // Ajusta el mínimo sugerido del eje X
-                            suggestedMax: Math.max(...data.map(d => d.x)) * 1.1 // Ajusta el máximo sugerido del eje X
-                        },
-                        y: {
-                            title: {
-                                text: 'Cantidad de Hamacas'
-                            },
-                            suggestedMin: 0, // Ajusta el mínimo sugerido del eje Y
-                            suggestedMax: Math.max(...data.map(d => d.y)) * 1.1 // Ajusta el máximo sugerido del eje Y
-                        }
-                    }
-                }
-            });
+            // Llamada a la función para generar y mostrar un gráfico de pastel. Se encuentra en el archivo components.js
+            chartInstance = pieGraph('chart3', categorias, data, 'Ventas por Categoría y Precio Promedio');
         } else {
             console.log(DATA.error);
         }

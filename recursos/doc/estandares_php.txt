@@ -57,6 +57,23 @@ protected $precio = null;
 protected $estado = null;
 protected $cantidad = null;
 
+6.Posición de las Llaves: Estilo Allman
+El estilo Allman es una convención de formato de código en la que las llaves de apertura { y cierre } están alineadas verticalmente y cada una ocupa una línea separada. 
+Este estilo mejora la legibilidad del código, especialmente en bloques anidados, ya que la estructura de control es más clara visualmente.
+
+function exampleFunction()
+{
+    if (condition)
+    {
+        // Código aquí
+    }
+    else
+    {
+        // Otro código aquí
+    }
+}
+
+
 Conclusión
 Este documento proporciona una guía para mantener un código limpio, legible y fácil de mantener en PHP. 
 Siguiendo estos estándares y prácticas recomendadas, podremos asegurarnos de que nuestro código sea consistente 

@@ -101,6 +101,21 @@ const openUpdate = async (id) => {
     }
 }
 
+9.Posición de las Llaves: K&R Style (Kernighan and Ritchie)
+Estilo de Llaves: Se colocan las llaves de apertura { en la misma línea que la declaración de la función o estructura de control. 
+Las llaves de cierre } se colocan en una nueva línea alineada con la declaración correspondiente.
+
+if (condition) {
+    // código
+} else {
+    // código
+}
+
+function exampleFunction() {
+    // código
+}
+
+
 Conclusión:
 Estos estándares ayudan a mantener un código claro, legible y fácil de mantener, 
 asegurando una colaboración más eficiente entre desarrolladores y facilitando la detección y 
