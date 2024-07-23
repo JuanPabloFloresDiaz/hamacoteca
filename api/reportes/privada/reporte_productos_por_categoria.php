@@ -77,6 +77,10 @@ if ($dataCategorias = $categoria->readAll()) {
                     }
 
                     $currentY = $pdf->getY(); // Obtén la coordenada Y actual
+                    $pdf->setDrawColor(130, 196, 250);
+                    $pdf->setFont('Arial', 'B', 11);
+                    // Imprime las celdas con los datos y la imagen
+                    $pdf->setFillColor(255, 255, 255);
                     // Imprime la celda con la imagen del producto.
                     $pdf->cell(30, 15, $pdf->image('../../imagenes/hamacas/' . $rowProducto['foto_principal'], $pdf->getX() + 10, $currentY + 2, 10), 1, 0);
                     // Imprime las celdas con los datos del producto.
