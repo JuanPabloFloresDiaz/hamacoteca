@@ -355,7 +355,7 @@ async function openModalReport() {
             const canvasContainer = document.getElementById('chart3').parentElement;
             canvasContainer.innerHTML = '<canvas id="chart3"></canvas>';
             // Llamada a la función para generar y mostrar un gráfico de pastel. Se encuentra en el archivo components.js
-            chartInstance = pieGraph('chart3', categorias, data, 'Ventas por Categoría y Precio Promedio');
+            chartInstance = DoughnutGraph('chart3', categorias, data, 'Ventas por Categoría y Precio Promedio');
         } else {
             console.log(DATA.error);
         }
