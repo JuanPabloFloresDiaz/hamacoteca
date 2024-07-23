@@ -120,6 +120,7 @@ class ValoracionesHandler
         }
     }
 
+    // Función para crear un registro
     public function createRow()
     {
         $sql = 'CALL insertar_comentario(?, ?, ?, ?)';
@@ -127,6 +128,7 @@ class ValoracionesHandler
         return Database::executeRow($sql, $params);
     }
 
+    // Función para actualizar un registro
     public function updateRow()
     {
         $sql = 'CALL actualizar_comentario(?, ?, ?, ?, ?)';
@@ -134,6 +136,7 @@ class ValoracionesHandler
         return Database::executeRow($sql, $params);
     }
 
+    // Función para eliminar un registro
     public function deleteRow()
     {
         $sql = 'CALL eliminar_comentario(?, ?, ?)';

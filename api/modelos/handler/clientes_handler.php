@@ -59,6 +59,7 @@ class ClientesHandler
         return Database::executeRow($sql, $params);
     }
 
+    // Función para leer un registro
     public function readOne()
     {
         $sql = 'SELECT id_cliente AS ID,
@@ -105,6 +106,7 @@ class ClientesHandler
         return Database::getRows($sql);
     }
 
+    // Función para leer todos los clientes bloqueados
     public function readAllBlocks()
     {
         $sql = 'SELECT id_cliente AS ID, nombre_cliente AS NOMBRE, correo_cliente AS CORREO, apellido_cliente AS APELLIDO, fecha_registro AS FECHA,
@@ -181,6 +183,7 @@ class ClientesHandler
         }
     }
 
+    // Función para chequear el estado de la cuenta y además asígnar las variables de sesión
     public function checkStatus()
     {
         if ($this->estado) {
@@ -196,6 +199,7 @@ class ClientesHandler
         }
     }
 
+    // Función para chequear la contraseña
     public function checkPassword($password)
     {
         $sql = 'SELECT clave_cliente AS CLAVE
@@ -211,6 +215,7 @@ class ClientesHandler
         }
     }
 
+    // Función para cambiar la contraseña
     public function changePassword()
     {
         $sql = 'UPDATE clientes
@@ -220,6 +225,7 @@ class ClientesHandler
         return Database::executeRow($sql, $params);
     }
 
+    // Función para leer el perfil del cliente activo
     public function readProfile()
     {
         $sql = 'SELECT id_cliente, correo_cliente AS EMAIL , clave_cliente, estado_cliente, foto_cliente AS IMAGEN, nombre_cliente AS NOMBRE
@@ -230,6 +236,7 @@ class ClientesHandler
     }
 
 
+    // Función para editar el perfil
     public function editProfile()
     {
         $sql = 'UPDATE cliente
@@ -239,6 +246,7 @@ class ClientesHandler
         return Database::executeRow($sql, $params);
     }
 
+    // Función para cambiar el estado
     public function changeStatus()
     {
         $sql = 'UPDATE cliente
@@ -248,6 +256,7 @@ class ClientesHandler
         return Database::executeRow($sql, $params);
     }
 
+    // Función para chequear que el dui y el correo del cliente no esten repetidos
     public function checkDuplicate($value)
     {
         $sql = 'SELECT id_cliente

@@ -140,6 +140,7 @@ class HamacasHandler
         return Database::getRows($sql); 
     }
     
+    // Función para leer los productos por categoría
     public function readProductosCategoria()
     {
         $sql = 'SELECT id_hamaca AS ID, foto_principal AS IMAGEN, nombre_hamaca AS NOMBRE, 
@@ -152,6 +153,7 @@ class HamacasHandler
         return Database::getRows($sql, $params);
     }
     
+    // Función para leer productos recomendados
     public function readRecommended()
     {
         $sql = 'SELECT id_hamaca AS ID, foto_principal AS IMAGEN, nombre_hamaca AS NOMBRE, 
