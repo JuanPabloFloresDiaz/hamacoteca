@@ -48,4 +48,5 @@ if ($dataclientes = $clientes->readAllBlocks()) {
     $pdf->cell(0, 15, $pdf->encodeString('No hay clientes bloqueados para mostrar'), 1, 1);
 }
 
+// Se llama implícitamente al método footer() y se envía el documento al navegador web.
 $pdf->output('I', 'clientes_bloqueados.pdf');

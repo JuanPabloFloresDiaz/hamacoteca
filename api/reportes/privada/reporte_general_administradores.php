@@ -53,4 +53,5 @@ if ($dataadmin = $admin->readAll()) {
     $pdf->cell(0, 15, $pdf->encodeString('No hay administradores registrados para mostrar'), 1, 1);
 }
 
+// Se llama implícitamente al método footer() y se envía el documento al navegador web.
 $pdf->output('I', 'administradores.pdf');
