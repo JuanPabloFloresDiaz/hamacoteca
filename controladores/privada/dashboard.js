@@ -273,7 +273,7 @@ window.onload = async function () {
             greeting = 'Buenas noches ' + DATA.nombre;
         }
 
-        sweetAlert(1, greeting, true);
+        //sweetAlert(1, greeting, true);
     } catch {
 
     }

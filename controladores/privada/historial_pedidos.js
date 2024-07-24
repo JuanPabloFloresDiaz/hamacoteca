@@ -453,16 +453,30 @@ function recharge() {
 *   Retorno: ninguno.
 */
 const openReport = () => {
+    // Obtener los valores de las fechas.
+    const fechaInicio = FECHA_PEDIDO.value;
+    const fechaFin = FECHA_PEDIDO_FINAL.value;
+
+    // Verificar si las fechas son válidas.
+    if (new Date(fechaInicio) > new Date(fechaFin)) {
+        sweetAlert(2, 'La fecha de inicio no puede ser mayor que la fecha final.', true);
+        return;
+    }
+
     // Se declara una constante tipo objeto con la ruta específica del reporte en el servidor.
     const PATH = new URL(`${SERVER_URL}reportes/privada/pedidos_entregados_por_fecha.php`);
-    console.log(FECHA_PEDIDO.value);
-    console.log(FECHA_PEDIDO_FINAL.value);
+
+    console.log(fechaInicio);
+    console.log(fechaFin);
+
     // Se agrega un parámetro a la ruta con el valor del registro seleccionado.
-    PATH.searchParams.append('fecha', FECHA_PEDIDO.value);
-    PATH.searchParams.append('fechaFin', FECHA_PEDIDO_FINAL.value);
+    PATH.searchParams.append('fecha', fechaInicio);
+    PATH.searchParams.append('fechaFin', fechaFin);
+
     // Se abre el reporte en una nueva pestaña.
     window.open(PATH.href);
 }
+
 
 // window.onload
 window.onload = async function () {

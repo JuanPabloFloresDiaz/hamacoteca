@@ -132,7 +132,7 @@ class DetallesPedidosHandler
     {
         // Consulta para traer los datos de la base de datos.
         $sql = 'SELECT 
-    CASE 
+        CASE 
         WHEN MONTH(fecha_pedido) = 1 THEN "Enero"
         WHEN MONTH(fecha_pedido) = 2 THEN "Febrero"
         WHEN MONTH(fecha_pedido) = 3 THEN "Marzo"
@@ -145,14 +145,14 @@ class DetallesPedidosHandler
         WHEN MONTH(fecha_pedido) = 10 THEN "Octubre"
         WHEN MONTH(fecha_pedido) = 11 THEN "Noviembre"
         WHEN MONTH(fecha_pedido) = 12 THEN "Diciembre"
-    END AS MES,
-    YEAR(fecha_pedido) AS AÑO,
-    SUM(precio_producto) AS GANANCIAS
-    FROM detalles_pedidos
-    INNER JOIN pedidos USING(id_pedido)
-    WHERE estado_pedido = "Entregado"
-    GROUP BY AÑO, MES
-    ORDER BY AÑO ASC, MONTH(fecha_pedido) ASC;';
+        END AS MES,
+        YEAR(fecha_pedido) AS AÑO,
+        SUM(precio_producto) AS GANANCIAS
+        FROM detalles_pedidos
+        INNER JOIN pedidos USING(id_pedido)
+        WHERE estado_pedido = "Entregado"
+        GROUP BY AÑO, MES
+        ORDER BY AÑO ASC, MONTH(fecha_pedido) ASC;';
 
         // Ejecutar la consulta y almacenar los resultados
         $rows = Database::getRows($sql);
