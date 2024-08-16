@@ -71,11 +71,29 @@ class ClientesHandler
         fecha_nacimiento_cliente AS NACIMIENTO,
         genero_cliente AS GENERO,
         direccion_cliente AS DIRECCION,
-        foto_cliente AS FOTO
+        foto_cliente AS FOTO,
+        CONCAT(nombre_cliente," ",apellido_cliente) AS NOMBRE_COMPLETO,
+        estado_cliente AS ESTADO
         FROM clientes
         WHERE id_cliente LIKE ?';
         $params = array($_SESSION['idCliente']);
-        return Database::getRow($sql, $params);
+        $data = Database::getRow($sql, $params);
+        if ($data) {
+            $this->id = $data['ID'];
+            $this->correo = $data['CORREO'];
+            $this->dui = $data['DUI'];
+            $this->estado = $data['ESTADO'];
+            $this->imagen = $data['FOTO'];
+            $this->nombre_completo = $data['NOMBRE_COMPLETO'];
+            $this->direccion = $data['DIRECCION'];
+            if ($this->checkStatus()) {
+                return $data;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
     }
 
 
@@ -228,11 +246,24 @@ class ClientesHandler
     // Función para leer el perfil del cliente activo
     public function readProfile()
     {
-        $sql = 'SELECT id_cliente, correo_cliente AS EMAIL , clave_cliente, estado_cliente, foto_cliente AS IMAGEN, nombre_cliente AS NOMBRE
+        $sql = 'SELECT id_cliente, correo_cliente AS EMAIL , clave_cliente, estado_cliente, foto_cliente AS IMAGEN, 
+                nombre_cliente AS NOMBRE, CONCAT(nombre_cliente," ",apellido_cliente) AS nombre_completo, dui_cliente, direccion_cliente
                 FROM clientes
                 WHERE id_cliente = ?';
         $params = array($_SESSION['idCliente']);
-        return Database::getRow($sql, $params);
+        $data = Database::getRow($sql, $params);
+        if ($data) {
+            $this->id = $data['id_cliente'];
+            $this->correo = $data['EMAIL'];
+            $this->dui = $data['dui_cliente'];
+            $this->estado = $data['estado_cliente'];
+            $this->imagen = $data['IMAGEN'];
+            $this->nombre_completo = $data['nombre_completo'];
+            $this->direccion = $data['direccion_cliente'];
+            return true;
+        } else {
+            return false;
+        }
     }
 
 

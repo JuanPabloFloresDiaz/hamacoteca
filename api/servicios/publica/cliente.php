@@ -59,7 +59,7 @@ if (isset($_GET['action'])) {
             case 'readOne':
                 if ($result['dataset'] = $cliente->readOne()) {
                     $result['status'] = 1;
-                } else {
+                }else {
                     $result['error'] = 'Perfil inexistente';
                 }
                 break;
