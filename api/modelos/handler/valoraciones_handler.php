@@ -57,7 +57,7 @@ class ValoracionesHandler
         nombre_hamaca AS "PRODUCTO",
         comentario_producto AS "COMENTARIO", 
         calificacion_producto AS "CALIFICACIÓN",
-        fecha_valoracion AS "FECHA",
+        CONCAT(DATE_FORMAT(fecha_valoracion, "%e de %M del %Y a las %H:%i:%s")) AS "FECHA",
             CASE 
                 WHEN estado_comentario = 1 THEN "Activo"
                 WHEN estado_comentario = 0 THEN "Bloqueado"

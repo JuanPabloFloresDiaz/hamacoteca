@@ -410,3 +410,21 @@ ROUND(dp.precio_producto * dp.cantidad_comprada, 2) AS TOTAL
 FROM detalles_pedidos dp JOIN hamacas h ON dp.id_hamaca = h.id_hamaca 
 WHERE dp.id_pedido = 
 (SELECT id_pedido FROM pedidos WHERE id_cliente = 1 AND estado_pedido = "En camino" ORDER BY id_pedido DESC LIMIT 1);
+
+SELECT V.id_valoracion AS "ID",
+        foto_cliente AS "IMAGEN",
+        c.id_cliente AS "IDENTIFICADOR",
+        CONCAT(nombre_cliente, " ", apellido_cliente) AS "NOMBRE",
+        nombre_hamaca AS "PRODUCTO",
+        comentario_producto AS "COMENTARIO", 
+        calificacion_producto AS "CALIFICACIÓN",
+        CONCAT(DATE_FORMAT(v.fecha_valoracion, "%e de %M del %Y a las %H:%i:%s")) AS "FECHA",
+            CASE 
+                WHEN estado_comentario = 1 THEN "Activo"
+                WHEN estado_comentario = 0 THEN "Bloqueado"
+            END AS "ESTADO"
+FROM valoraciones v
+INNER JOIN detalles_pedidos dp ON dp.id_detalles_pedidos = v.id_detalles_pedidos
+INNER JOIN hamacas h ON h.id_hamaca = dp.id_hamaca
+INNER JOIN pedidos p ON p.id_pedido = dp.id_pedido
+INNER JOIN clientes c ON c.id_cliente = p.id_cliente;
