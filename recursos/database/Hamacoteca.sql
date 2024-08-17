@@ -3,7 +3,7 @@ DROP DATABASE if EXISTS Hamacoteca;
 CREATE DATABASE Hamacoteca;
 
 USE Hamacoteca;
-
+    
 CREATE TABLE roles_administradores(
 id_rol INT AUTO_INCREMENT PRIMARY KEY,
 nombre_rol VARCHAR(60),

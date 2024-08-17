@@ -62,6 +62,8 @@ CALL insertar_cliente_validado('Javier', 'Vásquez', 'Clave23@Password', 'javier
 CALL insertar_cliente_validado('Luisa', 'Zamora', 'Clave24@Password', 'luisa@gmail.com', '5432-1098', '12345642-3', '2013-01-01', 'Femenino', 'default.jpg', 'Mejicanos');
 CALL insertar_cliente_validado('Diego', 'Álvarez', 'Clave25@Password', 'diego@gmail.com', '4321-0987', '13345567-4', '2014-01-01', 'Masculino', 'default.jpg', 'San Salvador');
 
+SELECT * FROM clientes;
+
 CALL insertar_categoria('Colgante', 'Es una hamaca colgante', 'default.png');
 CALL insertar_categoria('Silla', 'Es una hamaca silla', 'default.png');
 CALL insertar_categoria('Estandar', 'Es una hamaca estandar', 'default.png');
