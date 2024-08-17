@@ -260,7 +260,7 @@ class ClientesHandler
             $this->imagen = $data['IMAGEN'];
             $this->nombre_completo = $data['nombre_completo'];
             $this->direccion = $data['direccion_cliente'];
-            return true;
+            return $data;
         } else {
             return false;
         }
