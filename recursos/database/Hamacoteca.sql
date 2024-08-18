@@ -37,6 +37,19 @@ foto_administrador VARCHAR(50) NULL,
 CONSTRAINT chk_url_foto_administrador CHECK (foto_administrador LIKE '%.jpg' OR foto_administrador LIKE '%.png' OR foto_administrador LIKE '%.jpeg' OR foto_administrador LIKE '%.gif')
 );
 
+SET @sql := IF(
+    (SELECT COUNT(*) FROM INFORMATION_SCHEMA.COLUMNS 
+     WHERE TABLE_NAME = 'administradores' 
+     AND COLUMN_NAME = 'recovery_code' 
+     AND TABLE_SCHEMA = DATABASE()) = 0,
+    'ALTER TABLE administradores ADD COLUMN recovery_code VARCHAR(80) DEFAULT "0000"',
+    'SELECT ''La columna ya existe.'';'
+);
+
+PREPARE stmt FROM @sql;
+EXECUTE stmt;
+DEALLOCATE PREPARE stmt;
+
 CREATE TABLE clientes(
 id_cliente INT AUTO_INCREMENT PRIMARY KEY,
 nombre_cliente VARCHAR(50) NOT NULL,
@@ -56,6 +69,19 @@ direccion_cliente VARCHAR(100) NOT NULL,
 foto_cliente VARCHAR(50) NULL,
 CONSTRAINT chk_url_foto_cliente CHECK (foto_cliente LIKE '%.jpg' OR foto_cliente LIKE '%.png' OR foto_cliente LIKE '%.jpeg' OR foto_cliente LIKE '%.gif')
 );
+
+SET @sql := IF(
+    (SELECT COUNT(*) FROM INFORMATION_SCHEMA.COLUMNS 
+     WHERE TABLE_NAME = 'clientes' 
+     AND COLUMN_NAME = 'recovery_code' 
+     AND TABLE_SCHEMA = DATABASE()) = 0,
+    'ALTER TABLE clientes ADD COLUMN recovery_code VARCHAR(80) DEFAULT "0000"',
+    'SELECT ''La columna ya existe.'';'
+);
+
+PREPARE stmt FROM @sql;
+EXECUTE stmt;
+DEALLOCATE PREPARE stmt;
               
 CREATE TABLE categorias(
 id_categoria INT AUTO_INCREMENT PRIMARY KEY,
