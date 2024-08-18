@@ -152,3 +152,4 @@ id_detalles_pedidos INT,
 CONSTRAINT fk_valoraciones_de_las_hamacas FOREIGN KEY (id_detalles_pedidos)
 REFERENCES detalles_pedidos(id_detalles_pedidos)
 );
+

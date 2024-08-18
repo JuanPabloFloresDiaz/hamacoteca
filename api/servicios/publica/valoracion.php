@@ -64,7 +64,7 @@ if (isset($_GET['action'])) {
                     $result['status'] = 1;
                     $result['message'] = 'Comentario actualizado correctamente';
                 } else {
-                    $result['error'] = 'Ocurrió un problema al agregar el comentario';
+                    $result['error'] = 'Ocurrió un problema al actualizar el comentario';
                 }
                 break;
                 // Acción para eliminar un comentario del producto.
@@ -79,7 +79,7 @@ if (isset($_GET['action'])) {
                     $result['status'] = 1;
                     $result['message'] = 'Comentario eliminado correctamente';
                 } else {
-                    $result['error'] = 'Ocurrió un problema al agregar el comentario';
+                    $result['error'] = 'Ocurrió un problema al eliminar el comentario';
                 }
                 break;
             default:

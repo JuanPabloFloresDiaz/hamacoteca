@@ -1121,6 +1121,8 @@ END$$
 
 DELIMITER ;
 
+
+DROP PROCEDURE IF EXISTS actualizar_comentario;
 DELIMITER $$
 CREATE PROCEDURE actualizar_comentario(
     IN p_id_cliente INT,
@@ -1130,17 +1132,15 @@ CREATE PROCEDURE actualizar_comentario(
     IN p_id_comentario INT
 )
 BEGIN
-    DECLARE v_id_detalles_pedidos INT;
+    DECLARE v_id_detalles_pedidos TEXT;
 
     -- Verificar si el cliente ha comprado el producto
-    SELECT dp.id_detalles_pedidos
+    SELECT GROUP_CONCAT(dp.id_detalles_pedidos)
     INTO v_id_detalles_pedidos
     FROM detalles_pedidos dp
     INNER JOIN pedidos p ON dp.id_pedido = p.id_pedido
     WHERE p.id_cliente = p_id_cliente
-      AND dp.id_hamaca = p_id_hamaca
-    ORDER BY dp.id_detalles_pedidos DESC
-    LIMIT 1;
+      AND dp.id_hamaca = p_id_hamaca;
 
     -- Si se encuentra un registro, actualizar la calificación y el comentario
     IF v_id_detalles_pedidos IS NOT NULL THEN
@@ -1149,7 +1149,7 @@ BEGIN
             comentario_producto = p_comentario,
             fecha_valoracion = NOW()
         WHERE id_valoracion = p_id_comentario
-          AND id_detalles_pedidos = v_id_detalles_pedidos;
+          AND FIND_IN_SET(id_detalles_pedidos, v_id_detalles_pedidos) > 0;
     ELSE
         -- Generar un error si el cliente no ha comprado el producto
         SIGNAL SQLSTATE '45000'
@@ -1159,6 +1159,7 @@ END$$
 
 DELIMITER ;
 
+DROP PROCEDURE IF EXISTS eliminar_comentario;
 DELIMITER $$
 
 CREATE PROCEDURE eliminar_comentario(
@@ -1167,22 +1168,25 @@ CREATE PROCEDURE eliminar_comentario(
     IN p_id_comentario INT
 )
 BEGIN
-    DECLARE v_id_detalles_pedidos INT;
+    DECLARE v_detalles_pedidos TEXT;
 
-    -- Verificar si el cliente ha comprado el producto
-    SELECT dp.id_detalles_pedidos
-    INTO v_id_detalles_pedidos
+    -- Verificar si el cliente ha comprado el producto y recoger todos los id_detalles_pedidos en una lista
+    SELECT GROUP_CONCAT(dp.id_detalles_pedidos) INTO v_detalles_pedidos
     FROM detalles_pedidos dp
     INNER JOIN pedidos p ON dp.id_pedido = p.id_pedido
     WHERE p.id_cliente = p_id_cliente
-      AND dp.id_hamaca = p_id_hamaca
-    ORDER BY dp.id_detalles_pedidos DESC
-    LIMIT 1;
+      AND dp.id_hamaca = p_id_hamaca;
 
     -- Verificar si el comentario pertenece al cliente y al producto
-    IF v_id_detalles_pedidos IS NOT NULL THEN
-        IF EXISTS (SELECT 1 FROM valoraciones WHERE id_valoracion = p_id_comentario AND id_detalles_pedidos = v_id_detalles_pedidos) THEN
-            DELETE FROM valoraciones WHERE id_valoracion = p_id_comentario;
+    IF v_detalles_pedidos IS NOT NULL THEN
+        IF EXISTS (
+            SELECT 1 
+            FROM valoraciones 
+            WHERE id_valoracion = p_id_comentario 
+              AND FIND_IN_SET(id_detalles_pedidos, v_detalles_pedidos) > 0
+        ) THEN
+            DELETE FROM valoraciones 
+            WHERE id_valoracion = p_id_comentario;
         ELSE
             -- Generar un error si el comentario no pertenece al cliente o al producto
             SIGNAL SQLSTATE '45000'
@@ -1194,10 +1198,20 @@ BEGIN
         SET MESSAGE_TEXT = 'Error: El cliente no ha comprado este producto.';
     END IF;
 END$$
-
 DELIMITER ;
 
 
+
+
+    SELECT dp.id_detalles_pedidos
+    FROM detalles_pedidos dp
+    INNER JOIN pedidos p ON dp.id_pedido = p.id_pedido
+    WHERE p.id_cliente = 1
+      AND dp.id_hamaca = 3
+    ORDER BY dp.id_detalles_pedidos DESC
+    LIMIT 1;
+	
+    SELECT * FROM valoraciones;
 
 SELECT ROUTINE_NAME
 FROM information_schema.ROUTINES
