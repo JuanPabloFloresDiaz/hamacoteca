@@ -50,7 +50,7 @@ class ValoracionesHandler
     //Función para leer los comentarios de un producto
     public function readOne()
     {
-        $sql = 'SELECT V.id_valoracion AS "ID",
+        $sql = 'SELECT v.id_valoracion AS "ID",
         foto_cliente AS "IMAGEN",
         c.id_cliente AS "IDENTIFICADOR",
         CONCAT(nombre_cliente, " ", apellido_cliente) AS "NOMBRE",
@@ -67,7 +67,7 @@ class ValoracionesHandler
         INNER JOIN hamacas h ON h.id_hamaca = dp.id_hamaca
         INNER JOIN pedidos p ON p.id_pedido = dp.id_pedido
         INNER JOIN clientes c ON c.id_cliente = p.id_cliente 
-        WHERE h.id_hamaca = ? AND V.estado_comentario = 1';
+        WHERE h.id_hamaca = ? AND v.estado_comentario = 1';
         $params = array($this->producto);
         return Database::getRows($sql, $params);
     }
@@ -75,7 +75,7 @@ class ValoracionesHandler
     //Función para leer los comentarios de un producto
     public function readOneComment()
     {
-        $sql = 'SELECT V.id_valoracion AS "ID",
+        $sql = 'SELECT v.id_valoracion AS "ID",
         foto_cliente AS "IMAGEN",
         c.id_cliente AS "IDENTIFICADOR",
         CONCAT(nombre_cliente, " ", apellido_cliente) AS "NOMBRE",
@@ -92,7 +92,7 @@ class ValoracionesHandler
         INNER JOIN hamacas h ON h.id_hamaca = dp.id_hamaca
         INNER JOIN pedidos p ON p.id_pedido = dp.id_pedido
         INNER JOIN clientes c ON c.id_cliente = p.id_cliente 
-        WHERE V.id_valoracion = ? AND V.estado_comentario = 1';
+        WHERE v.id_valoracion = ? AND v.estado_comentario = 1';
         $params = array($this->id);
         return Database::getRow($sql, $params);
     }

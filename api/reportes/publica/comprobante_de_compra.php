@@ -87,4 +87,5 @@ if (isset($_GET['id'])) {
     $pdf->cell(0, 10, $pdf->encodeString('No hay detalles para el pedido'), 1, 1);
 }
 // Se llama implícitamente al método footer() y se envía el documento al navegador web.
+header('Content-type: application/pdf');
 $pdf->output('I', 'factura.pdf');

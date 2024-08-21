@@ -165,7 +165,7 @@ function mostrarProductos(pagina) {
             <div class="col">
                 <div class="card carta-personalizada">
                     <div class="position-relative">
-                        <img src="${SERVER_URL}imagenes/HAMACAS/${producto.IMAGEN}" height="200" class="card-img-top" alt="${producto.NOMBRE}">
+                        <img src="${SERVER_URL}imagenes/hamacas/${producto.IMAGEN}" height="200" class="card-img-top" alt="${producto.NOMBRE}">
                         <a href="detalle.html?id=${producto.ID}" class="btn btn-outline-light position-absolute top-50 start-50 translate-middle">Ver detalle</a>
                     </div>
                     <div class="card-body">
