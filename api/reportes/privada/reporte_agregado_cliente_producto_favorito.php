@@ -56,7 +56,7 @@ if (isset($_GET['idCliente'])) {
                 $pdf->setFillColor(255, 255, 255);
                 // Imprime las celdas con los datos y la imagen
                 $pdf->cell(62, 15, $pdf->image('../../imagenes/hamacas/' . $rowFavorito['IMAGEN'], $pdf->getX() + 25, $currentY + 2, 10), 1, 0);
-                $pdf->cell(84, 15, $pdf->encodeString($rowFavorito['NOMBRE']), 1, 0, 'C', false, 'http://localhost/hamacoteca/vistas/publica/paginas/detalle.html?id=' . $rowFavorito['ID']);
+                $pdf->cell(84, 15, $pdf->encodeString($rowFavorito['NOMBRE']), 1, 0, 'C', false, 'http://hamacoteca.online/hamacoteca/vistas/publica/paginas/detalle.html?id=' . $rowFavorito['ID']);
                 $pdf->cell(40, 15, $pdf->encodeString($rowFavorito['PRECIO']), 1, 1, 'C');
             }
         } else {

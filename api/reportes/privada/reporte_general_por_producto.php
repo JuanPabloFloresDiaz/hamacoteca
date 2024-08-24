@@ -56,7 +56,7 @@ if ($dataHamacas = $hamacas->readAll()) {
         // Imprime las celdas con los datos y la imagen
         $pdf->setFillColor(255, 255, 255);
         $pdf->cell(37, 15, $pdf->image('../../imagenes/hamacas/' . $rowHamacas['IMAGEN'], $pdf->getX() + 10, $currentY + 2, 10), 1, 0);
-        $pdf->cell(63, 15, $pdf->encodeString($rowHamacas['NOMBRE']), 1, 0, 'C', false, 'http://localhost/hamacoteca/vistas/publica/paginas/detalle.html?id=' . $rowHamacas['ID']);
+        $pdf->cell(63, 15, $pdf->encodeString($rowHamacas['NOMBRE']), 1, 0, 'C', false, 'http://hamacoteca.online/hamacoteca/vistas/publica/paginas/detalle.html?id=' . $rowHamacas['ID']);
         $pdf->cell(25, 15, $pdf->encodeString($rowHamacas['CANTIDAD']), 1, 0, 'C');
         $pdf->cell(30, 15, $pdf->encodeString($rowHamacas['PRECIO']), 1, 0, 'C');
         $pdf->cell(30, 15, $pdf->encodeString($rowHamacas['ESTADO']), 1, 1, 'C');

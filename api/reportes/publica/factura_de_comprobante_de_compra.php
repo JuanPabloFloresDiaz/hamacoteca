@@ -61,7 +61,7 @@ if ($datapedidos = $pedidos->readDetailReport()) {
         // Imprime las celdas con los datos y la imagen
         $pdf->setFillColor(255, 255, 255);
         $pdf->cell(37, 15, $pdf->image('../../imagenes/hamacas/' . $rowpedidos['IMAGEN'], $pdf->getX() + 10, $currentY + 2, 10), 1, 0);
-        $pdf->cell(63, 15, $pdf->encodeString($rowpedidos['NOMBRE']), 1, 0, 'C', false, 'http://localhost/hamacoteca/vistas/publica/paginas/detalle.html?id=' . $rowpedidos['IDP']);
+        $pdf->cell(63, 15, $pdf->encodeString($rowpedidos['NOMBRE']), 1, 0, 'C', false, 'http://hamacoteca.online/hamacoteca/vistas/publica/paginas/detalle.html?id=' . $rowpedidos['IDP']);
         $pdf->cell(25, 15, $pdf->encodeString($rowpedidos['CANTIDAD']), 1, 0, 'C');
         $pdf->cell(30, 15, $pdf->encodeString('$' . $rowpedidos['PRECIO']), 1, 0, 'C');
         $pdf->cell(30, 15, '$' . $subtotal, 1, 1, 'C');
@@ -77,6 +77,7 @@ if ($datapedidos = $pedidos->readDetailReport()) {
     $pdf->cell(0, 15, $pdf->encodeString('No hay productos para mostrar'), 1, 1);
 }
 // Se llama implícitamente al método footer() y se envía el documento al navegador web.
+header('Content-type: application/pdf');
 $pdf->output('I', 'factura.pdf');
 // Guarda el PDF en un archivo temporal
 $tempFile = tempnam(sys_get_temp_dir(), 'factura_') . '.pdf';

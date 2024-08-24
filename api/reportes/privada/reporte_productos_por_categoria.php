@@ -85,7 +85,7 @@ if ($dataCategorias = $categoria->readAll()) {
                     // Imprime las celdas con los datos y la imagen
                     $pdf->cell(30, 15, $pdf->image('../../imagenes/hamacas/' . $rowProducto['foto_principal'], $pdf->getX() + 10, $currentY + 2, 10), 1, 0);
                     // Imprime las celdas con los datos del producto.
-                    $pdf->cell(90, 15, $pdf->encodeString($rowProducto['nombre_hamaca']), 1, 0, 'C', false, 'http://localhost/hamacoteca/vistas/publica/paginas/detalle.html?id=' . $rowProducto['ID']);
+                    $pdf->cell(90, 15, $pdf->encodeString($rowProducto['nombre_hamaca']), 1, 0, 'C', false, 'http://hamacoteca.online/hamacoteca/vistas/publica/paginas/detalle.html?id=' . $rowProducto['ID']);
                     $pdf->cell(30, 15, $rowProducto['precio'], 1, 0);
                     $pdf->cell(30, 15, $estado, 1, 1);
                 }
